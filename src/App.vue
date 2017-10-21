@@ -1,6 +1,15 @@
 <template>
   <div id="app">
     <h1>Flash Shopper</h1>
+    <authed-main
+      v-if="isUser"
+    >
+    </authed-main>
+
+    <pre-auth
+      v-else
+    >
+    </pre-auth>
   </div>
 </template>
 
