@@ -1,6 +1,12 @@
 <template>
   <div id="app">
     <h1>Flash Shopper</h1>
+    <button
+      v-if="isUser"
+      v-on:click="logOut"
+    >
+    Log Out
+    </button>
     <authed-main
       v-if="isUser"
     >
@@ -46,6 +52,12 @@ export default {
           this.isUser = false;
         }
       });
+    },
+    logOut: function () {
+      const verify = confirm('Are you sure you want to log out?');
+      if (verify) {
+        firebase.auth().signOut();
+      }
     },
   },
   mounted: function () {
