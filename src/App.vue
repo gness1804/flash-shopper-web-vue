@@ -67,7 +67,14 @@ export default {
 </script>
 
 <style>
+html {
+  background-color: #bcdbf3;
+  font-family: 'Open Sans', sans-serif;
+}
 #app {
   text-align: center;
+}
+h1 {
+  margin: 40px auto;
 }
 </style>
