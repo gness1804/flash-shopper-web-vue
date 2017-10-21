@@ -4,29 +4,32 @@
     <div class="input-container">
       <input
         type="email"
-        class="input-text"
+        class="text-input-field"
         placeholder="Enter Your Email Address"
         v-model="email"
       />
       <input
         type="password"
-        class="input-text"
+        class="text-input-field"
         placeholder="Enter Your Password"
         v-model="password"
       />
     </div>
-    <div class="buttons">
+    <div class="buttons-container">
       <button
+        class="button"
         v-on:click="signUp"
       >
         Sign Up
       </button>
       <button
+        class="button"
         v-on:click="logIn"
       >
         Log In
       </button>
       <button
+        class="button"
         v-on:click="resetPassword"
       >
         Reset Password
@@ -110,12 +113,18 @@ export default {
     justify-content: center;
     margin: 40px auto;
   }
-  .input-text {
+  .text-input-field {
     border: 2px solid#d1d3d5;
     box-sizing: border-box;
     margin-bottom: 20px;
     text-align: center;
     width: 40vw;
+  }
+  .buttons-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 </style>
 

@@ -71,10 +71,22 @@ html {
   background-color: #bcdbf3;
   font-family: 'Open Sans', sans-serif;
 }
+h1 {
+  margin: 40px auto;
+}
 #app {
   text-align: center;
 }
-h1 {
-  margin: 40px auto;
+.button {
+  background-color: #3c3ce5;
+  border: 1px solid #3c3ce5;
+  border-radius: 0;
+  color: #ffffff;
+  padding: 5px;
+}
+.button:hover {
+  background-color:#8787ea;
+  border: 1px solid #8787ea;
+  cursor: pointer;
 }
 </style>
