@@ -1,16 +1,20 @@
 <template>
   <div class="pre-auth">
     <h2>Sign Up or Sign In</h2>
-    <input
-      type="text"
-      placeholder="Enter Your Email Address"
-      v-model="email"
-    />
-    <input
-      type="password"
-      placeholder="Enter Your Password"
-      v-model="password"
-    />
+    <div class="input-container">
+      <input
+        type="email"
+        class="input-text"
+        placeholder="Enter Your Email Address"
+        v-model="email"
+      />
+      <input
+        type="password"
+        class="input-text"
+        placeholder="Enter Your Password"
+        v-model="password"
+      />
+    </div>
     <div class="buttons">
       <button
         v-on:click="signUp"
@@ -99,7 +103,20 @@ export default {
 </script>
 
 <style scoped>
-
+  .input-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 40px auto;
+  }
+  .input-text {
+    border: 2px solid#d1d3d5;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 40vw;
+  }
 </style>
 
 
