@@ -14,6 +14,8 @@
 </template>
 
 <script>
+import * as firebase from 'firebase';
+import firebaseApp from '../firebaseConfig';  // eslint-disable-line
 import PreAuth from './components/PreAuth';
 import AuthedMain from './components/AuthedMain';
 
@@ -26,7 +28,28 @@ export default {
   data() {
     return {
       isUser: false,
+      itemsRef: {},
     };
+  },
+  methods: {
+    initializeApp: function () {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          this.isUser = true;
+          // const email = cleanUpUserEmail(user.email)
+          // this.setState({ userEmail: user.email })
+          // this.setState({ userId: user.uid })
+          // this.itemsRef = firebase.database().ref(email + '/main') //eslint-disable-line
+          // this.hideAuthScreen()
+          // this.listenForItems(this.itemsRef)
+        } else {
+          this.isUser = false;
+        }
+      });
+    },
+  },
+  mounted: function () {
+    this.initializeApp();
   },
 };
 </script>
