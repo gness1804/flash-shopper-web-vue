@@ -17,19 +17,19 @@
     </div>
     <div class="buttons-container">
       <button
-        class="button"
+        class="button auth-button"
         v-on:click="signUp"
       >
         Sign Up
       </button>
       <button
-        class="button"
+        class="button auth-button"
         v-on:click="logIn"
       >
         Log In
       </button>
       <button
-        class="button"
+        class="button auth-button"
         v-on:click="resetPassword"
       >
         Reset Password
@@ -125,6 +125,9 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+  }
+  .auth-button {
+    margin-bottom: 20px;
   }
 </style>
 
