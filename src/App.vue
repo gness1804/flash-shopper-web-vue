@@ -25,6 +25,7 @@ import * as firebase from 'firebase';
 import firebaseApp from '../firebaseConfig';  // eslint-disable-line
 import PreAuth from './components/PreAuth';
 import AuthedMain from './components/AuthedMain';
+import cleanUpUserEmail from './helpers/cleanUpUserEmail';
 
 export default {
   name: 'app',
@@ -36,6 +37,9 @@ export default {
     return {
       isUser: false,
       itemsRef: {},
+      userEmail: '',
+      userId: null,
+      items: [],
     };
   },
   methods: {
@@ -43,15 +47,30 @@ export default {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.isUser = true;
-          // const email = cleanUpUserEmail(user.email)
-          // this.setState({ userEmail: user.email })
-          // this.setState({ userId: user.uid })
-          // this.itemsRef = firebase.database().ref(email + '/main') //eslint-disable-line
-          // this.hideAuthScreen()
-          // this.listenForItems(this.itemsRef)
+          const email = cleanUpUserEmail(user.email);
+          this.userEmail = user.email;
+          this.userId = user.uid;
+          this.itemsRef = firebase.database().ref(email + '/main') //eslint-disable-line
+          this.listenForItems(this.itemsRef);
         } else {
           this.isUser = false;
         }
+      });
+    },
+    listenForItems: function (itemsRef) {
+      itemsRef.on('value', (snapshot) => {
+        const newArr = [];
+        snapshot.forEach((item) => {
+          newArr.push({
+            name: item.val().name,
+            aisle: item.val().aisle,
+            quantity: item.val().quantity,
+            note: item.val().note,
+            inCart: item.val().inCart || false,
+            id: item.key,
+          });
+        });
+        this.sortItems(newArr);
       });
     },
     logOut: function () {
@@ -59,6 +78,19 @@ export default {
       if (verify) {
         firebase.auth().signOut();
       }
+    },
+    sortItems: function (_items) {
+      this.items = _items.sort((a, b) => {
+        const first = a.name.toLowerCase();
+        const second = b.name.toLowerCase();
+        if (first < second) {
+          return -1;
+        }
+        if (first > second) {
+          return 1;
+        }
+        return 0;
+      });
     },
   },
   mounted: function () {
