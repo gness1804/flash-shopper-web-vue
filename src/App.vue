@@ -1,21 +1,29 @@
 <template>
   <div id="app">
+    <h1>Flash Shopper</h1>
   </div>
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld';
+import PreAuth from './components/PreAuth';
+import AuthedMain from './components/AuthedMain';
 
 export default {
   name: 'app',
   components: {
-    // HelloWorld,
+    PreAuth,
+    AuthedMain,
+  },
+  data() {
+    return {
+      isUser: false,
+    };
   },
 };
 </script>
 
 <style>
 #app {
-
+  text-align: center;
 }
 </style>
