@@ -1,6 +1,12 @@
 <template>
   <div id="app">
     <h1>Flash Shopper</h1>
+    <button
+      v-if="isUser"
+      v-on:click="logOut"
+    >
+    Log Out
+    </button>
     <authed-main
       v-if="isUser"
     >
@@ -47,6 +53,12 @@ export default {
         }
       });
     },
+    logOut: function () {
+      const verify = confirm('Are you sure you want to log out?');
+      if (verify) {
+        firebase.auth().signOut();
+      }
+    },
   },
   mounted: function () {
     this.initializeApp();
@@ -55,7 +67,26 @@ export default {
 </script>
 
 <style>
+html {
+  background-color: #bcdbf3;
+  font-family: 'Open Sans', sans-serif;
+}
+h1 {
+  margin: 40px auto;
+}
 #app {
   text-align: center;
+}
+.button {
+  background-color: #3c3ce5;
+  border: 1px solid #3c3ce5;
+  border-radius: 0;
+  color: #ffffff;
+  padding: 5px;
+}
+.button:hover {
+  background-color:#8787ea;
+  border: 1px solid #8787ea;
+  cursor: pointer;
 }
 </style>
