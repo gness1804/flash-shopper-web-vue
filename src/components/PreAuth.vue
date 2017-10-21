@@ -22,6 +22,11 @@
       >
         Log In
       </button>
+      <button
+        v-on:click="resetPassword"
+      >
+        Reset Password
+      </button>
     </div>
   </div>
 </template>
@@ -57,8 +62,22 @@ export default {
       this.email = '';
       this.password = '';
     },
+    resetPassword: function () {
+      const recEmail = prompt('Please enter your email address below and click OK. Instructions for password reset will be emailed to you.');
+      if (recEmail) {
+        firebase.auth().sendPasswordResetEmail(recEmail)
+          .then(() => { this.showRecoveryEmailAlert(); })
+          .catch(() => { this.showRecoveryError(); });
+      }
+    },
     showAuthError: function () {
       alert('There was an error with authentication. Please check your credentials and try again.');
+    },
+    showRecoveryEmailAlert: function () {
+      alert('If there is an account associated with the email you provided, an email has been sent to it with instructions on resetting your password.');
+    },
+    showRecoveryError: function () {
+      alert('There was a problem sending the password recovery email. Please ensure that you created an account under this password and that your email is in a valid format (foo@foobar.com).');
     },
     signUp: function () {
       const { email, password } = this;
