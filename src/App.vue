@@ -2,6 +2,7 @@
   <div id="app">
     <h1>Flash Shopper</h1>
     <button
+      class="button warn-button"
       v-if="isUser"
       v-on:click="logOut"
     >
@@ -88,5 +89,13 @@ h1 {
   background-color:#8787ea;
   border: 1px solid #8787ea;
   cursor: pointer;
+}
+.warn-button {
+  background-color: #f00;
+  border: 1px solid #f00;
+}
+.warn-button:hover {
+  background-color:#f5765a;
+  border: 1px solid #f5765a;
 }
 </style>
