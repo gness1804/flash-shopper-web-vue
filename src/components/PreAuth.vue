@@ -17,6 +17,11 @@
       >
         Sign Up
       </button>
+      <button
+        v-on:click="logIn"
+      >
+        Log In
+      </button>
     </div>
   </div>
 </template>
@@ -33,11 +38,26 @@ export default {
     };
   },
   methods: {
+    logIn: function () {
+      const { email, password } = this;
+      if (!email || !password) {
+        alert('Oops! You need both an email address and a password to log in. Please try again.');
+        return;
+      }
+      const promise = new Promise((resolve) => {
+        resolve(
+          firebase.auth().signInWithEmailAndPassword(email, password),
+        );
+      });
+      promise
+        .then(() => { this.resetEmailAndPWStates(); })
+        .catch(() => { this.showAuthError(); });
+    },
     resetEmailAndPWStates: function () {
       this.email = '';
       this.password = '';
     },
-    showSignUpError: function () {
+    showAuthError: function () {
       alert('There was an error with authentication. Please check your credentials and try again.');
     },
     signUp: function () {
@@ -53,7 +73,7 @@ export default {
       });
       promise
         .then(() => { this.resetEmailAndPWStates(); })
-        .catch(() => { this.showSignUpError(); });
+        .catch(() => { this.showAuthError(); });
     },
   },
 };
