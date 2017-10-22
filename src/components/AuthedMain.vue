@@ -8,6 +8,13 @@
       />
       <span>{{items.length}}</span>
       </div>
+      <div class="upper-icon-block">
+      <img
+        class="upper-icon"
+        src="../assets/cart-arrow-down.png"
+      />
+      <span>{{countItemsInCart()}}</span>
+      </div>
     </div>
     <h3>Enter New Item:</h3>
     <div
@@ -123,6 +130,12 @@ export default {
     },
     addToInstacart: function (_item) {
       this.$emit('addToInstacart', _item);
+    },
+    countItemsInCart: function () {
+      const newArr = this.items.filter((item) => {
+        return item.inCart;
+      });
+      return newArr.length;
     },
     deleteAllInCart: function () {
       const warning = confirm('Are you sure you want to delete ALL items in your cart? This cannot be undone!');
