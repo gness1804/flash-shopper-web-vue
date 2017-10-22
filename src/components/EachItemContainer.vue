@@ -9,9 +9,42 @@
     >
     {{item.name}}
     </h3>
-    <p v-if="item.aisle"><span class="bold">Aisle:</span> {{item.aisle}}</p>
-    <p v-if="item.note"><span class="bold">Note:</span> {{item.note}}</p>
-    <p v-if="item.quantity"><span class="bold">Quantity:</span> {{item.quantity}}</p>
+    <p
+      v-if="item.aisle"
+      v-bind:class="{ strike: item.inCart }"
+    >
+      <span
+        class="bold"
+      >
+      Aisle:
+      </span
+      >
+      {{item.aisle}}
+    </p>
+    <p
+      v-if="item.note"
+      v-bind:class="{ strike: item.inCart }"
+    >
+      <span
+        class="bold"
+      >
+      Note:
+      </span
+      >
+      {{item.note}}
+    </p>
+    <p
+      v-if="item.quantity"
+      v-bind:class="{ strike: item.inCart }"
+    >
+      <span
+        class="bold"
+      >
+      Quantity:
+      </span
+      >
+      {{item.quantity}}
+    </p>
     <div class="buttons-container">
       <img
         class="icon"
@@ -82,6 +115,7 @@ export default {
   }
 
   .strike {
+    color:#9a8c8c;
     text-decoration: line-through;
   }
 
