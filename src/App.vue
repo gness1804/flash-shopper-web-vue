@@ -22,6 +22,7 @@
       v-on:updateName="updateName"
       v-on:toggleInCart="toggleInCart"
       v-on:addToAPN="addToAPN"
+      v-on:addToInstacart="addToInstacart"
     >
     </authed-main>
 
@@ -68,6 +69,15 @@ export default {
       this.itemsRef.push(newItem);
       window.open(
         `https://primenow.amazon.com/search?k=${_item.name}`,
+        '_blank',
+      );
+    },
+    addToInstacart: function (_item) {
+      const newItem = { ..._item, inCart: true };
+      this.itemsRef.child(_item.id).remove();
+      this.itemsRef.push(newItem);
+      window.open(
+        `https://www.instacart.com/store/h-e-b/search_v3/${_item.name}`,
         '_blank',
       );
     },
@@ -184,7 +194,7 @@ h1 {
 .icon {
   cursor: pointer;
   height: 20px;
-  margin-right: 10px;
+  margin-right: 20px;
   width: 20px;
 }
 .bold {

@@ -61,6 +61,11 @@
         src="../assets/amazon-prime-now.png"
         v-on:click="addToAPN"
       />
+      <img
+        class="icon"
+        src="../assets/instacart.png"
+        v-on:click="addToInstacart"
+      />
     </div>
   </div>
 </template>
@@ -82,6 +87,9 @@ export default {
   methods: {
     addToAPN: function () {
       this.$emit('addToAPN', this.item);
+    },
+    addToInstacart: function () {
+      this.$emit('addToInstacart', this.item);
     },
     removeItem: function () {
       const warning = confirm(`Are you sure you want to delete ${this.item.name}? This cannot be undone!`);

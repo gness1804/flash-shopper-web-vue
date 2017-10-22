@@ -54,6 +54,7 @@
         v-on:updateName="updateName"
         v-on:toggleInCart="toggleInCart"
         v-on:addToAPN="addToAPN"
+        v-on:addToInstacart="addToInstacart"
       >
       </each-item-container>
     </div>
@@ -102,6 +103,9 @@ export default {
     },
     addToAPN: function (_item) {
       this.$emit('addToAPN', _item);
+    },
+    addToInstacart: function (_item) {
+      this.$emit('addToInstacart', _item);
     },
     deleteAllItems: function () {
       const warning = confirm('Are you sure you want to delete ALL items? This cannot be undone!');
