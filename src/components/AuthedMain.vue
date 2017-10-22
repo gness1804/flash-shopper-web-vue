@@ -79,23 +79,22 @@ export default {
     };
   },
   methods: {
-    addItem: async function () {
+    addItem: function () {
       const { name, aisle, note, quantity } = this;
       if (!name) {
         alert('Oops! Your item needs at least a name to be valid. Please try again');
         return;
       }
+      this.resetInputFields();
       const it = new Item(name, aisle, note, quantity);
-      await this.$emit('addItem', it);
-      // this.resetInputFields();
+      this.$emit('addItem', it);
     },
-    // resetInputFields: function () {
-    //   console.log('sanity check');
-    //   this.name = '';
-    //   this.aisle = '';
-    //   this.note = '';
-    //   this.quantity = '';
-    // },
+    resetInputFields: function () {
+      this.name = '';
+      this.aisle = '';
+      this.note = '';
+      this.quantity = '';
+    },
   },
 };
 </script>
