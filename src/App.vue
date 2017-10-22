@@ -19,6 +19,7 @@
       v-on:addItem="addItem"
       v-on:removeItem="removeItem"
       v-on:deleteAllItems="deleteAllItems"
+      v-on:updateName="updateName"
     >
     </authed-main>
 
@@ -113,6 +114,11 @@ export default {
         }
         return 0;
       });
+    },
+    updateName: function (newName, item) {
+      const newItem = { ...item, name: newName };
+      this.itemsRef.child(item.id).remove();
+      this.itemsRef.push(newItem);
     },
   },
   mounted: function () {

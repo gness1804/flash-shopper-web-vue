@@ -1,6 +1,12 @@
 <template>
   <div class="each-item-container">
-    <h3 class="each-item-name">{{item.name}}</h3>
+    <h3
+      class="each-item-name"
+      contenteditable
+      @input="updateName"
+    >
+    {{item.name}}
+    </h3>
     <p v-if="item.aisle"><span class="bold">Aisle:</span> {{item.aisle}}</p>
     <p v-if="item.note"><span class="bold">Note:</span> {{item.note}}</p>
     <p v-if="item.quantity"><span class="bold">Quantity:</span> {{item.quantity}}</p>
@@ -23,12 +29,24 @@ export default {
       required: true,
     },
   },
+  data() {
+    return {
+      editedName: '',
+      editedAisle: '',
+      editedNote: '',
+      editedQuantity: '',
+    };
+  },
   methods: {
     removeItem: function () {
       const warning = confirm(`Are you sure you want to delete ${this.item.name}? This cannot be undone!`);
       if (warning) {
         this.$emit('removeItem', this.item);
       }
+    },
+    updateName: function (e) {
+      const newText = e.target.innerText;
+      this.$emit('updateName', newText, this.item);
     },
   },
 };

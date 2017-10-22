@@ -51,6 +51,7 @@
         v-bind:key="item.id"
         v-bind:item="item"
         v-on:removeItem="removeItem"
+        v-on:updateName="updateName"
       >
       </each-item-container>
     </div>
@@ -111,6 +112,9 @@ export default {
       this.aisle = '';
       this.note = '';
       this.quantity = '';
+    },
+    updateName: function (newName, item) {
+      this.$emit('updateName', newName, item);
     },
   },
 };
