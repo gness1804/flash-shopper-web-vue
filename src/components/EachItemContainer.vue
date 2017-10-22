@@ -1,12 +1,12 @@
 <template>
   <div class="each-item-container">
-    <h3>{{item.name}}</h3>
-    <p>{{item.aisle}}</p>
-    <p>{{item.note}}</p>
-    <p>{{item.quantity}}</p>
+    <h3 class="each-item-name">{{item.name}}</h3>
+    <p v-if="item.aisle"><span class="bold">Aisle:</span> {{item.aisle}}</p>
+    <p v-if="item.note"><span class="bold">Note:</span> {{item.note}}</p>
+    <p v-if="item.quantity"><span class="bold">Quantity:</span> {{item.quantity}}</p>
     <div class="buttons-container">
       <img
-        class="each-item-icon"
+        class="icon"
         src="../assets/cancel-circle.png"
         v-on:click="removeItem"
       />
@@ -38,8 +38,21 @@ export default {
   .each-item-container {
     border: 1px solid #000;
     border-radius: 5px;
+    box-sizing: border-box;
     margin: 20px auto;
+    padding: 10px;
     width: 40vw;
+  }
+
+  .each-item-name {
+    margin-top: 0;
+  }
+
+  .buttons-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
   }
 
 </style>

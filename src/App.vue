@@ -150,4 +150,12 @@ h1 {
   background-color:#f5765a;
   border: 1px solid #f5765a;
 }
+.icon {
+  cursor: pointer;
+  height: 20px;
+  width: 20px;
+}
+.bold {
+  font-weight: 700;
+}
 </style>
