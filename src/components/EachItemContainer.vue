@@ -4,6 +4,7 @@
       class="each-item-name"
       contenteditable
       @input="updateName"
+      v-bind:title="title"
     >
     {{item.name}}
     </h3>
@@ -31,10 +32,7 @@ export default {
   },
   data() {
     return {
-      editedName: '',
-      editedAisle: '',
-      editedNote: '',
-      editedQuantity: '',
+      title: 'Click to Edit!',
     };
   },
   methods: {
@@ -63,6 +61,7 @@ export default {
   }
 
   .each-item-name {
+    cursor: pointer;
     margin-top: 0;
   }
 
