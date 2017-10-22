@@ -19,6 +19,7 @@
       v-on:addItem="addItem"
       v-on:removeItem="removeItem"
       v-on:deleteAllItems="deleteAllItems"
+      v-on:deleteAllInCart="deleteAllInCart"
       v-on:updateName="updateName"
       v-on:toggleInCart="toggleInCart"
       v-on:addToAPN="addToAPN"
@@ -80,6 +81,12 @@ export default {
         `https://www.instacart.com/store/h-e-b/search_v3/${_item.name}`,
         '_blank',
       );
+    },
+    deleteAllInCart: function () {
+      const newItems = this.items.filter((item) => {
+        return !item.inCart;
+      });
+      this.itemsRef.set(newItems);
     },
     deleteAllItems: function () {
       this.itemsRef.set([]);

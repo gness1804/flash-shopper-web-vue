@@ -39,7 +39,13 @@
       class="button warn-button"
       v-on:click="deleteAllItems"
     >
-    Delete ALL items
+    Delete ALL Items
+    </button>
+    <button
+      class="button warn-button"
+      v-on:click="deleteAllInCart"
+    >
+    Delete ALL In Cart
     </button>
     <div
       class="items-container"
@@ -106,6 +112,12 @@ export default {
     },
     addToInstacart: function (_item) {
       this.$emit('addToInstacart', _item);
+    },
+    deleteAllInCart: function () {
+      const warning = confirm('Are you sure you want to delete ALL items in your cart? This cannot be undone!');
+      if (warning) {
+        this.$emit('deleteAllInCart');
+      }
     },
     deleteAllItems: function () {
       const warning = confirm('Are you sure you want to delete ALL items? This cannot be undone!');
