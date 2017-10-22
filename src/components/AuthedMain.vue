@@ -1,5 +1,21 @@
 <template>
   <div class="authed-main">
+    <div class="upper-icons-container">
+      <div class="upper-icon-block">
+      <img
+        class="upper-icon"
+        src="../assets/list.png"
+      />
+      <span>{{items.length}}</span>
+      </div>
+      <div class="upper-icon-block">
+      <img
+        class="upper-icon"
+        src="../assets/cart-arrow-down.png"
+      />
+      <span>{{countItemsInCart()}}</span>
+      </div>
+    </div>
     <h3>Enter New Item:</h3>
     <div
       class="item-input-container"
@@ -29,23 +45,31 @@
         class="text-input-field"
       />
     </div>
-    <button
-      class="button"
-      v-on:click="addItem"
-    >
-    Add Item
-    </button>
-    <button
-      class="button warn-button"
-      v-on:click="deleteAllItems"
-    >
-    Delete ALL items
-    </button>
+    <div class="buttons-container">
+      <button
+        class="button bottom-button"
+        v-on:click="addItem"
+      >
+      Add Item
+      </button>
+      <button
+        class="button warn-button bottom-button"
+        v-on:click="deleteAllItems"
+      >
+      Delete ALL Items
+      </button>
+      <button
+        class="button warn-button bottom-button"
+        v-on:click="deleteAllInCart"
+      >
+      Delete ALL In Cart
+      </button>
+    </div>
     <div
       class="items-container"
       v-if="items.length > 0"
     >
-      <p>Items:</p>
+      <p class="items-headline">Items:</p>
       <each-item-container
         v-for="item of items"
         v-bind:key="item.id"
@@ -107,6 +131,18 @@ export default {
     addToInstacart: function (_item) {
       this.$emit('addToInstacart', _item);
     },
+    countItemsInCart: function () {
+      const newArr = this.items.filter((item) => {
+        return item.inCart;
+      });
+      return newArr.length;
+    },
+    deleteAllInCart: function () {
+      const warning = confirm('Are you sure you want to delete ALL items in your cart? This cannot be undone!');
+      if (warning) {
+        this.$emit('deleteAllInCart');
+      }
+    },
     deleteAllItems: function () {
       const warning = confirm('Are you sure you want to delete ALL items? This cannot be undone!');
       if (warning) {
@@ -133,6 +169,13 @@ export default {
 </script>
 
 <style scoped>
+  .buttons-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
   .item-input-container {
     align-items: center;
     display: flex;
@@ -140,6 +183,33 @@ export default {
     justify-content: center;
     margin: 40px auto;
   }
+
+  .bottom-button {
+    margin-right: 20px;
+  }
+
+  .items-headline {
+    font-size: 24px;
+    margin: 40px auto;
+  }
+
+  .upper-icons-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 30px auto;
+  }
+
+  .upper-icon-block {
+    margin-right: 20px;
+  }
+
+  .upper-icon {
+    height: 40px;
+    width: 40px;
+  }
+
 </style>
 
 
