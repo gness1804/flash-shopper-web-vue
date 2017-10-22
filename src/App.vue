@@ -13,6 +13,7 @@
       v-bind:items="items"
       v-on:addItem="addItem"
       v-on:removeItem="removeItem"
+      v-on:deleteAllItems="deleteAllItems"
     >
     </authed-main>
 
@@ -52,6 +53,9 @@ export default {
       } catch (error) {
         alert('Something went wrong. Please try again.');
       }
+    },
+    deleteAllItems: function () {
+      this.itemsRef.set([]);
     },
     initializeApp: function () {
       firebase.auth().onAuthStateChanged((user) => {

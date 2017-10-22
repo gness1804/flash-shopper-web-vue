@@ -35,6 +35,12 @@
     >
     Add Item
     </button>
+    <button
+      class="button warn-button"
+      v-on:click="deleteAllItems"
+    >
+    Delete ALL items
+    </button>
     <div
       class="items-container"
       v-if="items.length > 0"
@@ -90,6 +96,12 @@ export default {
       this.resetInputFields();
       const it = new Item(name, aisle, note, quantity);
       this.$emit('addItem', it);
+    },
+    deleteAllItems: function () {
+      const warning = confirm('Are you sure you want to delete ALL items? This cannot be undone!');
+      if (warning) {
+        this.$emit('deleteAllItems');
+      }
     },
     removeItem: function (_item) {
       this.$emit('removeItem', _item);
