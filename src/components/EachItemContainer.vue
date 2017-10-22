@@ -5,6 +5,7 @@
       contenteditable
       @input="updateName"
       v-bind:title="title"
+      v-bind:class="{ strike: item.inCart }"
     >
     {{item.name}}
     </h3>
@@ -16,6 +17,11 @@
         class="icon"
         src="../assets/cancel-circle.png"
         v-on:click="removeItem"
+      />
+      <img
+        class="icon"
+        src="../assets/cart.png"
+        v-on:click="toggleInCart"
       />
     </div>
   </div>
@@ -41,6 +47,9 @@ export default {
       if (warning) {
         this.$emit('removeItem', this.item);
       }
+    },
+    toggleInCart: function () {
+      this.$emit('toggleInCart', this.item);
     },
     updateName: function (e) {
       const newText = e.target.innerText;
@@ -70,6 +79,10 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: center;
+  }
+
+  .strike {
+    text-decoration: line-through;
   }
 
 </style>

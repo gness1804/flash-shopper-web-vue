@@ -20,6 +20,7 @@
       v-on:removeItem="removeItem"
       v-on:deleteAllItems="deleteAllItems"
       v-on:updateName="updateName"
+      v-on:toggleInCart="toggleInCart"
     >
     </authed-main>
 
@@ -114,6 +115,11 @@ export default {
         }
         return 0;
       });
+    },
+    toggleInCart: function (_item) {
+      const newItem = { ..._item, inCart: !_item.inCart };
+      this.itemsRef.child(_item.id).remove();
+      this.itemsRef.push(newItem);
     },
     updateName: function (newName, item) {
       const newItem = { ...item, name: newName };

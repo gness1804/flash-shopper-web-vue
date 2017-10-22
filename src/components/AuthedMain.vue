@@ -52,6 +52,7 @@
         v-bind:item="item"
         v-on:removeItem="removeItem"
         v-on:updateName="updateName"
+        v-on:toggleInCart="toggleInCart"
       >
       </each-item-container>
     </div>
@@ -112,6 +113,9 @@ export default {
       this.aisle = '';
       this.note = '';
       this.quantity = '';
+    },
+    toggleInCart: function (_item) {
+      this.$emit('toggleInCart', _item);
     },
     updateName: function (newName, item) {
       this.$emit('updateName', newName, item);
