@@ -113,13 +113,6 @@ export default {
     justify-content: center;
     margin: 40px auto;
   }
-  .text-input-field {
-    border: 2px solid#d1d3d5;
-    box-sizing: border-box;
-    margin-bottom: 20px;
-    text-align: center;
-    width: 40vw;
-  }
   .buttons-container {
     align-items: center;
     display: flex;
