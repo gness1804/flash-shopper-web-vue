@@ -196,6 +196,10 @@ export default {
     margin: 30px auto;
   }
 
+  .upper-icon-block {
+    margin-right: 20px;
+  }
+
   .upper-icon {
     height: 40px;
     width: 40px;
