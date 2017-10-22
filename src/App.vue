@@ -1,6 +1,11 @@
 <template>
   <div id="app">
     <h1>Flash Shopper</h1>
+    <p
+      v-if="isUser"
+    >
+    Logged in as <span class="bold">{{userEmail}}</span>
+    </p>
     <button
       class="button warn-button"
       v-if="isUser"
