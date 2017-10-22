@@ -29,6 +29,12 @@
         class="text-input-field"
       />
     </div>
+    <button
+      class="button"
+      v-on:click="addItem"
+    >
+    Add Item
+    </button>
     <div
       class="items-container"
       v-if="items.length > 0"
@@ -50,6 +56,7 @@
 <script>
 import NoItems from './NoItems';
 import EachItemContainer from './EachItemContainer';
+import Item from '../models/Item';
 
 export default {
   name: 'AuthedMain',
@@ -70,6 +77,25 @@ export default {
       note: '',
       quantity: '',
     };
+  },
+  methods: {
+    addItem: async function () {
+      const { name, aisle, note, quantity } = this;
+      if (!name) {
+        alert('Oops! Your item needs at least a name to be valid. Please try again');
+        return;
+      }
+      const it = new Item(name, aisle, note, quantity);
+      await this.$emit('addItem', it);
+      // this.resetInputFields();
+    },
+    // resetInputFields: function () {
+    //   console.log('sanity check');
+    //   this.name = '';
+    //   this.aisle = '';
+    //   this.note = '';
+    //   this.quantity = '';
+    // },
   },
 };
 </script>

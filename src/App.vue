@@ -11,6 +11,7 @@
     <authed-main
       v-if="isUser"
       v-bind:items="items"
+      v-on:addItem="addItem"
     >
     </authed-main>
 
@@ -44,6 +45,13 @@ export default {
     };
   },
   methods: {
+    addItem: function (_item) {
+      try {
+        this.itemsRef.push(_item);
+      } catch (error) {
+        alert('Something went wrong. Please try again.');
+      }
+    },
     initializeApp: function () {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
