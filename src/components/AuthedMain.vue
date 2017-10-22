@@ -1,5 +1,14 @@
 <template>
   <div class="authed-main">
+    <div class="upper-icons-container">
+      <div class="upper-icon-block">
+      <img
+        class="upper-icon"
+        src="../assets/list.png"
+      />
+      <span>{{items.length}}</span>
+      </div>
+    </div>
     <h3>Enter New Item:</h3>
     <div
       class="item-input-container"
@@ -164,6 +173,19 @@ export default {
 
   .bottom-button {
     margin-right: 20px;
+  }
+
+  .upper-icons-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 30px auto;
+  }
+
+  .upper-icon {
+    height: 40px;
+    width: 40px;
   }
 
 </style>
