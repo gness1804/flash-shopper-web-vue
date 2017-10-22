@@ -111,6 +111,13 @@ h1 {
 #app {
   text-align: center;
 }
+.text-input-field {
+  border: 2px solid#d1d3d5;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  text-align: center;
+  width: 40vw;
+}
 .button {
   background-color: #3c3ce5;
   border: 1px solid #3c3ce5;

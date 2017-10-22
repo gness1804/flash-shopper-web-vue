@@ -1,5 +1,5 @@
 <template>
-  <div class="no-items-container">
+  <div class="each-item-container">
     <h3>{{item.name}}</h3>
     <p>{{item.aisle}}</p>
     <p>{{item.note}}</p>
@@ -16,6 +16,11 @@ export default {
       required: true,
     },
   },
+  // data() {
+  //   return {
+
+  //   };
+  // },
 };
 </script>
 
