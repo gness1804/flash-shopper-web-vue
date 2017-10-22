@@ -1,12 +1,21 @@
 <template>
   <div class="no-items-container">
-    <p>I am the Each Item container.</p>
+    <h3>{{item.name}}</h3>
+    <p>{{item.aisle}}</p>
+    <p>{{item.note}}</p>
+    <p>{{item.quantity}}</p>
   </div>
 </template>
 
 <script>
 export default {
   name: 'EachItemContainer',
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+  },
 };
 </script>
 
