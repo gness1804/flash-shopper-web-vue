@@ -12,6 +12,7 @@
       v-if="isUser"
       v-bind:items="items"
       v-on:addItem="addItem"
+      v-on:removeItem="removeItem"
     >
     </authed-main>
 
@@ -87,6 +88,9 @@ export default {
       if (verify) {
         firebase.auth().signOut();
       }
+    },
+    removeItem: function (_item) {
+      this.itemsRef.child(_item.id).remove();
     },
     sortItems: function (_items) {
       this.items = _items.sort((a, b) => {

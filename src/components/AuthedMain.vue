@@ -39,10 +39,12 @@
       class="items-container"
       v-if="items.length > 0"
     >
+      <p>Items:</p>
       <each-item-container
         v-for="item of items"
         v-bind:key="item.id"
         v-bind:item="item"
+        v-on:removeItem="removeItem"
       >
       </each-item-container>
     </div>
@@ -88,6 +90,9 @@ export default {
       this.resetInputFields();
       const it = new Item(name, aisle, note, quantity);
       this.$emit('addItem', it);
+    },
+    removeItem: function (_item) {
+      this.$emit('removeItem', _item);
     },
     resetInputFields: function () {
       this.name = '';
