@@ -69,7 +69,7 @@
       class="items-container"
       v-if="items.length > 0"
     >
-      <p>Items:</p>
+      <p class="items-headline">Items:</p>
       <each-item-container
         v-for="item of items"
         v-bind:key="item.id"
@@ -186,6 +186,11 @@ export default {
 
   .bottom-button {
     margin-right: 20px;
+  }
+
+  .items-headline {
+    font-size: 24px;
+    margin: 40px auto;
   }
 
   .upper-icons-container {
