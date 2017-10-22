@@ -4,6 +4,12 @@
       class="items-container"
       v-if="items.length > 0"
     >
+      <each-item-container
+        v-for="item of items"
+        v-bind:key="item.id"
+        v-bind:item="item"
+      >
+      </each-item-container>
     </div>
     <no-items
       v-else
@@ -14,11 +20,13 @@
 
 <script>
 import NoItems from './NoItems';
+import EachItemContainer from './EachItemContainer';
 
 export default {
   name: 'AuthedMain',
   components: {
     NoItems,
+    EachItemContainer,
   },
   props: {
     items: {
