@@ -10,6 +10,7 @@
     </button>
     <authed-main
       v-if="isUser"
+      v-bind:items="items"
     >
     </authed-main>
 

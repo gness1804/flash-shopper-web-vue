@@ -1,12 +1,31 @@
 <template>
   <div class="authed-main">
-    <p>I am the AuthedMain component.</p>
+    <div
+      class="items-container"
+      v-if="items.length > 0"
+    >
+    </div>
+    <no-items
+      v-else
+    >
+    </no-items>
   </div>
 </template>
 
 <script>
-export default {
+import NoItems from './NoItems';
 
+export default {
+  name: 'AuthedMain',
+  components: {
+    NoItems,
+  },
+  props: {
+    items: {
+      type: Array,
+      required: true,
+    },
+  },
 };
 </script>
 
