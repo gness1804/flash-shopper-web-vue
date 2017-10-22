@@ -53,6 +53,7 @@
         v-on:removeItem="removeItem"
         v-on:updateName="updateName"
         v-on:toggleInCart="toggleInCart"
+        v-on:addToAPN="addToAPN"
       >
       </each-item-container>
     </div>
@@ -98,6 +99,9 @@ export default {
       this.resetInputFields();
       const it = new Item(name, aisle, note, quantity);
       this.$emit('addItem', it);
+    },
+    addToAPN: function (_item) {
+      this.$emit('addToAPN', _item);
     },
     deleteAllItems: function () {
       const warning = confirm('Are you sure you want to delete ALL items? This cannot be undone!');

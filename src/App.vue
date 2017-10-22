@@ -21,6 +21,7 @@
       v-on:deleteAllItems="deleteAllItems"
       v-on:updateName="updateName"
       v-on:toggleInCart="toggleInCart"
+      v-on:addToAPN="addToAPN"
     >
     </authed-main>
 
@@ -60,6 +61,15 @@ export default {
       } catch (error) {
         alert('Something went wrong. Please try again.');
       }
+    },
+    addToAPN: function (_item) {
+      const newItem = { ..._item, inCart: true };
+      this.itemsRef.child(_item.id).remove();
+      this.itemsRef.push(newItem);
+      window.open(
+        `https://primenow.amazon.com/search?k=${_item.name}`,
+        '_blank',
+      );
     },
     deleteAllItems: function () {
       this.itemsRef.set([]);
@@ -174,6 +184,7 @@ h1 {
 .icon {
   cursor: pointer;
   height: 20px;
+  margin-right: 10px;
   width: 20px;
 }
 .bold {

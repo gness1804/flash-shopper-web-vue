@@ -56,6 +56,11 @@
         src="../assets/cart.png"
         v-on:click="toggleInCart"
       />
+      <img
+        class="icon"
+        src="../assets/amazon-prime-now.png"
+        v-on:click="addToAPN"
+      />
     </div>
   </div>
 </template>
@@ -75,6 +80,9 @@ export default {
     };
   },
   methods: {
+    addToAPN: function () {
+      this.$emit('addToAPN', this.item);
+    },
     removeItem: function () {
       const warning = confirm(`Are you sure you want to delete ${this.item.name}? This cannot be undone!`);
       if (warning) {
