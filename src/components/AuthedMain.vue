@@ -29,24 +29,26 @@
         class="text-input-field"
       />
     </div>
-    <button
-      class="button"
-      v-on:click="addItem"
-    >
-    Add Item
-    </button>
-    <button
-      class="button warn-button"
-      v-on:click="deleteAllItems"
-    >
-    Delete ALL Items
-    </button>
-    <button
-      class="button warn-button"
-      v-on:click="deleteAllInCart"
-    >
-    Delete ALL In Cart
-    </button>
+    <div class="buttons-container">
+      <button
+        class="button bottom-button"
+        v-on:click="addItem"
+      >
+      Add Item
+      </button>
+      <button
+        class="button warn-button bottom-button"
+        v-on:click="deleteAllItems"
+      >
+      Delete ALL Items
+      </button>
+      <button
+        class="button warn-button bottom-button"
+        v-on:click="deleteAllInCart"
+      >
+      Delete ALL In Cart
+      </button>
+    </div>
     <div
       class="items-container"
       v-if="items.length > 0"
@@ -145,6 +147,13 @@ export default {
 </script>
 
 <style scoped>
+  .buttons-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
   .item-input-container {
     align-items: center;
     display: flex;
@@ -152,6 +161,11 @@ export default {
     justify-content: center;
     margin: 40px auto;
   }
+
+  .bottom-button {
+    margin-right: 20px;
+  }
+
 </style>
 
 
