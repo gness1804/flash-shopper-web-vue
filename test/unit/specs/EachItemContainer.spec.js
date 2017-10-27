@@ -14,5 +14,7 @@ describe('EachItemContainer.vue', () => {
       .to.equal('Foo bread');
     expect(vm.$el.querySelector('.each-item-container .each-item-aisle').textContent.replace(/\s/g, ''))
       .to.equal('Aisle:10');
+    expect(vm.$el.querySelector('.each-item-container .each-item-note').textContent)
+      .to.equal('\n    Note:\n    \n    Please do not get stale bread\n  ');
   });
 });
