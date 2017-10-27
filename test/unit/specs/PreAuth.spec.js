@@ -1,9 +1,11 @@
 import Vue from 'vue';
-// import sinon from 'sinon';
+import { mount } from 'avoriaz';
 import PreAuth from '@/components/PreAuth';
 
 describe('PreAuth.vue', () => {
   const Constructor = Vue.extend(PreAuth);
+  const fakeEmail = 'foo@bar.com';
+  const fakePassword = 'foobar';
 
   it('should render correct contents', () => {
     const vm = new Constructor().$mount();
@@ -15,13 +17,16 @@ describe('PreAuth.vue', () => {
       .to.equal('Enter Your Password');
   });
 
-  // fails--commented out for now...
-  // it.only('clicking the sign up button should call the sign up method', () => {
-  //   const vm = new Constructor().$mount();
-  //   const spy = sinon.spy(vm.methods, 'logIn');
-  //   vm.$data.email = 'foo@bar.com';
-  //   vm.$data.password = 'foobar';
-  //   vm.$el.querySelector('.pre-auth .sign-up-button').click();
-  //   expect(spy).to.have.been.called()
-  // });
+  it('clicking the sign up button should call the sign up method', () => {
+    const component = mount(PreAuth);
+    const email = component.find('.email-field')[0];
+    email.value = fakeEmail;
+    const password = component.find('.password-field')[0];
+    password.value = fakePassword;
+    const signUp = sinon.stub();
+    component.setMethods({ signUp });
+    const button = component.find('.sign-up-button')[0];
+    button.trigger('click');
+    expect(signUp.calledOnce).to.equal(true);
+  });
 });
