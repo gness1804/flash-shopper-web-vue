@@ -13,7 +13,7 @@
         class="upper-icon"
         src="../assets/cart-arrow-down.png"
       />
-      <span>{{countItemsInCart()}}</span>
+      <span class="items-in-cart-count">{{countItemsInCart()}}</span>
       </div>
     </div>
     <h3>Enter New Item:</h3>
