@@ -1,15 +1,23 @@
 <template>
   <div class="pre-auth">
     <h2 class="headline">Sign Up or Sign In</h2>
+    <p
+      class="error-message-container"
+      v-if="error"
+    >
+    {{errorMssg}}
+    </p>
     <div class="input-container">
       <input
         type="email"
+        @input="makeErrorFalse"
         class="text-input-field email-field"
         placeholder="Enter Your Email Address"
         v-model="email"
       />
       <input
         type="password"
+        @input="makeErrorFalse"
         class="text-input-field password-field"
         placeholder="Enter Your Password"
         v-model="password"
@@ -47,6 +55,8 @@ export default {
     return {
       email: '',
       password: '',
+      errorMssg: '',
+      error: false,
     };
   },
   methods: {
@@ -64,6 +74,10 @@ export default {
       promise
         .then(() => { this.resetEmailAndPWStates(); })
         .catch(() => { this.showAuthError(); });
+    },
+    makeErrorFalse: function () {
+      this.error = false;
+      this.errorMssg = '';
     },
     resetEmailAndPWStates: function () {
       this.email = '';
@@ -89,7 +103,7 @@ export default {
     signUp: function () {
       const { email, password } = this;
       if (!email || !password) {
-        alert('Oops! You need both an email address and a password to sign up. Please try again.');
+        this.triggerErrorState('Oops! You need both an email address and a password to sign up. Please try again.');
         return;
       }
       const promise = new Promise((resolve) => {
@@ -100,6 +114,10 @@ export default {
       promise
         .then(() => { this.resetEmailAndPWStates(); })
         .catch(() => { this.showAuthError(); });
+    },
+    triggerErrorState: function (message) {
+      this.error = true;
+      this.errorMssg = message;
     },
   },
 };
@@ -121,6 +139,9 @@ export default {
   }
   .auth-button {
     margin-bottom: 20px;
+  }
+  .error-message-container {
+    color: #F00;
   }
 </style>
 

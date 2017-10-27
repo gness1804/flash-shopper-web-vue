@@ -17,6 +17,15 @@ describe('PreAuth.vue', () => {
       .to.equal('Enter Your Password');
   });
 
+  it('clicking the sign up button should show an error message if the user has not entered both an email and a password', () => {
+    const component = mount(PreAuth);
+    const triggerErrorState = sinon.stub();
+    component.setMethods({ triggerErrorState });
+    const button = component.find('.sign-up-button')[0];
+    button.trigger('click');
+    expect(triggerErrorState.calledOnce).to.equal(true);
+  });
+
   it('clicking the sign up button should call the sign up method', () => {
     const component = mount(PreAuth);
     const email = component.find('.email-field')[0];
