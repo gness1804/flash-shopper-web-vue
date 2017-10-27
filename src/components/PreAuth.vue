@@ -4,13 +4,13 @@
     <div class="input-container">
       <input
         type="email"
-        class="text-input-field"
+        class="text-input-field email-field"
         placeholder="Enter Your Email Address"
         v-model="email"
       />
       <input
         type="password"
-        class="text-input-field"
+        class="text-input-field password-field"
         placeholder="Enter Your Password"
         v-model="password"
       />
