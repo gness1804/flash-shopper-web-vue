@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import EachItemContainer from '@/components/EachItemContainer';
-import fakeItem from '../helpers/FakeItem';
+import item from '../helpers/FakeItem';
 
 describe('EachItemContainer.vue', () => {
   const Constructor = Vue.extend(EachItemContainer);
   const propsData = {
-    item: fakeItem,
+    item,
   };
 
   it('should render correct contents', () => {

@@ -6,7 +6,7 @@
         class="upper-icon"
         src="../assets/list.png"
       />
-      <span>{{items.length}}</span>
+      <span class="items-length">{{items.length}}</span>
       </div>
       <div class="upper-icon-block">
       <img
