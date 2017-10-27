@@ -31,7 +31,7 @@
         Sign Up
       </button>
       <button
-        class="button auth-button"
+        class="button auth-button log-in-button"
         v-on:click="logIn"
       >
         Log In
@@ -63,7 +63,7 @@ export default {
     logIn: function () {
       const { email, password } = this;
       if (!email || !password) {
-        alert('Oops! You need both an email address and a password to log in. Please try again.');
+        this.triggerErrorState('Oops! You need both an email address and a password to log in. Please try again.');
         return;
       }
       const promise = new Promise((resolve) => {

@@ -26,7 +26,7 @@ describe('PreAuth.vue', () => {
     expect(triggerErrorState.calledOnce).to.equal(true);
   });
 
-  it('clicking the sign up button should call the sign up method', () => {
+  it('clicking the sign up button with proper data should call the sign up method', () => {
     const component = mount(PreAuth);
     const email = component.find('.email-field')[0];
     email.value = fakeEmail;
@@ -37,5 +37,27 @@ describe('PreAuth.vue', () => {
     const button = component.find('.sign-up-button')[0];
     button.trigger('click');
     expect(signUp.calledOnce).to.equal(true);
+  });
+
+  it('clicking the log in button should show an error message if the user has not entered both an email and a password', () => {
+    const component = mount(PreAuth);
+    const triggerErrorState = sinon.stub();
+    component.setMethods({ triggerErrorState });
+    const button = component.find('.log-in-button')[0];
+    button.trigger('click');
+    expect(triggerErrorState.calledOnce).to.equal(true);
+  });
+
+  it('clicking the log in button with proper data should call the log in method', () => {
+    const component = mount(PreAuth);
+    const email = component.find('.email-field')[0];
+    email.value = fakeEmail;
+    const password = component.find('.password-field')[0];
+    password.value = fakePassword;
+    const logIn = sinon.stub();
+    component.setMethods({ logIn });
+    const button = component.find('.log-in-button')[0];
+    button.trigger('click');
+    expect(logIn.calledOnce).to.equal(true);
   });
 });
