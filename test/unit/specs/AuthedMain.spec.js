@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import { mount } from 'avoriaz';
 import AuthedMain from '@/components/AuthedMain';
 import items from '../helpers/FakeItemsArray';
 
@@ -16,5 +17,47 @@ describe('AuthedMain.vue', () => {
       .to.equal('3');
     expect(vm.$el.querySelector('.authed-main .items-in-cart-count').textContent)
       .to.equal('1');
+  });
+
+  it('renders correct number of items', () => {
+    const component = mount(AuthedMain, { propsData });
+    const el = component.find('.authed-main .each-item-container');
+    expect(el.length).to.equal(3);
+  });
+
+  it('should render error message if add item is clicked and the name field is empty', () => {
+    const component = mount(AuthedMain, { propsData });
+    const triggerErrorState = sinon.stub();
+    component.setMethods({ triggerErrorState });
+    const button = component.find('.add-item-button')[0];
+    button.trigger('click');
+    expect(triggerErrorState.calledOnce).to.equal(true);
+  });
+
+  it('should trigger the add item method if user clicks on the add item button', () => {
+    const component = mount(AuthedMain, { propsData });
+    const addItem = sinon.stub();
+    component.setMethods({ addItem });
+    const button = component.find('.add-item-button')[0];
+    button.trigger('click');
+    expect(addItem.calledOnce).to.equal(true);
+  });
+
+  it('should trigger the delete all items method if user clicks on the delete all items button', () => {
+    const component = mount(AuthedMain, { propsData });
+    const deleteAllItems = sinon.stub();
+    component.setMethods({ deleteAllItems });
+    const button = component.find('.delete-all-items-button')[0];
+    button.trigger('click');
+    expect(deleteAllItems.calledOnce).to.equal(true);
+  });
+
+  it('should trigger the delete all items in cart method if user clicks on the delete all items in cart button', () => {
+    const component = mount(AuthedMain, { propsData });
+    const deleteAllInCart = sinon.stub();
+    component.setMethods({ deleteAllInCart });
+    const button = component.find('.delete-all-items-in-cart-button')[0];
+    button.trigger('click');
+    expect(deleteAllInCart.calledOnce).to.equal(true);
   });
 });

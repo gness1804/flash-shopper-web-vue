@@ -16,6 +16,12 @@
       <span class="items-in-cart-count">{{countItemsInCart()}}</span>
       </div>
     </div>
+    <p
+      class="error-container"
+      v-if="error"
+    >
+    {{errorMssg}}
+    </p>
     <h3 class="headline">Enter New Item:</h3>
     <div
       class="item-input-container"
@@ -23,43 +29,47 @@
       <input
         type="text"
         placeholder="Name"
+        @input="makeErrorFalse"
         v-model="name"
         class="text-input-field"
       />
       <input
         type="text"
         placeholder="Aisle"
+        @input="makeErrorFalse"
         v-model="aisle"
         class="text-input-field"
       />
       <input
         type="text"
         placeholder="Note"
+        @input="makeErrorFalse"
         v-model="note"
         class="text-input-field"
       />
       <input
         type="text"
         placeholder="Quantity"
+        @input="makeErrorFalse"
         v-model="quantity"
         class="text-input-field"
       />
     </div>
     <div class="buttons-container">
       <button
-        class="button bottom-button"
+        class="button bottom-button add-item-button"
         v-on:click="addItem"
       >
       Add Item
       </button>
       <button
-        class="button warn-button bottom-button"
+        class="button warn-button bottom-button delete-all-items-button"
         v-on:click="deleteAllItems"
       >
       Delete ALL Items
       </button>
       <button
-        class="button warn-button bottom-button"
+        class="button warn-button bottom-button delete-all-items-in-cart-button"
         v-on:click="deleteAllInCart"
       >
       Delete ALL In Cart
@@ -112,13 +122,15 @@ export default {
       aisle: '',
       note: '',
       quantity: '',
+      error: false,
+      errorMssg: '',
     };
   },
   methods: {
     addItem: function () {
       const { name, aisle, note, quantity } = this;
       if (!name) {
-        alert('Oops! Your item needs at least a name to be valid. Please try again');
+        this.triggerErrorState('Oops! Your item needs at least a name to be valid. Please try again.');
         return;
       }
       this.resetInputFields();
@@ -149,6 +161,10 @@ export default {
         this.$emit('deleteAllItems');
       }
     },
+    makeErrorFalse: function () {
+      this.error = false;
+      this.errorMssg = '';
+    },
     removeItem: function (_item) {
       this.$emit('removeItem', _item);
     },
@@ -160,6 +176,10 @@ export default {
     },
     toggleInCart: function (_item) {
       this.$emit('toggleInCart', _item);
+    },
+    triggerErrorState: function (message) {
+      this.error = true;
+      this.errorMssg = message;
     },
     updateName: function (newName, item) {
       this.$emit('updateName', newName, item);
@@ -182,6 +202,10 @@ export default {
     flex-direction: column;
     justify-content: center;
     margin: 40px auto;
+  }
+
+  .error-container {
+    color: red;
   }
 
   .bottom-button {
