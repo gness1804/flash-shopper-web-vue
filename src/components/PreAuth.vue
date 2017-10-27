@@ -1,6 +1,6 @@
 <template>
   <div class="pre-auth">
-    <h2>Sign Up or Sign In</h2>
+    <h2 class="headline">Sign Up or Sign In</h2>
     <div class="input-container">
       <input
         type="email"
