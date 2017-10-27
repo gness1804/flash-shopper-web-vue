@@ -17,7 +17,7 @@
     </div>
     <div class="buttons-container">
       <button
-        class="button auth-button"
+        class="button auth-button sign-up-button"
         v-on:click="signUp"
       >
         Sign Up
