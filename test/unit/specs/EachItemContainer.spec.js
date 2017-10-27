@@ -26,4 +26,13 @@ describe('EachItemContainer.vue', () => {
     const el2 = component.find('.each-item-name.strike');
     expect(el2.length).to.equal(0);
   });
+
+  it('should call the removeItem method when user clicks the remove item button', () => {
+    const component = mount(EachItemContainer, { propsData });
+    const removeItem = sinon.stub();
+    component.setMethods({ removeItem });
+    const button = component.find('.remove-item-button')[0];
+    button.trigger('click');
+    expect(removeItem.calledOnce).to.equal(true);
+  });
 });

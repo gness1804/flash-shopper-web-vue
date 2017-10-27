@@ -49,7 +49,7 @@
     </p>
     <div class="buttons-container">
       <img
-        class="icon"
+        class="icon remove-item-button"
         src="../assets/cancel-circle.png"
         v-on:click="removeItem"
       />
