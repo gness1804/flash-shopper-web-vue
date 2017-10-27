@@ -6,17 +6,17 @@
         class="upper-icon"
         src="../assets/list.png"
       />
-      <span>{{items.length}}</span>
+      <span class="items-length">{{items.length}}</span>
       </div>
       <div class="upper-icon-block">
       <img
         class="upper-icon"
         src="../assets/cart-arrow-down.png"
       />
-      <span>{{countItemsInCart()}}</span>
+      <span class="items-in-cart-count">{{countItemsInCart()}}</span>
       </div>
     </div>
-    <h3>Enter New Item:</h3>
+    <h3 class="headline">Enter New Item:</h3>
     <div
       class="item-input-container"
     >

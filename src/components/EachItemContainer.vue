@@ -10,6 +10,7 @@
     {{item.name}}
     </h3>
     <p
+      class="each-item-aisle"
       v-if="item.aisle"
       v-bind:class="{ strike: item.inCart }"
     >
@@ -22,6 +23,7 @@
       {{item.aisle}}
     </p>
     <p
+      class="each-item-note"
       v-if="item.note"
       v-bind:class="{ strike: item.inCart }"
     >

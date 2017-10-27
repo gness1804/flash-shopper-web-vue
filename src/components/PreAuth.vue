@@ -1,23 +1,23 @@
 <template>
   <div class="pre-auth">
-    <h2>Sign Up or Sign In</h2>
+    <h2 class="headline">Sign Up or Sign In</h2>
     <div class="input-container">
       <input
         type="email"
-        class="text-input-field"
+        class="text-input-field email-field"
         placeholder="Enter Your Email Address"
         v-model="email"
       />
       <input
         type="password"
-        class="text-input-field"
+        class="text-input-field password-field"
         placeholder="Enter Your Password"
         v-model="password"
       />
     </div>
     <div class="buttons-container">
       <button
-        class="button auth-button"
+        class="button auth-button sign-up-button"
         v-on:click="signUp"
       >
         Sign Up
