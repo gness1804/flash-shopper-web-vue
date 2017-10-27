@@ -51,4 +51,13 @@ describe('AuthedMain.vue', () => {
     button.trigger('click');
     expect(deleteAllItems.calledOnce).to.equal(true);
   });
+
+  it('should trigger the delete all items in cart method if user clicks on the delete all items in cart button', () => {
+    const component = mount(AuthedMain, { propsData });
+    const deleteAllInCart = sinon.stub();
+    component.setMethods({ deleteAllInCart });
+    const button = component.find('.delete-all-items-in-cart-button')[0];
+    button.trigger('click');
+    expect(deleteAllInCart.calledOnce).to.equal(true);
+  });
 });

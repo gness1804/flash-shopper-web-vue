@@ -69,7 +69,7 @@
       Delete ALL Items
       </button>
       <button
-        class="button warn-button bottom-button"
+        class="button warn-button bottom-button delete-all-items-in-cart-button"
         v-on:click="deleteAllInCart"
       >
       Delete ALL In Cart
