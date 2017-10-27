@@ -60,4 +60,13 @@ describe('PreAuth.vue', () => {
     button.trigger('click');
     expect(logIn.calledOnce).to.equal(true);
   });
+
+  it('clicking the reset password button should call the reset password method', () => {
+    const component = mount(PreAuth);
+    const resetPassword = sinon.stub();
+    component.setMethods({ resetPassword });
+    const button = component.find('.reset-password-button')[0];
+    button.trigger('click');
+    expect(resetPassword.calledOnce).to.equal(true);
+  });
 });

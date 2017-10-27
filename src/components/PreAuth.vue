@@ -37,7 +37,7 @@
         Log In
       </button>
       <button
-        class="button auth-button"
+        class="button auth-button reset-password-button"
         v-on:click="resetPassword"
       >
         Reset Password
