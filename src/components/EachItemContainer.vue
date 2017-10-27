@@ -10,6 +10,7 @@
     {{item.name}}
     </h3>
     <p
+      class="each-item-aisle"
       v-if="item.aisle"
       v-bind:class="{ strike: item.inCart }"
     >

@@ -12,5 +12,7 @@ describe('EachItemContainer.vue', () => {
     const vm = new Constructor({ propsData }).$mount();
     expect(vm.$el.querySelector('.each-item-container .each-item-name').textContent.trim())
       .to.equal('Foo bread');
+    expect(vm.$el.querySelector('.each-item-container .each-item-aisle').textContent.replace(/\s/g, ''))
+      .to.equal('Aisle:10');
   });
 });
