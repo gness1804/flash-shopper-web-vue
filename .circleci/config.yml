@@ -4,10 +4,7 @@ jobs:
      docker:
        - image: circleci/node:4
      steps:
-       - checkout
-       - run:
-           name: install
-           command: npm install
+      - checkout
       - run:
-           name: lint
-           command: npm run lint
+          name: lint
+          command: npm run lint
