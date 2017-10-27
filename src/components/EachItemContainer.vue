@@ -54,12 +54,12 @@
         v-on:click="removeItem"
       />
       <img
-        class="icon"
+        class="icon toggle-in-cart-button"
         src="../assets/cart.png"
         v-on:click="toggleInCart"
       />
       <img
-        class="icon"
+        class="icon add-to-apn-button"
         src="../assets/amazon-prime-now.png"
         v-on:click="addToAPN"
       />

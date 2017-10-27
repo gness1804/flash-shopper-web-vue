@@ -35,4 +35,22 @@ describe('EachItemContainer.vue', () => {
     button.trigger('click');
     expect(removeItem.calledOnce).to.equal(true);
   });
+
+  it('should call the toggleInCart method when user clicks the toggle in cart button', () => {
+    const component = mount(EachItemContainer, { propsData });
+    const toggleInCart = sinon.stub();
+    component.setMethods({ toggleInCart });
+    const button = component.find('.toggle-in-cart-button')[0];
+    button.trigger('click');
+    expect(toggleInCart.calledOnce).to.equal(true);
+  });
+
+  it('should call the AddToAPN method when user clicks the add to Amazon Prime Now button', () => {
+    const component = mount(EachItemContainer, { propsData });
+    const addToAPN = sinon.stub();
+    component.setMethods({ addToAPN });
+    const button = component.find('.add-to-apn-button')[0];
+    button.trigger('click');
+    expect(addToAPN.calledOnce).to.equal(true);
+  });
 });
