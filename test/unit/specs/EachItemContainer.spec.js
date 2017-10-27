@@ -53,4 +53,13 @@ describe('EachItemContainer.vue', () => {
     button.trigger('click');
     expect(addToAPN.calledOnce).to.equal(true);
   });
+
+  it('should call the addToInstacart method when user clicks the add to Instacart button', () => {
+    const component = mount(EachItemContainer, { propsData });
+    const addToInstacart = sinon.stub();
+    component.setMethods({ addToInstacart });
+    const button = component.find('.add-to-instacart-button')[0];
+    button.trigger('click');
+    expect(addToInstacart.calledOnce).to.equal(true);
+  });
 });

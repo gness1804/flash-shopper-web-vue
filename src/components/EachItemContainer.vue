@@ -64,7 +64,7 @@
         v-on:click="addToAPN"
       />
       <img
-        class="icon"
+        class="icon add-to-instacart-button"
         src="../assets/instacart.png"
         v-on:click="addToInstacart"
       />
