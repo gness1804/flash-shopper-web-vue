@@ -63,7 +63,7 @@
       Add Item
       </button>
       <button
-        class="button warn-button bottom-button"
+        class="button warn-button bottom-button delete-all-items-button"
         v-on:click="deleteAllItems"
       >
       Delete ALL Items

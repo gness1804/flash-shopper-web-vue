@@ -33,4 +33,22 @@ describe('AuthedMain.vue', () => {
     button.trigger('click');
     expect(triggerErrorState.calledOnce).to.equal(true);
   });
+
+  it('should trigger the add item method if user clicks on the add item button', () => {
+    const component = mount(AuthedMain, { propsData });
+    const addItem = sinon.stub();
+    component.setMethods({ addItem });
+    const button = component.find('.add-item-button')[0];
+    button.trigger('click');
+    expect(addItem.calledOnce).to.equal(true);
+  });
+
+  it('should trigger the delete all items method if user clicks on the delete all items button', () => {
+    const component = mount(AuthedMain, { propsData });
+    const deleteAllItems = sinon.stub();
+    component.setMethods({ deleteAllItems });
+    const button = component.find('.delete-all-items-button')[0];
+    button.trigger('click');
+    expect(deleteAllItems.calledOnce).to.equal(true);
+  });
 });
