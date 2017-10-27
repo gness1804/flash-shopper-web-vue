@@ -92,13 +92,13 @@ export default {
       }
     },
     showAuthError: function () {
-      alert('There was an error with authentication. Please check your credentials and try again.');
+      this.triggerErrorState('There was an error with authentication. Please check your credentials and try again.');
     },
     showRecoveryEmailAlert: function () {
       alert('If there is an account associated with the email you provided, an email has been sent to it with instructions on resetting your password.');
     },
     showRecoveryError: function () {
-      alert('There was a problem sending the password recovery email. Please ensure that you created an account under this password and that your email is in a valid format (foo@foobar.com).');
+      this.triggerErrorState('There was a problem sending the password recovery email. Please ensure that you created an account under this password and that your email is in a valid format (foo@foobar.com).');
     },
     signUp: function () {
       const { email, password } = this;
