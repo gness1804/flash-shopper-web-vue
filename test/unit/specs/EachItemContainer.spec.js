@@ -20,6 +20,7 @@ describe('EachItemContainer.vue', () => {
   });
 
   it('should not display the inCart styling by default', () => {
+    // the fakeItem component has inCart of false by default
     const component = mount(EachItemContainer, { propsData });
     const el = component.find('.each-item-name');
     expect(el.length).to.equal(1);
@@ -61,5 +62,22 @@ describe('EachItemContainer.vue', () => {
     const button = component.find('.add-to-instacart-button')[0];
     button.trigger('click');
     expect(addToInstacart.calledOnce).to.equal(true);
+  });
+
+  it('should apply the strike styling when the item is in the cart', () => {
+    const otherFakeItem = {
+      id: '2',
+      name: 'Frozen waffles',
+      aisle: 'Frozen',
+      note: '',
+      quantity: '2 boxes',
+      inCart: true,
+    };
+    const propsData2 = {
+      item: otherFakeItem,
+    };
+    const component = mount(EachItemContainer, { propsData: propsData2 });
+    const el = component.find('.each-item-name.strike');
+    expect(el.length).to.equal(1);
   });
 });
