@@ -19,6 +19,12 @@ describe('AuthedMain.vue', () => {
       .to.equal('1');
   });
 
+  it('renders correct number of items', () => {
+    const component = mount(AuthedMain, { propsData });
+    const el = component.find('.authed-main .each-item-container');
+    expect(el.length).to.equal(3);
+  });
+
   it('should render error message if add item is clicked and the name field is empty', () => {
     const component = mount(AuthedMain, { propsData });
     const triggerErrorState = sinon.stub();
