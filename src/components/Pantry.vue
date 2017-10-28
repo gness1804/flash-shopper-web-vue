@@ -11,8 +11,11 @@
       class="pantry-main"
       v-if="isUser"
     >
-    <!-- all the stuff goes here -->
-    <p>I should only show up if there is a user.</p>
+    <each-pantry-item
+      v-for="item of items"
+      v-bind:key="item.id"
+    >
+    </each-pantry-item>
     </div>
     <p
       v-else
@@ -25,10 +28,14 @@
 <script>
 import * as firebase from 'firebase';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
+import EachPantryItem from './EachPantryItem';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 
 export default {
   name: 'Pantry',
+  components: {
+    EachPantryItem,
+  },
   data() {
     return {
       isUser: false,
