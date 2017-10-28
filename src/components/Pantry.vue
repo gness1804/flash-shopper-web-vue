@@ -8,7 +8,7 @@
       Go Home
     </button>
     <div
-      class="pantry-main"
+      class="pantry-main-container"
       v-if="isUser"
     >
     <each-pantry-item
@@ -101,7 +101,12 @@ export default {
 </script>
 
 <style scoped>
-
+  .pantry-main-container {
+    border: 1px solid #000;
+    border-radius: 5px;
+    margin: 60px auto;
+    width: 80vw;
+  }
 </style>
 
 
