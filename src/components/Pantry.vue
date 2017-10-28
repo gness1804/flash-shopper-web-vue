@@ -14,6 +14,11 @@
     <!-- all the stuff goes here -->
     <p>I should only show up if there is a user.</p>
     </div>
+    <p
+      v-else
+    >
+    Oops, you are not logged in. Please click the Go Home button above to log in.
+    </p>
   </div>
 </template>
 
