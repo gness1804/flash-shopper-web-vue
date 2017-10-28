@@ -14,6 +14,7 @@
     <each-pantry-item
       v-for="item of items"
       v-bind:key="item.id"
+      v-bind:item="item"
     >
     </each-pantry-item>
     </div>

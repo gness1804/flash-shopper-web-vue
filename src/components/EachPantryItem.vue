@@ -1,12 +1,18 @@
 <template>
   <div class="each-pantry-item">
-    <p>I am the each pantry item component.</p>
+    <h3>{{item.name}}</h3>
   </div>
 </template>
 
 <script>
 export default {
   name: 'EachPantryItem',
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+  },
 };
 </script>
 
