@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app-wrapper">
     <h1>Flash Shopper</h1>
     <p
       v-if="isUser"
@@ -161,50 +161,7 @@ export default {
 </script>
 
 <style>
-html {
-  background-color: #bcdbf3;
-  font-family: 'Open Sans', sans-serif;
-}
-h1 {
-  margin: 40px auto;
-}
-#app {
+#app-wrapper {
   text-align: center;
-}
-.text-input-field {
-  border: 2px solid#d1d3d5;
-  box-sizing: border-box;
-  margin-bottom: 20px;
-  text-align: center;
-  width: 40vw;
-}
-.button {
-  background-color: #3c3ce5;
-  border: 1px solid #3c3ce5;
-  border-radius: 0;
-  color: #ffffff;
-  padding: 5px;
-}
-.button:hover {
-  background-color:#8787ea;
-  border: 1px solid #8787ea;
-  cursor: pointer;
-}
-.warn-button {
-  background-color: #f00;
-  border: 1px solid #f00;
-}
-.warn-button:hover {
-  background-color:#f5765a;
-  border: 1px solid #f5765a;
-}
-.icon {
-  cursor: pointer;
-  height: 20px;
-  margin-right: 20px;
-  width: 20px;
-}
-.bold {
-  font-weight: 700;
 }
 </style>
