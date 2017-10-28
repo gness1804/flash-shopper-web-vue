@@ -3,7 +3,7 @@ jobs:
   build:
     # working_directory: ~/mern-starter
     docker:
-      - image: circleci/node:8.1.4
+      - image: circleci/node:6.1.0
       # - image: mongo:3.4.4
     steps:
       - checkout
