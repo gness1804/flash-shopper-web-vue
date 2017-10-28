@@ -19,4 +19,14 @@ describe('Pantry', () => {
     button.trigger('click');
     expect(goHome.calledOnce).to.equal(true);
   });
+
+  it('should trigger the delete all items method if user clicks on the delete all items button', () => {
+    const component = mount(Pantry);
+    const deleteAllItems = sinon.stub();
+    component.setMethods({ deleteAllItems });
+    component.setData({ isUser: true });
+    const button = component.find('.delete-all-in-pantry-button')[0];
+    button.trigger('click');
+    expect(deleteAllItems.calledOnce).to.equal(true);
+  });
 });

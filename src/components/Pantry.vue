@@ -7,9 +7,21 @@
     >
       Go Home
     </button>
+    <button
+      class="button warn-button delete-all-in-pantry-button"
+      v-if="isUser"
+      v-on:click="deleteAllItems"
+    >
+      Delete ALL Items
+    </button>
     <div
       class="pantry-main-container"
       v-if="isUser"
+      v-bind:class="{ noBorder: items.length === 0}"
+    >
+    <div
+      class="items"
+      v-if="items.length > 0"
     >
     <each-pantry-item
       v-for="item of items"
@@ -17,6 +29,12 @@
       v-bind:item="item"
     >
     </each-pantry-item>
+    </div>
+    <p
+      v-else
+    >
+      There are no items in your pantry. Add one now.
+    </p>
     </div>
     <p
       v-else
@@ -47,6 +65,12 @@ export default {
     };
   },
   methods: {
+    deleteAllItems: function () {
+      const warning = confirm('Are you sure you want to delete ALL items? This cannot be undone!');
+      if (warning) {
+        this.itemsRef.set([]);
+      }
+    },
     goHome: function () {
       this.$router.push('/');
     },
@@ -106,6 +130,10 @@ export default {
     border-radius: 5px;
     margin: 60px auto;
     width: 80vw;
+  }
+
+  .noBorder {
+    border: none;
   }
 </style>
 
