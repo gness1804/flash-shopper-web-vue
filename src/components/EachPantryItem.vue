@@ -1,6 +1,6 @@
 <template>
   <div class="each-pantry-item">
-    <h3>{{item.name}}</h3>
+    <h3 class="pantry-item-name">{{item.name}}</h3>
   </div>
 </template>
 
