@@ -42,4 +42,36 @@ describe('Pantry', () => {
     button.trigger('click');
     expect(triggerErrorState.calledOnce).to.equal(true);
   });
+
+  it('should trigger the add item method if the user clicks on the add item button with valid data', () => {
+    const expectedResult = [
+      {
+        id: null,
+        name: 'Bagels',
+        aisle: '22',
+        note: 'Do not get store brand',
+        quantity: '2 bags',
+        inCart: false,
+      },
+    ];
+    const component = mount(Pantry);
+    component.setData({ items });
+    component.setData({ name: 'Bagels' });
+    component.setData({ aisle: '22' });
+    component.setData({ note: 'Do not get store brand' });
+    component.setData({ quantity: '2 bags' });
+    component.setData({ itemsRef: [] });
+    const triggerErrorState = sinon.stub();
+    component.setMethods({ triggerErrorState });
+    component.setData({ isUser: true });
+    const button = component.find('.add-item-to-pantry-button')[0];
+    button.trigger('click');
+    expect(triggerErrorState.calledOnce).to.equal(false);
+    expect(component.data().itemsRef[0].id).to.equal(expectedResult[0].id);
+    expect(component.data().itemsRef[0].name).to.equal(expectedResult[0].name);
+    expect(component.data().itemsRef[0].aisle).to.equal(expectedResult[0].aisle);
+    expect(component.data().itemsRef[0].note).to.equal(expectedResult[0].note);
+    expect(component.data().itemsRef[0].quantity).to.equal(expectedResult[0].quantity);
+    expect(component.data().itemsRef[0].inCart).to.equal(expectedResult[0].inCart);
+  });
 });
