@@ -205,14 +205,6 @@ export default {
     justify-content: center;
   }
 
-  .item-input-container {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 40px auto;
-  }
-
   .error-container {
     color: red;
   }

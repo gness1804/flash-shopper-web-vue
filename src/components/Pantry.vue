@@ -1,6 +1,12 @@
 <template>
   <div id="pantry">
     <h2>Pantry</h2>
+    <p
+      v-if="isUser && error"
+      class="error-message"
+    >
+      {{errorMssg}}
+    </p>
     <button
       class="button go-home-button"
       v-on:click="goHome"
@@ -15,20 +21,53 @@
       Delete ALL Items
     </button>
     <div
+      class="item-input-container"
+      v-if="isUser"
+    >
+      <input
+        type="text"
+        placeholder="Name"
+        @input="makeErrorFalse"
+        v-model="name"
+        class="text-input-field"
+      />
+      <input
+        type="text"
+        placeholder="Aisle"
+        @input="makeErrorFalse"
+        v-model="aisle"
+        class="text-input-field"
+      />
+      <input
+        type="text"
+        placeholder="Note"
+        @input="makeErrorFalse"
+        v-model="note"
+        class="text-input-field"
+      />
+      <input
+        type="text"
+        placeholder="Quantity"
+        @input="makeErrorFalse"
+        v-model="quantity"
+        class="text-input-field"
+      />
+    </div>
+    <div
       class="pantry-main-container"
       v-if="isUser"
       v-bind:class="{ noBorder: items.length === 0}"
     >
-    <div
-      class="items"
-      v-if="items.length > 0"
-    >
-    <each-pantry-item
-      v-for="item of items"
-      v-bind:key="item.id"
-      v-bind:item="item"
-    >
-    </each-pantry-item>
+      <div
+        class="items"
+        v-if="items.length > 0"
+      >
+      <each-pantry-item
+        v-for="item of items"
+        v-bind:key="item.id"
+        v-bind:item="item"
+      >
+      </each-pantry-item>
     </div>
     <p
       v-else
@@ -62,6 +101,12 @@ export default {
       userEmail: '',
       userId: null,
       items: [],
+      name: '',
+      aisle: '',
+      note: '',
+      quantity: '',
+      error: false,
+      errorMssg: '',
     };
   },
   methods: {
@@ -104,6 +149,10 @@ export default {
         this.sortItems(newArr);
       });
     },
+    makeErrorFalse: function () {
+      this.error = false;
+      this.errorMssg = '';
+    },
     sortItems: function (_items) {
       this.items = _items.sort((a, b) => {
         const first = a.name.toLowerCase();
@@ -134,6 +183,10 @@ export default {
 
   .noBorder {
     border: none;
+  }
+
+  .error-message {
+    color: #f00;
   }
 </style>
 
