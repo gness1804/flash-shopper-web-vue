@@ -15,7 +15,7 @@
     </button>
     <button
       class="button warn-button delete-all-in-pantry-button"
-      v-if="isUser"
+      v-if="isUser && items.length > 0"
       v-on:click="deleteAllItems"
     >
       Delete ALL Items
