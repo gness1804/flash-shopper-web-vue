@@ -53,6 +53,13 @@
         class="text-input-field"
       />
     </div>
+    <button
+        class="button add-item-to-pantry-button"
+        v-on:click="addItem"
+        v-if="isUser"
+      >
+      Add Item
+      </button>
     <div
       class="pantry-main-container"
       v-if="isUser"
@@ -88,6 +95,7 @@ import * as firebase from 'firebase';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import EachPantryItem from './EachPantryItem';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
+import Item from '../models/Item';
 
 export default {
   name: 'Pantry',
@@ -110,6 +118,20 @@ export default {
     };
   },
   methods: {
+    addItem: function () {
+      const { name, aisle, note, quantity } = this;
+      if (!name) {
+        this.triggerErrorState('Oops, you must enter at least a name. Please try again.');
+        return;
+      }
+      this.resetInputFields();
+      const item = new Item(name, aisle, note, quantity);
+      try {
+        this.itemsRef.push(item);
+      } catch (error) {
+        alert('Something went wrong. Please try again.');
+      }
+    },
     deleteAllItems: function () {
       const warning = confirm('Are you sure you want to delete ALL items? This cannot be undone!');
       if (warning) {
@@ -153,6 +175,12 @@ export default {
       this.error = false;
       this.errorMssg = '';
     },
+    resetInputFields: function () {
+      this.name = '';
+      this.aisle = '';
+      this.note = '';
+      this.quantity = '';
+    },
     sortItems: function (_items) {
       this.items = _items.sort((a, b) => {
         const first = a.name.toLowerCase();
@@ -165,6 +193,10 @@ export default {
         }
         return 0;
       });
+    },
+    triggerErrorState: function (message) {
+      this.error = true;
+      this.errorMssg = message;
     },
   },
   mounted: function () {
