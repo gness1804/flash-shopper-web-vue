@@ -1,5 +1,11 @@
 <template>
   <div class="authed-main">
+    <button
+      class="button go-to-pantry-button"
+      v-on:click="goToPantry"
+    >
+      Go to Pantry
+    </button>
     <div class="upper-icons-container">
       <div class="upper-icon-block">
       <img
@@ -161,6 +167,9 @@ export default {
         this.$emit('deleteAllItems');
       }
     },
+    goToPantry: function () {
+      this.$router.push('/pantry');
+    },
     makeErrorFalse: function () {
       this.error = false;
       this.errorMssg = '';
@@ -196,20 +205,16 @@ export default {
     justify-content: center;
   }
 
-  .item-input-container {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin: 40px auto;
-  }
-
   .error-container {
     color: red;
   }
 
   .bottom-button {
     margin-right: 20px;
+  }
+
+  .go-to-pantry-button {
+    margin-top: 20px;
   }
 
   .items-headline {

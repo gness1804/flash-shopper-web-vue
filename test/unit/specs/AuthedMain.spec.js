@@ -60,4 +60,13 @@ describe('AuthedMain.vue', () => {
     button.trigger('click');
     expect(deleteAllInCart.calledOnce).to.equal(true);
   });
+
+  it('should trigger the go to pantry method if user clicks on the go to pantry button', () => {
+    const component = mount(AuthedMain, { propsData });
+    const goToPantry = sinon.stub();
+    component.setMethods({ goToPantry });
+    const button = component.find('.go-to-pantry-button')[0];
+    button.trigger('click');
+    expect(goToPantry.calledOnce).to.equal(true);
+  });
 });
