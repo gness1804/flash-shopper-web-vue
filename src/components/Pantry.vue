@@ -73,6 +73,7 @@
         v-for="item of items"
         v-bind:key="item.id"
         v-bind:item="item"
+        v-on:transferItemToMainList="transferItemToMainList"
       >
       </each-pantry-item>
     </div>
@@ -193,6 +194,12 @@ export default {
         }
         return 0;
       });
+    },
+    transferItemToMainList: function (item) {
+      const email = cleanUpUserEmail(this.userEmail);
+      /* eslint-disable prefer-template */
+      firebase.database().ref(email + '/main').push(item);
+       /* eslint-enable prefer-template */
     },
     triggerErrorState: function (message) {
       this.error = true;
