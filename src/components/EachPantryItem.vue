@@ -7,6 +7,12 @@
         v-on:click="transferItemToMainList"
         title="Add Item to Main List"
       />
+      <img
+        class="large-icon delete-item-button"
+        src="../assets/cancel-circle.png"
+        v-on:click="deleteItem"
+        title="Delete Item"
+      />
   </div>
 </template>
 
@@ -20,6 +26,9 @@ export default {
     },
   },
   methods: {
+    deleteItem: function () {
+      this.$emit('deleteItem', this.item);
+    },
     transferItemToMainList: function () {
       this.$emit('transferItemToMainList', this.item);
     },

@@ -21,4 +21,13 @@ describe('EachPantryItem', () => {
     button.trigger('click');
     expect(transferItemToMainList.calledOnce).to.equal(true);
   });
+
+  it('should trigger the deleteItem method when the delete item button is clicked', () => {
+    const component = mount(EachPantryItem, { propsData });
+    const deleteItem = sinon.stub();
+    component.setMethods({ deleteItem });
+    const button = component.find('.delete-item-button')[0];
+    button.trigger('click');
+    expect(deleteItem.calledOnce).to.equal(true);
+  });
 });

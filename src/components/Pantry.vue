@@ -74,6 +74,7 @@
         v-bind:key="item.id"
         v-bind:item="item"
         v-on:transferItemToMainList="transferItemToMainList"
+        v-on:deleteItem="deleteItem"
       >
       </each-pantry-item>
     </div>
@@ -138,6 +139,9 @@ export default {
       if (warning) {
         this.itemsRef.set([]);
       }
+    },
+    deleteItem: function (item) {
+      this.itemsRef.child(item.id).remove();
     },
     goHome: function () {
       this.$router.push('/');
