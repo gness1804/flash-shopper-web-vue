@@ -112,6 +112,7 @@ export default {
 
 <style scoped>
   .each-item-container {
+    background-color: #fff;
     border: 1px solid #000;
     border-radius: 5px;
     box-sizing: border-box;
