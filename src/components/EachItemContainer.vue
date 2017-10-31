@@ -10,6 +10,7 @@
     {{item.name}}
     </h3>
     <p
+      class="each-item-aisle"
       v-if="item.aisle"
       v-bind:class="{ strike: item.inCart }"
     >
@@ -22,6 +23,7 @@
       {{item.aisle}}
     </p>
     <p
+      class="each-item-note"
       v-if="item.note"
       v-bind:class="{ strike: item.inCart }"
     >
@@ -47,24 +49,28 @@
     </p>
     <div class="buttons-container">
       <img
-        class="icon"
+        class="icon remove-item-button"
         src="../assets/cancel-circle.png"
         v-on:click="removeItem"
+        title="Delete Item"
       />
       <img
-        class="icon"
+        class="icon toggle-in-cart-button"
         src="../assets/cart.png"
         v-on:click="toggleInCart"
+        v-bind:title="item.inCart ? inCartTitle : notInCartTitle"
       />
       <img
-        class="icon"
+        class="icon add-to-apn-button"
         src="../assets/amazon-prime-now.png"
         v-on:click="addToAPN"
+        title="Add Item to Amazon Prime Now"
       />
       <img
-        class="icon"
+        class="icon add-to-instacart-button"
         src="../assets/instacart.png"
         v-on:click="addToInstacart"
+        title="Add Item to Instacart"
       />
     </div>
   </div>
@@ -81,6 +87,8 @@ export default {
   },
   data() {
     return {
+      inCartTitle: 'Remove Item from Cart',
+      notInCartTitle: 'Add Item to Cart',
       title: 'Click to Edit!',
     };
   },
@@ -110,6 +118,7 @@ export default {
 
 <style scoped>
   .each-item-container {
+    background-color: #fff;
     border: 1px solid #000;
     border-radius: 5px;
     box-sizing: border-box;
