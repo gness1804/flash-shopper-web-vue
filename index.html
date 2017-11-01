@@ -4,15 +4,96 @@
 <head>
   <meta charset="utf-8">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-  <link href=/dist/static/css/app.7fa248988ebf433eca289c76c7bd4e50.css rel=stylesheet>
+  <link rel="shortcut icon" type="image/png" href="/static/favicon.ico" />
   <title>Flash Shopper</title>
 </head>
 
 <body>
-  <div id="app"></div>
-  <script type=text/javascript src=/dist/static/js/manifest.57006761fea79200efe0.js></script>
-  <script type=text/javascript src=/dist/static/js/vendor.e162b1c5f78b34a7ec20.js></script>
-  <script type=text/javascript src=/dist/static/js/app.a2b8cc8cfa3743c828c9.js></script>
+  <div id="app">
+    <router-view></router-view>
+  </div>
 </body>
+<style>
+  html {
+    background-color: #bcdbf3;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+  }
+
+  h1 {
+    margin: 40px auto;
+  }
+
+  .text-input-field {
+    border: 2px solid#d1d3d5;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+    text-align: center;
+    width: 40vw;
+  }
+
+  .item-input-container {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 40px auto;
+  }
+
+  .button {
+    background-color: #3c3ce5;
+    border: 1px solid #3c3ce5;
+    border-radius: 0;
+    color: #ffffff;
+    padding: 5px;
+  }
+
+  .button:hover {
+    background-color: #8787ea;
+    border: 1px solid #8787ea;
+    cursor: pointer;
+  }
+
+  .warn-button {
+    background-color: #f00;
+    border: 1px solid #f00;
+  }
+
+  .warn-button:hover {
+    background-color: #f5765a;
+    border: 1px solid #f5765a;
+  }
+
+  .icon {
+    cursor: pointer;
+    height: 20px;
+    margin-right: 20px;
+    width: 20px;
+  }
+
+  .large-icon {
+    cursor: pointer;
+    height: 40px;
+    margin-right: 40px;
+    width: 40px;
+  }
+
+  .bold {
+    font-weight: 700;
+  }
+
+  .link {
+    color: #3c3ce5;
+    text-decoration: none;
+  }
+
+  .link:visited {
+    color: #9f24aa;
+  }
+
+  .link:hover {
+    color: #f90f0f;
+  }
+</style>
 
 </html>
