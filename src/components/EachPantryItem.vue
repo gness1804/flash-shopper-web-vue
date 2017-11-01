@@ -27,7 +27,10 @@ export default {
   },
   methods: {
     deleteItem: function () {
-      this.$emit('deleteItem', this.item);
+      const warning = confirm(`Warning: do you want to delete ${this.item.name} from the pantry? This cannot be undone!`);
+      if (warning) {
+        this.$emit('deleteItem', this.item);
+      }
     },
     transferItemToMainList: function () {
       this.$emit('transferItemToMainList', this.item);
