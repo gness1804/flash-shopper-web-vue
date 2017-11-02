@@ -198,6 +198,10 @@ export default {
     showToast: function (message) {
       this.toastMessage = message;
       this.viewToast = true;
+      setTimeout(() => {
+        this.viewToast = false;
+        this.toastMessage = '';
+      }, 3000);
     },
     sortItems: function (_items) {
       this.items = _items.sort((a, b) => {
