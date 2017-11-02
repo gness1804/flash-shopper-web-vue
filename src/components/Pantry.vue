@@ -89,6 +89,11 @@
     >
     Oops, you are not logged in. Please click the Go Home button above to log in.
     </p>
+  <toast
+    v-if="viewToast"
+    v-bind:message="toastMessage"
+  >
+  </toast>
   </div>
 </template>
 
@@ -96,6 +101,7 @@
 import * as firebase from 'firebase';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import EachPantryItem from './EachPantryItem';
+import Toast from './Toast';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import Item from '../models/Item';
 
@@ -103,6 +109,7 @@ export default {
   name: 'Pantry',
   components: {
     EachPantryItem,
+    Toast,
   },
   data() {
     return {
@@ -117,6 +124,8 @@ export default {
       quantity: '',
       error: false,
       errorMssg: '',
+      toastMessage: '',
+      viewToast: false,
     };
   },
   methods: {
@@ -186,6 +195,10 @@ export default {
       this.note = '';
       this.quantity = '';
     },
+    showToast: function (message) {
+      this.toastMessage = message;
+      this.viewToast = true;
+    },
     sortItems: function (_items) {
       this.items = _items.sort((a, b) => {
         const first = a.name.toLowerCase();
@@ -203,6 +216,7 @@ export default {
       const email = cleanUpUserEmail(this.userEmail);
       /* eslint-disable prefer-template */
       firebase.database().ref(email + '/main').push(item);
+      this.showToast(`${item.name} added to main list.`);
        /* eslint-enable prefer-template */
     },
     triggerErrorState: function (message) {
