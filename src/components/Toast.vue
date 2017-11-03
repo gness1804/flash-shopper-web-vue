@@ -18,7 +18,7 @@ export default {
 
 <style scoped>
   .toast {
-    background-color:#c6b9b9;
+    background-color:rgba(150, 150, 150, 0.3);
     border: 1px solid #000;
     border-radius: 10px;
     left: 0;
@@ -27,6 +27,7 @@ export default {
     position: absolute;
     right: 0;
     width: 20vw;
+    z-index: 999;
   }
 </style>
 
