@@ -3,11 +3,12 @@
     <h1>Flash Shopper</h1>
     <p
       v-if="isUser"
+      class="user-logged-in-message"
     >
     Logged in as <span class="bold">{{userEmail}}</span>
     </p>
     <button
-      class="button warn-button"
+      class="button warn-button log-out-button"
       v-if="isUser"
       v-on:click="logOut"
     >
@@ -31,6 +32,11 @@
       v-else
     >
     </pre-auth>
+    <toast
+      v-if="isUser && viewToast"
+      v-bind:message="toastMessage"
+    >
+    </toast>
   </div>
 </template>
 
@@ -39,6 +45,7 @@ import * as firebase from 'firebase';
 import firebaseApp from '../firebaseConfig';  // eslint-disable-line
 import PreAuth from './components/PreAuth';
 import AuthedMain from './components/AuthedMain';
+import Toast from './components/Toast';
 import cleanUpUserEmail from './helpers/cleanUpUserEmail';
 
 export default {
@@ -46,6 +53,7 @@ export default {
   components: {
     PreAuth,
     AuthedMain,
+    Toast,
   },
   data() {
     return {
@@ -54,12 +62,15 @@ export default {
       userEmail: '',
       userId: null,
       items: [],
+      toastMessage: '',
+      viewToast: false,
     };
   },
   methods: {
     addItem: function (_item) {
       try {
         this.itemsRef.push(_item);
+        this.showToast(`${_item.name} added to your list.`);
       } catch (error) {
         alert('Something went wrong. Please try again.');
       }
@@ -87,9 +98,11 @@ export default {
         return !item.inCart;
       });
       this.itemsRef.set(newItems);
+      this.showToast('Removed all items in cart.');
     },
     deleteAllItems: function () {
       this.itemsRef.set([]);
+      this.showToast('Deleted all items.');
     },
     initializeApp: function () {
       firebase.auth().onAuthStateChanged((user) => {
@@ -129,6 +142,15 @@ export default {
     },
     removeItem: function (_item) {
       this.itemsRef.child(_item.id).remove();
+      this.showToast(`Removed ${_item.name} from your list.`);
+    },
+    showToast: function (message) {
+      this.toastMessage = message;
+      this.viewToast = true;
+      setTimeout(() => {
+        this.viewToast = false;
+        this.toastMessage = '';
+      }, 3000);
     },
     sortItems: function (_items) {
       this.items = _items.sort((a, b) => {
