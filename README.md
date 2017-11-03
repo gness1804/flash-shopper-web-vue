@@ -6,7 +6,7 @@
 
 This is the web version of my [Flash Shopper React Native app](https://github.com/gness1804/flash-shopper-mobile). It is a simple grocery list app built on Firebase that contains a main list and a pantry list (for frequently purchased item).
 
-More details soon.
+More details coming soon.
 
 ## Build Setup (from the Vue.js docs):
 
