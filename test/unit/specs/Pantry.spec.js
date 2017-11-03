@@ -4,13 +4,6 @@ import Pantry from '@/components/Pantry';
 import items from '../helpers/FakeItemsArray';
 
 describe('Pantry', () => {
-  // it('should render the correct number of items', () => {
-  //   const component = mount(Pantry);
-  //   component.setData({ items });
-  //   component.setData({ isUser: true });
-  //   const el = ('#pantry');
-  //   expect(el.length).to.equal(2);
-  // });
   it('should trigger the go home method if user clicks on the go home button', () => {
     const component = mount(Pantry);
     component.setData({ items });
@@ -85,6 +78,6 @@ describe('Pantry', () => {
     component.setMethods({ showToast });
     const button = component.find('.add-item-to-pantry-button')[0];
     button.trigger('click');
-    expect(showToast.calledOnce).to.equal(true);
+    expect(showToast.calledWith('Bagels added to pantry.'));
   });
 });

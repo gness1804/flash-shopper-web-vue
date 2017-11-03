@@ -38,7 +38,7 @@ describe('App.vue', () => {
     const showToast = sinon.stub();
     component.setMethods({ showToast });
     component.vm.addItem(item);
-    expect(showToast.calledOnce).to.equal(true);
+    expect(showToast.calledWith('Foo bread added to your list'));
   });
 
   it('should trigger show toast when the deleteAllInCart method is called', () => {
@@ -52,7 +52,7 @@ describe('App.vue', () => {
     const showToast = sinon.stub();
     component.setMethods({ showToast });
     component.vm.deleteAllInCart();
-    expect(showToast.calledOnce).to.equal(true);
+    expect(showToast.calledWith('Removed all items in cart.'));
   });
 
   it('should trigger show toast when the deleteAllItems method is called', () => {
@@ -68,6 +68,6 @@ describe('App.vue', () => {
     const showToast = sinon.stub();
     component.setMethods({ showToast });
     component.vm.deleteAllItems();
-    expect(showToast.calledOnce).to.equal(true);
+    expect(showToast.calledWith('Deleted all items.'));
   });
 });
