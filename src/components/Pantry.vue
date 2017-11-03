@@ -139,6 +139,7 @@ export default {
       const item = new Item(name, aisle, note, quantity);
       try {
         this.itemsRef.push(item);
+        this.showToast(`${item.name} added to pantry.`);
       } catch (error) {
         alert('Something went wrong. Please try again.');
       }

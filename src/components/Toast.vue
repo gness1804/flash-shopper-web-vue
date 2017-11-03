@@ -18,14 +18,15 @@ export default {
 
 <style scoped>
   .toast {
-    background-color:rgba(150, 150, 150, 0.3);
+    background-color:#939191;
     border: 1px solid #000;
     border-radius: 10px;
     left: 0;
     margin-left: auto;
     margin-right: auto;
-    position: absolute;
+    position: fixed;
     right: 0;
+    top: 20px;
     width: 20vw;
     z-index: 999;
   }
