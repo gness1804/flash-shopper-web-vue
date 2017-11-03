@@ -235,6 +235,10 @@ export default {
 </script>
 
 <style scoped>
+  #pantry {
+    position: relative;
+  }
+
   .pantry-main-container {
     border: 1px solid #000;
     border-radius: 5px;
