@@ -98,9 +98,11 @@ export default {
         return !item.inCart;
       });
       this.itemsRef.set(newItems);
+      this.showToast('Removed all items in cart.');
     },
     deleteAllItems: function () {
       this.itemsRef.set([]);
+      this.showToast('Deleted all items.');
     },
     initializeApp: function () {
       firebase.auth().onAuthStateChanged((user) => {
@@ -140,6 +142,7 @@ export default {
     },
     removeItem: function (_item) {
       this.itemsRef.child(_item.id).remove();
+      this.showToast(`Removed ${_item.name} from your list.`);
     },
     showToast: function (message) {
       this.toastMessage = message;
