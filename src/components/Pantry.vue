@@ -151,8 +151,10 @@ export default {
       }
     },
     deleteItem: function (item) {
-      this.itemsRef.child(item.id).remove();
-      this.showToast('Item deleted from pantry.');
+      if (this.itemsRef.length > 0) {
+        this.itemsRef.child(item.id).remove();
+      }
+      this.showToast(`${item.name} removed from pantry.`);
     },
     goHome: function () {
       this.$router.push('/');

@@ -2,11 +2,15 @@
 import { mount } from 'avoriaz';
 import Pantry from '@/components/Pantry';
 import items from '../helpers/FakeItemsArray';
+import item from '../helpers/FakeItem';
 
 describe('Pantry', () => {
+  const name = 'Bagels';
+
   it('should trigger the go home method if user clicks on the go home button', () => {
     const component = mount(Pantry);
     component.setData({ items });
+    component.setData({ itemsRef: [] });
     const goHome = sinon.stub();
     component.setMethods({ goHome });
     const button = component.find('.go-home-button')[0];
@@ -20,6 +24,7 @@ describe('Pantry', () => {
     const deleteAllItems = sinon.stub();
     component.setMethods({ deleteAllItems });
     component.setData({ isUser: true });
+    component.setData({ itemsRef: [] });
     const button = component.find('.delete-all-in-pantry-button')[0];
     button.trigger('click');
     expect(deleteAllItems.calledOnce).to.equal(true);
@@ -31,6 +36,7 @@ describe('Pantry', () => {
     const triggerErrorState = sinon.stub();
     component.setMethods({ triggerErrorState });
     component.setData({ isUser: true });
+    component.setData({ itemsRef: [] });
     const button = component.find('.add-item-to-pantry-button')[0];
     button.trigger('click');
     expect(triggerErrorState.calledOnce).to.equal(true);
@@ -49,7 +55,7 @@ describe('Pantry', () => {
     ];
     const component = mount(Pantry);
     component.setData({ items });
-    component.setData({ name: 'Bagels' });
+    component.setData({ name });
     component.setData({ aisle: '22' });
     component.setData({ note: 'Do not get store brand' });
     component.setData({ quantity: '2 bags' });
@@ -72,12 +78,24 @@ describe('Pantry', () => {
     const component = mount(Pantry);
     component.setData({ items });
     component.setData({ itemsRef: [] });
-    component.setData({ name: 'Bagels' });
+    component.setData({ name });
     component.setData({ isUser: true });
     const showToast = sinon.stub();
     component.setMethods({ showToast });
     const button = component.find('.add-item-to-pantry-button')[0];
     button.trigger('click');
     expect(showToast.calledWith('Bagels added to pantry.'));
+  });
+
+  it('should trigger show toast when the deleteItem method is called', () => {
+    const component = mount(Pantry);
+    component.setData({ items });
+    component.setData({ isUser: true });
+    component.setData({ name });
+    component.setData({ itemsRef: [] });
+    const showToast = sinon.stub();
+    component.setMethods({ showToast });
+    component.vm.deleteItem(item);
+    expect(showToast.calledWith('Bagels removed from pantry.'));
   });
 });
