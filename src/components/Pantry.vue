@@ -152,6 +152,7 @@ export default {
     },
     deleteItem: function (item) {
       this.itemsRef.child(item.id).remove();
+      this.showToast('Item deleted from pantry.');
     },
     goHome: function () {
       this.$router.push('/');

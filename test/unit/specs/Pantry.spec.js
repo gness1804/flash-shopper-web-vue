@@ -74,4 +74,17 @@ describe('Pantry', () => {
     expect(component.data().itemsRef[0].quantity).to.equal(expectedResult[0].quantity);
     expect(component.data().itemsRef[0].inCart).to.equal(expectedResult[0].inCart);
   });
+
+  it('should show a toast when the user clicks the add item to pantry button', () => {
+    const component = mount(Pantry);
+    component.setData({ items });
+    component.setData({ itemsRef: [] });
+    component.setData({ name: 'Bagels' });
+    component.setData({ isUser: true });
+    const showToast = sinon.stub();
+    component.setMethods({ showToast });
+    const button = component.find('.add-item-to-pantry-button')[0];
+    button.trigger('click');
+    expect(showToast.calledOnce).to.equal(true);
+  });
 });
