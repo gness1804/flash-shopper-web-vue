@@ -7,6 +7,14 @@ import item from '../helpers/FakeItem';
 describe('Pantry', () => {
   const name = 'Bagels';
 
+  it('should render the correct data', () => {
+    const component = mount(Pantry);
+    component.setData({ items });
+    component.setData({ itemsRef: [] });
+    const header = component.find('h2')[0];
+    expect(header.text()).to.equal('Pantry');
+  });
+
   it('should trigger the go home method if user clicks on the go home button', () => {
     const component = mount(Pantry);
     component.setData({ items });
