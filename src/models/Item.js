@@ -1,6 +1,6 @@
 // @flow
 class Item {
-  id: number | null;
+  id: string | null;
   name: string;
   aisle: string;
   note: string;

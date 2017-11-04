@@ -2,17 +2,17 @@
 import Item from './Item';
 
 class Recipe {
-  id: number | null;
+  id: string | null;
   title: string;
   image: string;
-  ingredient: typeof Item = Item;
+  ingredients: Array<Item>;
   directions: Array<string> | null;
 
-  constructor(title: string, image: string, ingredient: Object, directions: Array<string>) {
+  constructor(title: string, image: string, ingredients: Array<Item>, directions: Array<string>) {
     this.id = null;
     this.title = title;
     this.image = image;
-    this.ingredient = ingredient;
+    this.ingredients = ingredients;
     this.directions = directions || null;
   }
 }
