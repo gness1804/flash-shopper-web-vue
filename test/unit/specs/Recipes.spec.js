@@ -16,4 +16,14 @@ describe('Recipes.vue', () => {
     button.trigger('click');
     expect(goHome.calledOnce).to.equal(true);
   });
+
+  it('uploading a photo should trigger to getImage method', () => {
+    const component = mount(Recipes);
+    const getImage = sinon.stub();
+    component.setMethods({ getImage });
+    component.setData({ isUser: true });
+    const button = component.find('.recipe-image-input')[0];
+    button.trigger('change');
+    expect(getImage.calledOnce).to.equal(true);
+  });
 });
