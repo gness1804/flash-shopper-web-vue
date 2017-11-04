@@ -13,6 +13,10 @@
     >
       <div class="add-recipe-container">
         <h3>Add Recipe</h3>
+        <img
+          class="recipe-image-main"
+          v-bind:src="image"
+        />
         <input
           type="text"
           placeholder="Title"
@@ -55,12 +59,15 @@ export default {
       image: '../assets/spoon-knife.png',
       error: false,
       errorMssg: '',
+      reader: new FileReader(),
     };
   },
   methods: {
     getImage: function (e) {
-      const image = e.target.files[0];
-      this.image = image;
+      this.reader.readAsDataURL(e.target.files[0]);
+      setTimeout(() => {
+        this.image = this.reader.result;
+      }, 3000);
     },
     goHome: function () {
       this.$router.push('/');
