@@ -1,23 +1,39 @@
 <template>
   <div id="recipes">
     <h2>Recipes</h2>
-    <div
-      v-if="isUser"
-      class="recipes-main"
-    >
-  <!-- all stuff goes here -->
-    </div>
-    <p
-      v-else
-    >
-    Oops, you are not logged in. Please click the Go Home button to log in.
-    </p>
     <button
       class="button go-home-button"
       v-on:click="goHome"
     >
       Go Home
     </button>
+    <div
+      v-if="isUser"
+      class="recipes-main"
+    >
+      <div class="add-recipe-container">
+        <h3>Add Recipe</h3>
+        <input
+          type="text"
+          placeholder="Title"
+          @input="makeErrorFalse"
+          v-model="title"
+          class="text-input-field"
+        />
+        <input
+          type="file"
+          @input="makeErrorFalse"
+          class="file-input-field recipe-image-input"
+          accept="image/*"
+          v-on:change="getImage"
+        />
+      </div>
+    </div>
+    <p
+      v-else
+    >
+    Oops, you are not logged in. Please click the Go Home button to log in.
+    </p>
   </div>
 </template>
 
@@ -35,9 +51,17 @@ export default {
       userEmail: '',
       userId: null,
       recipes: [],
+      title: '',
+      image: '../assets/spoon-knife.png',
+      error: false,
+      errorMssg: '',
     };
   },
   methods: {
+    getImage: function (e) {
+      const image = e.target.files[0];
+      this.image = image;
+    },
     goHome: function () {
       this.$router.push('/');
     },
@@ -69,6 +93,10 @@ export default {
         });
         this.sortItems(newArr);
       });
+    },
+    makeErrorFalse: function () {
+      this.error = false;
+      this.errorMssg = '';
     },
     sortItems: function (_items) {
       this.recipes = _items.sort((a, b) => {
