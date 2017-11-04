@@ -1,5 +1,13 @@
+// @flow
 class Item {
-  constructor(name, aisle, note, quantity, inCart) {
+  id: number | null;
+  name: string;
+  aisle: string;
+  note: string;
+  quantity: string;
+  inCart: boolean;
+
+  constructor(name: string, aisle: string, note: string, quantity: string, inCart: boolean) {
     this.id = null;
     this.name = name;
     this.aisle = aisle;
