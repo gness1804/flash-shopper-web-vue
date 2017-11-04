@@ -6,6 +6,12 @@
     >
       Go to Pantry
     </button>
+    <button
+      class="button go-to-recipes-button"
+      v-on:click="goToRecipes"
+    >
+      Go to Recipes
+    </button>
     <div class="upper-icons-container">
       <div class="upper-icon-block">
       <img
@@ -173,6 +179,9 @@ export default {
     },
     goToPantry: function () {
       this.$router.push('/pantry');
+    },
+    goToRecipes: function () {
+      this.$router.push('/recipes');
     },
     makeErrorFalse: function () {
       this.error = false;
