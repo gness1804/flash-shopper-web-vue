@@ -71,12 +71,14 @@
       <button
         class="button warn-button bottom-button delete-all-items-button"
         v-on:click="deleteAllItems"
+        v-bind:disabled="items.length === 0"
       >
       Delete ALL Items
       </button>
       <button
         class="button warn-button bottom-button delete-all-items-in-cart-button"
         v-on:click="deleteAllInCart"
+        v-bind:disabled="!thereAreItemsInCart(items)"
       >
       Delete ALL In Cart
       </button>
@@ -109,6 +111,7 @@
 import NoItems from './NoItems';
 import EachItemContainer from './EachItemContainer';
 import Item from '../models/Item';
+import thereAreItemsInCart from '../helpers/thereAreItemsInCart';
 
 export default {
   name: 'AuthedMain',
@@ -130,6 +133,7 @@ export default {
       quantity: '',
       error: false,
       errorMssg: '',
+      thereAreItemsInCart,
     };
   },
   methods: {

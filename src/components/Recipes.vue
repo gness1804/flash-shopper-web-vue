@@ -1,6 +1,6 @@
 <template>
   <div id="recipes">
-    <p>I am the Recipes compononent.</p>
+    <h2>Recipes</h2>
   </div>
 </template>
 
