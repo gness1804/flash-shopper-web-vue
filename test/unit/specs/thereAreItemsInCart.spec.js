@@ -1,9 +1,8 @@
 import { assert } from 'chai';
 import thereAreItemsInCart from '../../../src/helpers/thereAreItemsInCart';
-import items from '../helpers/FakeItemsArray';
+import inCartItems from '../helpers/FakeItemsArray';
 
 describe('thereAreItemsInCart', () => {
-  const inCartItems = items;
   const noInCartItems = [
     {
       id: '1.5',
