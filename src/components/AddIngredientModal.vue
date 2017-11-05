@@ -3,7 +3,7 @@
     <p
       v-on:click="closeModal"
     >X</p>
-    <p>I am the Add Ingredient Modal.</p>
+   <h2>Add Ingredient</h2>
   </div>
 </template>
 
