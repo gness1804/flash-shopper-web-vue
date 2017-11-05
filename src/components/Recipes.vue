@@ -17,6 +17,7 @@
           class="recipe-image-main"
           alt="recipe image"
           v-bind:src="image"
+          v-bind:title="(title && image !== require('../assets/spoon-knife.png')) ? title : 'Recipe Image'"
         />
         <input
           type="text"
@@ -42,6 +43,24 @@
         >
         Remove Image
       </button>
+      <button
+        class="button add-ingredient-button"
+        v-on:click="addIngredient"
+      >
+        Add Ingredient
+      </button>
+      </div>
+      <div
+        class="ingredients-container"
+        v-if="ingredients.length > 0"
+      >
+        <h4>Ingredients:</h4>
+        <ingredient
+          v-for="ingredient of ingredients"
+          v-bind:ingredient="ingredient"
+          v-bind:key="ingredient.id"
+        >
+        </ingredient>
       </div>
     </div>
     <p
@@ -61,12 +80,14 @@
 import * as firebase from 'firebase';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import Toast from './Toast';
+import Ingredient from './Ingredient';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 
 export default {
   name: 'Recipes',
   components: {
     Toast,
+    Ingredient,
   },
   data() {
     return {
@@ -77,6 +98,8 @@ export default {
       recipes: [],
       title: '',
       image: require('../assets/spoon-knife.png'),
+      ingredients: [],
+      directions: [],
       error: false,
       errorMssg: '',
       reader: new FileReader(),
@@ -85,6 +108,9 @@ export default {
     };
   },
   methods: {
+    addIngredient: function () {
+
+    },
     getImage: function (e) {
       this.reader.readAsDataURL(e.target.files[0]);
       setTimeout(() => {
@@ -174,6 +200,11 @@ export default {
     display: block;
     margin: 60px auto;
     width: 20vw;
+  }
+
+  .add-ingredient-button {
+    display: block;
+    margin: 20px auto;
   }
 </style>
 
