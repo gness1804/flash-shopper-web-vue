@@ -15,6 +15,7 @@
         <h3>Add Recipe</h3>
         <img
           class="recipe-image-main"
+          alt="recipe image"
           v-bind:src="image"
         />
         <input
@@ -35,6 +36,12 @@
           accept="image/*"
           v-on:change="getImage"
         />
+        <button
+          class="button warn-button remove-image-button"
+          v-on:click="removeImage"
+        >
+        Remove Image
+      </button>
       </div>
     </div>
     <p
@@ -42,16 +49,25 @@
     >
     Oops, you are not logged in. Please click the Go Home button to log in.
     </p>
+    <toast
+    v-if="viewToast"
+    v-bind:message="toastMessage"
+  >
+  </toast>
   </div>
 </template>
 
 <script>
 import * as firebase from 'firebase';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
+import Toast from './Toast';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 
 export default {
   name: 'Recipes',
+  components: {
+    Toast,
+  },
   data() {
     return {
       isUser: false,
@@ -64,13 +80,20 @@ export default {
       error: false,
       errorMssg: '',
       reader: new FileReader(),
+      viewToast: false,
+      toastMessage: '',
     };
   },
   methods: {
     getImage: function (e) {
       this.reader.readAsDataURL(e.target.files[0]);
       setTimeout(() => {
-        this.image = this.reader.result;
+        try {
+          this.image = this.reader.result;
+          this.showToast('Image successfully uploaded.');
+        } catch (error) {
+          alert(error);
+        }
       }, 3000);
     },
     goHome: function () {
@@ -108,6 +131,21 @@ export default {
     makeErrorFalse: function () {
       this.error = false;
       this.errorMssg = '';
+    },
+    removeImage: function () {
+      const warning = confirm('Remove image: are you sure?');
+      if (warning) {
+        this.image = require('../assets/spoon-knife.png');
+        this.showToast('Image removed.');
+      }
+    },
+    showToast: function (message) {
+      this.toastMessage = message;
+      this.viewToast = true;
+      setTimeout(() => {
+        this.viewToast = false;
+        this.toastMessage = '';
+      }, 3000);
     },
     sortItems: function (_items) {
       this.recipes = _items.sort((a, b) => {
