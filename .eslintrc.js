@@ -29,6 +29,7 @@ module.exports = {
     'object-shorthand': 'off',
     'no-alert': 'off',
     'arrow-body-style': 'off',
+    'global-require': 'off',
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       'js': 'never',

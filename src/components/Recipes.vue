@@ -56,7 +56,7 @@ export default {
       userId: null,
       recipes: [],
       title: '',
-      image: '../assets/spoon-knife.png',
+      image: require('../assets/spoon-knife.png'),
       error: false,
       errorMssg: '',
       reader: new FileReader(),
