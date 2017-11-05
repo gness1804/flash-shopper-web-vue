@@ -123,6 +123,7 @@ export default {
     border-radius: 5px;
     box-sizing: border-box;
     margin: 20px auto;
+    overflow: hidden;
     padding: 10px;
     width: 40vw;
   }
