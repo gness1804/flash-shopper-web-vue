@@ -121,7 +121,6 @@ export default {
     background-color: #fff;
     border: 1px solid #000;
     border-radius: 5px;
-    box-sizing: border-box;
     margin: 20px auto;
     overflow: hidden;
     padding: 10px;

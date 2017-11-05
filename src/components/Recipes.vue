@@ -1,5 +1,7 @@
 <template>
-  <div id="recipes">
+  <div
+    id="recipes"
+  >
     <h2>Recipes</h2>
     <button
       class="button go-home-button"
@@ -63,6 +65,7 @@
         </ingredient>
       </div>
     </div>
+    <!-- end of logged in section -->
     <p
       v-else
     >
@@ -73,6 +76,11 @@
     v-bind:message="toastMessage"
   >
   </toast>
+  <add-ingredient-modal
+    v-if="showModal"
+    v-on:closeModal="closeModal"
+  >
+  </add-ingredient-modal>
   </div>
 </template>
 
@@ -81,6 +89,7 @@ import * as firebase from 'firebase';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import Toast from './Toast';
 import Ingredient from './Ingredient';
+import AddIngredientModal from './AddIngredientModal';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 
 export default {
@@ -88,6 +97,7 @@ export default {
   components: {
     Toast,
     Ingredient,
+    AddIngredientModal,
   },
   data() {
     return {
@@ -105,11 +115,15 @@ export default {
       reader: new FileReader(),
       viewToast: false,
       toastMessage: '',
+      showModal: false,
     };
   },
   methods: {
     addIngredient: function () {
-
+      this.showModal = true;
+    },
+    closeModal: function () {
+      this.showModal = false;
     },
     getImage: function (e) {
       this.reader.readAsDataURL(e.target.files[0]);
