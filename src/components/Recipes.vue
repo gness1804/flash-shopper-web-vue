@@ -24,6 +24,10 @@
           v-model="title"
           class="text-input-field"
         />
+        <p
+        >
+          Add/Replace Image
+        </p>
         <input
           type="file"
           @input="makeErrorFalse"
@@ -126,7 +130,13 @@ export default {
 </script>
 
 <style scoped>
-
+  .recipe-image-main {
+    background-color: #fff;
+    border-radius: 50%;
+    display: block;
+    margin: 60px auto;
+    width: 20vw;
+  }
 </style>
 
 
