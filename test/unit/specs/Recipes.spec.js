@@ -12,6 +12,7 @@ describe('Recipes.vue', () => {
     const component = mount(Recipes);
     const goHome = sinon.stub();
     component.setMethods({ goHome });
+    component.setData({ isUser: true });
     const button = component.find('.go-home-button')[0];
     button.trigger('click');
     expect(goHome.calledOnce).to.equal(true);
@@ -25,5 +26,15 @@ describe('Recipes.vue', () => {
     const button = component.find('.recipe-image-input')[0];
     button.trigger('change');
     expect(getImage.calledOnce).to.equal(true);
+  });
+
+  it('clicking the remove image button should trigger the removeImage method', () => {
+    const component = mount(Recipes);
+    const removeImage = sinon.stub();
+    component.setMethods({ removeImage });
+    component.setData({ isUser: true });
+    const button = component.find('.remove-image-button')[0];
+    button.trigger('click');
+    expect(removeImage.calledOnce).to.equal(true);
   });
 });
