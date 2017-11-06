@@ -38,13 +38,13 @@ describe('Recipes.vue', () => {
     expect(removeImage.calledOnce).to.equal(true);
   });
 
-  it('clicking the add ingredient button should trigger the addIngredient method', () => {
+  it('clicking the add ingredient button should trigger the openModal method', () => {
     const component = mount(Recipes);
-    const addIngredient = sinon.stub();
-    component.setMethods({ addIngredient });
+    const openModal = sinon.stub();
+    component.setMethods({ openModal });
     component.setData({ isUser: true });
     const button = component.find('.add-ingredient-button')[0];
     button.trigger('click');
-    expect(addIngredient.calledOnce).to.equal(true);
+    expect(openModal.calledOnce).to.equal(true);
   });
 });

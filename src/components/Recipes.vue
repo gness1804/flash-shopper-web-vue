@@ -47,7 +47,7 @@
       </button>
       <button
         class="button add-ingredient-button"
-        v-on:click="addIngredient"
+        v-on:click="openModal"
       >
         Add Ingredient
       </button>
@@ -119,9 +119,6 @@ export default {
     };
   },
   methods: {
-    addIngredient: function () {
-      this.showModal = true;
-    },
     closeModal: function () {
       this.showModal = false;
     },
@@ -171,6 +168,9 @@ export default {
     makeErrorFalse: function () {
       this.error = false;
       this.errorMssg = '';
+    },
+    openModal: function () {
+      this.showModal = true;
     },
     removeImage: function () {
       const warning = confirm('Remove image: are you sure?');
