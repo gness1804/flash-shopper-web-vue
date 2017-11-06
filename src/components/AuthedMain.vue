@@ -218,10 +218,6 @@ export default {
     justify-content: center;
   }
 
-  .error-container {
-    color: red;
-  }
-
   .bottom-button {
     margin-right: 20px;
   }

@@ -4,6 +4,12 @@
       v-on:click="closeModal"
     >X</p>
    <h2>Add Ingredient</h2>
+   <p
+      class="error-container"
+      v-if="error"
+    >
+    {{errorMssg}}
+    </p>
    <div class="item-input-container">
     <input
         type="text"
@@ -44,6 +50,8 @@
 </template>
 
 <script>
+import Item from '../models/Item';
+
 export default {
   name: 'AddIngredientModal',
   data() {
@@ -58,7 +66,14 @@ export default {
   },
   methods: {
     addIngredient: function () {
-
+      const { name, aisle, note, quantity } = this;
+      if (!name) {
+        this.triggerErrorState('Oops! Your item needs at least a name to be valid. Please try again.');
+        return;
+      }
+      this.resetInputFields();
+      const ingredient = new Item(name, aisle, note, quantity);
+      this.$emit('addIngredient', ingredient);
     },
     closeModal: function () {
       this.$emit('closeModal');
@@ -66,6 +81,16 @@ export default {
     makeErrorFalse: function () {
       this.error = false;
       this.errorMssg = '';
+    },
+    resetInputFields: function () {
+      this.name = '';
+      this.aisle = '';
+      this.note = '';
+      this.quantity = '';
+    },
+    triggerErrorState: function (message) {
+      this.error = true;
+      this.errorMssg = message;
     },
   },
 };

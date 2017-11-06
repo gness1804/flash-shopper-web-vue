@@ -79,6 +79,7 @@
   <add-ingredient-modal
     v-if="showModal"
     v-on:closeModal="closeModal"
+    v-on:addIngredient="addIngredient"
   >
   </add-ingredient-modal>
   </div>
@@ -119,6 +120,10 @@ export default {
     };
   },
   methods: {
+    addIngredient: function (ingredient) {
+      this.ingredients.push(ingredient);
+      this.closeModal();
+    },
     closeModal: function () {
       this.showModal = false;
     },
