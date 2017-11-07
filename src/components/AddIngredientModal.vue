@@ -67,8 +67,8 @@ export default {
   methods: {
     addIngredient: function () {
       const { name, aisle, note, quantity } = this;
-      if (!name) {
-        this.triggerErrorState('Oops! Your item needs at least a name to be valid. Please try again.');
+      if (!name || !quantity) {
+        this.triggerErrorState('Oops! Your ingredient needs at least a name and a quantity to be valid. Please try again.');
         return;
       }
       this.resetInputFields();
