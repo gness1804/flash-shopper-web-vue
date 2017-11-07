@@ -61,6 +61,7 @@
           v-for="ingredient of ingredients"
           v-bind:ingredient="ingredient"
           v-bind:key="ingredient.id"
+          v-on:removeIngredient="removeIngredient"
         >
         </ingredient>
       </div>
@@ -184,6 +185,12 @@ export default {
         this.image = require('../assets/spoon-knife.png');
         this.showToast('Image removed.');
       }
+    },
+    removeIngredient: function (ingredient) {
+      this.ingredients = this.ingredients.filter((i) => {
+        return i.id !== ingredient.id;
+      });
+      this.showToast('Ingredient removed.');
     },
     showToast: function (message) {
       this.toastMessage = message;

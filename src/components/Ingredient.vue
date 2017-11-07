@@ -7,6 +7,12 @@
       <p
         class="ingredient-name"
       >{{ingredient.name}}</p>
+    <img
+      class="delete-ingredient-icon"
+      src="../assets/cancel-circle.png"
+      v-on:click="removeIngredient"
+      title="Delete Ingredient"
+    />
     </div>
   </div>
 </template>
@@ -18,6 +24,14 @@ export default {
     ingredient: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    removeIngredient: function () {
+      const warning = confirm(`Delete ${this.ingredient.name}: are you sure?`);
+      if (warning) {
+        this.$emit('removeIngredient', this.ingredient);
+      }
     },
   },
 };
