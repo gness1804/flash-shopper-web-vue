@@ -123,6 +123,7 @@ export default {
     addIngredient: function (ingredient) {
       this.ingredients.push(ingredient);
       this.closeModal();
+      this.showToast('Ingredient added.');
     },
     closeModal: function () {
       this.showModal = false;

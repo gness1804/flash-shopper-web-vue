@@ -1,6 +1,13 @@
 <template>
   <div class="ingredient">
-    <h4>{{ingredient.name}}</h4>
+    <div class="container">
+      <p
+        class="ingredient-quantity"
+      >{{ingredient.quantity}}</p>
+      <p
+        class="ingredient-name"
+      >{{ingredient.name}}</p>
+    </div>
   </div>
 </template>
 
@@ -17,7 +24,19 @@ export default {
 </script>
 
 <style scoped>
+  .container {
+    align-items: center;
+    border: 1px solid #000;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 10px auto;
+    width: 40vw;
+  }
 
+  .ingredient-quantity {
+    margin-right: 10px;
+  }
 </style>
 
 

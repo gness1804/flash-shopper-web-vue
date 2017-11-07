@@ -9,7 +9,9 @@ describe('Ingredient.vue', () => {
 
   it('renders correctly', () => {
     const component = mount(Ingredient, { propsData });
-    const header = component.find('h4')[0];
-    expect(header.text()).to.equal('Foo bread');
+    const name = component.find('.ingredient-name')[0];
+    const quantity = component.find('.ingredient-quantity')[0];
+    expect(name.text()).to.equal('Foo bread');
+    expect(quantity.text()).to.equal('2 loaves');
   });
 });
