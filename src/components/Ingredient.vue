@@ -1,12 +1,18 @@
 <template>
   <div class="ingredient">
-    <p>I am the ingredient component.</p>
+    <h4>{{ingredient.name}}</h4>
   </div>
 </template>
 
 <script>
 export default {
   name: 'ingredient',
+  props: {
+    ingredient: {
+      type: Object,
+      required: true,
+    },
+  },
 };
 </script>
 
