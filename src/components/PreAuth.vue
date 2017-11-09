@@ -47,11 +47,18 @@
 </template>
 
 <script>
+// @flow
+
 import * as firebase from 'firebase';
 
 export default {
   name: 'PreAuth',
-  data() {
+  data(): {
+    email?: string,
+    password?: string,
+    errorMssg?: string,
+    error: boolean,
+  } {
     return {
       email: '',
       password: '',
@@ -60,7 +67,7 @@ export default {
     };
   },
   methods: {
-    logIn: function () {
+    logIn: function (): void {
       const { email, password } = this;
       if (!email || !password) {
         this.triggerErrorState('Oops! You need both an email address and a password to log in. Please try again.');
@@ -75,15 +82,15 @@ export default {
         .then(() => { this.resetEmailAndPWStates(); })
         .catch(() => { this.showAuthError(); });
     },
-    makeErrorFalse: function () {
+    makeErrorFalse: function (): void {
       this.error = false;
       this.errorMssg = '';
     },
-    resetEmailAndPWStates: function () {
+    resetEmailAndPWStates: function (): void {
       this.email = '';
       this.password = '';
     },
-    resetPassword: function () {
+    resetPassword: function (): void {
       const recEmail = prompt('Please enter your email address below and click OK. Instructions for password reset will be emailed to you.');
       if (recEmail) {
         firebase.auth().sendPasswordResetEmail(recEmail)
@@ -91,16 +98,16 @@ export default {
           .catch(() => { this.showRecoveryError(); });
       }
     },
-    showAuthError: function () {
+    showAuthError: function (): void {
       this.triggerErrorState('There was an error with authentication. Please check your credentials and try again.');
     },
-    showRecoveryEmailAlert: function () {
+    showRecoveryEmailAlert: function (): void {
       alert('If there is an account associated with the email you provided, an email has been sent to it with instructions on resetting your password.');
     },
-    showRecoveryError: function () {
+    showRecoveryError: function (): void {
       this.triggerErrorState('There was a problem sending the password recovery email. Please ensure that you created an account under this password and that your email is in a valid format (foo@foobar.com).');
     },
-    signUp: function () {
+    signUp: function (): void {
       const { email, password } = this;
       if (!email || !password) {
         this.triggerErrorState('Oops! You need both an email address and a password to sign up. Please try again.');
@@ -115,7 +122,7 @@ export default {
         .then(() => { this.resetEmailAndPWStates(); })
         .catch(() => { this.showAuthError(); });
     },
-    triggerErrorState: function (message) {
+    triggerErrorState: function (message: string): void {
       this.error = true;
       this.errorMssg = message;
     },

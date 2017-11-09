@@ -87,12 +87,16 @@
 </template>
 
 <script>
+// @flow
+
 import * as firebase from 'firebase';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import Toast from './Toast';
 import Ingredient from './Ingredient';
 import AddIngredientModal from './AddIngredientModal';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
+import Recipe from '../models/Recipe';
+import Item from '../models/Item';
 
 export default {
   name: 'Recipes',
@@ -101,7 +105,23 @@ export default {
     Ingredient,
     AddIngredientModal,
   },
-  data() {
+  data(): {
+      isUser: boolean,
+      itemsRef: Object,
+      userEmail?: string,
+      userId: string | null,
+      recipes: Array<Recipe>,
+      title?: string,
+      image: string,
+      ingredients: Array<Item>,
+      directions?: Array<string>,
+      error: boolean,
+      errorMssg?: string,
+      reader: Object,
+      viewToast: boolean,
+      toastMessage?: string,
+      showModal: boolean,
+  } {
     return {
       isUser: false,
       itemsRef: {},
@@ -121,15 +141,15 @@ export default {
     };
   },
   methods: {
-    addIngredient: function (ingredient) {
+    addIngredient: function (ingredient: Item): void {
       this.ingredients.push(ingredient);
       this.closeModal();
       this.showToast('Ingredient added.');
     },
-    closeModal: function () {
+    closeModal: function (): void {
       this.showModal = false;
     },
-    getImage: function (e) {
+    getImage: function (e: Object): void {
       this.reader.readAsDataURL(e.target.files[0]);
       setTimeout(() => {
         try {
@@ -140,11 +160,11 @@ export default {
         }
       }, 3000);
     },
-    goHome: function () {
+    goHome: function (): void {
       this.$router.push('/');
     },
-    initializeApp: function () {
-      firebase.auth().onAuthStateChanged((user) => {
+    initializeApp: function (): void {
+      firebase.auth().onAuthStateChanged((user: Object) => {
         if (user) {
           this.isUser = true;
           const email = cleanUpUserEmail(user.email);
@@ -157,10 +177,10 @@ export default {
         }
       });
     },
-    listenForItems: function (itemsRef) {
-      itemsRef.on('value', (snapshot) => {
+    listenForItems: function (itemsRef: Object): void {
+      itemsRef.on('value', (snapshot: Array<Object>) => {
         const newArr = [];
-        snapshot.forEach((recipe) => {
+        snapshot.forEach((recipe: Object) => {
           newArr.push({
             title: recipe.val().title,
             image: recipe.val().image,
@@ -172,27 +192,27 @@ export default {
         this.sortItems(newArr);
       });
     },
-    makeErrorFalse: function () {
+    makeErrorFalse: function (): void {
       this.error = false;
       this.errorMssg = '';
     },
-    openModal: function () {
+    openModal: function (): void {
       this.showModal = true;
     },
-    removeImage: function () {
+    removeImage: function (): void {
       const warning = confirm('Remove image: are you sure?');
       if (warning) {
         this.image = require('../assets/spoon-knife.png');
         this.showToast('Image removed.');
       }
     },
-    removeIngredient: function (ingredient) {
-      this.ingredients = this.ingredients.filter((i) => {
+    removeIngredient: function (ingredient: Item): void {
+      this.ingredients = this.ingredients.filter((i: Item) => {
         return i.id !== ingredient.id;
       });
       this.showToast('Ingredient removed.');
     },
-    showToast: function (message) {
+    showToast: function (message: string): void {
       this.toastMessage = message;
       this.viewToast = true;
       setTimeout(() => {
@@ -200,7 +220,7 @@ export default {
         this.toastMessage = '';
       }, 3000);
     },
-    sortItems: function (_items) {
+    sortItems: function (_items: Array<Item>): void {
       this.recipes = _items.sort((a, b) => {
         const first = a.name.toLowerCase();
         const second = b.name.toLowerCase();
@@ -214,7 +234,7 @@ export default {
       });
     },
   },
-  mounted: function () {
+  mounted: function (): void {
     this.initializeApp();
   },
 };

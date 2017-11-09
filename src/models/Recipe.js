@@ -8,7 +8,7 @@ class Recipe {
   ingredients: Array<Item>;
   directions: Array<string> | null;
 
-  constructor(title: string, image: string, ingredients: Array<Item>, directions: Array<string>) {
+  constructor(title: string, image: string, ingredients: Array<Item>, directions?: Array<string>) {
     this.id = null;
     this.title = title;
     this.image = image;
