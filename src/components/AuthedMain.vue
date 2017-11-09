@@ -114,6 +114,8 @@
 </template>
 
 <script>
+// @flow
+
 import NoItems from './NoItems';
 import EachItemContainer from './EachItemContainer';
 import Item from '../models/Item';
@@ -131,7 +133,15 @@ export default {
       required: true,
     },
   },
-  data() {
+  data(): {
+    name?: string,
+    aisle?: string,
+    note?: string,
+    quantity?: string,
+    error: boolean,
+    errorMssg?: string,
+    thereAreItemsInCart: Function,
+  } {
     return {
       name: '',
       aisle: '',

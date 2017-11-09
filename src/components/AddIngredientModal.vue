@@ -51,10 +51,18 @@
 
 <script>
 import Item from '../models/Item';
+  // @flow
 
 export default {
   name: 'AddIngredientModal',
-  data() {
+  data(): {
+    name?: string,
+    aisle?: string,
+    note?: string,
+    quantity?: string,
+    error: boolean,
+    errorMssg?: string,
+    } {
     return {
       name: '',
       aisle: '',

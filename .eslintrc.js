@@ -31,7 +31,6 @@ module.exports = {
     'no-alert': 'off',
     'arrow-body-style': 'off',
     'global-require': 'off',
-    'flowtype-errors/show-errors': 2,
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       'js': 'never',
