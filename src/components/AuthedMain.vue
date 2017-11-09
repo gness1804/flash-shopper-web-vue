@@ -143,7 +143,7 @@ export default {
     };
   },
   methods: {
-    addItem: function () {
+    addItem: function (): void {
       const { name, aisle, note, quantity } = this;
       if (!name) {
         this.triggerErrorState('Oops! Your item needs at least a name to be valid. Please try again.');
@@ -153,57 +153,57 @@ export default {
       const it = new Item(name, aisle, note, quantity);
       this.$emit('addItem', it);
     },
-    addToAPN: function (_item) {
+    addToAPN: function (_item: Item): void {
       this.$emit('addToAPN', _item);
     },
-    addToInstacart: function (_item) {
+    addToInstacart: function (_item: Item): void {
       this.$emit('addToInstacart', _item);
     },
-    countItemsInCart: function () {
-      const newArr = this.items.filter((item) => {
+    countItemsInCart: function (): number {
+      const newArr = this.items.filter((item: Item) => {
         return item.inCart;
       });
       return newArr.length;
     },
-    deleteAllInCart: function () {
+    deleteAllInCart: function (): void {
       const warning = confirm('Are you sure you want to delete ALL items in your cart? This cannot be undone!');
       if (warning) {
         this.$emit('deleteAllInCart');
       }
     },
-    deleteAllItems: function () {
+    deleteAllItems: function (): void {
       const warning = confirm('Are you sure you want to delete ALL items? This cannot be undone!');
       if (warning) {
         this.$emit('deleteAllItems');
       }
     },
-    goToPantry: function () {
+    goToPantry: function (): void {
       this.$router.push('/pantry');
     },
-    goToRecipes: function () {
+    goToRecipes: function (): void {
       this.$router.push('/recipes');
     },
-    makeErrorFalse: function () {
+    makeErrorFalse: function (): void {
       this.error = false;
       this.errorMssg = '';
     },
-    removeItem: function (_item) {
+    removeItem: function (_item: Item): void {
       this.$emit('removeItem', _item);
     },
-    resetInputFields: function () {
+    resetInputFields: function (): void {
       this.name = '';
       this.aisle = '';
       this.note = '';
       this.quantity = '';
     },
-    toggleInCart: function (_item) {
+    toggleInCart: function (_item: Item): void {
       this.$emit('toggleInCart', _item);
     },
-    triggerErrorState: function (message) {
+    triggerErrorState: function (message: string): void {
       this.error = true;
       this.errorMssg = message;
     },
-    updateName: function (newName, item) {
+    updateName: function (newName: string, item: Item): void {
       this.$emit('updateName', newName, item);
     },
   },

@@ -65,7 +65,7 @@ export default {
     };
   },
   methods: {
-    addIngredient: function () {
+    addIngredient: function (): void {
       const { name, aisle, note, quantity } = this;
       if (!name || !quantity) {
         this.triggerErrorState('Oops! Your ingredient needs at least a name and a quantity to be valid. Please try again.');
@@ -75,20 +75,20 @@ export default {
       const ingredient = new Item(name, aisle, note, quantity);
       this.$emit('addIngredient', ingredient);
     },
-    closeModal: function () {
+    closeModal: function (): void {
       this.$emit('closeModal');
     },
-    makeErrorFalse: function () {
+    makeErrorFalse: function (): void {
       this.error = false;
       this.errorMssg = '';
     },
-    resetInputFields: function () {
+    resetInputFields: function (): void {
       this.name = '';
       this.aisle = '';
       this.note = '';
       this.quantity = '';
     },
-    triggerErrorState: function (message) {
+    triggerErrorState: function (message: string): void {
       this.error = true;
       this.errorMssg = message;
     },
