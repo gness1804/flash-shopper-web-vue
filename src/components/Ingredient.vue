@@ -18,8 +18,10 @@
 </template>
 
 <script>
+// @flow
+
 export default {
-  name: 'ingredient',
+  name: 'Ingredient',
   props: {
     ingredient: {
       type: Object,
@@ -27,7 +29,7 @@ export default {
     },
   },
   methods: {
-    removeIngredient: function () {
+    removeIngredient: function (): void {
       const warning = confirm(`Delete ${this.ingredient.name}: are you sure?`);
       if (warning) {
         this.$emit('removeIngredient', this.ingredient);
