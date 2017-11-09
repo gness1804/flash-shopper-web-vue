@@ -129,7 +129,7 @@ export default {
         }
       });
     },
-    listenForItems: function (itemsRef: Object) {
+    listenForItems: function (itemsRef: Object): void {
       itemsRef.on('value', (snapshot: Array<Object>) => {
         const newArr = [];
         snapshot.forEach((item: Object) => {

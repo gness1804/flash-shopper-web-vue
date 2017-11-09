@@ -8,7 +8,7 @@
         class="ingredient-name"
       >{{ingredient.name}}</p>
     <img
-      class="delete-ingredient-icon"
+      class="icon delete-ingredient-icon"
       src="../assets/cancel-circle.png"
       v-on:click="removeIngredient"
       title="Delete Ingredient"
@@ -47,10 +47,14 @@ export default {
     flex-direction: row;
     justify-content: center;
     margin: 10px auto;
-    width: 40vw;
+    width: 60vw;
   }
 
   .ingredient-quantity {
+    margin-right: 10px;
+  }
+
+  .ingredient-name {
     margin-right: 10px;
   }
 </style>

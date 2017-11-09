@@ -6,6 +6,7 @@ class Item {
   note: string;
   quantity: string;
   inCart: boolean;
+  ingredientId: number | null;
 
   constructor(name: string, aisle?: string, note?: string, quantity?: string, inCart?: boolean) {
     this.id = null;
@@ -14,6 +15,7 @@ class Item {
     this.note = note || '';
     this.quantity = quantity || '';
     this.inCart = inCart || false;
+    this.ingredientId = null;
   }
 }
 

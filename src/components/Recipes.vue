@@ -142,7 +142,8 @@ export default {
   },
   methods: {
     addIngredient: function (ingredient: Item): void {
-      this.ingredients.push(ingredient);
+      const modifiedIng = { ...ingredient, ingredientId: Date.now() };
+      this.ingredients.push(modifiedIng);
       this.closeModal();
       this.showToast('Ingredient added.');
     },
@@ -208,7 +209,7 @@ export default {
     },
     removeIngredient: function (ingredient: Item): void {
       this.ingredients = this.ingredients.filter((i: Item) => {
-        return i.id !== ingredient.id;
+        return i.ingredientId !== ingredient.ingredientId;
       });
       this.showToast('Ingredient removed.');
     },
