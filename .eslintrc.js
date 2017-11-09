@@ -9,10 +9,11 @@ module.exports = {
   env: {
     browser: true,
   },
-  extends: 'airbnb-base',
+  extends: ['vue', 'airbnb-base'],
   // required to lint *.vue files
   plugins: [
-    'html'
+    'html',
+    "flowtype-errors"
   ],
   // check if imports actually resolve
   'settings': {
@@ -29,6 +30,7 @@ module.exports = {
     'object-shorthand': 'off',
     'no-alert': 'off',
     'arrow-body-style': 'off',
+    'flowtype-errors/show-errors': 2,
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       'js': 'never',
