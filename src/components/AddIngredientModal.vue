@@ -2,7 +2,7 @@
   <div class="add-ingredient-modal">
     <p
       v-on:click="closeModal"
-      class="cancel-x"
+      class="close-modal-button"
       title="Close"
     >
       X
@@ -135,11 +135,11 @@ export default {
     z-index: 999;
   }
 
-  .cancel-x {
+  .close-modal-button {
     color: #f00;
   }
 
-  .cancel-x:hover {
+  .close-modal-button:hover {
     cursor: pointer;
   }
 </style>

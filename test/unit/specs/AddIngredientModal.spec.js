@@ -39,4 +39,25 @@ describe('AddIngredientModal', () => {
     button.trigger('click');
     expect(triggerErrorState.calledOnce).to.equal(false);
   });
+
+  it('clicking the close modal button should trigger the closeModal method', () => {
+    const component = mount(AddIngredientModal);
+    const closeModal = sinon.stub();
+    component.setMethods({ closeModal });
+    component.setData({ name });
+    component.setData({ quantity });
+    const button = component.find('.close-modal-button')[0];
+    button.trigger('click');
+    expect(closeModal.calledOnce).to.equal(true);
+  });
+
+  it('clicking the close modal button should prompt the user to confirm if there are unsaved changes', () => {
+    Object.assign(window, { confirm: sinon.spy() });
+    const component = mount(AddIngredientModal);
+    component.setData({ name });
+    component.setData({ quantity });
+    const button = component.find('.close-modal-button')[0];
+    button.trigger('click');
+    expect(window.confirm.calledOnce).to.equal(true);
+  });
 });
