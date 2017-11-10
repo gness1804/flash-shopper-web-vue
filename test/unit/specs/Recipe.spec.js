@@ -1,9 +1,9 @@
 import { assert } from 'chai';
 import Recipe from '../../../src/models/Recipe';
 import ingredients from '../helpers/FakeIngredientsArray';
+import directions from '../helpers/FakeDirections';
 
 describe('Recipe', () => {
-  const directions = ['Heat up the skillet', 'Cook the ground beef until brown', 'Add water and taco seasoning', 'Cook until not watery', 'Place meat in tortillas'];
   const beefTacos = new Recipe('Beef Tacos', 'my/.image', ingredients, directions);
 
   it('should be a constructor', () => {
