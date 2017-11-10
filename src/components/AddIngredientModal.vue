@@ -93,6 +93,8 @@ export default {
         const warning = confirm('You have unsaved changes! Are you sure you want to exit?');
         if (warning) {
           this.$emit('closeModal');
+          const message = 'Changes discarded.';
+          this.$emit('showToast', message);
         } else {
           return;
         }

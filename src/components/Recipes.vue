@@ -81,6 +81,7 @@
     v-if="showModal"
     v-on:closeModal="closeModal"
     v-on:addIngredient="addIngredient"
+    v-on:showToast="showToast"
   >
   </add-ingredient-modal>
   </div>
