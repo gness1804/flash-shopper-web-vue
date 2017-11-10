@@ -2,7 +2,11 @@
   <div class="add-ingredient-modal">
     <p
       v-on:click="closeModal"
-    >X</p>
+      class="cancel-x"
+      title="Close"
+    >
+      X
+    </p>
    <h2>Add Ingredient</h2>
    <p
       class="error-container"
@@ -129,6 +133,14 @@ export default {
     transition: opacity 0.3s ease;
     width: 80vw;
     z-index: 999;
+  }
+
+  .cancel-x {
+    color: #f00;
+  }
+
+  .cancel-x:hover {
+    cursor: pointer;
   }
 </style>
 
