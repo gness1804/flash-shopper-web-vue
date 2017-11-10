@@ -88,6 +88,12 @@
           v-bind:key="direction.id"
         >
           <p>{{direction.details}}</p>
+          <p
+            class="delete-direction-button"
+            v-on:click="deleteDirection(direction)"
+          >
+          X
+          </p>
         </li>
       </ol>
       </div>
@@ -180,6 +186,8 @@ export default {
       }
       const dir = new Direction(directionInput);
       this.directions.push(dir);
+      this.directionInput = '';
+      this.showToast('Direction added.');
     },
     addIngredient: function (ingredient: Item): void {
       const modifiedIng = { ...ingredient, ingredientId: Date.now() };
@@ -189,6 +197,11 @@ export default {
     },
     closeModal: function (): void {
       this.showModal = false;
+    },
+    deleteDirection: function (dir: Direction): void {
+      this.directions = this.directions.filter((d: Direction) => {
+        return d.id !== dir.id;
+      });
     },
     getImage: function (e: Object): void {
       this.reader.readAsDataURL(e.target.files[0]);
