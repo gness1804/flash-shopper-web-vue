@@ -51,7 +51,19 @@
       >
         Add Ingredient
       </button>
+      <button
+        class="button add-direction-button"
+        v-on:click="addDirection"
+      >
+        Add Direction
+      </button>
       </div>
+      <input
+        class="add-direction-input-field"
+        type="text"
+        placeholder="Enter Direction"
+        v-model="directionInput"
+      />
       <div
         class="ingredients-container"
         v-if="ingredients.length > 0"
@@ -64,6 +76,20 @@
           v-on:removeIngredient="removeIngredient"
         >
         </ingredient>
+      </div>
+      <div
+        class="directions-container"
+        v-if="directions.length > 0"
+      >
+      <h4>Directions:</h4>
+      <ol>
+        <li
+          v-for="direction of directions"
+          v-bind:key="direction.id"
+        >
+          <p>{{direction.details}}</p>
+        </li>
+      </ol>
       </div>
     </div>
     <!-- end of logged in section -->
@@ -98,6 +124,7 @@ import AddIngredientModal from './AddIngredientModal';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import Recipe from '../models/Recipe';
 import Item from '../models/Item';
+import Direction from '../models/Direction';
 
 export default {
   name: 'Recipes',
@@ -105,6 +132,7 @@ export default {
     Toast,
     Ingredient,
     AddIngredientModal,
+    Direction,
   },
   data(): {
       isUser: boolean,
@@ -115,7 +143,8 @@ export default {
       title?: string,
       image: string,
       ingredients: Array<Item>,
-      directions?: Array<string>,
+      directions?: Array<Direction>,
+      directionInput?: string,
       error: boolean,
       errorMssg?: string,
       reader: Object,
@@ -133,6 +162,7 @@ export default {
       image: require('../assets/spoon-knife.png'),
       ingredients: [],
       directions: [],
+      directionInput: '',
       error: false,
       errorMssg: '',
       reader: new FileReader(),
@@ -142,6 +172,15 @@ export default {
     };
   },
   methods: {
+    addDirection: function (): void {
+      const { directionInput } = this;
+      if (!directionInput) {
+        this.triggerErrorState('You must enter a direction into the form field in order to add a direction.');
+        return;
+      }
+      const dir = new Direction(directionInput);
+      this.directions.push(dir);
+    },
     addIngredient: function (ingredient: Item): void {
       const modifiedIng = { ...ingredient, ingredientId: Date.now() };
       this.ingredients.push(modifiedIng);
@@ -234,6 +273,10 @@ export default {
         }
         return 0;
       });
+    },
+    triggerErrorState: function (message: string): void {
+      this.error = true;
+      this.errorMssg = message;
     },
   },
   mounted: function (): void {
