@@ -84,6 +84,15 @@ export default {
       this.$emit('addIngredient', ingredient);
     },
     closeModal: function (): void {
+      const { name, aisle, note, quantity } = this;
+      if (name || aisle || note || quantity) {
+        const warning = confirm('You have unsaved changes! Are you sure you want to exit?');
+        if (warning) {
+          this.$emit('closeModal');
+        } else {
+          return;
+        }
+      }
       this.$emit('closeModal');
     },
     makeErrorFalse: function (): void {
