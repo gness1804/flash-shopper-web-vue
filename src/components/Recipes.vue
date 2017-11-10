@@ -82,18 +82,19 @@
         v-if="directions.length > 0"
       >
       <h4>Directions:</h4>
-      <ol>
+      <ol class="directions-list">
         <li
+          class="direction-li"
           v-for="direction of directions"
           v-bind:key="direction.id"
         >
-          <p>{{direction.details}}</p>
-          <p
-            class="delete-direction-button"
+          <div>{{direction.details}}</div>
+          <img
+            class="icon delete-direction-button"
+            src="../assets/cancel-circle.png"
             v-on:click="deleteDirection(direction)"
-          >
-          X
-          </p>
+            title="Delete Direction"
+          />
         </li>
       </ol>
       </div>
@@ -202,6 +203,7 @@ export default {
       this.directions = this.directions.filter((d: Direction) => {
         return d.id !== dir.id;
       });
+      this.showToast('Direction removed.');
     },
     getImage: function (e: Object): void {
       this.reader.readAsDataURL(e.target.files[0]);
@@ -307,9 +309,28 @@ export default {
     width: 20vw;
   }
 
+  .add-direction-input-field {
+    margin-top: 20px;
+  }
+
   .add-ingredient-button {
     display: block;
     margin: 20px auto;
+  }
+
+  .directions-list {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .delete-direction-button {
+    margin-top: 10px;
+  }
+
+  .direction-li {
+    margin-bottom: 20px;
   }
 </style>
 
