@@ -109,6 +109,13 @@
         v-if="recipes.length > 0"
       >
         <h3>Your Recipes:</h3>
+        <each-recipe
+          v-for="recipe of recipes"
+          v-bind:key="recipe.id"
+          v-bind:recipe="recipe"
+          v-on:removeRecipe="removeRecipe"
+        >
+        </each-recipe>
       </div>
       <div
         class="no-recipes-message"
@@ -145,6 +152,7 @@ import * as firebase from 'firebase';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import Toast from './Toast';
 import Ingredient from './Ingredient';
+import EachRecipe from './Recipe';
 import AddIngredientModal from './AddIngredientModal';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import Recipe from '../models/Recipe';
@@ -158,6 +166,7 @@ export default {
     Ingredient,
     AddIngredientModal,
     Direction,
+    EachRecipe,
   },
   data(): {
       isUser: boolean,
@@ -296,6 +305,10 @@ export default {
         return i.ingredientId !== ingredient.ingredientId;
       });
       this.showToast('Ingredient removed.');
+    },
+    removeRecipe: function (rec: Recipe): void {
+      this.itemsRef.child(rec.id).remove();
+      this.showToast(`${rec.title} deleted.`);
     },
     resetInputFields: function (): void {
       this.title = '';
