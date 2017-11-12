@@ -61,7 +61,7 @@ describe('Recipes.vue', () => {
     component.setData({ isUser: true });
     component.vm.addIngredient(newIngredient);
     expect(component.data().ingredients.length).to.equal(4);
-    expect(showToast.calledOnce).to.equal(true);
+    expect(showToast.calledWith('Ingredient added.'));
     expect(closeModal.calledOnce).to.equal(true);
     expect(component.data().ingredients[3].name).to.equal('Green pepper');
   });
@@ -86,7 +86,7 @@ describe('Recipes.vue', () => {
     const button = component.find('.add-direction-button')[0];
     button.trigger('click');
     expect(component.data().directions.length).to.equal(4);
-    expect(showToast.calledOnce).to.equal(true);
+    expect(showToast.calledWith('Direction added.'));
     expect(component.data().directions[3].details).to.equal('Cook until water is absorbed adequately');
   });
 
@@ -102,7 +102,7 @@ describe('Recipes.vue', () => {
     const button = component.find('.add-direction-button')[0];
     button.trigger('click');
     expect(component.data().directions.length).to.equal(3);
-    expect(showToast.calledOnce).to.equal(false);
+    expect(showToast.notCalled).to.equal(true);
     expect(triggerErrorState.calledOnce).to.equal(true);
   });
 
@@ -115,7 +115,7 @@ describe('Recipes.vue', () => {
     const button = component.find('.delete-direction-button')[0];
     button.trigger('click');
     expect(component.data().directions.length).to.equal(2);
-    expect(showToast.calledOnce).to.equal(true);
+    expect(showToast.calledWith('Direction removed.'));
   });
 
   it('clicking the close modal button should call the close modal method', () => {
