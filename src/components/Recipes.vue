@@ -98,6 +98,12 @@
         </li>
       </ol>
       </div>
+      <button
+        class="button add-recipe-button"
+        v-on:click="addRecipe"
+      >
+        Add Recipe
+      </button>
     </div>
     <!-- end of logged in section -->
     <p
@@ -196,6 +202,17 @@ export default {
       this.closeModal();
       this.showToast('Ingredient added.');
     },
+    addRecipe: function (): void {
+      const { title, image, ingredients, directions } = this;
+      if (!title || ingredients.length === 0) {
+        this.triggerErrorState('Oops, you must enter at least a title and one ingredient. Please try again.');
+        return;
+      }
+      this.resetInputFields();
+      const recipe = new Recipe(title, image, ingredients, directions);
+      this.itemsRef.push(recipe);
+      this.showToast(`${recipe.title} successfully added.`);
+    },
     closeModal: function (): void {
       this.showModal = false;
     },
@@ -268,6 +285,12 @@ export default {
       });
       this.showToast('Ingredient removed.');
     },
+    resetInputFields: function (): void {
+      this.title = '';
+      this.image = require('../assets/spoon-knife.png');
+      this.ingredients = [];
+      this.directions = [];
+    },
     showToast: function (message: string): void {
       this.toastMessage = message;
       this.viewToast = true;
@@ -313,7 +336,8 @@ export default {
     margin-top: 20px;
   }
 
-  .add-ingredient-button {
+  .add-ingredient-button,
+  .add-recipe-button {
     display: block;
     margin: 20px auto;
   }
