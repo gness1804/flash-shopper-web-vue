@@ -186,7 +186,7 @@ export default {
         return;
       }
       const dir = new Direction(directionInput);
-      this.directions.push(dir);
+      this.directions = this.directions.concat(dir);
       this.directionInput = '';
       this.showToast('Direction added.');
     },

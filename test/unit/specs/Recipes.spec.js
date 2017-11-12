@@ -59,6 +59,36 @@ describe('Recipes.vue', () => {
     expect(addDirection.calledOnce).to.equal(true);
   });
 
+  it('clicking the add direction button should add a direction', () => {
+    const component = mount(Recipes);
+    const showToast = sinon.stub();
+    component.setMethods({ showToast });
+    component.setData({ directions });
+    component.setData({ isUser: true });
+    component.setData({ directionInput: 'Cook until water is absorbed adequately' });
+    const button = component.find('.add-direction-button')[0];
+    button.trigger('click');
+    expect(component.data().directions.length).to.equal(4);
+    expect(showToast.calledOnce).to.equal(true);
+    expect(component.data().directions[3].details).to.equal('Cook until water is absorbed adequately');
+  });
+
+  it('clicking the add direction button without a valid directionInput should trigger an error', () => {
+    const component = mount(Recipes);
+    component.setData({ directions: [] });
+    const showToast = sinon.stub();
+    const triggerErrorState = sinon.stub();
+    component.setMethods({ showToast });
+    component.setMethods({ triggerErrorState });
+    component.setData({ isUser: true });
+    component.setData({ directions });
+    const button = component.find('.add-direction-button')[0];
+    button.trigger('click');
+    expect(component.data().directions.length).to.equal(3);
+    expect(showToast.calledOnce).to.equal(false);
+    expect(triggerErrorState.calledOnce).to.equal(true);
+  });
+
   it('clicking on the remove ingredient button should decrement the number of ingredients by one', () => {
     const component = mount(Recipes);
     const showToast = sinon.stub();
