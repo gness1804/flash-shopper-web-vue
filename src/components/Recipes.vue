@@ -192,7 +192,7 @@ export default {
     },
     addIngredient: function (ingredient: Item): void {
       const modifiedIng = { ...ingredient, ingredientId: Date.now() };
-      this.ingredients.push(modifiedIng);
+      this.ingredients = this.ingredients.concat(modifiedIng);
       this.closeModal();
       this.showToast('Ingredient added.');
     },

@@ -11,7 +11,7 @@ describe('Ingredient.vue', () => {
     const component = mount(Ingredient, { propsData });
     const name = component.find('.ingredient-name')[0];
     const quantity = component.find('.ingredient-quantity')[0];
-    expect(name.text()).to.equal('Ground beef');
-    expect(quantity.text()).to.equal('1 lb');
+    expect(name.text()).to.equal('Green pepper');
+    expect(quantity.text()).to.equal('1');
   });
 });

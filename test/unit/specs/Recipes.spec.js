@@ -1,6 +1,8 @@
 import { mount } from 'avoriaz';
 import Recipes from '@/components/Recipes';
 import directions from '../helpers/FakeDirections';
+import ingredients from '../helpers/FakeIngredientsArray';
+import newIngredient from '../helpers/FakeIngredient';
 
 describe('Recipes.vue', () => {
   it('should render correctly', () => {
@@ -47,6 +49,21 @@ describe('Recipes.vue', () => {
     const button = component.find('.add-ingredient-button')[0];
     button.trigger('click');
     expect(openModal.calledOnce).to.equal(true);
+  });
+
+  it('clicking the add ingredient button should add an ingredient', () => {
+    const component = mount(Recipes);
+    const showToast = sinon.stub();
+    const closeModal = sinon.stub();
+    component.setMethods({ showToast });
+    component.setMethods({ closeModal });
+    component.setData({ ingredients });
+    component.setData({ isUser: true });
+    component.vm.addIngredient(newIngredient);
+    expect(component.data().ingredients.length).to.equal(4);
+    expect(showToast.calledOnce).to.equal(true);
+    expect(closeModal.calledOnce).to.equal(true);
+    expect(component.data().ingredients[3].name).to.equal('Green pepper');
   });
 
   it('clicking the add direction button should trigger the addDirection method', () => {
