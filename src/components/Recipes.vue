@@ -152,7 +152,7 @@ import * as firebase from 'firebase';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import Toast from './Toast';
 import Ingredient from './Ingredient';
-import EachRecipe from './Recipe';
+import EachRecipe from './EachRecipe';
 import AddIngredientModal from './AddIngredientModal';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import Recipe from '../models/Recipe';
