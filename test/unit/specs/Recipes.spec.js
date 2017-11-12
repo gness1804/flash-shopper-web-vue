@@ -1,5 +1,6 @@
 import { mount } from 'avoriaz';
 import Recipes from '@/components/Recipes';
+import directions from '../helpers/FakeDirections';
 
 describe('Recipes.vue', () => {
   it('should render correctly', () => {
@@ -56,5 +57,17 @@ describe('Recipes.vue', () => {
     const button = component.find('.add-direction-button')[0];
     button.trigger('click');
     expect(addDirection.calledOnce).to.equal(true);
+  });
+
+  it('clicking on the remove ingredient button should decrement the number of ingredients by one', () => {
+    const component = mount(Recipes);
+    const showToast = sinon.stub();
+    component.setMethods({ showToast });
+    component.setData({ isUser: true });
+    component.setData({ directions });
+    const button = component.find('.delete-direction-button')[0];
+    button.trigger('click');
+    expect(component.data().directions.length).to.equal(2);
+    expect(showToast.calledOnce).to.equal(true);
   });
 });
