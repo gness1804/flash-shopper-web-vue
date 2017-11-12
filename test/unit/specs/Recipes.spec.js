@@ -137,4 +137,17 @@ describe('Recipes.vue', () => {
     button.trigger('click');
     expect(component.data().showModal).to.equal(false);
   });
+
+  it('clicking on the remove ingredient button should decrement the number of ingredients by one', () => {
+    Object.assign(window, { confirm: () => true });
+    const component = mount(Recipes);
+    const showToast = sinon.stub();
+    component.setMethods({ showToast });
+    component.setData({ isUser: true });
+    component.setData({ ingredients });
+    const button = component.find('.delete-ingredient-icon')[0];
+    button.trigger('click');
+    expect(component.data().ingredients.length).to.equal(2);
+    expect(showToast.calledWith('Ingredient removed.'));
+  });
 });
