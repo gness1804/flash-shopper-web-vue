@@ -6,6 +6,7 @@
     />
     <a
       href=""
+      class="link recipe-link"
     >
       {{recipe.title}}
     </a>
@@ -41,12 +42,28 @@ export default {
 </script>
 
 <style scoped>
+  .each-recipe-container {
+    align-items: center;
+    border: 1px solid #000;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 20px auto;
+    padding: 10px;
+    width: 40vw;
+  }
+
   .recipe-thumbnail {
     background-color: #fff;
     border-radius: 50%;
     height: 50px;
     margin-right: 20px;
     width: 50px;
+  }
+
+  .recipe-link {
+    margin-right: 20px;
   }
 </style>
 
