@@ -108,7 +108,13 @@
         class="recipe-display-section"
         v-if="recipes.length > 0"
       >
-        <p>Foo</p>
+        <h3>Your Recipes:</h3>
+      </div>
+      <div
+        class="no-recipes-message"
+        v-else
+      >
+        <p>It looks like you do not have any recipes yet. Add one now!</p>
       </div>
     </div>
     <!-- end of logged in section -->
