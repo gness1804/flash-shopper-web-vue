@@ -106,7 +106,7 @@ describe('Recipes.vue', () => {
     expect(triggerErrorState.calledOnce).to.equal(true);
   });
 
-  it('clicking on the remove ingredient button should decrement the number of ingredients by one', () => {
+  it('clicking on the remove direction button should decrement the number of directions by one', () => {
     const component = mount(Recipes);
     const showToast = sinon.stub();
     component.setMethods({ showToast });
@@ -116,5 +116,25 @@ describe('Recipes.vue', () => {
     button.trigger('click');
     expect(component.data().directions.length).to.equal(2);
     expect(showToast.calledOnce).to.equal(true);
+  });
+
+  it('clicking the close modal button should call the close modal method', () => {
+    const component = mount(Recipes);
+    const closeModal = sinon.stub();
+    component.setMethods({ closeModal });
+    component.setData({ isUser: true });
+    component.setData({ showModal: true });
+    const button = component.find('.close-modal-button')[0];
+    button.trigger('click');
+    expect(closeModal.calledOnce).to.equal(true);
+  });
+
+  it('clicking the close modal button should close the modal', () => {
+    const component = mount(Recipes);
+    component.setData({ isUser: true });
+    component.setData({ showModal: true });
+    const button = component.find('.close-modal-button')[0];
+    button.trigger('click');
+    expect(component.data().showModal).to.equal(false);
   });
 });
