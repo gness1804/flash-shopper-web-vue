@@ -104,6 +104,12 @@
       >
         Add Recipe
       </button>
+      <div
+        class="recipe-display-section"
+        v-if="recipes.length > 0"
+      >
+        <p>Foo</p>
+      </div>
     </div>
     <!-- end of logged in section -->
     <p
@@ -299,10 +305,10 @@ export default {
         this.toastMessage = '';
       }, 3000);
     },
-    sortItems: function (_items: Array<Item>): void {
-      this.recipes = _items.sort((a, b) => {
-        const first = a.name.toLowerCase();
-        const second = b.name.toLowerCase();
+    sortItems: function (recipes: Array<Recipe>): void {
+      this.recipes = recipes.sort((a, b) => {
+        const first = a.title.toLowerCase();
+        const second = b.title.toLowerCase();
         if (first < second) {
           return -1;
         }
