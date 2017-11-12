@@ -47,4 +47,14 @@ describe('Recipes.vue', () => {
     button.trigger('click');
     expect(openModal.calledOnce).to.equal(true);
   });
+
+  it('clicking the add direction button should trigger the addDirection method', () => {
+    const component = mount(Recipes);
+    const addDirection = sinon.stub();
+    component.setMethods({ addDirection });
+    component.setData({ isUser: true });
+    const button = component.find('.add-direction-button')[0];
+    button.trigger('click');
+    expect(addDirection.calledOnce).to.equal(true);
+  });
 });
