@@ -7,7 +7,7 @@ const filterOutDuplicates = (names: Array<string>): Array<string> => {
       newArr.push(names[i]);
     }
   }
-  return newArr;
+  return newArr.sort();
 };
 
 export default filterOutDuplicates;

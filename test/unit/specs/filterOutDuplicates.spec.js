@@ -9,7 +9,7 @@ describe('filterOutDuplicates', () => {
   });
 
   it('should return the expected value', () => {
-    const expectedValue = ['andouille sausage', 'jambalaya rice', 'clams', 'butter', 'eggs'];
+    const expectedValue = ['andouille sausage', 'butter', 'clams', 'eggs', 'jambalaya rice'];
     assert.deepEqual(filterOutDuplicates(names), expectedValue);
   });
 });
