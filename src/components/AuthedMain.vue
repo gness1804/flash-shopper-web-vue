@@ -38,7 +38,20 @@
         @input="makeErrorFalse"
         v-model="name"
         class="text-input-field"
+        list="names"
       />
+      <datalist
+        id="names"
+        v-if="names.length > 1"
+      >
+        <option
+          v-for="name of names"
+          v-bind:key="name.id"
+          v-bind:value="name"
+        >
+          {{name}}
+        </option>
+      </datalist>
       <input
         type="text"
         placeholder="Aisle"
@@ -106,6 +119,7 @@
 </template>
 
 <script>
+import * as Cookies from 'js-cookie';
 import NoItems from './NoItems';
 import EachItemContainer from './EachItemContainer';
 import Item from '../models/Item';
@@ -130,6 +144,7 @@ export default {
       quantity: '',
       error: false,
       errorMssg: '',
+      names: [],
     };
   },
   methods: {
@@ -142,6 +157,7 @@ export default {
       this.resetInputFields();
       const it = new Item(name, aisle, note, quantity);
       this.$emit('addItem', it);
+      this.setCookies(it);
     },
     addToAPN: function (_item) {
       this.$emit('addToAPN', _item);
@@ -183,6 +199,11 @@ export default {
       this.note = '';
       this.quantity = '';
     },
+    setCookies: async function (item: Item): void {
+      const { name } = item;
+      const newNames = await JSON.parse(Cookies.get('names'));
+      Cookies.set('names', newNames.concat(name));
+    },
     toggleInCart: function (_item) {
       this.$emit('toggleInCart', _item);
     },
@@ -193,6 +214,13 @@ export default {
     updateName: function (newName, item) {
       this.$emit('updateName', newName, item);
     },
+  },
+  mounted: async function () {
+    if (Cookies.get('names')) {
+      this.names = await JSON.parse(Cookies.get('names'));
+    } else {
+      Cookies.set('names', []);
+    }
   },
 };
 </script>
