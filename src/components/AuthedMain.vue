@@ -42,10 +42,10 @@
       />
       <datalist
         id="names"
-        v-if="names.length > 1"
+        v-if="names.length > 0"
       >
         <option
-          v-for="name of names"
+          v-for="name in removeDuplicates"
           v-bind:key="name.id"
           v-bind:value="name"
         >
@@ -123,6 +123,7 @@ import * as Cookies from 'js-cookie';
 import NoItems from './NoItems';
 import EachItemContainer from './EachItemContainer';
 import Item from '../models/Item';
+import filterOutDuplicates from '../helpers/filterOutDuplicates';
 
 export default {
   name: 'AuthedMain',
@@ -146,6 +147,11 @@ export default {
       errorMssg: '',
       names: [],
     };
+  },
+  computed: {
+    removeDuplicates: function (): Array<string> {
+      return filterOutDuplicates(this.names);
+    },
   },
   methods: {
     addItem: function () {
