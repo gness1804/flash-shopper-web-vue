@@ -38,7 +38,20 @@
         @input="makeErrorFalse"
         v-model="name"
         class="text-input-field"
+        list="names"
       />
+      <datalist
+        id="names"
+        v-if="names.length > 0"
+      >
+        <option
+          v-for="name in removeDuplicates(names)"
+          v-bind:key="name.id"
+          v-bind:value="name"
+        >
+          {{name}}
+        </option>
+      </datalist>
       <input
         type="text"
         placeholder="Aisle"
@@ -59,7 +72,20 @@
         @input="makeErrorFalse"
         v-model="quantity"
         class="text-input-field"
+        list="quantities"
       />
+      <datalist
+        id="quantities"
+        v-if="quantities.length > 0"
+      >
+        <option
+          v-for="qty in removeDuplicates(quantities)"
+          v-bind:key="qty.id"
+          v-bind:value="qty"
+        >
+          {{qty}}
+        </option>
+      </datalist>
     </div>
     <div class="buttons-container">
       <button
@@ -106,9 +132,11 @@
 </template>
 
 <script>
+import * as Cookies from 'js-cookie';
 import NoItems from './NoItems';
 import EachItemContainer from './EachItemContainer';
 import Item from '../models/Item';
+import filterOutDuplicates from '../helpers/filterOutDuplicates';
 
 export default {
   name: 'AuthedMain',
@@ -130,6 +158,8 @@ export default {
       quantity: '',
       error: false,
       errorMssg: '',
+      names: [],
+      quantities: [],
     };
   },
   methods: {
@@ -142,6 +172,7 @@ export default {
       this.resetInputFields();
       const it = new Item(name, aisle, note, quantity);
       this.$emit('addItem', it);
+      this.setCookies(it);
     },
     addToAPN: function (_item) {
       this.$emit('addToAPN', _item);
@@ -174,6 +205,9 @@ export default {
       this.error = false;
       this.errorMssg = '';
     },
+    removeDuplicates: function (arr: Array<string>): Array<string> {
+      return filterOutDuplicates(arr);
+    },
     removeItem: function (_item) {
       this.$emit('removeItem', _item);
     },
@@ -182,6 +216,15 @@ export default {
       this.aisle = '';
       this.note = '';
       this.quantity = '';
+    },
+    setCookies: async function (item: Item): void {
+      const { name, quantity } = item;
+      const newNames = await JSON.parse(Cookies.get('names'));
+      Cookies.set('names', newNames.concat(name));
+      if (quantity) {
+        const newQuantities = await JSON.parse(Cookies.get('quantities'));
+        Cookies.set('quantities', newQuantities.concat(quantity));
+      }
     },
     toggleInCart: function (_item) {
       this.$emit('toggleInCart', _item);
@@ -193,6 +236,18 @@ export default {
     updateName: function (newName, item) {
       this.$emit('updateName', newName, item);
     },
+  },
+  mounted: async function () {
+    if (Cookies.get('names')) {
+      this.names = await JSON.parse(Cookies.get('names'));
+    } else {
+      Cookies.set('names', []);
+    }
+    if (Cookies.get('quantities')) {
+      this.quantities = await JSON.parse(Cookies.get('quantities'));
+    } else {
+      Cookies.set('quantities', []);
+    }
   },
 };
 </script>
