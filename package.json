@@ -14,8 +14,17 @@
     "flow": "flow"
   },
   "dependencies": {
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-syntax-flow": "^6.18.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "eslint-config-vue": "^2.0.2",
+    "eslint-plugin-flowtype-errors": "^3.3.5",
+    "eslint-plugin-html": "^3.2.2",
+    "eslint-plugin-vue": "^2.1.0",
     "firebase": "^4.6.0",
     "i": "^0.3.6",
+    "js-cookie": "^2.2.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
