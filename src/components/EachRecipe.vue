@@ -6,6 +6,7 @@
     />
     <a
       href=""
+      v-on:click="goToRecipe"
       class="link recipe-link"
     >
       {{recipe.title}}
@@ -31,6 +32,11 @@ export default {
     },
   },
   methods: {
+    goToRecipe: function (e: Object): void {
+      e.preventDefault();
+      const link = this.recipe.id;
+      this.$router.push(`/recipes/${link}`);
+    },
     removeRecipe: function (): void {
       const warning = confirm('Do you really want to delete this recipe? This cannot be undone!');
       if (warning) {
