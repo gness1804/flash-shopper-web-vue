@@ -1,6 +1,23 @@
 <template>
   <div class="recipe-view">
-    <h2>{{title}}</h2>
+    <div
+      class="logged-in-container"
+      v-if="isUser"
+    >
+    <h2 class="recipe-view-headline">{{title}}</h2>
+    </div>
+    <div
+      class="not-logged-in-container"
+      v-else
+    >
+      <p>Oops, you are not logged in. Please click on the Go Home button to log in.</p>
+    </div>
+    <button
+      class="button go-home-button"
+      v-on:click="goHome"
+    >
+      Go Home
+    </button>
   </div>
 </template>
 
@@ -47,6 +64,9 @@ export default {
       this.image = target[0].image;
       this.ingredients = target[0].ingredients;
       this.directions = target[0].directions;
+    },
+    goHome: function () {
+      this.$router.push('/');
     },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
