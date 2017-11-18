@@ -22,11 +22,6 @@
         v-on:transferIngredient="transferIngredient"
       >
       </ingredient>
-      <toast
-        v-if="viewToast"
-        v-bind:message="toastMessage"
-      >
-      </toast>
     </div>
     <div
       class="no-ingredients-container"
@@ -34,6 +29,32 @@
     >
       <p>You do not have any ingredients! Add some now.</p>
     </div>
+    <div
+        class="directions-container"
+        v-if="directions.length > 0"
+      >
+      <h4>Directions:</h4>
+      <ol class="directions-list">
+        <li
+          class="direction-li"
+          v-for="direction of directions"
+          v-bind:key="direction.id"
+        >
+          <div>{{direction.details}}</div>
+          <img
+            class="icon delete-direction-button"
+            src="../assets/cancel-circle.png"
+            v-on:click="deleteDirection(direction)"
+            title="Delete Direction"
+          />
+        </li>
+      </ol>
+      </div>
+      <toast
+        v-if="viewToast"
+        v-bind:message="toastMessage"
+      >
+      </toast>
     </div>
     <!-- end of logged in section -->
     <div
@@ -59,6 +80,7 @@ import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import Ingredient from './Ingredient';
 import Toast from './Toast';
 import Item from '../models/Item';
+import Direction from '../models/Direction';
 import Recipe from '../models/Recipe';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 
@@ -96,6 +118,12 @@ export default {
     };
   },
   methods: {
+    deleteDirection: function (dir: Direction): void {
+      this.directions = this.directions.filter((d: Direction) => {
+        return d.id !== dir.id;
+      });
+      this.showToast('Direction removed.');
+    },
     filterOutTargetRecipe: function (recipes: Array<Recipe>): void {
       const target = recipes.filter((rec: Recipe) => {
         return rec.id === this.id;
