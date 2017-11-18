@@ -133,8 +133,8 @@
     <toast
     v-if="viewToast"
     v-bind:message="toastMessage"
-  >
-  </toast>
+    >
+    </toast>
   <add-ingredient-modal
     v-if="showModal"
     v-on:closeModal="closeModal"

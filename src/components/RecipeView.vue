@@ -5,7 +5,36 @@
       v-if="isUser"
     >
     <h2 class="recipe-view-headline">{{title}}</h2>
+    <img
+      class="recipe-view-image"
+      v-bind:src="image"
+    />
+    <div
+      class="ingredients-container"
+      v-if="ingredients.length > 0"
+    >
+      <h3>Ingredients:</h3>
+      <ingredient
+        v-for="ingredient of ingredients"
+        v-bind:key="ingredient.id"
+        v-bind:ingredient="ingredient"
+        v-on:removeIngredient="removeIngredient"
+      >
+      </ingredient>
+      <toast
+        v-if="viewToast"
+        v-bind:message="toastMessage"
+      >
+      </toast>
     </div>
+    <div
+      class="no-ingredients-container"
+      v-else
+    >
+      <p>You do not have any ingredients! Add some now.</p>
+    </div>
+    </div>
+    <!-- end of logged in section -->
     <div
       class="not-logged-in-container"
       v-else
@@ -26,12 +55,18 @@
 
 import * as firebase from 'firebase';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
+import Ingredient from './Ingredient';
+import Toast from './Toast';
 import Item from '../models/Item';
 import Recipe from '../models/Recipe';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 
 export default {
   name: 'recipeView',
+  components: {
+    Ingredient,
+    Toast,
+  },
   data(): {
     id: string,
     title: string,
@@ -42,6 +77,8 @@ export default {
     userEmail: string,
     userId: string,
     itemsRef: Object,
+    toastMessage: string,
+    viewToast: boolean,
   } {
     return {
       id: '',
@@ -53,6 +90,8 @@ export default {
       userEmail: '',
       userId: '',
       itemsRef: {},
+      toastMessage: '',
+      viewToast: false,
     };
   },
   methods: {
@@ -97,6 +136,20 @@ export default {
         this.filterOutTargetRecipe(newArr);
       });
     },
+    removeIngredient: function (ingredient: Ingredient): void {
+      this.ingredients = this.ingredients.filter((i: Item) => {
+        return i.ingredientId !== ingredient.ingredientId;
+      });
+      this.showToast('Ingredient removed.');
+    },
+    showToast: function (message: string): void {
+      this.toastMessage = message;
+      this.viewToast = true;
+      setTimeout(() => {
+        this.viewToast = false;
+        this.toastMessage = '';
+      }, 3000);
+    },
   },
   mounted: function (): void {
     this.id = this.$route.params.id;
@@ -106,7 +159,13 @@ export default {
 </script>
 
 <style scoped>
-
+  .recipe-view-image {
+    background-color: #fff;
+    border-radius: 50%;
+    display: block;
+    margin: 60px auto;
+    width: 30vw;
+  }
 </style>
 
 
