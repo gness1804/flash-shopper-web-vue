@@ -13,6 +13,12 @@
       v-on:click="removeIngredient"
       title="Delete Ingredient"
     />
+    <img
+      class="icon add-ingredient-icon"
+      src="../assets/plus-icon-small.png"
+      v-on:click="addIngredient"
+      title="Add Ingredient"
+    />
     </div>
   </div>
 </template>
@@ -29,6 +35,9 @@ export default {
     },
   },
   methods: {
+    addIngredient: function (): void {
+      this.$emit('transferIngredient', this.ingredient);
+    },
     removeIngredient: function (): void {
       const warning = confirm(`Delete ${this.ingredient.name}: are you sure?`);
       if (warning) {

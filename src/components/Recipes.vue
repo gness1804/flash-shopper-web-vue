@@ -74,6 +74,7 @@
           v-bind:ingredient="ingredient"
           v-bind:key="ingredient.id"
           v-on:removeIngredient="removeIngredient"
+          v-on:transferIngredient="transferIngredient"
         >
         </ingredient>
       </div>
@@ -336,6 +337,13 @@ export default {
         }
         return 0;
       });
+    },
+    transferIngredient: function (ing: Item): void {
+      const email = cleanUpUserEmail(this.userEmail);
+      /* eslint-disable prefer-template */
+      firebase.database().ref(email + '/main').push(ing);
+      this.showToast(`${ing.name} added to main list.`);
+       /* eslint-enable prefer-template */
     },
     triggerErrorState: function (message: string): void {
       this.error = true;

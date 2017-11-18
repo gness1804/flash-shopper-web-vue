@@ -19,6 +19,7 @@
         v-bind:key="ingredient.id"
         v-bind:ingredient="ingredient"
         v-on:removeIngredient="removeIngredient"
+        v-on:transferIngredient="transferIngredient"
       >
       </ingredient>
       <toast
@@ -136,7 +137,7 @@ export default {
         this.filterOutTargetRecipe(newArr);
       });
     },
-    removeIngredient: function (ingredient: Ingredient): void {
+    removeIngredient: function (ingredient: Item): void {
       this.ingredients = this.ingredients.filter((i: Item) => {
         return i.ingredientId !== ingredient.ingredientId;
       });
@@ -149,6 +150,13 @@ export default {
         this.viewToast = false;
         this.toastMessage = '';
       }, 3000);
+    },
+    transferIngredient: function (ing: Item): void {
+      const email = cleanUpUserEmail(this.userEmail);
+      /* eslint-disable prefer-template */
+      firebase.database().ref(email + '/main').push(ing);
+      this.showToast(`${ing.name} added to main list.`);
+       /* eslint-enable prefer-template */
     },
   },
   mounted: function (): void {
