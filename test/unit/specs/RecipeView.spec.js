@@ -8,6 +8,6 @@ describe('RecipeView.vue', () => {
     component.setData({ isUser: true });
     component.setData({ title: recipe.title });
     const el = component.find('.recipe-view-headline')[0];
-    expect(el.text()).to.equal('Pumpkin pie');
+    expect(el.text().trim()).to.equal('Pumpkin pie');
   });
 });

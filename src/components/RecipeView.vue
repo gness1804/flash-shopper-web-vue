@@ -4,7 +4,13 @@
       class="logged-in-container"
       v-if="isUser"
     >
-    <h2 class="recipe-view-headline">{{title}}</h2>
+    <h2
+      class="recipe-view-headline"
+      contenteditable
+      v-on:keydown="updateTitle"
+    >
+    {{title}}
+    </h2>
     <img
       class="recipe-view-image"
       v-bind:src="image"
@@ -185,6 +191,9 @@ export default {
       firebase.database().ref(email + '/main').push(ing);
       this.showToast(`${ing.name} added to main list.`);
        /* eslint-enable prefer-template */
+    },
+    updateTitle: function (e: Object): void {
+      this.title = e.target.value;
     },
   },
   mounted: function (): void {
