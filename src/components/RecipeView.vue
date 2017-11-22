@@ -15,6 +15,23 @@
       class="recipe-view-image"
       v-bind:src="image"
     />
+    <p
+    >
+      Add/Replace Image
+    </p>
+    <input
+      type="file"
+      @input="makeErrorFalse"
+      class="file-input-field recipe-image-input"
+      accept="image/*"
+      v-on:change="getImage"
+    />
+    <button
+      class="button warn-button remove-image-button"
+      v-on:click="removeImage"
+    >
+    Remove Image
+  </button>
     <div
       class="ingredients-container"
       v-if="ingredients && ingredients.length > 0"
@@ -109,6 +126,7 @@ export default {
     toastMessage: string,
     viewToast: boolean,
     targetRecipe: Recipe,
+    reader: Object,
   } {
     return {
       id: '',
@@ -123,6 +141,7 @@ export default {
       toastMessage: '',
       viewToast: false,
       targetRecipe: {},
+      reader: new FileReader(),
     };
   },
   methods: {
@@ -141,6 +160,20 @@ export default {
       this.ingredients = target[0].ingredients;
       this.directions = target[0].directions;
       this.targetRecipe = this.itemsRef.child(this.id);
+    },
+    getImage: function (e: Object): void {
+      this.reader.readAsDataURL(e.target.files[0]);
+      setTimeout(() => {
+        try {
+          this.image = this.reader.result;
+          this.targetRecipe.update({
+            image: this.image,
+          });
+          this.showToast('Image successfully uploaded.');
+        } catch (error) {
+          alert(error);
+        }
+      }, 3000);
     },
     goHome: function () {
       this.$router.push('/');
@@ -173,6 +206,19 @@ export default {
         });
         this.filterOutTargetRecipe(newArr);
       });
+    },
+    makeErrorFalse: function () {
+
+    },
+    removeImage: function (): void {
+      const warning = confirm('Remove image: are you sure?');
+      if (warning) {
+        this.image = require('../assets/spoon-knife.png');
+        this.targetRecipe.update({
+          image: this.image,
+        });
+        this.showToast('Image removed.');
+      }
     },
     removeIngredient: function (ingredient: Item): void {
       this.ingredients = this.ingredients.filter((i: Item) => {
