@@ -58,6 +58,18 @@
     >
       Add Ingredient
     </button>
+    <input
+        class="add-direction-input-field"
+        type="text"
+        placeholder="Enter Direction"
+        v-model="directionInput"
+      />
+      <button
+        class="button add-direction-button"
+        v-on:click="addDirection"
+      >
+        Add Direction
+      </button>
     <div
         class="directions-container"
         v-if="directions && directions.length > 0"
@@ -142,6 +154,8 @@ export default {
     viewToast: boolean,
     targetRecipe: Recipe,
     reader: Object,
+    showModal: boolean,
+    directionInput: string,
   } {
     return {
       id: '',
@@ -158,9 +172,19 @@ export default {
       targetRecipe: {},
       reader: new FileReader(),
       showModal: false,
+      directionInput: '',
     };
   },
   methods: {
+    addDirection: function (): void {
+      if (this.directionInput) {
+        const dir = new Direction(this.directionInput);
+        this.directions.push(dir);
+        this.targetRecipe.update({
+          directions: this.directions,
+        });
+      }
+    },
     addIngredient: function (ingredient: Item): void {
       const modifiedIng = { ...ingredient, ingredientId: Date.now() };
       this.ingredients = this.ingredients.concat(modifiedIng);
@@ -189,7 +213,7 @@ export default {
       this.title = target[0].title;
       this.image = target[0].image;
       this.ingredients = target[0].ingredients;
-      this.directions = target[0].directions;
+      this.directions = target[0].directions || [];
       this.targetRecipe = this.itemsRef.child(this.id);
     },
     getImage: function (e: Object): void {
