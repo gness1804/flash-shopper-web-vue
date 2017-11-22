@@ -7,7 +7,7 @@
     <h2
       class="recipe-view-headline"
       contenteditable
-      v-on:keydown="updateTitle"
+      v-on:blur="saveTitle"
     >
     {{title}}
     </h2>
@@ -17,7 +17,7 @@
     />
     <div
       class="ingredients-container"
-      v-if="ingredients.length > 0"
+      v-if="ingredients && ingredients.length > 0"
     >
       <h3>Ingredients:</h3>
       <ingredient
@@ -37,7 +37,7 @@
     </div>
     <div
         class="directions-container"
-        v-if="directions.length > 0"
+        v-if="directions && directions.length > 0"
       >
       <h4>Directions:</h4>
       <ol class="directions-list">
@@ -108,6 +108,7 @@ export default {
     itemsRef: Object,
     toastMessage: string,
     viewToast: boolean,
+    targetRecipe: Recipe,
   } {
     return {
       id: '',
@@ -121,6 +122,7 @@ export default {
       itemsRef: {},
       toastMessage: '',
       viewToast: false,
+      targetRecipe: {},
     };
   },
   methods: {
@@ -138,6 +140,7 @@ export default {
       this.image = target[0].image;
       this.ingredients = target[0].ingredients;
       this.directions = target[0].directions;
+      this.targetRecipe = this.itemsRef.child(this.id);
     },
     goHome: function () {
       this.$router.push('/');
@@ -177,6 +180,14 @@ export default {
       });
       this.showToast('Ingredient removed.');
     },
+    saveTitle: function (): void {
+      const text = document.querySelector('.recipe-view-headline').innerText;
+      this.title = text;
+      this.targetRecipe.update({
+        title: this.title,
+      });
+      this.showToast('Title updated.');
+    },
     showToast: function (message: string): void {
       this.toastMessage = message;
       this.viewToast = true;
@@ -191,9 +202,6 @@ export default {
       firebase.database().ref(email + '/main').push(ing);
       this.showToast(`${ing.name} added to main list.`);
        /* eslint-enable prefer-template */
-    },
-    updateTitle: function (e: Object): void {
-      this.title = e.target.value;
     },
   },
   mounted: function (): void {
