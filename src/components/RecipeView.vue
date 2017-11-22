@@ -178,6 +178,9 @@ export default {
       this.ingredients = this.ingredients.filter((i: Item) => {
         return i.ingredientId !== ingredient.ingredientId;
       });
+      this.targetRecipe.update({
+        ingredients: this.ingredients,
+      });
       this.showToast('Ingredient removed.');
     },
     saveTitle: function (): void {
