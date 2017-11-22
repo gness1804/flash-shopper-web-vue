@@ -52,6 +52,12 @@
     >
       <p>You do not have any ingredients! Add some now.</p>
     </div>
+    <button
+      class="button add-ingredient-button"
+      v-on:click="openModal"
+    >
+      Add Ingredient
+    </button>
     <div
         class="directions-container"
         v-if="directions && directions.length > 0"
@@ -78,6 +84,13 @@
         v-bind:message="toastMessage"
       >
       </toast>
+      <add-ingredient-modal
+        v-if="showModal"
+        v-on:closeModal="closeModal"
+        v-on:addIngredient="addIngredient"
+        v-on:showToast="showToast"
+      >
+      </add-ingredient-modal>
     </div>
     <!-- end of logged in section -->
     <div
@@ -102,6 +115,7 @@ import * as firebase from 'firebase';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import Ingredient from './Ingredient';
 import Toast from './Toast';
+import AddIngredientModal from './AddIngredientModal';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
 import Recipe from '../models/Recipe';
@@ -112,6 +126,7 @@ export default {
   components: {
     Ingredient,
     Toast,
+    AddIngredientModal,
   },
   data(): {
     id: string,
@@ -142,12 +157,28 @@ export default {
       viewToast: false,
       targetRecipe: {},
       reader: new FileReader(),
+      showModal: false,
     };
   },
   methods: {
+    addIngredient: function (ingredient: Item): void {
+      const modifiedIng = { ...ingredient, ingredientId: Date.now() };
+      this.ingredients = this.ingredients.concat(modifiedIng);
+      this.targetRecipe.update({
+        ingredients: this.ingredients,
+      });
+      this.closeModal();
+      this.showToast('Ingredient added.');
+    },
+    closeModal: function () {
+      this.showModal = false;
+    },
     deleteDirection: function (dir: Direction): void {
       this.directions = this.directions.filter((d: Direction) => {
         return d.id !== dir.id;
+      });
+      this.targetRecipe.update({
+        directions: this.directions,
       });
       this.showToast('Direction removed.');
     },
@@ -207,8 +238,11 @@ export default {
         this.filterOutTargetRecipe(newArr);
       });
     },
-    makeErrorFalse: function () {
+    makeErrorFalse: function (): void {
 
+    },
+    openModal: function (): void {
+      this.showModal = true;
     },
     removeImage: function (): void {
       const warning = confirm('Remove image: are you sure?');
