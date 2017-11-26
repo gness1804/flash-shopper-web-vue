@@ -212,7 +212,7 @@ export default {
       });
       this.title = target[0].title;
       this.image = target[0].image;
-      this.ingredients = target[0].ingredients;
+      this.ingredients = target[0].ingredients || [];
       this.directions = target[0].directions || [];
       this.targetRecipe = this.itemsRef.child(this.id);
     },
