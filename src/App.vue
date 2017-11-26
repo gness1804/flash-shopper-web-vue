@@ -41,12 +41,15 @@
 </template>
 
 <script>
+// @flow
+
 import * as firebase from 'firebase';
 import firebaseApp from '../firebaseConfig';  // eslint-disable-line
 import PreAuth from './components/PreAuth';
 import AuthedMain from './components/AuthedMain';
 import Toast from './components/Toast';
 import cleanUpUserEmail from './helpers/cleanUpUserEmail';
+import Item from './models/Item';
 
 export default {
   name: 'app',
@@ -55,7 +58,15 @@ export default {
     AuthedMain,
     Toast,
   },
-  data() {
+  data(): {
+    isUser: boolean,
+    itemsRef: Object,
+    userEmail?: string,
+    userId: string | null,
+    items: Array<Item>,
+    toastMessage?: string,
+    viewToast: boolean,
+  } {
     return {
       isUser: false,
       itemsRef: {},
@@ -67,7 +78,7 @@ export default {
     };
   },
   methods: {
-    addItem: function (_item) {
+    addItem: function (_item: Item): void {
       try {
         this.itemsRef.push(_item);
         this.showToast(`${_item.name} added to your list.`);
@@ -75,7 +86,7 @@ export default {
         alert('Something went wrong. Please try again.');
       }
     },
-    addToAPN: function (_item) {
+    addToAPN: function (_item: Item): void {
       const newItem = { ..._item, inCart: true };
       this.itemsRef.child(_item.id).remove();
       this.itemsRef.push(newItem);
@@ -84,7 +95,7 @@ export default {
         '_blank',
       );
     },
-    addToInstacart: function (_item) {
+    addToInstacart: function (_item: Item): void {
       const newItem = { ..._item, inCart: true };
       this.itemsRef.child(_item.id).remove();
       this.itemsRef.push(newItem);
@@ -93,19 +104,19 @@ export default {
         '_blank',
       );
     },
-    deleteAllInCart: function () {
-      const newItems = this.items.filter((item) => {
+    deleteAllInCart: function (): void {
+      const newItems = this.items.filter((item: Item) => {
         return !item.inCart;
       });
       this.itemsRef.set(newItems);
       this.showToast('Removed all items in cart.');
     },
-    deleteAllItems: function () {
+    deleteAllItems: function (): void {
       this.itemsRef.set([]);
       this.showToast('Deleted all items.');
     },
-    initializeApp: function () {
-      firebase.auth().onAuthStateChanged((user) => {
+    initializeApp: function (): void {
+      firebase.auth().onAuthStateChanged((user: Object) => {
         if (user) {
           this.isUser = true;
           const email = cleanUpUserEmail(user.email);
@@ -118,10 +129,10 @@ export default {
         }
       });
     },
-    listenForItems: function (itemsRef) {
-      itemsRef.on('value', (snapshot) => {
+    listenForItems: function (itemsRef: Object): void {
+      itemsRef.on('value', (snapshot: Array<Object>) => {
         const newArr = [];
-        snapshot.forEach((item) => {
+        snapshot.forEach((item: Object) => {
           newArr.push({
             name: item.val().name,
             aisle: item.val().aisle,
@@ -134,17 +145,17 @@ export default {
         this.sortItems(newArr);
       });
     },
-    logOut: function () {
+    logOut: function (): void {
       const verify = confirm('Are you sure you want to log out?');
       if (verify) {
         firebase.auth().signOut();
       }
     },
-    removeItem: function (_item) {
+    removeItem: function (_item: Item): void {
       this.itemsRef.child(_item.id).remove();
       this.showToast(`Removed ${_item.name} from your list.`);
     },
-    showToast: function (message) {
+    showToast: function (message: string): void {
       this.toastMessage = message;
       this.viewToast = true;
       setTimeout(() => {
@@ -152,7 +163,7 @@ export default {
         this.toastMessage = '';
       }, 3000);
     },
-    sortItems: function (_items) {
+    sortItems: function (_items: Array<Item>): void {
       this.items = _items.sort((a, b) => {
         const first = a.name.toLowerCase();
         const second = b.name.toLowerCase();
@@ -165,18 +176,18 @@ export default {
         return 0;
       });
     },
-    toggleInCart: function (_item) {
+    toggleInCart: function (_item: Item): void {
       const newItem = { ..._item, inCart: !_item.inCart };
       this.itemsRef.child(_item.id).remove();
       this.itemsRef.push(newItem);
     },
-    updateName: function (newName, item) {
+    updateName: function (newName: string, item: Item): void {
       const newItem = { ...item, name: newName };
       this.itemsRef.child(item.id).remove();
       this.itemsRef.push(newItem);
     },
   },
-  mounted: function () {
+  mounted: function (): void {
     this.initializeApp();
   },
 };

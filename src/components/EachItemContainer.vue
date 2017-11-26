@@ -77,6 +77,8 @@
 </template>
 
 <script>
+// @flow
+
 export default {
   name: 'EachItemContainer',
   props: {
@@ -85,7 +87,11 @@ export default {
       required: true,
     },
   },
-  data() {
+  data(): {
+    inCartTitle: string,
+     notInCartTitle: string,
+     title: string,
+    } {
     return {
       inCartTitle: 'Remove Item from Cart',
       notInCartTitle: 'Add Item to Cart',
@@ -93,22 +99,22 @@ export default {
     };
   },
   methods: {
-    addToAPN: function () {
+    addToAPN: function (): void {
       this.$emit('addToAPN', this.item);
     },
-    addToInstacart: function () {
+    addToInstacart: function (): void {
       this.$emit('addToInstacart', this.item);
     },
-    removeItem: function () {
+    removeItem: function (): void {
       const warning = confirm(`Are you sure you want to delete ${this.item.name}? This cannot be undone!`);
       if (warning) {
         this.$emit('removeItem', this.item);
       }
     },
-    toggleInCart: function () {
+    toggleInCart: function (): void {
       this.$emit('toggleInCart', this.item);
     },
-    updateName: function (e) {
+    updateName: function (e: Object): void {
       const newText = e.target.innerText;
       this.$emit('updateName', newText, this.item);
     },
@@ -121,7 +127,6 @@ export default {
     background-color: #fff;
     border: 1px solid #000;
     border-radius: 5px;
-    box-sizing: border-box;
     margin: 20px auto;
     overflow: hidden;
     padding: 10px;

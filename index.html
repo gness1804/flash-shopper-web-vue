@@ -12,21 +12,40 @@
     </div>
   </body>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     html {
       background-color: #bcdbf3;
       font-family: 'Open Sans', sans-serif;
       text-align: center;
     }
+
     h1 {
       margin: 40px auto;
     }
+
     .text-input-field {
       border: 2px solid#d1d3d5;
-      box-sizing: border-box;
       margin-bottom: 20px;
       text-align: center;
       width: 40vw;
     }
+
+    .file-input-field {
+      border: 2px solid#000;
+      display: block;
+      margin: 0 auto 20px;
+      padding: 10px;
+      text-align: center;
+      width: 40vw;
+    }
+
+    .error-container {
+      color: #f00;
+    }
+
     .item-input-container {
       align-items: center;
       display: flex;
@@ -34,6 +53,7 @@
       justify-content: center;
       margin: 40px auto;
     }
+
     .button {
       background-color: #3c3ce5;
       border: 1px solid #3c3ce5;
@@ -41,41 +61,50 @@
       color: #ffffff;
       padding: 5px;
     }
+
     .button:hover {
       background-color:#8787ea;
       border: 1px solid #8787ea;
       cursor: pointer;
     }
+
     .warn-button {
       background-color: #f00;
       border: 1px solid #f00;
     }
+
     .warn-button:hover {
       background-color:#f5765a;
       border: 1px solid #f5765a;
     }
+
     .icon {
       cursor: pointer;
       height: 20px;
       margin-right: 20px;
       width: 20px;
     }
+
     .large-icon {
       cursor: pointer;
       height: 40px;
       margin-right: 40px;
       width: 40px;
     }
+
     .bold {
       font-weight: 700;
     }
+
     .link {
       color: #3c3ce5;
       text-decoration: none;
     }
+
     .link:visited {
       color:#9f24aa;
     }
+
     .link:hover {
       color: #f90f0f;
     }
