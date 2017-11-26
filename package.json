@@ -12,7 +12,8 @@
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "flow": "flow",
-    "pre-deploy": "scripts/pre-deploy.sh"
+    "pre-deploy": "scripts/pre-deploy.sh",
+    "deploy": "scripts/deploy.sh"
   },
   "dependencies": {
     "babel-eslint": "^7.2.3",
