@@ -6,12 +6,12 @@ if test "$(git rev-parse --abbrev-ref HEAD)" != gh-pages; then
 fi
 
 npm run build
-cp dist/index.html > index.html
+cp dist/index.html index.html
 
 echo "Please change the root index.html to include 'dist/' in front of the source files and then enter 'y'."
 read answer
 if [ $answer == 'y' ]; then
-  git add . && git commit && git push origin
+  git add . && git commit --no-verify && git push origin
 else
   echo 'Please make the correct changes and try again.'
   exit 1

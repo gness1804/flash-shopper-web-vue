@@ -15,5 +15,7 @@ mv index2.html index.html
 # gets rid of build-related link (css) tags in index.html
 grep -v "<link href=dist/static/css/" index.html > index2.html
 mv index2.html index.html
+grep -v "<link href=/static/css/" index.html > index2.html
+mv index2.html index.html
 
 echo "Now ready to test locally."
