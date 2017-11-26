@@ -30,7 +30,8 @@ module.exports = {
     'object-shorthand': 'off',
     'no-alert': 'off',
     'arrow-body-style': 'off',
-    'flowtype-errors/show-errors': 2,
+    'global-require': 'off',
+    'flowtype-errors/show-errors': 'off',
     'no-plusplus': 'off',
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {

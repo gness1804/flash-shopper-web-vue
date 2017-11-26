@@ -4,6 +4,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import App from './App';
 import Pantry from './components/Pantry';
+import Recipes from './components/Recipes';
+import RecipeView from './components/RecipeView';
 import Error from './components/Error';
 
 Vue.use(VueRouter);
@@ -19,6 +21,14 @@ const routes = [
   {
     path: '/pantry',
     component: Pantry,
+  },
+  {
+    path: '/recipes',
+    component: Recipes,
+  },
+  {
+    path: '/recipes/:id',
+    component: RecipeView,
   },
   {
     path: '/404',

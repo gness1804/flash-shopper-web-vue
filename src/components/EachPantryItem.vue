@@ -17,6 +17,8 @@
 </template>
 
 <script>
+// @flow
+
 export default {
   name: 'EachPantryItem',
   props: {
@@ -26,13 +28,13 @@ export default {
     },
   },
   methods: {
-    deleteItem: function () {
+    deleteItem: function (): void {
       const warning = confirm(`Warning: do you want to delete ${this.item.name} from the pantry? This cannot be undone!`);
       if (warning) {
         this.$emit('deleteItem', this.item);
       }
     },
-    transferItemToMainList: function () {
+    transferItemToMainList: function (): void {
       this.$emit('transferItemToMainList', this.item);
     },
   },

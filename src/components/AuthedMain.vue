@@ -6,6 +6,12 @@
     >
       Go to Pantry
     </button>
+    <button
+      class="button go-to-recipes-button"
+      v-on:click="goToRecipes"
+    >
+      Go to Recipes
+    </button>
     <div class="upper-icons-container">
       <div class="upper-icon-block">
       <img
@@ -97,12 +103,14 @@
       <button
         class="button warn-button bottom-button delete-all-items-button"
         v-on:click="deleteAllItems"
+        v-bind:disabled="items.length === 0"
       >
       Delete ALL Items
       </button>
       <button
         class="button warn-button bottom-button delete-all-items-in-cart-button"
         v-on:click="deleteAllInCart"
+        v-bind:disabled="!thereAreItemsInCart(items)"
       >
       Delete ALL In Cart
       </button>
@@ -132,10 +140,13 @@
 </template>
 
 <script>
+// @flow
+
 import * as Cookies from 'js-cookie';
 import NoItems from './NoItems';
 import EachItemContainer from './EachItemContainer';
 import Item from '../models/Item';
+import thereAreItemsInCart from '../helpers/thereAreItemsInCart';
 import filterOutDuplicates from '../helpers/filterOutDuplicates';
 
 export default {
@@ -150,7 +161,15 @@ export default {
       required: true,
     },
   },
-  data() {
+  data(): {
+    name?: string,
+    aisle?: string,
+    note?: string,
+    quantity?: string,
+    error: boolean,
+    errorMssg?: string,
+    thereAreItemsInCart: Function,
+  } {
     return {
       name: '',
       aisle: '',
@@ -158,12 +177,13 @@ export default {
       quantity: '',
       error: false,
       errorMssg: '',
+      thereAreItemsInCart,
       names: [],
       quantities: [],
     };
   },
   methods: {
-    addItem: function () {
+    addItem: function (): void {
       const { name, aisle, note, quantity } = this;
       if (!name) {
         this.triggerErrorState('Oops! Your item needs at least a name to be valid. Please try again.');
@@ -174,44 +194,47 @@ export default {
       this.$emit('addItem', it);
       this.setCookies(it);
     },
-    addToAPN: function (_item) {
+    addToAPN: function (_item: Item): void {
       this.$emit('addToAPN', _item);
     },
-    addToInstacart: function (_item) {
+    addToInstacart: function (_item: Item): void {
       this.$emit('addToInstacart', _item);
     },
-    countItemsInCart: function () {
-      const newArr = this.items.filter((item) => {
+    countItemsInCart: function (): number {
+      const newArr = this.items.filter((item: Item) => {
         return item.inCart;
       });
       return newArr.length;
     },
-    deleteAllInCart: function () {
+    deleteAllInCart: function (): void {
       const warning = confirm('Are you sure you want to delete ALL items in your cart? This cannot be undone!');
       if (warning) {
         this.$emit('deleteAllInCart');
       }
     },
-    deleteAllItems: function () {
+    deleteAllItems: function (): void {
       const warning = confirm('Are you sure you want to delete ALL items? This cannot be undone!');
       if (warning) {
         this.$emit('deleteAllItems');
       }
     },
-    goToPantry: function () {
+    goToPantry: function (): void {
       this.$router.push('/pantry');
     },
-    makeErrorFalse: function () {
+    goToRecipes: function (): void {
+      this.$router.push('/recipes');
+    },
+    makeErrorFalse: function (): void {
       this.error = false;
       this.errorMssg = '';
     },
     removeDuplicates: function (arr: Array<string>): Array<string> {
       return filterOutDuplicates(arr);
     },
-    removeItem: function (_item) {
+    removeItem: function (_item: Item): void {
       this.$emit('removeItem', _item);
     },
-    resetInputFields: function () {
+    resetInputFields: function (): void {
       this.name = '';
       this.aisle = '';
       this.note = '';
@@ -226,14 +249,14 @@ export default {
         Cookies.set('quantities', newQuantities.concat(quantity));
       }
     },
-    toggleInCart: function (_item) {
-      this.$emit('toggleInCart', _item);
+    toggleInCart: function (item: Item): void {
+      this.$emit('toggleInCart', item);
     },
-    triggerErrorState: function (message) {
+    triggerErrorState: function (message: string): void {
       this.error = true;
       this.errorMssg = message;
     },
-    updateName: function (newName, item) {
+    updateName: function (newName: string, item: Item): void {
       this.$emit('updateName', newName, item);
     },
   },
@@ -258,10 +281,6 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: center;
-  }
-
-  .error-container {
-    color: red;
   }
 
   .bottom-button {

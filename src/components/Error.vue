@@ -24,11 +24,12 @@
 </template>
 
 <script>
+// @flow
 
 export default {
   name: 'Error',
   methods: {
-    goHome: function () {
+    goHome: function (): void {
       this.$router.push('/');
     },
   },

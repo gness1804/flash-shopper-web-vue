@@ -14,6 +14,12 @@
       Go Home
     </button>
     <button
+      class="button go-to-recipes-button"
+      v-on:click="goToRecipes"
+    >
+      Go to Recipes
+    </button>
+    <button
       class="button warn-button delete-all-in-pantry-button"
       v-if="isUser && items.length > 0"
       v-on:click="deleteAllItems"
@@ -98,6 +104,8 @@
 </template>
 
 <script>
+// @flow
+
 import * as firebase from 'firebase';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import EachPantryItem from './EachPantryItem';
@@ -111,7 +119,21 @@ export default {
     EachPantryItem,
     Toast,
   },
-  data() {
+  data(): {
+      isUser: boolean,
+      itemsRef: Object,
+      userEmail?: string,
+      userId: string | null,
+      items: Array<Item>,
+      name?: string,
+      aisle?: string,
+      note?: string,
+      quantity?: string,
+      error: boolean,
+      errorMssg?: string,
+      toastMessage?: string,
+      viewToast: boolean,
+  } {
     return {
       isUser: false,
       itemsRef: {},
@@ -129,7 +151,7 @@ export default {
     };
   },
   methods: {
-    addItem: function () {
+    addItem: function (): void {
       const { name, aisle, note, quantity } = this;
       if (!name) {
         this.triggerErrorState('Oops, you must enter at least a name. Please try again.');
@@ -144,23 +166,26 @@ export default {
         alert('Something went wrong. Please try again.');
       }
     },
-    deleteAllItems: function () {
+    deleteAllItems: function (): void {
       const warning = confirm('Are you sure you want to delete ALL items? This cannot be undone!');
       if (warning) {
         this.itemsRef.set([]);
       }
     },
-    deleteItem: function (item) {
+    deleteItem: function (item: Item): void {
       if (this.itemsRef.length > 0) {
         this.itemsRef.child(item.id).remove();
       }
       this.showToast(`${item.name} removed from pantry.`);
     },
-    goHome: function () {
+    goHome: function (): void {
       this.$router.push('/');
     },
-    initializeApp: function () {
-      firebase.auth().onAuthStateChanged((user) => {
+    goToRecipes: function (): void {
+      this.$router.push('/recipes');
+    },
+    initializeApp: function (): void {
+      firebase.auth().onAuthStateChanged((user: Object) => {
         if (user) {
           this.isUser = true;
           const email = cleanUpUserEmail(user.email);
@@ -173,10 +198,10 @@ export default {
         }
       });
     },
-    listenForItems: function (itemsRef) {
-      itemsRef.on('value', (snapshot) => {
+    listenForItems: function (itemsRef: Object): void {
+      itemsRef.on('value', (snapshot: Array<Object>) => {
         const newArr = [];
-        snapshot.forEach((item) => {
+        snapshot.forEach((item: Object) => {
           newArr.push({
             name: item.val().name,
             aisle: item.val().aisle,
@@ -189,17 +214,17 @@ export default {
         this.sortItems(newArr);
       });
     },
-    makeErrorFalse: function () {
+    makeErrorFalse: function (): void {
       this.error = false;
       this.errorMssg = '';
     },
-    resetInputFields: function () {
+    resetInputFields: function (): void {
       this.name = '';
       this.aisle = '';
       this.note = '';
       this.quantity = '';
     },
-    showToast: function (message) {
+    showToast: function (message: string): void {
       this.toastMessage = message;
       this.viewToast = true;
       setTimeout(() => {
@@ -207,7 +232,7 @@ export default {
         this.toastMessage = '';
       }, 3000);
     },
-    sortItems: function (_items) {
+    sortItems: function (_items: Array<Item>): void {
       this.items = _items.sort((a, b) => {
         const first = a.name.toLowerCase();
         const second = b.name.toLowerCase();
@@ -220,19 +245,19 @@ export default {
         return 0;
       });
     },
-    transferItemToMainList: function (item) {
+    transferItemToMainList: function (item: Item): void {
       const email = cleanUpUserEmail(this.userEmail);
       /* eslint-disable prefer-template */
       firebase.database().ref(email + '/main').push(item);
       this.showToast(`${item.name} added to main list.`);
        /* eslint-enable prefer-template */
     },
-    triggerErrorState: function (message) {
+    triggerErrorState: function (message: string): void {
       this.error = true;
       this.errorMssg = message;
     },
   },
-  mounted: function () {
+  mounted: function (): void {
     this.initializeApp();
   },
 };

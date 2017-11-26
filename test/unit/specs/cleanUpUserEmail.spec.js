@@ -3,6 +3,7 @@ import cleanUpUserEmail from '../../../src/helpers/cleanUpUserEmail';
 
 describe('cleanUpUserEmail', () => {
   const email = 'foo@foobar.com';
+
   it('should be a function', () => {
     assert.isFunction(cleanUpUserEmail);
   });

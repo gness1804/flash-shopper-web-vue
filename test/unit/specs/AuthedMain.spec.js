@@ -69,4 +69,13 @@ describe('AuthedMain.vue', () => {
     button.trigger('click');
     expect(goToPantry.calledOnce).to.equal(true);
   });
+
+  it('should trigger the go to recipes method if user clicks on the go to recipes button', () => {
+    const component = mount(AuthedMain, { propsData });
+    const goToRecipes = sinon.stub();
+    component.setMethods({ goToRecipes });
+    const button = component.find('.go-to-recipes-button')[0];
+    button.trigger('click');
+    expect(goToRecipes.calledOnce).to.equal(true);
+  });
 });
