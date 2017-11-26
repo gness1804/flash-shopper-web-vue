@@ -227,7 +227,7 @@ export default {
     addRecipe: function (): void {
       const { title, image, ingredients, directions } = this;
       if (!title || ingredients.length === 0) {
-        this.triggerErrorState('Oops, you must enter at least a title and one ingredient. Please try again.');
+        alert('Oops, you must enter at least a title and one ingredient. Please try again.');
         return;
       }
       this.resetInputFields();

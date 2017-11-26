@@ -21,7 +21,6 @@
     </p>
     <input
       type="file"
-      @input="makeErrorFalse"
       class="file-input-field recipe-image-input"
       accept="image/*"
       v-on:change="getImage"
@@ -59,7 +58,7 @@
       Add Ingredient
     </button>
     <input
-        class="add-direction-input-field"
+        class="text-input-field add-direction-input-field"
         type="text"
         placeholder="Enter Direction"
         v-model="directionInput"
@@ -183,6 +182,10 @@ export default {
         this.targetRecipe.update({
           directions: this.directions,
         });
+        this.directionInput = '';
+        this.showToast('Direction added.');
+      } else {
+        alert('Oops, you need to enter a direction before you can add a direction. Please try again.');
       }
     },
     addIngredient: function (ingredient: Item): void {
@@ -194,24 +197,27 @@ export default {
       this.closeModal();
       this.showToast('Ingredient added.');
     },
-    closeModal: function () {
+    closeModal: function (): void {
       this.showModal = false;
     },
     deleteDirection: function (dir: Direction): void {
-      this.directions = this.directions.filter((d: Direction) => {
-        return d.id !== dir.id;
-      });
-      this.targetRecipe.update({
-        directions: this.directions,
-      });
-      this.showToast('Direction removed.');
+      const warning = confirm('Are you sure you want to delete this direction?');
+      if (warning) {
+        this.directions = this.directions.filter((d: Direction) => {
+          return d.id !== dir.id;
+        });
+        this.targetRecipe.update({
+          directions: this.directions,
+        });
+        this.showToast('Direction removed.');
+      }
     },
     filterOutTargetRecipe: function (recipes: Array<Recipe>): void {
       const target = recipes.filter((rec: Recipe) => {
         return rec.id === this.id;
       });
-      this.title = target[0].title;
-      this.image = target[0].image;
+      this.title = target[0].title || '';
+      this.image = target[0].image || require('../assets/spoon-knife.png');
       this.ingredients = target[0].ingredients || [];
       this.directions = target[0].directions || [];
       this.targetRecipe = this.itemsRef.child(this.id);
@@ -261,9 +267,6 @@ export default {
         });
         this.filterOutTargetRecipe(newArr);
       });
-    },
-    makeErrorFalse: function (): void {
-
     },
     openModal: function (): void {
       this.showModal = true;
@@ -325,6 +328,15 @@ export default {
     display: block;
     margin: 60px auto;
     width: 30vw;
+  }
+
+  .add-ingredient-button {
+    display: block;
+    margin: 30px auto;
+  }
+
+  .add-direction-input-field {
+
   }
 </style>
 

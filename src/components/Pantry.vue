@@ -14,6 +14,12 @@
       Go Home
     </button>
     <button
+      class="button go-to-recipes-button"
+      v-on:click="goToRecipes"
+    >
+      Go to Recipes
+    </button>
+    <button
       class="button warn-button delete-all-in-pantry-button"
       v-if="isUser && items.length > 0"
       v-on:click="deleteAllItems"
@@ -174,6 +180,9 @@ export default {
     },
     goHome: function (): void {
       this.$router.push('/');
+    },
+    goToRecipes: function (): void {
+      this.$router.push('/recipes');
     },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
