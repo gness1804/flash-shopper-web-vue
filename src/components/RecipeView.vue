@@ -213,14 +213,17 @@ export default {
       }
     },
     filterOutTargetRecipe: function (recipes: Array<Recipe>): void {
+      const targetId = this.id;
       const target = recipes.filter((rec: Recipe) => {
-        return rec.id === this.id;
+        return rec.id === targetId;
       });
-      this.title = target[0].title || '';
-      this.image = target[0].image || require('../assets/spoon-knife.png');
-      this.ingredients = target[0].ingredients || [];
-      this.directions = target[0].directions || [];
-      this.targetRecipe = this.itemsRef.child(this.id);
+      if (target) {
+        this.title = target[0].title || '';
+        this.image = target[0].image || require('../assets/spoon-knife.png');
+        this.ingredients = target[0].ingredients || [];
+        this.directions = target[0].directions || [];
+        this.targetRecipe = this.itemsRef.child(this.id);
+      }
     },
     getImage: function (e: Object): void {
       this.reader.readAsDataURL(e.target.files[0]);
