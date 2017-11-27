@@ -219,7 +219,7 @@ export default {
       });
       if (target) {
         this.title = target[0].title || '';
-        this.image = target[0].image || require('../assets/spoon-knife.png') || 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
+        this.image = target[0].image || 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
         this.ingredients = target[0].ingredients || [];
         this.directions = target[0].directions || [];
         this.targetRecipe = this.itemsRef.child(this.id);
@@ -277,7 +277,7 @@ export default {
     removeImage: function (): void {
       const warning = confirm('Remove image: are you sure?');
       if (warning) {
-        this.image = require('../assets/spoon-knife.png') || 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
+        this.image = 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
         this.targetRecipe.update({
           image: this.image,
         });

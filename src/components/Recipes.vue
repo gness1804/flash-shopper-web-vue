@@ -19,7 +19,7 @@
           class="recipe-image-main"
           alt="recipe image"
           v-bind:src="image"
-          v-bind:title="(title && image !== require('../assets/spoon-knife.png')) ? title : 'Recipe Image'"
+          v-bind:title="(title && image !== 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png') ? title : 'Recipe Image'"
         />
         <input
           type="text"
@@ -194,7 +194,7 @@ export default {
       userId: null,
       recipes: [],
       title: '',
-      image: require('../assets/spoon-knife.png') || 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png',
+      image: 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png',
       ingredients: [],
       directions: [],
       directionInput: '',
@@ -297,7 +297,7 @@ export default {
     removeImage: function (): void {
       const warning = confirm('Remove image: are you sure?');
       if (warning) {
-        this.image = require('../assets/spoon-knife.png');
+        this.image = 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
         this.showToast('Image removed.');
       }
     },
@@ -313,7 +313,7 @@ export default {
     },
     resetInputFields: function (): void {
       this.title = '';
-      this.image = require('../assets/spoon-knife.png');
+      this.image = 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
       this.ingredients = [];
       this.directions = [];
     },
