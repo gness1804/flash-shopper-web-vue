@@ -16,4 +16,3 @@ else
   echo 'Please make the correct changes and try again.'
   exit 1
 fi
-

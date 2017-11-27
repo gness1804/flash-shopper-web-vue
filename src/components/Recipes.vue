@@ -194,7 +194,7 @@ export default {
       userId: null,
       recipes: [],
       title: '',
-      image: require('../assets/spoon-knife.png'),
+      image: require('../assets/spoon-knife.png') || 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png',
       ingredients: [],
       directions: [],
       directionInput: '',

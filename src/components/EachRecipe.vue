@@ -2,7 +2,7 @@
   <div class="each-recipe-container">
     <img
       class="recipe-thumbnail"
-      v-bind:src="recipe.image"
+      v-bind:src="recipe.image || 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png'"
     />
     <a
       href=""

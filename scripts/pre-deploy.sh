@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# thanks to the following source: https://unix.stackexchange.com/questions/141206/removing-a-specific-line-from-a-file
+
 if test "$(git rev-parse --abbrev-ref HEAD)" != gh-pages; then
   echo Oops, you must be on the gh-pages branch to deploy. >&2
   exit 1
