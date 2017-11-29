@@ -13,8 +13,10 @@ describe('App.vue', () => {
     component.setData({ userEmail });
     const headline = component.find('h1')[0];
     const message = component.find('.user-logged-in-message')[0];
+    const logOutText = component.find('.log-out-button')[0];
     expect(headline.text()).to.equal('Flash Shopper');
     expect(message.text().trim()).to.equal('Logged in as foo@foo.com');
+    expect(logOutText.text().trim()).to.equal('Log Out');
   });
 
   it('should trigger the logOut method when user clicks the log out button', () => {
