@@ -19,6 +19,20 @@ describe('AuthedMain.vue', () => {
       .to.equal('1');
   });
 
+  it('should render the correct content from buttonStrings', () => {
+    const component = mount(AuthedMain, { propsData });
+    const goToPantryText = component.find('.go-to-pantry-button')[0];
+    const goToRecipesText = component.find('.go-to-recipes-button')[0];
+    const addItemText = component.find('.add-item-button')[0];
+    const deleteAllItemsText = component.find('.delete-all-items-button')[0];
+    const deleteAllInCartText = component.find('.delete-all-items-in-cart-button')[0];
+    expect(goToPantryText.text().trim()).to.equal('Go to Pantry');
+    expect(goToRecipesText.text().trim()).to.equal('Go to Recipes');
+    expect(addItemText.text().trim()).to.equal('Add Item');
+    expect(deleteAllItemsText.text().trim()).to.equal('Delete ALL Items');
+    expect(deleteAllInCartText.text().trim()).to.equal('Delete ALL in Cart');
+  });
+
   it('renders correct number of items', () => {
     const component = mount(AuthedMain, { propsData });
     const el = component.find('.authed-main .each-item-container');
