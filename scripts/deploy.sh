@@ -8,11 +8,8 @@ fi
 npm run build
 cp dist/index.html index.html
 
-echo "Please change the root index.html to include 'dist/' in front of the source files and then enter 'y'."
-read answer
-if [ $answer == 'y' ]; then
-  git add . && git commit --no-verify && git push origin
-else
-  echo 'Please make the correct changes and try again.'
-  exit 1
-fi
+sed -i -e 's/src=/src=dist/g' index.html
+sed -i -e 's/href=\/static/href=dist\/static/g' index.html
+rm index.html-e
+
+git add . && git commit --no-verify && git push origin
