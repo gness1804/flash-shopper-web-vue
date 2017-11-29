@@ -4,13 +4,13 @@
       class="button go-to-pantry-button"
       v-on:click="goToPantry"
     >
-      Go to Pantry
+      {{goToPantryString}}
     </button>
     <button
       class="button go-to-recipes-button"
       v-on:click="goToRecipes"
     >
-      Go to Recipes
+      {{goToRecipesString}}
     </button>
     <div class="upper-icons-container">
       <div class="upper-icon-block">
@@ -98,21 +98,21 @@
         class="button bottom-button add-item-button"
         v-on:click="addItem"
       >
-      Add Item
+      {{addItemString}}
       </button>
       <button
         class="button warn-button bottom-button delete-all-items-button"
         v-on:click="deleteAllItems"
         v-bind:disabled="items.length === 0"
       >
-      Delete ALL Items
+      {{deleteAllItemsString}}
       </button>
       <button
         class="button warn-button bottom-button delete-all-items-in-cart-button"
         v-on:click="deleteAllInCart"
         v-bind:disabled="!thereAreItemsInCart(items)"
       >
-      Delete ALL In Cart
+      {{deleteAllInCartString}}
       </button>
     </div>
     <div
@@ -148,6 +148,7 @@ import EachItemContainer from './EachItemContainer';
 import Item from '../models/Item';
 import thereAreItemsInCart from '../helpers/thereAreItemsInCart';
 import filterOutDuplicates from '../helpers/filterOutDuplicates';
+import buttonStrings from '../helpers/buttonStrings';
 
 export default {
   name: 'AuthedMain',
@@ -169,6 +170,13 @@ export default {
     error: boolean,
     errorMssg?: string,
     thereAreItemsInCart: Function,
+    names: Array<string>,
+    quantities: Array<string>,
+    goToPantryString: string,
+    goToRecipesString: string,
+    addItemString: string,
+    deleteAllItemsString: string,
+    deleteAllInCartString: string,
   } {
     return {
       name: '',
@@ -180,6 +188,11 @@ export default {
       thereAreItemsInCart,
       names: [],
       quantities: [],
+      goToPantryString: buttonStrings.goToPantry,
+      goToRecipesString: buttonStrings.goToRecipes,
+      addItemString: buttonStrings.addItem,
+      deleteAllItemsString: buttonStrings.deleteAllItems,
+      deleteAllInCartString: buttonStrings.deleteAllInCart,
     };
   },
   methods: {
