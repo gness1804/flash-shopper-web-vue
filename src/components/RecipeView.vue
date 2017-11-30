@@ -29,7 +29,7 @@
       class="button warn-button remove-image-button"
       v-on:click="removeImage"
     >
-    Remove Image
+    {{removeImageString}}
   </button>
     <div
       class="ingredients-container"
@@ -55,7 +55,7 @@
       class="button add-ingredient-button"
       v-on:click="openModal"
     >
-      Add Ingredient
+      {{addIngredientString}}
     </button>
     <input
         class="text-input-field add-direction-input-field"
@@ -67,7 +67,7 @@
         class="button add-direction-button"
         v-on:click="addDirection"
       >
-        Add Direction
+        {{addDirectionString}}
       </button>
     <div
         class="directions-container"
@@ -114,7 +114,7 @@
       class="button go-home-button"
       v-on:click="goHome"
     >
-      Go Home
+      {{goHomeString}}
     </button>
   </div>
 </template>
@@ -131,6 +131,7 @@ import Item from '../models/Item';
 import Direction from '../models/Direction';
 import Recipe from '../models/Recipe';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
+import buttonStrings from '../helpers/buttonStrings';
 
 export default {
   name: 'recipeView',
@@ -155,6 +156,10 @@ export default {
     reader: Object,
     showModal: boolean,
     directionInput: string,
+    removeImageString: string,
+    addIngredientString: string,
+    addDirectionString: string,
+    goHomeString: string,
   } {
     return {
       id: '',
@@ -172,6 +177,10 @@ export default {
       reader: new FileReader(),
       showModal: false,
       directionInput: '',
+      removeImageString: buttonStrings.removeImage,
+      addIngredientString: buttonStrings.addIngredient,
+      addDirectionString: buttonStrings.addDirection,
+      goHomeString: buttonStrings.goHome,
     };
   },
   methods: {
@@ -318,8 +327,10 @@ export default {
     },
   },
   mounted: function (): void {
-    this.id = this.$route.params.id;
-    this.initializeApp();
+    if (this.$route) {
+      this.id = this.$route.params.id;
+      this.initializeApp();
+    }
   },
 };
 </script>
@@ -336,10 +347,6 @@ export default {
   .add-ingredient-button {
     display: block;
     margin: 30px auto;
-  }
-
-  .add-direction-input-field {
-
   }
 </style>
 

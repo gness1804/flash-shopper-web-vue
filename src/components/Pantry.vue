@@ -11,20 +11,20 @@
       class="button go-home-button"
       v-on:click="goHome"
     >
-      Go Home
+      {{goHomeString}}
     </button>
     <button
       class="button go-to-recipes-button"
       v-on:click="goToRecipes"
     >
-      Go to Recipes
+      {{goToRecipesString}}
     </button>
     <button
       class="button warn-button delete-all-in-pantry-button"
       v-if="isUser && items.length > 0"
       v-on:click="deleteAllItems"
     >
-      Delete ALL Items
+      {{deleteAllItemsString}}
     </button>
     <div
       class="item-input-container"
@@ -64,7 +64,7 @@
         v-on:click="addItem"
         v-if="isUser"
       >
-      Add Item
+      {{addItemString}}
       </button>
     <div
       class="pantry-main-container"
@@ -111,6 +111,7 @@ import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import EachPantryItem from './EachPantryItem';
 import Toast from './Toast';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
+import buttonStrings from '../helpers/buttonStrings';
 import Item from '../models/Item';
 
 export default {
@@ -133,6 +134,10 @@ export default {
       errorMssg?: string,
       toastMessage?: string,
       viewToast: boolean,
+      goHomeString: string,
+      goToRecipesString: string,
+      deleteAllItemsString: string,
+      addItemString: string,
   } {
     return {
       isUser: false,
@@ -148,6 +153,10 @@ export default {
       errorMssg: '',
       toastMessage: '',
       viewToast: false,
+      goHomeString: buttonStrings.goHome,
+      goToRecipesString: buttonStrings.goToRecipes,
+      deleteAllItemsString: buttonStrings.deleteAllItems,
+      addItemString: buttonStrings.addItem,
     };
   },
   methods: {

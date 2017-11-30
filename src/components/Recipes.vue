@@ -7,7 +7,7 @@
       class="button go-home-button"
       v-on:click="goHome"
     >
-      Go Home
+      {{goHomeString}}
     </button>
     <div
       v-if="isUser"
@@ -43,19 +43,19 @@
           class="button warn-button remove-image-button"
           v-on:click="removeImage"
         >
-        Remove Image
+        {{removeImageString}}
       </button>
       <button
         class="button add-ingredient-button"
         v-on:click="openModal"
       >
-        Add Ingredient
+        {{addIngredientString}}
       </button>
       <button
         class="button add-direction-button"
         v-on:click="addDirection"
       >
-        Add Direction
+        {{addDirectionString}}
       </button>
       </div>
       <input
@@ -103,7 +103,7 @@
         class="button add-recipe-button"
         v-on:click="addRecipe"
       >
-        Add Recipe
+        {{addRecipeString}}
       </button>
       <div
         class="recipe-display-section"
@@ -156,6 +156,7 @@ import Ingredient from './Ingredient';
 import EachRecipe from './EachRecipe';
 import AddIngredientModal from './AddIngredientModal';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
+import buttonStrings from '../helpers/buttonStrings';
 import Recipe from '../models/Recipe';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
@@ -186,6 +187,11 @@ export default {
       viewToast: boolean,
       toastMessage?: string,
       showModal: boolean,
+      goHomeString: string,
+      removeImageString: string,
+      addIngredientString: string,
+      addDirectionString: string,
+      addRecipeString: string,
   } {
     return {
       isUser: false,
@@ -204,6 +210,11 @@ export default {
       viewToast: false,
       toastMessage: '',
       showModal: false,
+      goHomeString: buttonStrings.goHome,
+      removeImageString: buttonStrings.removeImage,
+      addIngredientString: buttonStrings.addIngredient,
+      addDirectionString: buttonStrings.addDirection,
+      addRecipeString: buttonStrings.addRecipe,
     };
   },
   methods: {
