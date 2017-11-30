@@ -11,6 +11,21 @@ describe('Recipes.vue', () => {
     expect(header.text()).to.equal('Recipes');
   });
 
+  it('should render correct data from buttonStrings', () => {
+    const component = mount(Recipes);
+    component.setData({ isUser: true });
+    const el1 = component.find('.go-home-button')[0];
+    expect(el1.text().trim()).to.equal('Go Home');
+    const el2 = component.find('.remove-image-button')[0];
+    expect(el2.text().trim()).to.equal('Remove Image');
+    const el3 = component.find('.add-ingredient-button')[0];
+    expect(el3.text().trim()).to.equal('Add Ingredient');
+    const el4 = component.find('.add-direction-button')[0];
+    expect(el4.text().trim()).to.equal('Add Direction');
+    const el5 = component.find('.add-recipe-button')[0];
+    expect(el5.text().trim()).to.equal('Add Recipe');
+  });
+
   it('clicking the go home button should trigger the goHome method', () => {
     const component = mount(Recipes);
     const goHome = sinon.stub();
