@@ -5,6 +5,7 @@ const buttonStrings = {
   addItem: 'Add Item',
   deleteAllItems: 'Delete ALL Items',
   deleteAllInCart: 'Delete ALL in Cart',
+  goHome: 'Go Home',
 };
 
 export default buttonStrings;
