@@ -82,6 +82,12 @@
         >
           <div>{{direction.details}}</div>
           <img
+            class="icon check-icon"
+            src="../assets/check-square-o.png"
+            v-on:click="toggleDone(direction)"
+            title="Mark as Done or Not Done"
+          />
+          <img
             class="icon delete-direction-button"
             src="../assets/cancel-circle.png"
             v-on:click="deleteDirection(direction)"
@@ -317,6 +323,9 @@ export default {
         this.viewToast = false;
         this.toastMessage = '';
       }, 3000);
+    },
+    toggleDone: function (): void {
+
     },
     transferIngredient: function (ing: Item): void {
       const email = cleanUpUserEmail(this.userEmail);
