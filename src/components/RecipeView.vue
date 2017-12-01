@@ -80,7 +80,11 @@
           v-for="direction of directions"
           v-bind:key="direction.id"
         >
-          <div>{{direction.details}}</div>
+          <div
+            v-bind:class="{ strike: direction.done }"
+          >
+            {{direction.details}}
+          </div>
           <img
             class="icon check-icon"
             src="../assets/check-square-o.png"
@@ -324,8 +328,15 @@ export default {
         this.toastMessage = '';
       }, 3000);
     },
-    toggleDone: function (): void {
-
+    toggleDone: function (dir: Direction): void {
+      const modifiedDir = { ...dir, done: !dir.done };
+      this.directions = this.directions.filter((d: Direction) => {
+        return d.id !== dir.id;
+      });
+      this.directions = this.directions.concat(modifiedDir);
+      this.targetRecipe.update({
+        directions: this.directions,
+      });
     },
     transferIngredient: function (ing: Item): void {
       const email = cleanUpUserEmail(this.userEmail);
@@ -356,6 +367,11 @@ export default {
   .add-ingredient-button {
     display: block;
     margin: 30px auto;
+  }
+
+  .strike {
+    color:#9a8c8c;
+    text-decoration: line-through;
   }
 </style>
 
