@@ -99,6 +99,11 @@
         </li>
       </ol>
       </div>
+      <p
+        v-else
+      >
+        No directions yet. Add one now!
+      </p>
       <button
         class="button add-recipe-button"
         v-on:click="addRecipe"
@@ -157,6 +162,7 @@ import EachRecipe from './EachRecipe';
 import AddIngredientModal from './AddIngredientModal';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
+import sequentialize from '../helpers/sequentialize';
 import Recipe from '../models/Recipe';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
@@ -255,6 +261,7 @@ export default {
       this.directions = this.directions.filter((d: Direction) => {
         return d.id !== dir.id;
       });
+      this.reorderDirections();
       this.showToast('Direction removed.');
     },
     getImage: function (e: Object): void {
@@ -324,6 +331,9 @@ export default {
       this.itemsRef.child(rec.id).remove();
       this.showToast(`${rec.title} deleted.`);
     },
+    reorderDirections: function (): void {
+      this.directions = sequentialize(this.directions);
+    },
     resetInputFields: function (): void {
       this.title = '';
       this.image = 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
@@ -339,7 +349,7 @@ export default {
       }, 3000);
     },
     sortItems: function (recipes: Array<Recipe>): void {
-      this.recipes = recipes.sort((a, b) => {
+      this.recipes = recipes.sort((a: Recipe, b: Recipe) => {
         const first = a.title.toLowerCase();
         const second = b.title.toLowerCase();
         if (first < second) {
