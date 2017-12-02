@@ -192,6 +192,7 @@ export default {
       addIngredientString: string,
       addDirectionString: string,
       addRecipeString: string,
+      howManyDirections: number | null,
   } {
     return {
       isUser: false,
@@ -215,6 +216,7 @@ export default {
       addIngredientString: buttonStrings.addIngredient,
       addDirectionString: buttonStrings.addDirection,
       addRecipeString: buttonStrings.addRecipe,
+      howManyDirections: null,
     };
   },
   methods: {
@@ -224,7 +226,7 @@ export default {
         this.triggerErrorState('You must enter a direction into the form field in order to add a direction.');
         return;
       }
-      const dir = new Direction(directionInput);
+      const dir = new Direction(directionInput, (this.countDirections + 1));
       this.directions = this.directions.concat(dir);
       this.directionInput = '';
       this.showToast('Direction added.');
@@ -359,6 +361,11 @@ export default {
     triggerErrorState: function (message: string): void {
       this.error = true;
       this.errorMssg = message;
+    },
+  },
+  computed: {
+    countDirections: function (): number {
+      return this.directions.length;
     },
   },
   mounted: function (): void {

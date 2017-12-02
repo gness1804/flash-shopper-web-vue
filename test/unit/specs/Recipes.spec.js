@@ -165,4 +165,13 @@ describe('Recipes.vue', () => {
     expect(component.data().ingredients.length).to.equal(2);
     expect(showToast.calledWith('Ingredient removed.'));
   });
+
+  it('adding a direction should increase the order number of the new direction', () => {
+    const component = mount(Recipes);
+    component.setData({ isUser: true });
+    component.setData({ directionInput: 'Place uncooked ground beef in skillet' });
+    const button = component.find('.add-direction-button')[0];
+    button.trigger('click');
+    expect(component.data().directions[0].order).to.equal(1);
+  });
 });
