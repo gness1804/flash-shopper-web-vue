@@ -96,6 +96,12 @@
             v-on:click="deleteDirection(direction)"
             title="Delete Direction"
           />
+          <img
+            class="icon edit-direction-button"
+            src="../assets/pencil.png"
+            v-on:click="editDirection(direction)"
+            title="Edit Direction"
+          />
         </li>
       </ol>
       </div>
@@ -263,6 +269,17 @@ export default {
       });
       this.reorderDirections();
       this.showToast('Direction removed.');
+    },
+    editDirection: function (dir: Direction): void {
+      const ind = this.directions.indexOf(dir);
+      const newText = prompt('Enter the new direction text.', dir.details);
+      if (newText) {
+        const newDir = { ...dir, details: newText, id: Date.now().toString() };
+        this.directions.splice(ind, 0, newDir);
+        this.directions = this.directions.filter((d: Direction) => {
+          return d.id !== dir.id;
+        });
+      }
     },
     getImage: function (e: Object): void {
       this.reader.readAsDataURL(e.target.files[0]);
