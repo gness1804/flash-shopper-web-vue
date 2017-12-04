@@ -80,12 +80,28 @@
           v-for="direction of directions"
           v-bind:key="direction.id"
         >
-          <div>{{direction.details}}</div>
+          <div
+            v-bind:class="{ strike: direction.done }"
+          >
+            {{direction.details}}
+          </div>
+          <img
+            class="icon check-icon"
+            src="../assets/check-square-o.png"
+            v-on:click="toggleDone(direction)"
+            title="Mark as Done or Not Done"
+          />
           <img
             class="icon delete-direction-button"
             src="../assets/cancel-circle.png"
             v-on:click="deleteDirection(direction)"
             title="Delete Direction"
+          />
+          <img
+            class="icon edit-direction-button"
+            src="../assets/pencil.png"
+            v-on:click="editDirection(direction)"
+            title="Edit Direction"
           />
         </li>
       </ol>
@@ -132,6 +148,7 @@ import Direction from '../models/Direction';
 import Recipe from '../models/Recipe';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
+import sequentialize from '../helpers/sequentialize';
 
 export default {
   name: 'recipeView',
@@ -186,7 +203,7 @@ export default {
   methods: {
     addDirection: function (): void {
       if (this.directionInput) {
-        const dir = new Direction(this.directionInput);
+        const dir = new Direction(this.directionInput, (this.countDirections + 1));
         this.directions.push(dir);
         this.targetRecipe.update({
           directions: this.directions,
@@ -215,10 +232,25 @@ export default {
         this.directions = this.directions.filter((d: Direction) => {
           return d.id !== dir.id;
         });
+        this.reorderDirections();
         this.targetRecipe.update({
           directions: this.directions,
         });
         this.showToast('Direction removed.');
+      }
+    },
+    editDirection: function (dir: Direction): void {
+      const ind = this.directions.indexOf(dir);
+      const newText = prompt('Enter the new direction text.', dir.details);
+      if (newText) {
+        const newDir = { ...dir, details: newText, id: Date.now().toString() };
+        this.directions.splice(ind, 0, newDir);
+        this.directions = this.directions.filter((d: Direction) => {
+          return d.id !== dir.id;
+        });
+        this.targetRecipe.update({
+          directions: this.directions,
+        });
       }
     },
     filterOutTargetRecipe: function (recipes: Array<Recipe>): void {
@@ -302,6 +334,9 @@ export default {
       });
       this.showToast('Ingredient removed.');
     },
+    reorderDirections: function (): void {
+      this.directions = sequentialize(this.directions);
+    },
     saveTitle: function (): void {
       const text = document.querySelector('.recipe-view-headline').innerText;
       this.title = text;
@@ -318,12 +353,28 @@ export default {
         this.toastMessage = '';
       }, 3000);
     },
+    toggleDone: function (dir: Direction): void {
+      const ind = this.directions.indexOf(dir);
+      const newDir = { ...dir, done: !dir.done, id: Date.now().toString() };
+      this.directions.splice(ind, 0, newDir);
+      this.directions = this.directions.filter((d: Direction) => {
+        return d.id !== dir.id;
+      });
+      this.targetRecipe.update({
+        directions: this.directions,
+      });
+    },
     transferIngredient: function (ing: Item): void {
       const email = cleanUpUserEmail(this.userEmail);
       /* eslint-disable prefer-template */
       firebase.database().ref(email + '/main').push(ing);
       this.showToast(`${ing.name} added to main list.`);
        /* eslint-enable prefer-template */
+    },
+  },
+  computed: {
+    countDirections: function (): number {
+      return this.directions.length;
     },
   },
   mounted: function (): void {
@@ -347,6 +398,11 @@ export default {
   .add-ingredient-button {
     display: block;
     margin: 30px auto;
+  }
+
+  .strike {
+    color:#9a8c8c;
+    text-decoration: line-through;
   }
 </style>
 
