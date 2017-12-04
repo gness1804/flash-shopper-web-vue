@@ -122,6 +122,7 @@ describe('Recipes.vue', () => {
   });
 
   it('clicking on the remove direction button should decrement the number of directions by one', () => {
+    Object.assign(window, { confirm: () => true });
     const component = mount(Recipes);
     const showToast = sinon.stub();
     component.setMethods({ showToast });

@@ -264,11 +264,14 @@ export default {
       this.showModal = false;
     },
     deleteDirection: function (dir: Direction): void {
-      this.directions = this.directions.filter((d: Direction) => {
-        return d.id !== dir.id;
-      });
-      this.reorderDirections();
-      this.showToast('Direction removed.');
+      const warning = confirm('Are you sure you want to delete this direction?');
+      if (warning) {
+        this.directions = this.directions.filter((d: Direction) => {
+          return d.id !== dir.id;
+        });
+        this.reorderDirections();
+        this.showToast('Direction removed.');
+      }
     },
     editDirection: function (dir: Direction): void {
       const ind = this.directions.indexOf(dir);
