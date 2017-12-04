@@ -142,6 +142,7 @@ import Direction from '../models/Direction';
 import Recipe from '../models/Recipe';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
+import sequentialize from '../helpers/sequentialize';
 
 export default {
   name: 'recipeView',
@@ -196,7 +197,7 @@ export default {
   methods: {
     addDirection: function (): void {
       if (this.directionInput) {
-        const dir = new Direction(this.directionInput);
+        const dir = new Direction(this.directionInput, (this.countDirections + 1));
         this.directions.push(dir);
         this.targetRecipe.update({
           directions: this.directions,
@@ -225,6 +226,7 @@ export default {
         this.directions = this.directions.filter((d: Direction) => {
           return d.id !== dir.id;
         });
+        this.reorderDirections();
         this.targetRecipe.update({
           directions: this.directions,
         });
@@ -312,6 +314,9 @@ export default {
       });
       this.showToast('Ingredient removed.');
     },
+    reorderDirections: function (): void {
+      this.directions = sequentialize(this.directions);
+    },
     saveTitle: function (): void {
       const text = document.querySelector('.recipe-view-headline').innerText;
       this.title = text;
@@ -344,6 +349,11 @@ export default {
       firebase.database().ref(email + '/main').push(ing);
       this.showToast(`${ing.name} added to main list.`);
        /* eslint-enable prefer-template */
+    },
+  },
+  computed: {
+    countDirections: function (): number {
+      return this.directions.length;
     },
   },
   mounted: function (): void {
