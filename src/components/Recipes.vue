@@ -96,9 +96,20 @@
             v-on:click="deleteDirection(direction)"
             title="Delete Direction"
           />
+          <img
+            class="icon edit-direction-button"
+            src="../assets/pencil.png"
+            v-on:click="editDirection(direction)"
+            title="Edit Direction"
+          />
         </li>
       </ol>
       </div>
+      <p
+        v-else
+      >
+        No directions yet. Add one now!
+      </p>
       <button
         class="button add-recipe-button"
         v-on:click="addRecipe"
@@ -157,6 +168,7 @@ import EachRecipe from './EachRecipe';
 import AddIngredientModal from './AddIngredientModal';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
+import sequentialize from '../helpers/sequentialize';
 import Recipe from '../models/Recipe';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
@@ -192,6 +204,7 @@ export default {
       addIngredientString: string,
       addDirectionString: string,
       addRecipeString: string,
+      howManyDirections: number | null,
   } {
     return {
       isUser: false,
@@ -215,6 +228,7 @@ export default {
       addIngredientString: buttonStrings.addIngredient,
       addDirectionString: buttonStrings.addDirection,
       addRecipeString: buttonStrings.addRecipe,
+      howManyDirections: null,
     };
   },
   methods: {
@@ -224,7 +238,7 @@ export default {
         this.triggerErrorState('You must enter a direction into the form field in order to add a direction.');
         return;
       }
-      const dir = new Direction(directionInput);
+      const dir = new Direction(directionInput, (this.countDirections + 1));
       this.directions = this.directions.concat(dir);
       this.directionInput = '';
       this.showToast('Direction added.');
@@ -250,10 +264,25 @@ export default {
       this.showModal = false;
     },
     deleteDirection: function (dir: Direction): void {
-      this.directions = this.directions.filter((d: Direction) => {
-        return d.id !== dir.id;
-      });
-      this.showToast('Direction removed.');
+      const warning = confirm('Are you sure you want to delete this direction?');
+      if (warning) {
+        this.directions = this.directions.filter((d: Direction) => {
+          return d.id !== dir.id;
+        });
+        this.reorderDirections();
+        this.showToast('Direction removed.');
+      }
+    },
+    editDirection: function (dir: Direction): void {
+      const ind = this.directions.indexOf(dir);
+      const newText = prompt('Enter the new direction text.', dir.details);
+      if (newText) {
+        const newDir = { ...dir, details: newText, id: Date.now().toString() };
+        this.directions.splice(ind, 0, newDir);
+        this.directions = this.directions.filter((d: Direction) => {
+          return d.id !== dir.id;
+        });
+      }
     },
     getImage: function (e: Object): void {
       this.reader.readAsDataURL(e.target.files[0]);
@@ -322,6 +351,9 @@ export default {
       this.itemsRef.child(rec.id).remove();
       this.showToast(`${rec.title} deleted.`);
     },
+    reorderDirections: function (): void {
+      this.directions = sequentialize(this.directions);
+    },
     resetInputFields: function (): void {
       this.title = '';
       this.image = 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
@@ -337,7 +369,7 @@ export default {
       }, 3000);
     },
     sortItems: function (recipes: Array<Recipe>): void {
-      this.recipes = recipes.sort((a, b) => {
+      this.recipes = recipes.sort((a: Recipe, b: Recipe) => {
         const first = a.title.toLowerCase();
         const second = b.title.toLowerCase();
         if (first < second) {
@@ -359,6 +391,11 @@ export default {
     triggerErrorState: function (message: string): void {
       this.error = true;
       this.errorMssg = message;
+    },
+  },
+  computed: {
+    countDirections: function (): number {
+      return this.directions.length;
     },
   },
   mounted: function (): void {

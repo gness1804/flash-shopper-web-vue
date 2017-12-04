@@ -122,6 +122,7 @@ describe('Recipes.vue', () => {
   });
 
   it('clicking on the remove direction button should decrement the number of directions by one', () => {
+    Object.assign(window, { confirm: () => true });
     const component = mount(Recipes);
     const showToast = sinon.stub();
     component.setMethods({ showToast });
@@ -164,5 +165,24 @@ describe('Recipes.vue', () => {
     button.trigger('click');
     expect(component.data().ingredients.length).to.equal(2);
     expect(showToast.calledWith('Ingredient removed.'));
+  });
+
+  it('adding a direction should increase the order number of the new direction', () => {
+    const component = mount(Recipes);
+    component.setData({ isUser: true });
+    component.setData({ directionInput: 'Place uncooked ground beef in skillet' });
+    const button = component.find('.add-direction-button')[0];
+    button.trigger('click');
+    expect(component.data().directions[0].order).to.equal(1);
+  });
+
+  it('editing a direction should change that direction\'s details', () => {
+    Object.assign(window, { prompt: () => 'Slowly heat up the skillet' });
+    const component = mount(Recipes);
+    component.setData({ isUser: true });
+    component.setData({ directions });
+    const button = component.find('.edit-direction-button')[0];
+    button.trigger('click');
+    expect(component.data().directions[0].details).to.equal('Slowly heat up the skillet');
   });
 });
