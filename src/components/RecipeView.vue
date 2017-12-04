@@ -97,6 +97,12 @@
             v-on:click="deleteDirection(direction)"
             title="Delete Direction"
           />
+          <img
+            class="icon edit-direction-button"
+            src="../assets/pencil.png"
+            v-on:click="editDirection(direction)"
+            title="Edit Direction"
+          />
         </li>
       </ol>
       </div>
@@ -233,6 +239,20 @@ export default {
         this.showToast('Direction removed.');
       }
     },
+    editDirection: function (dir: Direction): void {
+      const ind = this.directions.indexOf(dir);
+      const newText = prompt('Enter the new direction text.', dir.details);
+      if (newText) {
+        const newDir = { ...dir, details: newText, id: Date.now().toString() };
+        this.directions.splice(ind, 0, newDir);
+        this.directions = this.directions.filter((d: Direction) => {
+          return d.id !== dir.id;
+        });
+        this.targetRecipe.update({
+          directions: this.directions,
+        });
+      }
+    },
     filterOutTargetRecipe: function (recipes: Array<Recipe>): void {
       const targetId = this.id;
       const target = recipes.filter((rec: Recipe) => {
@@ -334,11 +354,12 @@ export default {
       }, 3000);
     },
     toggleDone: function (dir: Direction): void {
-      const modifiedDir = { ...dir, done: !dir.done };
+      const ind = this.directions.indexOf(dir);
+      const newDir = { ...dir, done: !dir.done, id: Date.now().toString() };
+      this.directions.splice(ind, 0, newDir);
       this.directions = this.directions.filter((d: Direction) => {
         return d.id !== dir.id;
       });
-      this.directions = this.directions.concat(modifiedDir);
       this.targetRecipe.update({
         directions: this.directions,
       });
