@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # thanks to the following source: https://unix.stackexchange.com/questions/141206/removing-a-specific-line-from-a-file
+# modeled on: https://medium.com/@mwolfhoffman/deploying-to-github-pages-with-vue-webpack-cli-5b2ba17f14a0
 
 if test "$(git rev-parse --abbrev-ref HEAD)" != gh-pages; then
   echo Oops, you must be on the gh-pages branch to deploy. >&2
