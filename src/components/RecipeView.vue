@@ -104,6 +104,12 @@
             v-on:click="editDirection(direction)"
             title="Edit Direction"
           />
+          <img
+            class="icon timer-button"
+            src="../assets/alarm.png"
+            v-on:click="openTimer"
+            title="Open Timer"
+          />
         </li>
       </ol>
       </div>
@@ -315,6 +321,9 @@ export default {
     },
     openModal: function (): void {
       this.showModal = true;
+    },
+    openTimer: function (): void {
+
     },
     removeImage: function (): void {
       const warning = confirm('Remove image: are you sure?');
