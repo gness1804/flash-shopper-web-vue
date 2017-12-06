@@ -116,6 +116,11 @@
       >
         {{addRecipeString}}
       </button>
+      <p
+        class="recipe-count"
+      >
+        You have {{recipes.length}} recipe(s).
+      </p>
       <div
         class="recipe-display-section"
         v-if="recipes.length > 0"
