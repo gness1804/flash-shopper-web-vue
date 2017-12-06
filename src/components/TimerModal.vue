@@ -7,6 +7,11 @@
     >
       X
     </p>
+    <p>Do you want to:</p>
+    <!-- radio select area with two choices: "Start Stopwatch" or "Count Down."-->
+    <!-- if stopwatch is chosen, a new window opens with the Google search for "start stopwatch." -->
+    <!-- if count down is chosen, a hidden pair of dropdwns appears: one for number (1-60 in increments of 5) and the other for unit (seconds, minutes, hours) -->
+    <!-- the user can then click on a button in this hidden area go to go a Google search for "set timer for ${time} ${units}" -->
   </div>
 </template>
 
