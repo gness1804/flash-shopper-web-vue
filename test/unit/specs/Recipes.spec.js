@@ -3,6 +3,7 @@ import Recipes from '@/components/Recipes';
 import directions from '../helpers/FakeDirections';
 import ingredients from '../helpers/FakeIngredientsArray';
 import newIngredient from '../helpers/FakeIngredient';
+import recipe from '../helpers/FakeRecipe';
 
 describe('Recipes.vue', () => {
   it('should render correctly', () => {
@@ -24,6 +25,14 @@ describe('Recipes.vue', () => {
     expect(el4.text().trim()).to.equal('Add Direction');
     const el5 = component.find('.add-recipe-button')[0];
     expect(el5.text().trim()).to.equal('Add Recipe');
+  });
+
+  it('should display the correct number of recipes', () => {
+    const component = mount(Recipes);
+    component.setData({ isUser: true });
+    component.setData({ recipes: [recipe] });
+    const el = component.find('.recipe-count')[0];
+    expect(el.text().trim()).to.equal('You have 1 recipe(s).');
   });
 
   it('clicking the go home button should trigger the goHome method', () => {

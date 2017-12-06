@@ -82,6 +82,7 @@
         >
           <div
             v-bind:class="{ strike: direction.done }"
+            class="direction-details"
           >
             {{direction.details}}
           </div>
@@ -398,6 +399,21 @@ export default {
   .add-ingredient-button {
     display: block;
     margin: 30px auto;
+  }
+
+  .directions-container {
+    margin: 30px auto;
+  }
+
+  .direction-li {
+    border: 1px solid black;
+    margin: 30px auto;
+    padding: 10px;
+    width: 60vw;
+  }
+
+  .direction-details {
+    margin-bottom: 15px;
   }
 
   .strike {
