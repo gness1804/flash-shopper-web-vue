@@ -127,6 +127,7 @@
       </add-ingredient-modal>
       <timer-modal
         v-if="showTimerModal"
+        v-on:closeTimerModal="closeTimerModal"
       >
       </timer-modal>
     </div>
@@ -240,6 +241,9 @@ export default {
     },
     closeModal: function (): void {
       this.showModal = false;
+    },
+    closeTimerModal: function (): void {
+      this.showTimerModal = false;
     },
     deleteDirection: function (dir: Direction): void {
       const warning = confirm('Are you sure you want to delete this direction?');
