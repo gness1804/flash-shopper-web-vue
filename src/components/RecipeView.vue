@@ -104,6 +104,12 @@
             v-on:click="editDirection(direction)"
             title="Edit Direction"
           />
+          <img
+            class="icon timer-button"
+            src="../assets/alarm.png"
+            v-on:click="openTimer"
+            title="Open Timer"
+          />
         </li>
       </ol>
       </div>
@@ -119,6 +125,11 @@
         v-on:showToast="showToast"
       >
       </add-ingredient-modal>
+      <timer-modal
+        v-if="showTimerModal"
+        v-on:closeTimerModal="closeTimerModal"
+      >
+      </timer-modal>
     </div>
     <!-- end of logged in section -->
     <div
@@ -144,6 +155,7 @@ import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import Ingredient from './Ingredient';
 import Toast from './Toast';
 import AddIngredientModal from './AddIngredientModal';
+import TimerModal from './TimerModal';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
 import Recipe from '../models/Recipe';
@@ -157,6 +169,7 @@ export default {
     Ingredient,
     Toast,
     AddIngredientModal,
+    TimerModal,
   },
   data(): {
     id: string,
@@ -178,6 +191,7 @@ export default {
     addIngredientString: string,
     addDirectionString: string,
     goHomeString: string,
+    showTimerModal: boolean,
   } {
     return {
       id: '',
@@ -199,6 +213,7 @@ export default {
       addIngredientString: buttonStrings.addIngredient,
       addDirectionString: buttonStrings.addDirection,
       goHomeString: buttonStrings.goHome,
+      showTimerModal: false,
     };
   },
   methods: {
@@ -226,6 +241,9 @@ export default {
     },
     closeModal: function (): void {
       this.showModal = false;
+    },
+    closeTimerModal: function (): void {
+      this.showTimerModal = false;
     },
     deleteDirection: function (dir: Direction): void {
       const warning = confirm('Are you sure you want to delete this direction?');
@@ -315,6 +333,9 @@ export default {
     },
     openModal: function (): void {
       this.showModal = true;
+    },
+    openTimer: function (): void {
+      this.showTimerModal = true;
     },
     removeImage: function (): void {
       const warning = confirm('Remove image: are you sure?');
