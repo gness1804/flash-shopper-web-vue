@@ -134,7 +134,7 @@ export default {
     },
   },
   mounted: function () {
-    for (let i = 0; i < 105; i += 5) {
+    for (let i = 0; i < 101; i++) {
       if (i > 0) {
         this.numbersOne.push(i);
         this.numbersTwo.push(i);
