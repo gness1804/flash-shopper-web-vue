@@ -41,18 +41,13 @@
           class="timer-numbers-select"
           v-model="timeOne"
         >
-          <option>5</option>
-          <option>10</option>
-          <option>15</option>
-          <option>20</option>
-          <option>25</option>
-          <option>30</option>
-          <option>35</option>
-          <option>40</option>
-          <option>45</option>
-          <option>50</option>
-          <option>55</option>
-          <option>60</option>
+          <option
+            v-for="number of numbersOne"
+            v-bind:key="number * Math.random()"
+            v-bind:value="number.toString()"
+          >
+            {{number}}
+          </option>
         </select>
         <select
           class="units-dropdown"
@@ -81,11 +76,13 @@
 export default {
   name: 'timerModal',
   data(): {
+    numbersOne: Array<number>,
     timeOne: string,
     unitsOne: string,
     stopwatchLink: string,
   } {
     return {
+      numbersOne: [],
       timeOne: '5',
       unitsOne: 'minutes',
       stopwatchLink: 'https://www.google.com/search?q=start+stopwatch',
@@ -101,6 +98,13 @@ export default {
     startTimer: function (): void {
 
     },
+  },
+  mounted: function () {
+    for (let i = 0; i < 105; i += 5) {
+      if (i > 0) {
+        this.numbersOne.push(i);
+      }
+    }
   },
 };
 </script>
