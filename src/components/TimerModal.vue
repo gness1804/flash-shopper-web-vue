@@ -34,23 +34,41 @@
       >
         Count down from:
       </p>
-      <select
-        class="timer-numbers-select"
-        v-model="time"
+      <div
+        class="dropdowns-one"
       >
-        <option>5</option>
-        <option>10</option>
-        <option>15</option>
-        <option>20</option>
-        <option>25</option>
-        <option>30</option>
-        <option>35</option>
-        <option>40</option>
-        <option>45</option>
-        <option>50</option>
-        <option>55</option>
-        <option>60</option>
-      </select>
+        <select
+          class="timer-numbers-select"
+          v-model="timeOne"
+        >
+          <option>5</option>
+          <option>10</option>
+          <option>15</option>
+          <option>20</option>
+          <option>25</option>
+          <option>30</option>
+          <option>35</option>
+          <option>40</option>
+          <option>45</option>
+          <option>50</option>
+          <option>55</option>
+          <option>60</option>
+        </select>
+        <select
+          class="units-dropdown"
+          v-model="unitsOne"
+        >
+          <option>seconds</option>
+          <option>minutes</option>
+          <option>hours</option>
+        </select>
+      </div>
+      <button
+        class="timer-button"
+        v-on:click="startTimer"
+      >
+        Go!
+      </button>
     </div>
     <!-- if count down is chosen, a hidden pair of dropdwns appears: one for number (1-60 in increments of 5) and the other for unit (seconds, minutes, hours) -->
     <!-- the user can then click on a button in this hidden area go to go a Google search for "set timer for ${time} ${units}" -->
@@ -63,11 +81,13 @@
 export default {
   name: 'timerModal',
   data(): {
-    time: string,
+    timeOne: string,
+    unitsOne: string,
     stopwatchLink: string,
   } {
     return {
-      time: '',
+      timeOne: '5',
+      unitsOne: 'minutes',
       stopwatchLink: 'https://www.google.com/search?q=start+stopwatch',
     };
   },
@@ -77,6 +97,9 @@ export default {
     },
     startStopwatch: function (): void {
       window.open('https://www.google.com/search?q=start+stopwatch');
+    },
+    startTimer: function (): void {
+
     },
   },
 };
