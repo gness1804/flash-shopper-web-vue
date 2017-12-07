@@ -8,7 +8,6 @@
       X
     </p>
     <p>Do you want to:</p>
-    <!-- radio select area with two choices: "Start Stopwatch" or "Count Down."-->
     <div
       class="stopwatch-container"
     >
@@ -58,15 +57,37 @@
           <option>hours</option>
         </select>
       </div>
+      <div
+        class="dropdowns-two"
+      >
+        <select
+          class="timer-numbers-select"
+          v-model="timeTwo"
+        >
+          <option
+            v-for="number of numbersTwo"
+            v-bind:key="number * Math.random()"
+            v-bind:value="number.toString()"
+          >
+            {{number}}
+          </option>
+        </select>
+        <select
+          class="units-dropdown"
+          v-model="unitsTwo"
+        >
+          <option>seconds</option>
+          <option>minutes</option>
+          <option>hours</option>
+        </select>
+      </div>
       <button
-        class="timer-button"
+        class="button timer-button"
         v-on:click="startTimer"
       >
         Go!
       </button>
     </div>
-    <!-- if count down is chosen, a hidden pair of dropdwns appears: one for number (1-60 in increments of 5) and the other for unit (seconds, minutes, hours) -->
-    <!-- the user can then click on a button in this hidden area go to go a Google search for "set timer for ${time} ${units}" -->
   </div>
 </template>
 
@@ -77,14 +98,20 @@ export default {
   name: 'timerModal',
   data(): {
     numbersOne: Array<number>,
+    numbersTwo: Array<number>,
     timeOne: string,
     unitsOne: string,
+    timeTwo: string,
+    unitsTwo: string,
     stopwatchLink: string,
   } {
     return {
       numbersOne: [],
+      numbersTwo: [],
       timeOne: '5',
       unitsOne: 'minutes',
+      timeTwo: '0',
+      unitsTwo: '',
       stopwatchLink: 'https://www.google.com/search?q=start+stopwatch',
     };
   },
@@ -103,6 +130,7 @@ export default {
     for (let i = 0; i < 105; i += 5) {
       if (i > 0) {
         this.numbersOne.push(i);
+        this.numbersTwo.push(i);
       }
     }
   },
@@ -131,6 +159,26 @@ export default {
 
   .stopwatch-link {
     margin-right: 20px;
+  }
+
+  .count-from-text,
+  .dropdowns-one,
+  .dropdowns-two {
+    margin-right: 6vw;
+  }
+
+  @media (max-width: 500px) {
+    .stopwatch-container,
+    .timer-container {
+      flex-direction: column;
+    }
+
+    .count-from-text,
+    .dropdowns-one,
+    .dropdowns-two {
+      margin-right: 0;
+      margin-bottom: 5vh;
+    }
   }
 </style>
 
