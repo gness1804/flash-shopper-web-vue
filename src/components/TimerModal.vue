@@ -123,7 +123,14 @@ export default {
       window.open('https://www.google.com/search?q=start+stopwatch');
     },
     startTimer: function (): void {
-
+      const { timeOne, timeTwo, unitsOne, unitsTwo } = this;
+      let url;
+      if (timeTwo && unitsTwo) {
+        url = `https://www.google.com/search?q=set+timer+for+${timeOne}+${unitsOne}+and+${timeTwo}+${unitsTwo}`;
+      } else {
+        url = `https://www.google.com/search?q=set+timer+for+${timeOne}+${unitsOne}`;
+      }
+      window.open(url);
     },
   },
   mounted: function () {
