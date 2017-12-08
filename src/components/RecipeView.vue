@@ -69,6 +69,12 @@
       >
         {{addDirectionString}}
       </button>
+      <button
+        class="button uncheck-all-button"
+        v-on:click="uncheckAll"
+      >
+        {{uncheckAllString}}
+      </button>
     <div
         class="directions-container"
         v-if="directions && directions.length > 0"
@@ -192,6 +198,7 @@ export default {
     addDirectionString: string,
     goHomeString: string,
     showTimerModal: boolean,
+    uncheckAllString: string,
   } {
     return {
       id: '',
@@ -214,6 +221,7 @@ export default {
       addDirectionString: buttonStrings.addDirection,
       goHomeString: buttonStrings.goHome,
       showTimerModal: false,
+      uncheckAllString: buttonStrings.uncheckAll,
     };
   },
   methods: {
@@ -393,6 +401,14 @@ export default {
       this.showToast(`${ing.name} added to main list.`);
        /* eslint-enable prefer-template */
     },
+    uncheckAll: function (): void {
+      this.directions = this.directions.map((dir: Direction) => {
+        return Object.assign(dir, { done: false });
+      });
+      this.targetRecipe.update({
+        directions: this.directions,
+      });
+    },
   },
   computed: {
     countDirections: function (): number {
@@ -440,6 +456,11 @@ export default {
   .strike {
     color:#9a8c8c;
     text-decoration: line-through;
+  }
+
+  .uncheck-all-button {
+    display: block;
+    margin: 30px auto;
   }
 </style>
 
