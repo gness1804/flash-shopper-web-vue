@@ -145,8 +145,8 @@
       <source-modal
         v-if="showSourceModal"
         v-on:closeSourceModal="closeSourceModal"
+        v-on:addPDF="addPDF"
       >
-
       </source-modal>
     </div>
     <!-- end of logged in section -->
@@ -214,7 +214,7 @@ export default {
     showTimerModal: boolean,
     uncheckAllString: string,
     addSourceString: string,
-    pdfSource: string,
+    pdfSource: Object,
     showSourceModal: boolean,
   } {
     return {
@@ -240,7 +240,7 @@ export default {
       showTimerModal: false,
       uncheckAllString: buttonStrings.uncheckAll,
       addSourceString: buttonStrings.addSource,
-      pdfSource: '',
+      pdfSource: {},
       showSourceModal: false,
     };
   },
@@ -266,6 +266,10 @@ export default {
       });
       this.closeModal();
       this.showToast('Ingredient added.');
+    },
+    addPDF: function (source: Object): void {
+      this.pdfSource = source;
+      // save pdfSource to firebase Recipe record
     },
     addSource: function (): void {
       this.showSourceModal = true;

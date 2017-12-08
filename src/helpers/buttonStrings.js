@@ -12,6 +12,7 @@ const buttonStrings = {
   addRecipe: 'Add Recipe',
   uncheckAll: 'Uncheck All',
   addSource: 'Add/Replace Source',
+  save: 'Save',
 };
 
 export default buttonStrings;
