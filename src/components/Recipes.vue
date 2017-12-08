@@ -14,7 +14,7 @@
       class="recipes-main"
     >
       <div class="add-recipe-container">
-        <h3>Add Recipe</h3>
+        <h3>Add Recipe: {{title}}</h3>
         <img
           class="recipe-image-main"
           alt="recipe image"
@@ -28,7 +28,10 @@
           v-model="title"
           class="text-input-field"
         />
-        <p
+        <div
+          class="image-container"
+        >
+          <p
         >
           Add/Replace Image
         </p>
@@ -45,6 +48,7 @@
         >
         {{removeImageString}}
       </button>
+        </div>
       <button
         class="button add-ingredient-button"
         v-on:click="openModal"
@@ -441,6 +445,14 @@ export default {
 
   .direction-li {
     margin-bottom: 20px;
+  }
+
+  .image-container {
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    margin: 40px auto;
+    padding-bottom: 20px;
+    width: 60vw;
   }
 </style>
 
