@@ -1,6 +1,7 @@
 import { mount } from 'avoriaz';
 import RecipeView from '@/components/RecipeView';
 import recipe from '../helpers/FakeRecipe';
+import directions from '../helpers/FakeDirections';
 
 describe('RecipeView.vue', () => {
   it('should render correctly', () => {
@@ -22,5 +23,21 @@ describe('RecipeView.vue', () => {
     expect(el3.text().trim()).to.equal('Add Direction');
     const el4 = component.find('.go-home-button')[0];
     expect(el4.text().trim()).to.equal('Go Home');
+  });
+
+  it('clicking the uncheck all button should mark all directions as not done', () => {
+    const component = mount(RecipeView);
+    component.setData({ isUser: true });
+    component.setData({ directions });
+    component.setData({ targetRecipe: {
+      update: sinon.spy(),
+    } });
+    const button = component.find('.uncheck-all-button')[0];
+    button.trigger('click');
+    const outputDirs = component.data().directions;
+    expect(outputDirs[0].done).to.equal(false);
+    expect(outputDirs[1].done).to.equal(false);
+    expect(outputDirs[2].done).to.equal(false);
+    sinon.assert.calledOnce(component.data().targetRecipe.update);
   });
 });
