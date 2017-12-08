@@ -142,6 +142,12 @@
         v-on:closeTimerModal="closeTimerModal"
       >
       </timer-modal>
+      <source-modal
+        v-if="showSourceModal"
+        v-on:closeSourceModal="closeSourceModal"
+      >
+
+      </source-modal>
     </div>
     <!-- end of logged in section -->
     <div
@@ -168,6 +174,7 @@ import Ingredient from './Ingredient';
 import Toast from './Toast';
 import AddIngredientModal from './AddIngredientModal';
 import TimerModal from './TimerModal';
+import SourceModal from './SourceModal';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
 import Recipe from '../models/Recipe';
@@ -182,6 +189,7 @@ export default {
     Toast,
     AddIngredientModal,
     TimerModal,
+    SourceModal,
   },
   data(): {
     id: string,
@@ -264,6 +272,9 @@ export default {
     },
     closeModal: function (): void {
       this.showModal = false;
+    },
+    closeSourceModal: function (): void {
+      this.showSourceModal = false;
     },
     closeTimerModal: function (): void {
       this.showTimerModal = false;
