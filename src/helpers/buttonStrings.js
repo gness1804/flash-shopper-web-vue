@@ -11,6 +11,7 @@ const buttonStrings = {
   addDirection: 'Add Direction',
   addRecipe: 'Add Recipe',
   uncheckAll: 'Uncheck All',
+  addSource: 'Add/Replace Source',
 };
 
 export default buttonStrings;

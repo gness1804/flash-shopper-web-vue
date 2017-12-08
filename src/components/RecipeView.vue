@@ -31,6 +31,12 @@
     >
     {{removeImageString}}
   </button>
+  <button
+      class="button add-source-button"
+      v-on:click="addSource"
+    >
+    {{addSourceString}}
+  </button>
     <div
       class="ingredients-container"
       v-if="ingredients && ingredients.length > 0"
@@ -199,6 +205,7 @@ export default {
     goHomeString: string,
     showTimerModal: boolean,
     uncheckAllString: string,
+    addSourceString: string,
   } {
     return {
       id: '',
@@ -222,6 +229,7 @@ export default {
       goHomeString: buttonStrings.goHome,
       showTimerModal: false,
       uncheckAllString: buttonStrings.uncheckAll,
+      addSourceString: buttonStrings.addSource,
     };
   },
   methods: {
@@ -246,6 +254,9 @@ export default {
       });
       this.closeModal();
       this.showToast('Ingredient added.');
+    },
+    addSource: function (): void {
+
     },
     closeModal: function (): void {
       this.showModal = false;
@@ -459,6 +470,11 @@ export default {
   }
 
   .uncheck-all-button {
+    display: block;
+    margin: 30px auto;
+  }
+
+  .add-source-button {
     display: block;
     margin: 30px auto;
   }
