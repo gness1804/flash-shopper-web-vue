@@ -206,6 +206,8 @@ export default {
     showTimerModal: boolean,
     uncheckAllString: string,
     addSourceString: string,
+    pdfSource: string,
+    showSourceModal: boolean,
   } {
     return {
       id: '',
@@ -230,6 +232,8 @@ export default {
       showTimerModal: false,
       uncheckAllString: buttonStrings.uncheckAll,
       addSourceString: buttonStrings.addSource,
+      pdfSource: '',
+      showSourceModal: false,
     };
   },
   methods: {
@@ -256,7 +260,7 @@ export default {
       this.showToast('Ingredient added.');
     },
     addSource: function (): void {
-
+      this.showSourceModal = true;
     },
     closeModal: function (): void {
       this.showModal = false;

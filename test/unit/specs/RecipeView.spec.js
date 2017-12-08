@@ -40,4 +40,12 @@ describe('RecipeView.vue', () => {
     expect(outputDirs[2].done).to.equal(false);
     sinon.assert.calledOnce(component.data().targetRecipe.update);
   });
+
+  it('clicking the add source button should show the source modal', () => {
+    const component = mount(RecipeView);
+    component.setData({ isUser: true });
+    const button = component.find('.add-source-button')[0];
+    button.trigger('click');
+    expect(component.data().showSourceModal).to.equal(true);
+  });
 });
