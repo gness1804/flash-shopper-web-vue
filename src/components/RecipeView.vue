@@ -61,12 +61,16 @@
     >
       <p>You do not have any ingredients! Add some now.</p>
     </div>
-    <button
-      class="button add-ingredient-button"
-      v-on:click="openModal"
+    <div
+      class="add-ingredient-container"
     >
-      {{addIngredientString}}
-    </button>
+      <button
+        class="button add-ingredient-button"
+        v-on:click="openModal"
+      >
+        {{addIngredientString}}
+      </button>
+    </div>
      <div class="directions-input-container">
         <button
           class="button add-direction-button"
@@ -75,12 +79,16 @@
           {{addDirectionString}}
         </button>
         </div>
-      <button
-        class="button uncheck-all-button"
-        v-on:click="uncheckAll"
+      <div
+        class="uncheck-all-container"
       >
-        {{uncheckAllString}}
-      </button>
+        <button
+          class="button uncheck-all-button"
+          v-on:click="uncheckAll"
+        >
+          {{uncheckAllString}}
+        </button>
+      </div>
     <div
         class="directions-container"
         v-if="directions && directions.length > 0"
@@ -434,7 +442,9 @@ export default {
   }
 
   .image-container,
-  .directions-input-container {
+  .directions-input-container,
+  .add-ingredient-container,
+  .uncheck-all-container {
     background-color: #ffffff;
     border: 1px solid #000000;
     margin: 40px auto;
@@ -448,14 +458,15 @@ export default {
 
   .add-ingredient-button {
     display: block;
-    margin: 30px auto;
   }
 
   .directions-container {
     margin: 30px auto;
   }
 
-  .directions-input-container {
+  .directions-input-container,
+  .add-ingredient-container,
+  .uncheck-all-container {
     align-items: center;
     display: flex;
     justify-content: center;
@@ -480,7 +491,6 @@ export default {
 
   .uncheck-all-button {
     display: block;
-    margin: 30px auto;
   }
 </style>
 
