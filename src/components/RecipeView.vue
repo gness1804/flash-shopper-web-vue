@@ -1,5 +1,11 @@
 <template>
   <div class="recipe-view">
+     <button
+      class="button go-home-button"
+      v-on:click="goHome"
+    >
+      {{goHomeString}}
+    </button>
     <div
       class="logged-in-container"
       v-if="isUser"
@@ -15,22 +21,26 @@
       class="recipe-view-image"
       v-bind:src="image"
     />
-    <p
+    <div
+      class="image-container"
     >
-      Add/Replace Image
-    </p>
-    <input
-      type="file"
-      class="file-input-field recipe-image-input"
-      accept="image/*"
-      v-on:change="getImage"
-    />
-    <button
-      class="button warn-button remove-image-button"
-      v-on:click="removeImage"
-    >
-    {{removeImageString}}
-  </button>
+      <p
+      >
+        Add/Replace Image
+      </p>
+      <input
+        type="file"
+        class="file-input-field recipe-image-input"
+        accept="image/*"
+        v-on:change="getImage"
+      />
+      <button
+        class="button warn-button remove-image-button"
+        v-on:click="removeImage"
+      >
+      {{removeImageString}}
+    </button>
+    </div>
     <div
       class="ingredients-container"
       v-if="ingredients && ingredients.length > 0"
@@ -52,29 +62,52 @@
       <p>You do not have any ingredients! Add some now.</p>
     </div>
     <button
-      class="button add-ingredient-button"
-      v-on:click="openModal"
+      class="button show-inputs-button"
+      v-if="!showShowHideContainer"
+      v-on:click="showInputs"
     >
-      {{addIngredientString}}
+      {{showInputsString}}
     </button>
-    <input
-        class="text-input-field add-direction-input-field"
-        type="text"
-        placeholder="Enter Direction"
-        v-model="directionInput"
-      />
+    <button
+      class="button hide-inputs-button"
+      v-if="showShowHideContainer"
+      v-on:click="hideInputs"
+    >
+      {{hideInputsString}}
+    </button>
+    <div
+      class="show-hide-container"
+      v-if="showShowHideContainer"
+    >
+      <div
+      class="add-ingredient-container"
+    >
       <button
-        class="button add-direction-button"
-        v-on:click="addDirection"
+        class="button add-ingredient-button"
+        v-on:click="openModal"
       >
-        {{addDirectionString}}
+        {{addIngredientString}}
       </button>
-      <button
-        class="button uncheck-all-button"
-        v-on:click="uncheckAll"
+    </div>
+     <div class="directions-input-container">
+        <button
+          class="button add-direction-button"
+          v-on:click="addDirection"
+        >
+          {{addDirectionString}}
+        </button>
+        </div>
+      <div
+        class="uncheck-all-container"
       >
-        {{uncheckAllString}}
-      </button>
+        <button
+          class="button uncheck-all-button"
+          v-on:click="uncheckAll"
+        >
+          {{uncheckAllString}}
+        </button>
+      </div>
+    </div>
     <div
         class="directions-container"
         v-if="directions && directions.length > 0"
@@ -144,12 +177,6 @@
     >
       <p>Oops, you are not logged in. Please click on the Go Home button to log in.</p>
     </div>
-    <button
-      class="button go-home-button"
-      v-on:click="goHome"
-    >
-      {{goHomeString}}
-    </button>
   </div>
 </template>
 
@@ -192,13 +219,15 @@ export default {
     targetRecipe: Recipe,
     reader: Object,
     showModal: boolean,
-    directionInput: string,
     removeImageString: string,
     addIngredientString: string,
     addDirectionString: string,
     goHomeString: string,
     showTimerModal: boolean,
     uncheckAllString: string,
+    showShowHideContainer: boolean,
+    showInputsString: string,
+    hideInputsString: string,
   } {
     return {
       id: '',
@@ -215,27 +244,27 @@ export default {
       targetRecipe: {},
       reader: new FileReader(),
       showModal: false,
-      directionInput: '',
       removeImageString: buttonStrings.removeImage,
       addIngredientString: buttonStrings.addIngredient,
       addDirectionString: buttonStrings.addDirection,
       goHomeString: buttonStrings.goHome,
       showTimerModal: false,
       uncheckAllString: buttonStrings.uncheckAll,
+      showShowHideContainer: false,
+      showInputsString: buttonStrings.showInputs,
+      hideInputsString: buttonStrings.hideInputs,
     };
   },
   methods: {
     addDirection: function (): void {
-      if (this.directionInput) {
-        const dir = new Direction(this.directionInput, (this.countDirections + 1));
+      const input = prompt('Enter a new direction.');
+      if (input) {
+        const dir = new Direction(input, (this.countDirections + 1));
         this.directions.push(dir);
         this.targetRecipe.update({
           directions: this.directions,
         });
-        this.directionInput = '';
         this.showToast('Direction added.');
-      } else {
-        alert('Oops, you need to enter a direction before you can add a direction. Please try again.');
       }
     },
     addIngredient: function (ingredient: Item): void {
@@ -310,6 +339,9 @@ export default {
     goHome: function () {
       this.$router.push('/');
     },
+    hideInputs: function (): void {
+      this.showShowHideContainer = false;
+    },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
         if (user) {
@@ -375,6 +407,9 @@ export default {
       });
       this.showToast('Title updated.');
     },
+    showInputs: function (): void {
+      this.showShowHideContainer = true;
+    },
     showToast: function (message: string): void {
       this.toastMessage = message;
       this.viewToast = true;
@@ -425,6 +460,10 @@ export default {
 </script>
 
 <style scoped>
+  .recipe-view-headline {
+    font-size: 36px;
+  }
+
   .recipe-view-image {
     background-color: #fff;
     border-radius: 50%;
@@ -433,13 +472,46 @@ export default {
     width: 30vw;
   }
 
+  .hide-inputs-button {
+    margin-bottom: 30px;
+  }
+
+  .show-hide-container {
+    border: 1px solid #000000;
+    margin: 0 auto;
+    width: 80vw;
+  }
+
+  .image-container,
+  .directions-input-container,
+  .add-ingredient-container,
+  .uncheck-all-container {
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    margin: 40px auto;
+    padding-bottom: 20px;
+    width: 60vw;
+  }
+
+  .ingredients-container {
+    padding: 30px;
+  }
+
   .add-ingredient-button {
     display: block;
-    margin: 30px auto;
   }
 
   .directions-container {
     margin: 30px auto;
+  }
+
+  .directions-input-container,
+  .add-ingredient-container,
+  .uncheck-all-container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 30px;
   }
 
   .direction-li {
@@ -460,7 +532,6 @@ export default {
 
   .uncheck-all-button {
     display: block;
-    margin: 30px auto;
   }
 </style>
 
