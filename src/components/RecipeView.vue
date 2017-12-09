@@ -61,7 +61,25 @@
     >
       <p>You do not have any ingredients! Add some now.</p>
     </div>
+    <button
+      class="button show-inputs-button"
+      v-if="!showShowHideContainer"
+      v-on:click="showInputs"
+    >
+      {{showInputsString}}
+    </button>
+    <button
+      class="button hide-inputs-button"
+      v-if="showShowHideContainer"
+      v-on:click="hideInputs"
+    >
+      {{hideInputsString}}
+    </button>
     <div
+      class="show-hide-container"
+      v-if="showShowHideContainer"
+    >
+      <div
       class="add-ingredient-container"
     >
       <button
@@ -89,6 +107,7 @@
           {{uncheckAllString}}
         </button>
       </div>
+    </div>
     <div
         class="directions-container"
         v-if="directions && directions.length > 0"
@@ -206,6 +225,9 @@ export default {
     goHomeString: string,
     showTimerModal: boolean,
     uncheckAllString: string,
+    showShowHideContainer: boolean,
+    showInputsString: string,
+    hideInputsString: string,
   } {
     return {
       id: '',
@@ -228,6 +250,9 @@ export default {
       goHomeString: buttonStrings.goHome,
       showTimerModal: false,
       uncheckAllString: buttonStrings.uncheckAll,
+      showShowHideContainer: false,
+      showInputsString: buttonStrings.showInputs,
+      hideInputsString: buttonStrings.hideInputs,
     };
   },
   methods: {
@@ -314,6 +339,9 @@ export default {
     goHome: function () {
       this.$router.push('/');
     },
+    hideInputs: function (): void {
+      this.showShowHideContainer = false;
+    },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
         if (user) {
@@ -379,6 +407,9 @@ export default {
       });
       this.showToast('Title updated.');
     },
+    showInputs: function (): void {
+      this.showShowHideContainer = true;
+    },
     showToast: function (message: string): void {
       this.toastMessage = message;
       this.viewToast = true;
@@ -439,6 +470,16 @@ export default {
     display: block;
     margin: 60px auto;
     width: 30vw;
+  }
+
+  .hide-inputs-button {
+    margin-bottom: 30px;
+  }
+
+  .show-hide-container {
+    border: 1px solid #000000;
+    margin: 0 auto;
+    width: 80vw;
   }
 
   .image-container,
