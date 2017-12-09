@@ -62,20 +62,7 @@
             {{addIngredientString}}
           </button>
         </div>
-      <button
-        class="button add-direction-button"
-        v-on:click="addDirection"
-      >
-        {{addDirectionString}}
-      </button>
-      </div>
-      <input
-        class="add-direction-input-field"
-        type="text"
-        placeholder="Enter Direction"
-        v-model="directionInput"
-      />
-      <div
+        <div
         class="ingredients-container"
         v-if="ingredients.length > 0"
       >
@@ -89,6 +76,25 @@
         >
         </ingredient>
       </div>
+      <p
+        v-else
+        class="no-ingredients-text"
+      >
+        No ingredients yet. Add one now!
+      </p>
+      <button
+        class="button add-direction-button"
+        v-on:click="addDirection"
+      >
+        {{addDirectionString}}
+      </button>
+      </div>
+      <input
+        class="add-direction-input-field"
+        type="text"
+        placeholder="Enter Direction"
+        v-model="directionInput"
+      />
       <div
         class="directions-container"
         v-if="directions.length > 0"
@@ -475,6 +481,11 @@ export default {
     display: flex;
     justify-content: center;
     padding: 30px;
+  }
+
+  .no-ingredients-text,
+  .ingredients-container {
+    padding-bottom: 30px;
   }
 </style>
 
