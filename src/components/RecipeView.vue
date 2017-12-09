@@ -15,22 +15,26 @@
       class="recipe-view-image"
       v-bind:src="image"
     />
-    <p
+    <div
+      class="image-container"
     >
-      Add/Replace Image
-    </p>
-    <input
-      type="file"
-      class="file-input-field recipe-image-input"
-      accept="image/*"
-      v-on:change="getImage"
-    />
-    <button
-      class="button warn-button remove-image-button"
-      v-on:click="removeImage"
-    >
-    {{removeImageString}}
-  </button>
+      <p
+      >
+        Add/Replace Image
+      </p>
+      <input
+        type="file"
+        class="file-input-field recipe-image-input"
+        accept="image/*"
+        v-on:change="getImage"
+      />
+      <button
+        class="button warn-button remove-image-button"
+        v-on:click="removeImage"
+      >
+      {{removeImageString}}
+    </button>
+    </div>
     <div
       class="ingredients-container"
       v-if="ingredients && ingredients.length > 0"
@@ -425,12 +429,24 @@ export default {
 </script>
 
 <style scoped>
+  .recipe-view-headline {
+    font-size: 36px;
+  }
+
   .recipe-view-image {
     background-color: #fff;
     border-radius: 50%;
     display: block;
     margin: 60px auto;
     width: 30vw;
+  }
+
+  .image-container {
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    margin: 40px auto;
+    padding-bottom: 20px;
+    width: 60vw;
   }
 
   .add-ingredient-button {
