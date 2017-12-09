@@ -1,5 +1,11 @@
 <template>
   <div class="recipe-view">
+     <button
+      class="button go-home-button"
+      v-on:click="goHome"
+    >
+      {{goHomeString}}
+    </button>
     <div
       class="logged-in-container"
       v-if="isUser"
@@ -61,18 +67,14 @@
     >
       {{addIngredientString}}
     </button>
-    <input
-        class="text-input-field add-direction-input-field"
-        type="text"
-        placeholder="Enter Direction"
-        v-model="directionInput"
-      />
-      <button
-        class="button add-direction-button"
-        v-on:click="addDirection"
-      >
-        {{addDirectionString}}
-      </button>
+     <div class="directions-input-container">
+        <button
+          class="button add-direction-button"
+          v-on:click="addDirection"
+        >
+          {{addDirectionString}}
+        </button>
+        </div>
       <button
         class="button uncheck-all-button"
         v-on:click="uncheckAll"
@@ -148,12 +150,6 @@
     >
       <p>Oops, you are not logged in. Please click on the Go Home button to log in.</p>
     </div>
-    <button
-      class="button go-home-button"
-      v-on:click="goHome"
-    >
-      {{goHomeString}}
-    </button>
   </div>
 </template>
 
@@ -196,7 +192,6 @@ export default {
     targetRecipe: Recipe,
     reader: Object,
     showModal: boolean,
-    directionInput: string,
     removeImageString: string,
     addIngredientString: string,
     addDirectionString: string,
@@ -219,7 +214,6 @@ export default {
       targetRecipe: {},
       reader: new FileReader(),
       showModal: false,
-      directionInput: '',
       removeImageString: buttonStrings.removeImage,
       addIngredientString: buttonStrings.addIngredient,
       addDirectionString: buttonStrings.addDirection,
@@ -230,16 +224,14 @@ export default {
   },
   methods: {
     addDirection: function (): void {
-      if (this.directionInput) {
-        const dir = new Direction(this.directionInput, (this.countDirections + 1));
+      const input = prompt('Enter a new direction.');
+      if (input) {
+        const dir = new Direction(input, (this.countDirections + 1));
         this.directions.push(dir);
         this.targetRecipe.update({
           directions: this.directions,
         });
-        this.directionInput = '';
         this.showToast('Direction added.');
-      } else {
-        alert('Oops, you need to enter a direction before you can add a direction. Please try again.');
       }
     },
     addIngredient: function (ingredient: Item): void {
@@ -441,12 +433,17 @@ export default {
     width: 30vw;
   }
 
-  .image-container {
+  .image-container,
+  .directions-input-container {
     background-color: #ffffff;
     border: 1px solid #000000;
     margin: 40px auto;
     padding-bottom: 20px;
     width: 60vw;
+  }
+
+  .ingredients-container {
+    padding: 30px;
   }
 
   .add-ingredient-button {
@@ -456,6 +453,13 @@ export default {
 
   .directions-container {
     margin: 30px auto;
+  }
+
+  .directions-input-container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 30px;
   }
 
   .direction-li {
