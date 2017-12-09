@@ -2,7 +2,7 @@
   <div
     id="recipes"
   >
-    <h2>Recipes</h2>
+    <h2 class="recipes-headline">Recipes</h2>
     <button
       class="button go-home-button"
       v-on:click="goHome"
@@ -14,13 +14,18 @@
       class="recipes-main"
     >
       <div class="add-recipe-container">
-        <h3>Add Recipe: {{title}}</h3>
+        <h3 class="add-recipe-text">Add Recipe: {{title}}</h3>
         <img
           class="recipe-image-main"
           alt="recipe image"
           v-bind:src="image"
           v-bind:title="(title && image !== 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png') ? title : 'Recipe Image'"
         />
+        <p
+          class="recipe-title-text"
+        >
+          Title:
+        </p>
         <input
           type="text"
           placeholder="Title"
@@ -49,12 +54,14 @@
         {{removeImageString}}
       </button>
         </div>
-      <button
-        class="button add-ingredient-button"
-        v-on:click="openModal"
-      >
-        {{addIngredientString}}
-      </button>
+        <div class="add-ingredient-container">
+          <button
+            class="button add-ingredient-button"
+            v-on:click="openModal"
+          >
+            {{addIngredientString}}
+          </button>
+        </div>
       <button
         class="button add-direction-button"
         v-on:click="addDirection"
@@ -414,6 +421,14 @@ export default {
 </script>
 
 <style scoped>
+  .recipes-headline {
+    font-size: 36px;
+  }
+
+  .add-recipe-text {
+    margin-top: 50px;
+  }
+
   .recipe-image-main {
     background-color: #fff;
     border-radius: 50%;
@@ -426,7 +441,6 @@ export default {
     margin-top: 20px;
   }
 
-  .add-ingredient-button,
   .add-recipe-button {
     display: block;
     margin: 20px auto;
@@ -447,12 +461,20 @@ export default {
     margin-bottom: 20px;
   }
 
-  .image-container {
+  .image-container,
+  .add-ingredient-container {
     background-color: #ffffff;
     border: 1px solid #000000;
     margin: 40px auto;
     padding-bottom: 20px;
     width: 60vw;
+  }
+
+  .add-ingredient-container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 30px;
   }
 </style>
 
