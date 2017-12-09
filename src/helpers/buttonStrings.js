@@ -10,6 +10,9 @@ const buttonStrings = {
   addIngredient: 'Add Ingredient',
   addDirection: 'Add Direction',
   addRecipe: 'Add Recipe',
+  uncheckAll: 'Uncheck All',
+  showInputs: 'Show Inputs',
+  hideInputs: 'Hide Inputs',
 };
 
 export default buttonStrings;
