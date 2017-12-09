@@ -101,12 +101,12 @@ describe('Recipes.vue', () => {
   });
 
   it('clicking the add direction button should add a direction', () => {
+    Object.assign(window, { prompt: () => 'Cook until water is absorbed adequately' });
     const component = mount(Recipes);
     const showToast = sinon.stub();
     component.setMethods({ showToast });
     component.setData({ directions });
     component.setData({ isUser: true });
-    component.setData({ directionInput: 'Cook until water is absorbed adequately' });
     const button = component.find('.add-direction-button')[0];
     button.trigger('click');
     expect(component.data().directions.length).to.equal(4);
@@ -114,20 +114,17 @@ describe('Recipes.vue', () => {
     expect(component.data().directions[3].details).to.equal('Cook until water is absorbed adequately');
   });
 
-  it('clicking the add direction button without a valid directionInput should trigger an error', () => {
+  it('clicking the add direction button without a valid input should not add a direction', () => {
+    Object.assign(window, { prompt: () => '' });
     const component = mount(Recipes);
-    component.setData({ directions: [] });
     const showToast = sinon.stub();
-    const triggerErrorState = sinon.stub();
     component.setMethods({ showToast });
-    component.setMethods({ triggerErrorState });
     component.setData({ isUser: true });
     component.setData({ directions });
     const button = component.find('.add-direction-button')[0];
     button.trigger('click');
     expect(component.data().directions.length).to.equal(3);
     expect(showToast.notCalled).to.equal(true);
-    expect(triggerErrorState.calledOnce).to.equal(true);
   });
 
   it('clicking on the remove direction button should decrement the number of directions by one', () => {
@@ -177,9 +174,9 @@ describe('Recipes.vue', () => {
   });
 
   it('adding a direction should increase the order number of the new direction', () => {
+    Object.assign(window, { prompt: () => 'Place uncooked ground beef in skillet' });
     const component = mount(Recipes);
     component.setData({ isUser: true });
-    component.setData({ directionInput: 'Place uncooked ground beef in skillet' });
     const button = component.find('.add-direction-button')[0];
     button.trigger('click');
     expect(component.data().directions[0].order).to.equal(1);

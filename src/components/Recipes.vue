@@ -14,7 +14,7 @@
       class="recipes-main"
     >
       <div class="add-recipe-container">
-        <h3 class="add-recipe-text">Add Recipe: {{title}}</h3>
+        <h3 class="add-recipe-text">Add Recipe</h3>
         <img
           class="recipe-image-main"
           alt="recipe image"
@@ -24,7 +24,7 @@
         <p
           class="recipe-title-text"
         >
-          Title:
+          Title: {{title}}
         </p>
         <input
           type="text"
@@ -82,19 +82,15 @@
       >
         No ingredients yet. Add one now!
       </p>
-      <button
-        class="button add-direction-button"
-        v-on:click="addDirection"
-      >
-        {{addDirectionString}}
-      </button>
+      <div class="directions-input-container">
+        <button
+          class="button add-direction-button"
+          v-on:click="addDirection"
+        >
+          {{addDirectionString}}
+        </button>
+        </div>
       </div>
-      <input
-        class="add-direction-input-field"
-        type="text"
-        placeholder="Enter Direction"
-        v-model="directionInput"
-      />
       <div
         class="directions-container"
         v-if="directions.length > 0"
@@ -214,7 +210,6 @@ export default {
       image: string,
       ingredients: Array<Item>,
       directions?: Array<Direction>,
-      directionInput?: string,
       error: boolean,
       errorMssg?: string,
       reader: Object,
@@ -238,7 +233,6 @@ export default {
       image: 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png',
       ingredients: [],
       directions: [],
-      directionInput: '',
       error: false,
       errorMssg: '',
       reader: new FileReader(),
@@ -255,15 +249,12 @@ export default {
   },
   methods: {
     addDirection: function (): void {
-      const { directionInput } = this;
-      if (!directionInput) {
-        this.triggerErrorState('You must enter a direction into the form field in order to add a direction.');
-        return;
+      const input = prompt('Enter a new direction.');
+      if (input) {
+        const dir = new Direction(input, (this.countDirections + 1));
+        this.directions = this.directions.concat(dir);
+        this.showToast('Direction added.');
       }
-      const dir = new Direction(directionInput, (this.countDirections + 1));
-      this.directions = this.directions.concat(dir);
-      this.directionInput = '';
-      this.showToast('Direction added.');
     },
     addIngredient: function (ingredient: Item): void {
       const modifiedIng = { ...ingredient, ingredientId: Date.now() };
@@ -468,7 +459,8 @@ export default {
   }
 
   .image-container,
-  .add-ingredient-container {
+  .add-ingredient-container,
+  .directions-input-container {
     background-color: #ffffff;
     border: 1px solid #000000;
     margin: 40px auto;
@@ -476,7 +468,8 @@ export default {
     width: 60vw;
   }
 
-  .add-ingredient-container {
+  .add-ingredient-container,
+  .directions-input-container {
     align-items: center;
     display: flex;
     justify-content: center;
@@ -484,7 +477,8 @@ export default {
   }
 
   .no-ingredients-text,
-  .ingredients-container {
+  .ingredients-container,
+  .directions-container {
     padding-bottom: 30px;
   }
 </style>
