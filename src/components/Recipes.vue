@@ -439,8 +439,11 @@ export default {
   }
 
   .add-recipe-button {
+    border-radius: 10px;
     display: block;
-    margin: 20px auto;
+    font-size: 24px;
+    margin: 60px auto;
+    padding: 10px;
   }
 
   .directions-list {
