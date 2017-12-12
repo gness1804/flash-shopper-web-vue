@@ -201,6 +201,7 @@ import Recipe from '../models/Recipe';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
+import orderIsValid from '../helpers/orderIsValid';
 
 export default {
   name: 'recipeView',
@@ -285,7 +286,7 @@ export default {
     changeOrderForDir: function (targetDir: Direction): void {
       const newOrder = prompt('Enter desired new order for this direction.');
       const parsedOrder = parseInt(newOrder, 10);
-      if (newOrder && typeof parsedOrder === 'number' && parsedOrder > 0 && parsedOrder <= this.directions.length) {
+      if (newOrder && orderIsValid(parsedOrder, this.directions)) {
         this.directions = this.directions.filter((d: Direction) => {
           return d.id !== targetDir.id;
         });
