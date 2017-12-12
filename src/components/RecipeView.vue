@@ -201,7 +201,6 @@ import Recipe from '../models/Recipe';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
-import insertSort from '../helpers/insertSort';
 
 export default {
   name: 'recipeView',
@@ -285,10 +284,16 @@ export default {
     },
     changeOrderForDir: function (targetDir: Direction): void {
       const newOrder = prompt('Enter desired new order for this direction.');
-      if (newOrder && typeof parseInt(newOrder, 10) === 'number') {
-        this.directions = insertSort(this.directions, parseInt(newOrder, 10), targetDir);
+      const parsedOrder = parseInt(newOrder, 10);
+      if (newOrder && typeof parsedOrder === 'number' && parsedOrder > 0 && parsedOrder <= this.directions.length) {
+        this.directions = this.directions.filter((d: Direction) => {
+          return d.id !== targetDir.id;
+        });
+        this.directions.splice((parsedOrder - 1), 0, targetDir);
+        this.directions = sequentialize(this.directions);
+      } else {
+        alert('Bad data. The order value must be a positive number greater than zero but no more than the number of existing directions.');
       }
-      // else throw an error for bad data
     },
     closeModal: function (): void {
       this.showModal = false;
