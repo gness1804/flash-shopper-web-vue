@@ -149,6 +149,12 @@
             v-on:click="openTimer"
             title="Open Timer"
           />
+          <img
+            class="icon reorder-dirs-button"
+            src="https://qph.ec.quoracdn.net/main-qimg-ae92b32bf2255fc758cf0ea8e4b76b18-c"
+            v-on:click="changeOrderForDir(direction)"
+            title="Reorder Direction"
+          />
         </li>
       </ol>
       </div>
@@ -195,6 +201,7 @@ import Recipe from '../models/Recipe';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
+import insertSort from '../helpers/insertSort';
 
 export default {
   name: 'recipeView',
@@ -275,6 +282,13 @@ export default {
       });
       this.closeModal();
       this.showToast('Ingredient added.');
+    },
+    changeOrderForDir: function (targetDir: Direction): void {
+      const newOrder = prompt('Enter desired new order for this direction.');
+      if (newOrder && typeof parseInt(newOrder, 10) === 'number') {
+        this.directions = insertSort(this.directions, parseInt(newOrder, 10), targetDir);
+      }
+      // else throw an error for bad data
     },
     closeModal: function (): void {
       this.showModal = false;
