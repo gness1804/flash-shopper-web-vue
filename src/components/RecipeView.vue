@@ -292,6 +292,7 @@ export default {
         });
         this.directions.splice((parsedOrder - 1), 0, targetDir);
         this.directions = sequentialize(this.directions);
+        // add dirs to firebase
       } else {
         alert('Bad data. The order value must be a positive number greater than zero but no more than the number of existing directions.');
       }
