@@ -149,6 +149,12 @@
             v-on:click="openTimer"
             title="Open Timer"
           />
+          <img
+            class="icon reorder-dirs-button"
+            src="https://qph.ec.quoracdn.net/main-qimg-ae92b32bf2255fc758cf0ea8e4b76b18-c"
+            v-on:click="changeOrderForDir(direction)"
+            title="Reorder Direction"
+          />
         </li>
       </ol>
       </div>
@@ -195,6 +201,7 @@ import Recipe from '../models/Recipe';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
+import orderIsValid from '../helpers/orderIsValid';
 
 export default {
   name: 'recipeView',
@@ -275,6 +282,23 @@ export default {
       });
       this.closeModal();
       this.showToast('Ingredient added.');
+    },
+    changeOrderForDir: function (targetDir: Direction): void {
+      const newOrder = prompt('Enter desired new order for this direction.');
+      const parsedOrder = parseInt(newOrder, 10);
+      if (newOrder && orderIsValid(parsedOrder, this.directions)) {
+        this.directions = this.directions.filter((d: Direction) => {
+          return d.id !== targetDir.id;
+        });
+        this.directions.splice((parsedOrder - 1), 0, targetDir);
+        this.directions = sequentialize(this.directions);
+        this.targetRecipe.update({
+          directions: this.directions,
+        });
+        this.showToast('Direction order changed.');
+      } else {
+        alert('Bad data. The order value must be a positive number greater than zero but no more than the number of existing directions.');
+      }
     },
     closeModal: function (): void {
       this.showModal = false;
