@@ -151,7 +151,7 @@
           />
           <img
             class="icon reorder-dirs-button"
-            src="https://qph.ec.quoracdn.net/main-qimg-ae92b32bf2255fc758cf0ea8e4b76b18-c"
+            src="../assets/reorder.png"
             v-on:click="changeOrderForDir(direction)"
             title="Reorder Direction"
           />
