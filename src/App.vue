@@ -1,6 +1,10 @@
 <template>
   <div id="app-wrapper">
-    <h1>Flash Shopper</h1>
+    <app-header
+      v-bind:isUser="isUser"
+      v-bind:userEmail="userEmail"
+    >
+    </app-header>
     <p
       v-if="isUser"
       class="user-logged-in-message"
@@ -48,6 +52,7 @@ import firebaseApp from '../firebaseConfig';  // eslint-disable-line
 import PreAuth from './components/PreAuth';
 import AuthedMain from './components/AuthedMain';
 import Toast from './components/Toast';
+import AppHeader from './components/AppHeader';
 import cleanUpUserEmail from './helpers/cleanUpUserEmail';
 import buttonStrings from './helpers/buttonStrings';
 import Item from './models/Item';
@@ -58,6 +63,7 @@ export default {
     PreAuth,
     AuthedMain,
     Toast,
+    AppHeader,
   },
   data(): {
     isUser: boolean,
