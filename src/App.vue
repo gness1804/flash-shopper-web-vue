@@ -3,21 +3,9 @@
     <app-header
       v-bind:isUser="isUser"
       v-bind:userEmail="userEmail"
+      v-on:logOut="logOut"
     >
     </app-header>
-    <p
-      v-if="isUser"
-      class="user-logged-in-message"
-    >
-    Logged in as <span class="bold">{{userEmail}}</span>
-    </p>
-    <button
-      class="button warn-button log-out-button"
-      v-if="isUser"
-      v-on:click="logOut"
-    >
-    {{logOutString}}
-    </button>
     <authed-main
       v-if="isUser"
       v-bind:items="items"
@@ -54,7 +42,6 @@ import AuthedMain from './components/AuthedMain';
 import Toast from './components/Toast';
 import AppHeader from './components/AppHeader';
 import cleanUpUserEmail from './helpers/cleanUpUserEmail';
-import buttonStrings from './helpers/buttonStrings';
 import Item from './models/Item';
 
 export default {
@@ -73,7 +60,6 @@ export default {
     items: Array<Item>,
     toastMessage?: string,
     viewToast: boolean,
-    logOutString: string,
   } {
     return {
       isUser: false,
@@ -83,7 +69,6 @@ export default {
       items: [],
       toastMessage: '',
       viewToast: false,
-      logOutString: buttonStrings.logOut,
     };
   },
   methods: {

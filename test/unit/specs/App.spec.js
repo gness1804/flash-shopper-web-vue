@@ -6,18 +6,6 @@ import item from '../helpers/FakeItem';
 describe('App.vue', () => {
   const userEmail = 'foo@foo.com';
 
-  it('should trigger the logOut method when user clicks the log out button', () => {
-    const component = mount(App);
-    component.setData({ items });
-    component.setData({ isUser: true });
-    component.setData({ userEmail });
-    const logOut = sinon.stub();
-    component.setMethods({ logOut });
-    const button = component.find('.log-out-button')[0];
-    button.trigger('click');
-    expect(logOut.calledOnce).to.equal(true);
-  });
-
   it('should trigger show toast when the addItem method is called', () => {
     const component = mount(App);
     component.setData({ items });
