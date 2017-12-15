@@ -12,6 +12,15 @@ describe('RecipeView.vue', () => {
     expect(el.text().trim()).to.equal('Pumpkin pie');
   });
 
+  it('should render correctly with a note', () => {
+    const component = mount(RecipeView);
+    component.setData({ isUser: true });
+    component.setData({ title: recipe.title });
+    component.setData({ note: 'Heat up the oven first' });
+    const el = component.find('.note-output')[0];
+    expect(el.text().trim()).to.equal('Note: Heat up the oven first');
+  });
+
   it('should render button string data correctly ', () => {
     const component = mount(RecipeView);
     component.setData({ isUser: true });
