@@ -52,6 +52,12 @@
       v-on:click="deleteNote"
       title="Delete Note"
     />
+    <img
+      class="icon edit-note-button"
+      src="../assets/pencil.png"
+      v-on:click="editNote"
+      title="Edit Note"
+    />
     <div
       class="ingredients-container"
       v-if="ingredients && ingredients.length > 0"
@@ -186,6 +192,11 @@
         v-on:closeTimerModal="closeTimerModal"
       >
       </timer-modal>
+      <note-modal
+        v-if="showNoteModal"
+        v-on:closeNoteModal="closeNoteModal"
+      >
+      </note-modal>
     </div>
     <!-- end of logged in section -->
     <div
@@ -206,6 +217,7 @@ import Ingredient from './Ingredient';
 import Toast from './Toast';
 import AddIngredientModal from './AddIngredientModal';
 import TimerModal from './TimerModal';
+import NoteModal from './NoteModal';
 import AppHeader from './AppHeader';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
@@ -224,6 +236,7 @@ export default {
     AddIngredientModal,
     TimerModal,
     AppHeader,
+    NoteModal,
   },
   data(): {
     id: string,
@@ -250,6 +263,7 @@ export default {
     showShowHideContainer: boolean,
     showInputsString: string,
     hideInputsString: string,
+    showNoteModal: boolean,
   } {
     return {
       id: '',
@@ -276,6 +290,7 @@ export default {
       showShowHideContainer: false,
       showInputsString: buttonStrings.showInputs,
       hideInputsString: buttonStrings.hideInputs,
+      showNoteModal: false,
     };
   },
   methods: {
@@ -319,6 +334,9 @@ export default {
     closeModal: function (): void {
       this.showModal = false;
     },
+    closeNoteModal: function (): void {
+      this.showNoteModal = false;
+    },
     closeTimerModal: function (): void {
       this.showTimerModal = false;
     },
@@ -359,6 +377,9 @@ export default {
           directions: this.directions,
         });
       }
+    },
+    editNote: function (): void {
+      this.showNoteModal = true;
     },
     filterOutTargetRecipe: function (recipes: Array<Recipe>): void {
       const targetId = this.id;
@@ -600,6 +621,10 @@ export default {
 
   .delete-note-button:hover {
     cursor: pointer;
+  }
+
+  .edit-note-button {
+    margin-left: 20px;
   }
 </style>
 
