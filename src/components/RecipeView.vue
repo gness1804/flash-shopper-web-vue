@@ -220,6 +220,7 @@ export default {
     image: string,
     ingredients: Array<Item>,
     directions: Array<string>,
+    note: string,
     isUser: boolean,
     userEmail: string,
     userId: string,
@@ -245,6 +246,7 @@ export default {
       image: '',
       ingredients: [],
       directions: [],
+      note: '',
       isUser: false,
       userEmail: '',
       userId: '',
@@ -346,6 +348,7 @@ export default {
         this.image = target[0].image || 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
         this.ingredients = target[0].ingredients || [];
         this.directions = target[0].directions || [];
+        this.note = target[0].note || '';
         this.targetRecipe = this.itemsRef.child(this.id);
       }
     },
@@ -392,6 +395,7 @@ export default {
             image: recipe.val().image,
             ingredients: recipe.val().ingredients,
             directions: recipe.val().directions,
+            note: recipe.val().note,
             id: recipe.key,
           });
         });
