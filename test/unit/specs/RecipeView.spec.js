@@ -18,7 +18,7 @@ describe('RecipeView.vue', () => {
     component.setData({ title: recipe.title });
     component.setData({ note: 'Heat up the oven first' });
     const el = component.find('.note-output')[0];
-    expect(el.text().trim()).to.equal('Note: Heat up the oven first');
+    expect(el.text().trim()).to.equal('Heat up the oven first');
   });
 
   it('should render button string data correctly ', () => {

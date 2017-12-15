@@ -43,10 +43,15 @@
     </div>
     <p
       class="note-output"
-      v-if="note"
     >
-      <span class="bold">Note:</span> {{note}}
+      {{note}}
     </p>
+    <img
+      class="delete-note-button"
+      src="../assets/cancel-circle.png"
+      v-on:click="deleteNote"
+      title="Delete Note"
+    />
     <div
       class="ingredients-container"
       v-if="ingredients && ingredients.length > 0"
@@ -252,7 +257,7 @@ export default {
       image: '',
       ingredients: [],
       directions: [],
-      note: '',
+      note: 'Add a note...',
       isUser: false,
       userEmail: '',
       userId: '',
@@ -330,6 +335,17 @@ export default {
         this.showToast('Direction removed.');
       }
     },
+    deleteNote: function (): void {
+      const warning = confirm('Are you sure you want to delete this note?');
+      if (warning) {
+        this.note = '';
+        this.targetRecipe.update({
+          note: this.note,
+        });
+        this.showToast('Note deleted.');
+        this.note = 'Add a note...';
+      }
+    },
     editDirection: function (dir: Direction): void {
       const ind = this.directions.indexOf(dir);
       const newText = prompt('Enter the new direction text.', dir.details);
@@ -354,7 +370,7 @@ export default {
         this.image = target[0].image || 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
         this.ingredients = target[0].ingredients || [];
         this.directions = target[0].directions || [];
-        this.note = target[0].note || '';
+        this.note = target[0].note || 'Add a note...';
         this.targetRecipe = this.itemsRef.child(this.id);
       }
     },
@@ -438,6 +454,14 @@ export default {
     },
     reorderDirections: function (): void {
       this.directions = sequentialize(this.directions);
+    },
+    saveNote: function (): void {
+      const text = document.querySelector('.note-output').innerText;
+      this.note = text;
+      this.targetRecipe.update({
+        note: this.note,
+      });
+      this.showToast('Note updated.');
     },
     saveTitle: function (): void {
       const text = document.querySelector('.recipe-view-headline').innerText;
@@ -572,6 +596,10 @@ export default {
 
   .uncheck-all-button {
     display: block;
+  }
+
+  .delete-note-button:hover {
+    cursor: pointer;
   }
 </style>
 
