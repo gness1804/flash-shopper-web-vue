@@ -278,13 +278,13 @@ export default {
       this.showToast('Ingredient added.');
     },
     addRecipe: function (): void {
-      const { title, image, ingredients, directions } = this;
+      const { title, image, ingredients, directions, note } = this;
       if (!title || ingredients.length === 0) {
         alert('Oops, you must enter at least a title and one ingredient. Please try again.');
         return;
       }
       this.resetInputFields();
-      const recipe = new Recipe(title, image, ingredients, directions);
+      const recipe = new Recipe(title, image, ingredients, directions, note);
       this.itemsRef.push(recipe);
       this.showToast(`${recipe.title} successfully added.`);
     },
@@ -349,6 +349,7 @@ export default {
             image: recipe.val().image,
             ingredients: recipe.val().ingredients,
             directions: recipe.val().directions,
+            note: recipe.val().note,
             id: recipe.key,
           });
         });

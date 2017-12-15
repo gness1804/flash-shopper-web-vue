@@ -4,7 +4,7 @@ import ingredients from '../helpers/FakeIngredientsArray';
 import directions from '../helpers/FakeDirections';
 
 describe('Recipe', () => {
-  const beefTacos = new Recipe('Beef Tacos', 'my/.image', ingredients, directions);
+  const beefTacos = new Recipe('Beef Tacos', 'my/.image', ingredients, directions, 'Defrost ground beef before starting');
 
   it('should be a constructor', () => {
     assert.instanceOf(beefTacos, Recipe);
@@ -16,5 +16,6 @@ describe('Recipe', () => {
     assert.strictEqual(beefTacos.image, 'my/.image');
     assert.strictEqual(beefTacos.ingredients, ingredients);
     assert.strictEqual(beefTacos.directions, directions);
+    assert.strictEqual(beefTacos.note, 'Defrost ground beef before starting');
   });
 });
