@@ -57,6 +57,12 @@
       >
         You are not logged in. Please go home and log in now.
       </p>
+      <button
+          class="button header-button go-home-button"
+          v-on:click="goHome"
+        >
+          {{goHomeString}}
+        </button>
     </div>
   </div>
 </template>
@@ -145,6 +151,10 @@ export default {
   border: none;
   color: #3c3ce5;
   cursor: auto;
+}
+
+.logged-out-container .go-home-button {
+  margin-bottom: 20px;
 }
 
 @media (max-width: 500px)  {
