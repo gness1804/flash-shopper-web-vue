@@ -195,6 +195,8 @@
       <note-modal
         v-if="showNoteModal"
         v-on:closeNoteModal="closeNoteModal"
+        v-on:saveNote="saveNote"
+        v-bind:note="note"
       >
       </note-modal>
     </div>
@@ -476,9 +478,8 @@ export default {
     reorderDirections: function (): void {
       this.directions = sequentialize(this.directions);
     },
-    saveNote: function (): void {
-      const text = document.querySelector('.note-output').innerText;
-      this.note = text;
+    saveNote: function (_note: string): void {
+      this.note = _note;
       this.targetRecipe.update({
         note: this.note,
       });
