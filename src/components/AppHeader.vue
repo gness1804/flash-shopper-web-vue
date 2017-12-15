@@ -25,8 +25,20 @@
           class="button go-home-button"
           v-on:click="goHome"
         >
-        {{goHomeString}}
+          {{goHomeString}}
         </button>
+        <button
+          class="button go-to-pantry-button"
+          v-on:click="goToPantry"
+        >
+        {{goToPantryString}}
+      </button>
+      <button
+        class="button go-to-recipes-button"
+        v-on:click="goToRecipes"
+      >
+        {{goToRecipesString}}
+      </button>
       </div>
     </div>
     <div
@@ -62,15 +74,25 @@ export default {
   data(): {
     logOutString: string,
     goHomeString: string,
+    goToPantryString: string,
+    goToRecipesString: string,
   } {
     return {
       logOutString: buttonStrings.logOut,
       goHomeString: buttonStrings.goHome,
+      goToPantryString: buttonStrings.goToPantry,
+      goToRecipesString: buttonStrings.goToRecipes,
     };
   },
   methods: {
     goHome: function (): void {
       this.$router.push('/');
+    },
+    goToPantry: function (): void {
+      this.$router.push('/pantry');
+    },
+    goToRecipes: function (): void {
+      this.$router.push('/recipes');
     },
     logOut: function (): void {
       this.$emit('logOut');

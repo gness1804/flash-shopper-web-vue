@@ -21,13 +21,9 @@ describe('AuthedMain.vue', () => {
 
   it('should render the correct content from buttonStrings', () => {
     const component = mount(AuthedMain, { propsData });
-    const goToPantryText = component.find('.go-to-pantry-button')[0];
-    const goToRecipesText = component.find('.go-to-recipes-button')[0];
     const addItemText = component.find('.add-item-button')[0];
     const deleteAllItemsText = component.find('.delete-all-items-button')[0];
     const deleteAllInCartText = component.find('.delete-all-items-in-cart-button')[0];
-    expect(goToPantryText.text().trim()).to.equal('Go to Pantry');
-    expect(goToRecipesText.text().trim()).to.equal('Go to Recipes');
     expect(addItemText.text().trim()).to.equal('Add Item');
     expect(deleteAllItemsText.text().trim()).to.equal('Delete ALL Items');
     expect(deleteAllInCartText.text().trim()).to.equal('Delete ALL in Cart');
@@ -73,23 +69,5 @@ describe('AuthedMain.vue', () => {
     const button = component.find('.delete-all-items-in-cart-button')[0];
     button.trigger('click');
     expect(deleteAllInCart.calledOnce).to.equal(true);
-  });
-
-  it('should trigger the go to pantry method if user clicks on the go to pantry button', () => {
-    const component = mount(AuthedMain, { propsData });
-    const goToPantry = sinon.stub();
-    component.setMethods({ goToPantry });
-    const button = component.find('.go-to-pantry-button')[0];
-    button.trigger('click');
-    expect(goToPantry.calledOnce).to.equal(true);
-  });
-
-  it('should trigger the go to recipes method if user clicks on the go to recipes button', () => {
-    const component = mount(AuthedMain, { propsData });
-    const goToRecipes = sinon.stub();
-    component.setMethods({ goToRecipes });
-    const button = component.find('.go-to-recipes-button')[0];
-    button.trigger('click');
-    expect(goToRecipes.calledOnce).to.equal(true);
   });
 });
