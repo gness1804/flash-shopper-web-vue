@@ -42,6 +42,7 @@ import AuthedMain from './components/AuthedMain';
 import Toast from './components/Toast';
 import AppHeader from './components/AppHeader';
 import cleanUpUserEmail from './helpers/cleanUpUserEmail';
+import logOut from './helpers/logOut';
 import Item from './models/Item';
 
 export default {
@@ -140,10 +141,7 @@ export default {
       });
     },
     logOut: function (): void {
-      const verify = confirm('Are you sure you want to log out?');
-      if (verify) {
-        firebase.auth().signOut();
-      }
+      logOut();
     },
     removeItem: function (_item: Item): void {
       this.itemsRef.child(_item.id).remove();

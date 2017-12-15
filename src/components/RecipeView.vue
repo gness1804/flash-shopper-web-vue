@@ -203,6 +203,7 @@ import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
 import orderIsValid from '../helpers/orderIsValid';
+import logOut from '../helpers/logOut';
 
 export default {
   name: 'recipeView',
@@ -398,10 +399,7 @@ export default {
       });
     },
     logOut: function (): void {
-      const verify = confirm('Are you sure you want to log out?');
-      if (verify) {
-        firebase.auth().signOut();
-      }
+      logOut();
     },
     openModal: function (): void {
       this.showModal = true;

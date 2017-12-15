@@ -107,6 +107,7 @@ import Toast from './Toast';
 import AppHeader from './AppHeader';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
+import logOut from '../helpers/logOut';
 import Item from '../models/Item';
 
 export default {
@@ -212,10 +213,7 @@ export default {
       });
     },
     logOut: function (): void {
-      const verify = confirm('Are you sure you want to log out?');
-      if (verify) {
-        firebase.auth().signOut();
-      }
+      logOut();
     },
     makeErrorFalse: function (): void {
       this.error = false;

@@ -188,6 +188,7 @@ import AppHeader from './AppHeader';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
+import logOut from '../helpers/logOut';
 import Recipe from '../models/Recipe';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
@@ -338,10 +339,7 @@ export default {
       });
     },
     logOut: function (): void {
-      const verify = confirm('Are you sure you want to log out?');
-      if (verify) {
-        firebase.auth().signOut();
-      }
+      logOut();
     },
     makeErrorFalse: function (): void {
       this.error = false;
