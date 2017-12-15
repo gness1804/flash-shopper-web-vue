@@ -24,6 +24,8 @@
         <button
           class="button header-button go-home-button"
           v-on:click="goHome"
+          disabled="currentRoute === '/' ? true : false"
+          v-bind:class="{ disabledButton: currentRoute === '/' }"
         >
           {{goHomeString}}
         </button>
@@ -76,12 +78,14 @@ export default {
     goHomeString: string,
     goToPantryString: string,
     goToRecipesString: string,
+    currentRoute: string,
   } {
     return {
       logOutString: buttonStrings.logOut,
       goHomeString: buttonStrings.goHome,
       goToPantryString: buttonStrings.goToPantry,
       goToRecipesString: buttonStrings.goToRecipes,
+      currentRoute: '',
     };
   },
   methods: {
@@ -98,12 +102,16 @@ export default {
       this.$emit('logOut');
     },
   },
+  mounted: function (): void {
+    if (this.$route) {
+      this.currentRoute = this.$route.fullPath;
+    }
+  },
 };
 </script>
 
 <style>
 .app-header {
-  /* box-shadow: -1px 4px 5px 0px rgba(0,0,0,0.75); */
   border-bottom: 2px solid rgba(0, 0, 0, 0.5);
   margin-bottom: 80px;
   width: 100vw;
@@ -120,6 +128,19 @@ export default {
 
 .button.header-button {
   margin-right: 15px;
+}
+
+.button.disabledButton {
+  background-color: #ffffff;
+  border: none;
+  color: #3c3ce5;
+}
+
+.button.disabledButton:hover {
+  background-color: #ffffff;
+  border: none;
+  color: #3c3ce5;
+  cursor: auto;
 }
 
 @media (max-width: 500px)  {

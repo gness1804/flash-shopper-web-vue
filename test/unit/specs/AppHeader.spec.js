@@ -62,5 +62,17 @@ describe('AppHeader', () => {
     button.trigger('click');
     expect(goToRecipes.calledOnce).to.equal(true);
   });
+
+  it('when the go home button is disabled, clicking on it should not call the goHome method', () => {
+    const component = mount(AppHeader, { propsData });
+    const goHome = sinon.stub();
+    component.setData({ currentRoute: '/' });
+    component.setMethods({ goHome });
+    const button = component.find('.go-home-button')[0];
+    setTimeout(() => {
+      button.trigger('click');
+    }, 3000);
+    expect(goHome.calledOnce).to.equal(false);
+  });
 });
 
