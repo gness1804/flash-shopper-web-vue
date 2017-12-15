@@ -24,7 +24,7 @@
         <button
           class="button header-button go-home-button"
           v-on:click="goHome"
-          disabled="currentRoute === '/' ? true : false"
+          v-bind:disabled="currentRoute === '/'"
           v-bind:class="{ disabledButton: currentRoute === '/' }"
         >
           {{goHomeString}}
@@ -32,12 +32,16 @@
         <button
           class="button header-button go-to-pantry-button"
           v-on:click="goToPantry"
+          v-bind:disabled="currentRoute === '/pantry'"
+          v-bind:class="{ disabledButton: currentRoute === '/pantry' }"
         >
         {{goToPantryString}}
       </button>
       <button
         class="button header-button go-to-recipes-button"
         v-on:click="goToRecipes"
+        v-bind:disabled="currentRoute === '/recipes'"
+        v-bind:class="{ disabledButton: currentRoute === '/recipes' }"
       >
         {{goToRecipesString}}
       </button>
