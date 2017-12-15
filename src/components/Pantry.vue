@@ -8,12 +8,6 @@
       {{errorMssg}}
     </p>
     <button
-      class="button go-home-button"
-      v-on:click="goHome"
-    >
-      {{goHomeString}}
-    </button>
-    <button
       class="button go-to-recipes-button"
       v-on:click="goToRecipes"
     >
@@ -186,9 +180,6 @@ export default {
         this.itemsRef.child(item.id).remove();
       }
       this.showToast(`${item.name} removed from pantry.`);
-    },
-    goHome: function (): void {
-      this.$router.push('/');
     },
     goToRecipes: function (): void {
       this.$router.push('/recipes');

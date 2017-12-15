@@ -12,14 +12,23 @@
       >
       Logged in as <span class="bold">{{userEmail}}</span>
       </p>
-      <button
-        class="button warn-button log-out-button"
-        v-on:click="logOut"
-       >
-        {{logOutString}}
-    </button>
+      <div
+        class="logged-in-buttons-container"
+      >
+        <button
+          class="button warn-button log-out-button"
+          v-on:click="logOut"
+        >
+          {{logOutString}}
+        </button>
+        <button
+          class="button go-home-button"
+          v-on:click="goHome"
+        >
+        {{goHomeString}}
+        </button>
+      </div>
     </div>
-
     <div
       v-else
       class="logged-out-container"
@@ -52,12 +61,17 @@ export default {
   },
   data(): {
     logOutString: string,
+    goHomeString: string,
   } {
     return {
       logOutString: buttonStrings.logOut,
+      goHomeString: buttonStrings.goHome,
     };
   },
   methods: {
+    goHome: function (): void {
+      this.$router.push('/');
+    },
     logOut: function (): void {
       this.$emit('logOut');
     },

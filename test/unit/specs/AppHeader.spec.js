@@ -35,5 +35,14 @@ describe('AppHeader', () => {
     button.trigger('click');
     expect(logOut.calledOnce).to.equal(true);
   });
+
+  it('should trigger the goHome method when user clicks the go home button', () => {
+    const component = mount(AppHeader, { propsData });
+    const goHome = sinon.stub();
+    component.setMethods({ goHome });
+    const button = component.find('.go-home-button')[0];
+    button.trigger('click');
+    expect(goHome.calledOnce).to.equal(true);
+  });
 });
 
