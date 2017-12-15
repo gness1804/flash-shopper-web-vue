@@ -1,11 +1,11 @@
 <template>
   <div class="recipe-view">
-     <button
-      class="button go-home-button"
-      v-on:click="goHome"
+    <app-header
+      v-bind:isUser="isUser"
+      v-bind:userEmail="userEmail"
+      v-on:logOut="logOut"
     >
-      {{goHomeString}}
-    </button>
+    </app-header>
     <div
       class="logged-in-container"
       v-if="isUser"
@@ -195,6 +195,7 @@ import Ingredient from './Ingredient';
 import Toast from './Toast';
 import AddIngredientModal from './AddIngredientModal';
 import TimerModal from './TimerModal';
+import AppHeader from './AppHeader';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
 import Recipe from '../models/Recipe';
@@ -202,6 +203,7 @@ import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
 import orderIsValid from '../helpers/orderIsValid';
+import logOut from '../helpers/logOut';
 
 export default {
   name: 'recipeView',
@@ -210,6 +212,7 @@ export default {
     Toast,
     AddIngredientModal,
     TimerModal,
+    AppHeader,
   },
   data(): {
     id: string,
@@ -394,6 +397,9 @@ export default {
         });
         this.filterOutTargetRecipe(newArr);
       });
+    },
+    logOut: function (): void {
+      logOut();
     },
     openModal: function (): void {
       this.showModal = true;

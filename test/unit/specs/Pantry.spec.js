@@ -19,25 +19,10 @@ describe('Pantry', () => {
     const component = mount(Pantry);
     component.setData({ items });
     component.setData({ isUser: true });
-    const el1 = component.find('.go-home-button')[0];
-    expect(el1.text().trim()).to.equal('Go Home');
-    const el2 = component.find('.go-to-recipes-button')[0];
-    expect(el2.text().trim()).to.equal('Go to Recipes');
-    const el3 = component.find('.delete-all-in-pantry-button')[0];
-    expect(el3.text().trim()).to.equal('Delete ALL Items');
-    const el4 = component.find('.add-item-to-pantry-button')[0];
-    expect(el4.text().trim()).to.equal('Add Item');
-  });
-
-  it('should trigger the go home method if user clicks on the go home button', () => {
-    const component = mount(Pantry);
-    component.setData({ items });
-    component.setData({ itemsRef: [] });
-    const goHome = sinon.stub();
-    component.setMethods({ goHome });
-    const button = component.find('.go-home-button')[0];
-    button.trigger('click');
-    expect(goHome.calledOnce).to.equal(true);
+    const el1 = component.find('.delete-all-in-pantry-button')[0];
+    expect(el1.text().trim()).to.equal('Delete ALL Items');
+    const el2 = component.find('.add-item-to-pantry-button')[0];
+    expect(el2.text().trim()).to.equal('Add Item');
   });
 
   it('should trigger the delete all items method if user clicks on the delete all items button', () => {

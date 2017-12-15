@@ -22,8 +22,6 @@ describe('RecipeView.vue', () => {
     expect(el2.text().trim()).to.equal('Add Ingredient');
     const el3 = component.find('.add-direction-button')[0];
     expect(el3.text().trim()).to.equal('Add Direction');
-    const el4 = component.find('.go-home-button')[0];
-    expect(el4.text().trim()).to.equal('Go Home');
   });
 
   it('clicking the uncheck all button should mark all directions as not done', () => {

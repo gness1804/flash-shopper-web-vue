@@ -1,17 +1,5 @@
 <template>
   <div class="authed-main">
-    <button
-      class="button go-to-pantry-button"
-      v-on:click="goToPantry"
-    >
-      {{goToPantryString}}
-    </button>
-    <button
-      class="button go-to-recipes-button"
-      v-on:click="goToRecipes"
-    >
-      {{goToRecipesString}}
-    </button>
     <div class="upper-icons-container">
       <div class="upper-icon-block">
       <img
