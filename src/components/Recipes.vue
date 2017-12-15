@@ -123,6 +123,18 @@
       >
         No directions yet. Add one now!
       </p>
+      <textarea
+        v-model="note"
+        class="note-input"
+        placeholder="Add a note..."
+      >
+      </textarea>
+      <img
+        class="clear-notes-button"
+        src="../assets/cancel-circle.png"
+        v-on:click="clearNotes"
+        title="Clear Notes"
+      />
       <button
         class="button add-recipe-button"
         v-on:click="addRecipe"
@@ -213,6 +225,7 @@ export default {
       image: string,
       ingredients: Array<Item>,
       directions?: Array<Direction>,
+      note?: string,
       error: boolean,
       errorMssg?: string,
       reader: Object,
@@ -235,6 +248,7 @@ export default {
       image: 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png',
       ingredients: [],
       directions: [],
+      note: '',
       error: false,
       errorMssg: '',
       reader: new FileReader(),
@@ -273,6 +287,9 @@ export default {
       const recipe = new Recipe(title, image, ingredients, directions);
       this.itemsRef.push(recipe);
       this.showToast(`${recipe.title} successfully added.`);
+    },
+    clearNotes: function (): void {
+      this.note = '';
     },
     closeModal: function (): void {
       this.showModal = false;
@@ -484,6 +501,21 @@ export default {
   .ingredients-container,
   .directions-container {
     padding-bottom: 30px;
+  }
+
+  .note-input {
+    height: 100px;
+    margin: 40px auto;
+    width: 60vw;
+  }
+
+  .clear-notes-button {
+    display: block;
+    margin: 10px auto;
+  }
+
+  .clear-notes-button:hover {
+    cursor: pointer;
   }
 </style>
 
