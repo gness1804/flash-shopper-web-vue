@@ -100,13 +100,19 @@ export default {
   },
   methods: {
     goHome: function (): void {
-      this.$router.push('/');
+      if (this.$router) {
+        this.$router.push('/');
+      }
     },
     goToPantry: function (): void {
-      this.$router.push('/pantry');
+      if (this.$router) {
+        this.$router.push('/pantry');
+      }
     },
     goToRecipes: function (): void {
-      this.$router.push('/recipes');
+      if (this.$router) {
+        this.$router.push('/recipes');
+      }
     },
     logOut: function (): void {
       this.$emit('logOut');

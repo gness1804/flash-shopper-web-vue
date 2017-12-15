@@ -2,13 +2,13 @@
   <div
     id="recipes"
   >
-    <h2 class="recipes-headline">Recipes</h2>
-    <button
-      class="button go-home-button"
-      v-on:click="goHome"
+    <app-header
+      v-bind:isUser="isUser"
+      v-bind:userEmail="userEmail"
+      v-on:logOut="logOut"
     >
-      {{goHomeString}}
-    </button>
+    </app-header>
+    <h2 class="recipes-headline">Recipes</h2>
     <div
       v-if="isUser"
       class="recipes-main"
@@ -184,6 +184,7 @@ import Toast from './Toast';
 import Ingredient from './Ingredient';
 import EachRecipe from './EachRecipe';
 import AddIngredientModal from './AddIngredientModal';
+import AppHeader from './AppHeader';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
@@ -199,6 +200,7 @@ export default {
     AddIngredientModal,
     Direction,
     EachRecipe,
+    AppHeader,
   },
   data(): {
       isUser: boolean,
@@ -216,7 +218,6 @@ export default {
       viewToast: boolean,
       toastMessage?: string,
       showModal: boolean,
-      goHomeString: string,
       removeImageString: string,
       addIngredientString: string,
       addDirectionString: string,
@@ -239,7 +240,6 @@ export default {
       viewToast: false,
       toastMessage: '',
       showModal: false,
-      goHomeString: buttonStrings.goHome,
       removeImageString: buttonStrings.removeImage,
       addIngredientString: buttonStrings.addIngredient,
       addDirectionString: buttonStrings.addDirection,
@@ -308,9 +308,6 @@ export default {
         }
       }, 3000);
     },
-    goHome: function (): void {
-      this.$router.push('/');
-    },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
         if (user) {
@@ -339,6 +336,12 @@ export default {
         });
         this.sortItems(newArr);
       });
+    },
+    logOut: function (): void {
+      const verify = confirm('Are you sure you want to log out?');
+      if (verify) {
+        firebase.auth().signOut();
+      }
     },
     makeErrorFalse: function (): void {
       this.error = false;

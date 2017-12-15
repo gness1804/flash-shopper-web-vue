@@ -35,16 +35,6 @@ describe('Recipes.vue', () => {
     expect(el.text().trim()).to.equal('You have 1 recipe(s).');
   });
 
-  it('clicking the go home button should trigger the goHome method', () => {
-    const component = mount(Recipes);
-    const goHome = sinon.stub();
-    component.setMethods({ goHome });
-    component.setData({ isUser: true });
-    const button = component.find('.go-home-button')[0];
-    button.trigger('click');
-    expect(goHome.calledOnce).to.equal(true);
-  });
-
   it('uploading a photo should trigger to getImage method', () => {
     const component = mount(Recipes);
     const getImage = sinon.stub();
