@@ -391,6 +391,7 @@ export default {
       this.image = 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
       this.ingredients = [];
       this.directions = [];
+      this.note = '';
     },
     showToast: function (message: string): void {
       this.toastMessage = message;

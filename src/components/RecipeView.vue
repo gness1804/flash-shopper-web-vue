@@ -41,6 +41,12 @@
       {{removeImageString}}
     </button>
     </div>
+    <p
+      class="note-output"
+      v-if="note"
+    >
+      <span class="bold">Note:</span> {{note}}
+    </p>
     <div
       class="ingredients-container"
       v-if="ingredients && ingredients.length > 0"
