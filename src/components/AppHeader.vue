@@ -1,6 +1,6 @@
 <template>
   <div
-    class="header"
+    class="app-header"
   >
     <h1>Flash Shopper</h1>
     <div
@@ -102,28 +102,40 @@ export default {
 </script>
 
 <style>
+.app-header {
+  /* box-shadow: -1px 4px 5px 0px rgba(0,0,0,0.75); */
+  border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+  margin-bottom: 80px;
+  width: 100vw;
+}
+
+.logged-in-buttons-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 60px auto 20px;
+  width: 60vw;
+}
+
+.button.header-button {
+  margin-right: 15px;
+}
+
+@media (max-width: 500px)  {
   .logged-in-buttons-container {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    margin: 0 auto;
-    width: 60vw;
+    flex-direction: column;
   }
 
-  @media (max-width: 500px)  {
-    .logged-in-buttons-container {
-      flex-direction: column;
-    }
-
-    .button.header-button {
-      border-radius: 10px;
-      font-size: 20px;
-      margin-bottom: 5%;
-      padding: 10px;
-      width: 80%;
-    }
+  .button.header-button {
+    border-radius: 10px;
+    font-size: 20px;
+    margin-bottom: 5%;
+    margin-right: 0;
+    padding: 10px;
+    width: 80%;
   }
+}
 </style>
 
 
