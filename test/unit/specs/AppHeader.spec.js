@@ -74,5 +74,29 @@ describe('AppHeader', () => {
     }, 3000);
     expect(goHome.calledOnce).to.equal(false);
   });
+
+  it('when the go to pantry button is disabled, clicking on it should not call the goToPantry method', () => {
+    const component = mount(AppHeader, { propsData });
+    const goToPantry = sinon.stub();
+    component.setData({ currentRoute: '/pantry' });
+    component.setMethods({ goToPantry });
+    const button = component.find('.go-to-pantry-button')[0];
+    setTimeout(() => {
+      button.trigger('click');
+    }, 3000);
+    expect(goToPantry.calledOnce).to.equal(false);
+  });
+
+  it('when the go to recipes button is disabled, clicking on it should not call the goToRecipes method', () => {
+    const component = mount(AppHeader, { propsData });
+    const goToRecipes = sinon.stub();
+    component.setData({ currentRoute: '/recipes' });
+    component.setMethods({ goToRecipes });
+    const button = component.find('.go-to-recipes-button')[0];
+    setTimeout(() => {
+      button.trigger('click');
+    }, 3000);
+    expect(goToRecipes.calledOnce).to.equal(false);
+  });
 });
 
