@@ -16,25 +16,25 @@
         class="logged-in-buttons-container"
       >
         <button
-          class="button warn-button log-out-button"
+          class="button header-button warn-button log-out-button"
           v-on:click="logOut"
         >
           {{logOutString}}
         </button>
         <button
-          class="button go-home-button"
+          class="button header-button go-home-button"
           v-on:click="goHome"
         >
           {{goHomeString}}
         </button>
         <button
-          class="button go-to-pantry-button"
+          class="button header-button go-to-pantry-button"
           v-on:click="goToPantry"
         >
         {{goToPantryString}}
       </button>
       <button
-        class="button go-to-recipes-button"
+        class="button header-button go-to-recipes-button"
         v-on:click="goToRecipes"
       >
         {{goToRecipesString}}
@@ -102,7 +102,28 @@ export default {
 </script>
 
 <style>
+  .logged-in-buttons-container {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: 0 auto;
+    width: 60vw;
+  }
 
+  @media (max-width: 500px)  {
+    .logged-in-buttons-container {
+      flex-direction: column;
+    }
+
+    .button.header-button {
+      border-radius: 10px;
+      font-size: 20px;
+      margin-bottom: 5%;
+      padding: 10px;
+      width: 80%;
+    }
+  }
 </style>
 
 
