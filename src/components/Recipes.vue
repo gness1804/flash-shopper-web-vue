@@ -289,7 +289,10 @@ export default {
       this.showToast(`${recipe.title} successfully added.`);
     },
     clearNotes: function (): void {
-      this.note = '';
+      const warning = confirm('Clear notes: are you sure?');
+      if (warning) {
+        this.note = '';
+      }
     },
     closeModal: function (): void {
       this.showModal = false;

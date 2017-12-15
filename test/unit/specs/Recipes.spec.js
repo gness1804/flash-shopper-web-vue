@@ -183,6 +183,7 @@ describe('Recipes.vue', () => {
   });
 
   it('clicking on the clear notes button clears the note', () => {
+    Object.assign(window, { confirm: () => true });
     const component = mount(Recipes);
     component.setData({ isUser: true });
     component.setData({ note: 'Heat the over to 400 degrees before putting salmon in.' });
