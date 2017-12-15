@@ -27,6 +27,18 @@ describe('AppHeader', () => {
     expect(message.text().trim()).to.equal('You are not logged in. Please go home and log in now.');
   });
 
+  it('renders the correct buttonString data', () => {
+    const component = mount(AppHeader, { propsData });
+    const el1 = component.find('.log-out-button')[0];
+    expect(el1.text().trim()).to.equal('Log Out');
+    const el2 = component.find('.go-home-button')[0];
+    expect(el2.text().trim()).to.equal('Go Home');
+    const el3 = component.find('.go-to-pantry-button')[0];
+    expect(el3.text().trim()).to.equal('Go to Pantry');
+    const el4 = component.find('.go-to-recipes-button')[0];
+    expect(el4.text().trim()).to.equal('Go to Recipes');
+  });
+
   it('should trigger the logOut method when user clicks the log out button', () => {
     const component = mount(AppHeader, { propsData });
     const logOut = sinon.stub();
