@@ -181,4 +181,13 @@ describe('Recipes.vue', () => {
     button.trigger('click');
     expect(component.data().directions[0].details).to.equal('Slowly heat up the skillet');
   });
+
+  it('clicking on the clear notes button clears the note', () => {
+    const component = mount(Recipes);
+    component.setData({ isUser: true });
+    component.setData({ note: 'Heat the over to 400 degrees before putting salmon in.' });
+    const button = component.find('.clear-notes-button')[0];
+    button.trigger('click');
+    expect(component.data().note).to.equal('');
+  });
 });
