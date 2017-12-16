@@ -33,6 +33,7 @@ module.exports = {
     'global-require': 'off',
     'flowtype-errors/show-errors': 'off',
     'no-plusplus': 'off',
+    'max-len': 'off',
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       'js': 'never',

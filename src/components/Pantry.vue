@@ -1,5 +1,11 @@
 <template>
   <div id="pantry">
+    <app-header
+      v-bind:isUser="isUser"
+      v-bind:userEmail="userEmail"
+      v-on:logOut="logOut"
+    >
+    </app-header>
     <h2>Pantry</h2>
     <p
       v-if="isUser && error"
@@ -7,18 +13,6 @@
     >
       {{errorMssg}}
     </p>
-    <button
-      class="button go-home-button"
-      v-on:click="goHome"
-    >
-      {{goHomeString}}
-    </button>
-    <button
-      class="button go-to-recipes-button"
-      v-on:click="goToRecipes"
-    >
-      {{goToRecipesString}}
-    </button>
     <button
       class="button warn-button delete-all-in-pantry-button"
       v-if="isUser && items.length > 0"
@@ -110,8 +104,10 @@ import * as firebase from 'firebase';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import EachPantryItem from './EachPantryItem';
 import Toast from './Toast';
+import AppHeader from './AppHeader';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
+import logOut from '../helpers/logOut';
 import Item from '../models/Item';
 
 export default {
@@ -119,6 +115,7 @@ export default {
   components: {
     EachPantryItem,
     Toast,
+    AppHeader,
   },
   data(): {
       isUser: boolean,
@@ -135,7 +132,6 @@ export default {
       toastMessage?: string,
       viewToast: boolean,
       goHomeString: string,
-      goToRecipesString: string,
       deleteAllItemsString: string,
       addItemString: string,
   } {
@@ -154,7 +150,6 @@ export default {
       toastMessage: '',
       viewToast: false,
       goHomeString: buttonStrings.goHome,
-      goToRecipesString: buttonStrings.goToRecipes,
       deleteAllItemsString: buttonStrings.deleteAllItems,
       addItemString: buttonStrings.addItem,
     };
@@ -187,12 +182,6 @@ export default {
       }
       this.showToast(`${item.name} removed from pantry.`);
     },
-    goHome: function (): void {
-      this.$router.push('/');
-    },
-    goToRecipes: function (): void {
-      this.$router.push('/recipes');
-    },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
         if (user) {
@@ -222,6 +211,9 @@ export default {
         });
         this.sortItems(newArr);
       });
+    },
+    logOut: function (): void {
+      logOut();
     },
     makeErrorFalse: function (): void {
       this.error = false;

@@ -1,11 +1,11 @@
 <template>
   <div class="recipe-view">
-     <button
-      class="button go-home-button"
-      v-on:click="goHome"
+    <app-header
+      v-bind:isUser="isUser"
+      v-bind:userEmail="userEmail"
+      v-on:logOut="logOut"
     >
-      {{goHomeString}}
-    </button>
+    </app-header>
     <div
       class="logged-in-container"
       v-if="isUser"
@@ -41,6 +41,23 @@
       {{removeImageString}}
     </button>
     </div>
+    <p
+      class="note-output"
+    >
+      {{note}}
+    </p>
+    <img
+      class="delete-note-button"
+      src="../assets/cancel-circle.png"
+      v-on:click="deleteNote"
+      title="Delete Note"
+    />
+    <img
+      class="icon edit-note-button"
+      src="../assets/pencil.png"
+      v-on:click="editNote"
+      title="Edit Note"
+    />
     <div
       class="ingredients-container"
       v-if="ingredients && ingredients.length > 0"
@@ -175,6 +192,13 @@
         v-on:closeTimerModal="closeTimerModal"
       >
       </timer-modal>
+      <note-modal
+        v-if="showNoteModal"
+        v-on:closeNoteModal="closeNoteModal"
+        v-on:saveNote="saveNote"
+        v-bind:note="note"
+      >
+      </note-modal>
     </div>
     <!-- end of logged in section -->
     <div
@@ -195,6 +219,8 @@ import Ingredient from './Ingredient';
 import Toast from './Toast';
 import AddIngredientModal from './AddIngredientModal';
 import TimerModal from './TimerModal';
+import NoteModal from './NoteModal';
+import AppHeader from './AppHeader';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
 import Recipe from '../models/Recipe';
@@ -202,6 +228,7 @@ import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
 import orderIsValid from '../helpers/orderIsValid';
+import logOut from '../helpers/logOut';
 
 export default {
   name: 'recipeView',
@@ -210,6 +237,8 @@ export default {
     Toast,
     AddIngredientModal,
     TimerModal,
+    AppHeader,
+    NoteModal,
   },
   data(): {
     id: string,
@@ -217,6 +246,7 @@ export default {
     image: string,
     ingredients: Array<Item>,
     directions: Array<string>,
+    note: string,
     isUser: boolean,
     userEmail: string,
     userId: string,
@@ -235,6 +265,7 @@ export default {
     showShowHideContainer: boolean,
     showInputsString: string,
     hideInputsString: string,
+    showNoteModal: boolean,
   } {
     return {
       id: '',
@@ -242,6 +273,7 @@ export default {
       image: '',
       ingredients: [],
       directions: [],
+      note: 'Add a note...',
       isUser: false,
       userEmail: '',
       userId: '',
@@ -260,6 +292,7 @@ export default {
       showShowHideContainer: false,
       showInputsString: buttonStrings.showInputs,
       hideInputsString: buttonStrings.hideInputs,
+      showNoteModal: false,
     };
   },
   methods: {
@@ -303,6 +336,9 @@ export default {
     closeModal: function (): void {
       this.showModal = false;
     },
+    closeNoteModal: function (): void {
+      this.showNoteModal = false;
+    },
     closeTimerModal: function (): void {
       this.showTimerModal = false;
     },
@@ -319,6 +355,17 @@ export default {
         this.showToast('Direction removed.');
       }
     },
+    deleteNote: function (): void {
+      const warning = confirm('Are you sure you want to delete this note?');
+      if (warning) {
+        this.note = '';
+        this.targetRecipe.update({
+          note: this.note,
+        });
+        this.showToast('Note deleted.');
+        this.note = 'Add a note...';
+      }
+    },
     editDirection: function (dir: Direction): void {
       const ind = this.directions.indexOf(dir);
       const newText = prompt('Enter the new direction text.', dir.details);
@@ -333,6 +380,9 @@ export default {
         });
       }
     },
+    editNote: function (): void {
+      this.showNoteModal = true;
+    },
     filterOutTargetRecipe: function (recipes: Array<Recipe>): void {
       const targetId = this.id;
       const target = recipes.filter((rec: Recipe) => {
@@ -343,6 +393,7 @@ export default {
         this.image = target[0].image || 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
         this.ingredients = target[0].ingredients || [];
         this.directions = target[0].directions || [];
+        this.note = target[0].note || 'Add a note...';
         this.targetRecipe = this.itemsRef.child(this.id);
       }
     },
@@ -389,11 +440,15 @@ export default {
             image: recipe.val().image,
             ingredients: recipe.val().ingredients,
             directions: recipe.val().directions,
+            note: recipe.val().note,
             id: recipe.key,
           });
         });
         this.filterOutTargetRecipe(newArr);
       });
+    },
+    logOut: function (): void {
+      logOut();
     },
     openModal: function (): void {
       this.showModal = true;
@@ -422,6 +477,13 @@ export default {
     },
     reorderDirections: function (): void {
       this.directions = sequentialize(this.directions);
+    },
+    saveNote: function (_note: string): void {
+      this.note = _note;
+      this.targetRecipe.update({
+        note: this.note,
+      });
+      this.showToast('Note updated.');
     },
     saveTitle: function (): void {
       const text = document.querySelector('.recipe-view-headline').innerText;
@@ -556,6 +618,14 @@ export default {
 
   .uncheck-all-button {
     display: block;
+  }
+
+  .delete-note-button:hover {
+    cursor: pointer;
+  }
+
+  .edit-note-button {
+    margin-left: 20px;
   }
 </style>
 

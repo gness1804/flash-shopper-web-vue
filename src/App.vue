@@ -1,19 +1,11 @@
 <template>
   <div id="app-wrapper">
-    <h1>Flash Shopper</h1>
-    <p
-      v-if="isUser"
-      class="user-logged-in-message"
+    <app-header
+      v-bind:isUser="isUser"
+      v-bind:userEmail="userEmail"
+      v-on:logOut="logOut"
     >
-    Logged in as <span class="bold">{{userEmail}}</span>
-    </p>
-    <button
-      class="button warn-button log-out-button"
-      v-if="isUser"
-      v-on:click="logOut"
-    >
-    {{logOutString}}
-    </button>
+    </app-header>
     <authed-main
       v-if="isUser"
       v-bind:items="items"
@@ -48,8 +40,9 @@ import firebaseApp from '../firebaseConfig';  // eslint-disable-line
 import PreAuth from './components/PreAuth';
 import AuthedMain from './components/AuthedMain';
 import Toast from './components/Toast';
+import AppHeader from './components/AppHeader';
 import cleanUpUserEmail from './helpers/cleanUpUserEmail';
-import buttonStrings from './helpers/buttonStrings';
+import logOut from './helpers/logOut';
 import Item from './models/Item';
 
 export default {
@@ -58,6 +51,7 @@ export default {
     PreAuth,
     AuthedMain,
     Toast,
+    AppHeader,
   },
   data(): {
     isUser: boolean,
@@ -67,7 +61,6 @@ export default {
     items: Array<Item>,
     toastMessage?: string,
     viewToast: boolean,
-    logOutString: string,
   } {
     return {
       isUser: false,
@@ -77,7 +70,6 @@ export default {
       items: [],
       toastMessage: '',
       viewToast: false,
-      logOutString: buttonStrings.logOut,
     };
   },
   methods: {
@@ -149,10 +141,7 @@ export default {
       });
     },
     logOut: function (): void {
-      const verify = confirm('Are you sure you want to log out?');
-      if (verify) {
-        firebase.auth().signOut();
-      }
+      logOut();
     },
     removeItem: function (_item: Item): void {
       this.itemsRef.child(_item.id).remove();

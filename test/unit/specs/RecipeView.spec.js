@@ -12,6 +12,15 @@ describe('RecipeView.vue', () => {
     expect(el.text().trim()).to.equal('Pumpkin pie');
   });
 
+  it('should render correctly with a note', () => {
+    const component = mount(RecipeView);
+    component.setData({ isUser: true });
+    component.setData({ title: recipe.title });
+    component.setData({ note: 'Heat up the oven first' });
+    const el = component.find('.note-output')[0];
+    expect(el.text().trim()).to.equal('Heat up the oven first');
+  });
+
   it('should render button string data correctly ', () => {
     const component = mount(RecipeView);
     component.setData({ isUser: true });
@@ -22,8 +31,6 @@ describe('RecipeView.vue', () => {
     expect(el2.text().trim()).to.equal('Add Ingredient');
     const el3 = component.find('.add-direction-button')[0];
     expect(el3.text().trim()).to.equal('Add Direction');
-    const el4 = component.find('.go-home-button')[0];
-    expect(el4.text().trim()).to.equal('Go Home');
   });
 
   it('clicking the uncheck all button should mark all directions as not done', () => {

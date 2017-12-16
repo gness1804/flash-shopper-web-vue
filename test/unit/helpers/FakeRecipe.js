@@ -22,6 +22,7 @@ const fakeRecipe = {
       ingredientId: 47927492794,
     },
   ],
+  note: '',
 };
 
 export default fakeRecipe;
