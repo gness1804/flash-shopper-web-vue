@@ -13,6 +13,7 @@ const buttonStrings = {
   uncheckAll: 'Uncheck All',
   showInputs: 'Show Inputs',
   hideInputs: 'Hide Inputs',
+  save: 'Save',
 };
 
 export default buttonStrings;

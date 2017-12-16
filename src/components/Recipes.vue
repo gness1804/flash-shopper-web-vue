@@ -123,6 +123,18 @@
       >
         No directions yet. Add one now!
       </p>
+      <textarea
+        v-model="note"
+        class="note-input"
+        placeholder="Add a note..."
+      >
+      </textarea>
+      <img
+        class="clear-notes-button"
+        src="../assets/cancel-circle.png"
+        v-on:click="clearNotes"
+        title="Clear Notes"
+      />
       <button
         class="button add-recipe-button"
         v-on:click="addRecipe"
@@ -213,6 +225,7 @@ export default {
       image: string,
       ingredients: Array<Item>,
       directions?: Array<Direction>,
+      note?: string,
       error: boolean,
       errorMssg?: string,
       reader: Object,
@@ -235,6 +248,7 @@ export default {
       image: 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png',
       ingredients: [],
       directions: [],
+      note: '',
       error: false,
       errorMssg: '',
       reader: new FileReader(),
@@ -264,15 +278,21 @@ export default {
       this.showToast('Ingredient added.');
     },
     addRecipe: function (): void {
-      const { title, image, ingredients, directions } = this;
+      const { title, image, ingredients, directions, note } = this;
       if (!title || ingredients.length === 0) {
         alert('Oops, you must enter at least a title and one ingredient. Please try again.');
         return;
       }
       this.resetInputFields();
-      const recipe = new Recipe(title, image, ingredients, directions);
+      const recipe = new Recipe(title, image, ingredients, directions, note);
       this.itemsRef.push(recipe);
       this.showToast(`${recipe.title} successfully added.`);
+    },
+    clearNotes: function (): void {
+      const warning = confirm('Clear notes: are you sure?');
+      if (warning) {
+        this.note = '';
+      }
     },
     closeModal: function (): void {
       this.showModal = false;
@@ -332,6 +352,7 @@ export default {
             image: recipe.val().image,
             ingredients: recipe.val().ingredients,
             directions: recipe.val().directions,
+            note: recipe.val().note,
             id: recipe.key,
           });
         });
@@ -373,6 +394,7 @@ export default {
       this.image = 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
       this.ingredients = [];
       this.directions = [];
+      this.note = '';
     },
     showToast: function (message: string): void {
       this.toastMessage = message;
@@ -484,6 +506,21 @@ export default {
   .ingredients-container,
   .directions-container {
     padding-bottom: 30px;
+  }
+
+  .note-input {
+    height: 100px;
+    margin: 40px auto;
+    width: 60vw;
+  }
+
+  .clear-notes-button {
+    display: block;
+    margin: 10px auto;
+  }
+
+  .clear-notes-button:hover {
+    cursor: pointer;
   }
 </style>
 
