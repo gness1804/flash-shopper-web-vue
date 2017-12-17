@@ -72,15 +72,30 @@
         v-on:click="addToInstacart"
         title="Add Item to Instacart"
       />
+      <img
+        class="icon edit-item-button"
+        src="../assets/pencil.png"
+        v-on:click="openEditModal"
+        title="Edit Item"
+      />
     </div>
+    <edit-item-modal
+      v-if="showEditModal"
+      v-on:closeModal="closeEditModal"
+    >
+    </edit-item-modal>
   </div>
 </template>
 
 <script>
+import EditItemModal from './EditItemModal';
 // @flow
 
 export default {
   name: 'EachItemContainer',
+  components: {
+    EditItemModal,
+  },
   props: {
     item: {
       type: Object,
@@ -91,11 +106,13 @@ export default {
     inCartTitle: string,
      notInCartTitle: string,
      title: string,
+     showEditModal: boolean,
     } {
     return {
       inCartTitle: 'Remove Item from Cart',
       notInCartTitle: 'Add Item to Cart',
       title: 'Click to Edit!',
+      showEditModal: false,
     };
   },
   methods: {
@@ -104,6 +121,12 @@ export default {
     },
     addToInstacart: function (): void {
       this.$emit('addToInstacart', this.item);
+    },
+    closeEditModal: function (): void {
+      this.showEditModal = false;
+    },
+    openEditModal: function (): void {
+      this.showEditModal = true;
     },
     removeItem: function (): void {
       const warning = confirm(`Are you sure you want to delete ${this.item.name}? This cannot be undone!`);
