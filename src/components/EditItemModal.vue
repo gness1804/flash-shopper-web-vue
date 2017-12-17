@@ -116,6 +116,10 @@ export default {
     },
     saveItem: function (): void {
       const { name, aisle, note, quantity } = this;
+      if (!name) {
+        this.triggerErrorState('Oops! Your item must have at least a name.');
+        return;
+      }
       this.targetItem.update({
         name,
         aisle,

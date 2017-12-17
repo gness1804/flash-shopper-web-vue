@@ -41,4 +41,27 @@ describe('EditItemModal', () => {
     button.trigger('click');
     expect(saveItem.calledOnce).to.equal(true);
   });
+
+  it('clicking the save item button should trigger an error if there is not valid name', () => {
+    const component = mount(EditItemModal, { propsData });
+    const triggerErrorState = sinon.stub();
+    component.setMethods({ triggerErrorState });
+    component.setData({ name: '' });
+    const button = component.find('.save-item-button')[0];
+    button.trigger('click');
+    sinon.assert.calledWith(triggerErrorState, 'Oops! Your item must have at least a name.');
+  });
+
+  it('clicking the save item button should call the update method if there is a valid name', () => {
+    const component = mount(EditItemModal, { propsData });
+    const triggerErrorState = sinon.stub();
+    component.setMethods({ triggerErrorState });
+    component.setData({ targetItem: {
+      update: sinon.spy(),
+    } });
+    const button = component.find('.save-item-button')[0];
+    button.trigger('click');
+    sinon.assert.notCalled(triggerErrorState);
+    sinon.assert.calledOnce(component.data().targetItem.update);
+  });
 });
