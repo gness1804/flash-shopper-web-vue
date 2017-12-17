@@ -117,6 +117,7 @@
         v-on:toggleInCart="toggleInCart"
         v-on:addToAPN="addToAPN"
         v-on:addToInstacart="addToInstacart"
+        v-on:showToast="showToast"
       >
       </each-item-container>
     </div>
@@ -253,6 +254,9 @@ export default {
         const newQuantities = await JSON.parse(Cookies.get('quantities'));
         Cookies.set('quantities', newQuantities.concat(quantity));
       }
+    },
+    showToast: function (message: string): void {
+      this.$emit('showToast', message);
     },
     toggleInCart: function (item: Item): void {
       this.$emit('toggleInCart', item);

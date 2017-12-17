@@ -114,6 +114,7 @@ export default {
         const warning = confirm('Warning: You have unsaved changes! Are you sure you want to exit editing?');
         if (warning) {
           this.$emit('closeModal');
+          this.showToast('Changes discarded.');
         }
         return;
       }
@@ -142,6 +143,9 @@ export default {
         quantity,
       });
       this.closeModal();
+    },
+    showToast: function (message: string): void {
+      this.$emit('showToast', message);
     },
     triggerErrorState: function (message: string): void {
       this.error = true;

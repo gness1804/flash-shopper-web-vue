@@ -17,6 +17,7 @@
       v-on:toggleInCart="toggleInCart"
       v-on:addToAPN="addToAPN"
       v-on:addToInstacart="addToInstacart"
+      v-on:showToast="showToast"
     >
     </authed-main>
 

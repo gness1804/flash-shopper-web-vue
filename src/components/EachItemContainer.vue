@@ -82,6 +82,7 @@
       v-on:closeModal="closeEditModal"
       v-bind:item="item"
       v-bind:itemsRef="itemsRef"
+      v-on:showToast="showToast"
     >
     </edit-item-modal>
   </div>
@@ -135,6 +136,9 @@ export default {
       if (warning) {
         this.$emit('removeItem', this.item);
       }
+    },
+    showToast: function (message: string): void {
+      this.$emit('showToast', message);
     },
     toggleInCart: function (): void {
       this.$emit('toggleInCart', this.item);
