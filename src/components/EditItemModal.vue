@@ -55,6 +55,7 @@
 
 <script>
 import Item from '../models/Item';
+import thereAreChanges from '../helpers/thereAreChanges';
   // @flow
 
 export default {
@@ -77,6 +78,10 @@ export default {
     error: boolean,
     errorMssg?: string,
     targetItem: Item,
+    initName: string,
+    initAisle: string,
+    initNote: string,
+    initQty: string,
     } {
     return {
       name: this.item.name,
@@ -86,23 +91,33 @@ export default {
       error: false,
       errorMssg: '',
       targetItem: {},
+      initName: this.item.name,
+      initAisle: this.item.aisle || '',
+      initNote: this.item.note || '',
+      initQty: this.item.quantity || '',
     };
   },
   methods: {
     closeModal: function (): void {
+      const { name, aisle, note, quantity, initName, initAisle, initNote, initQty } = this;
+      const options = {
+        name,
+        aisle,
+        note,
+        quantity,
+        initName,
+        initAisle,
+        initNote,
+        initQty,
+      };
+      if (thereAreChanges(options)) {
+        const warning = confirm('Warning: You have unsaved changes! Are you sure you want to exit editing?');
+        if (warning) {
+          this.$emit('closeModal');
+        }
+        return;
+      }
       this.$emit('closeModal');
-      // const { name, aisle, note, quantity } = this;
-      // if (name || aisle || note || quantity) {
-      //   const warning = confirm('You have unsaved changes! Are you sure you want to exit?');
-      //   if (warning) {
-      //     this.$emit('closeModal');
-      //     const message = 'Changes discarded.';
-      //     this.$emit('showToast', message);
-      //   } else {
-      //     return;
-      //   }
-      // }
-      // this.$emit('closeModal');
     },
     makeErrorFalse: function (): void {
       this.error = false;
