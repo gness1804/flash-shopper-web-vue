@@ -11,7 +11,9 @@ describe('App.vue', () => {
     component.setData({ items });
     component.setData({ isUser: true });
     component.setData({ userEmail });
-    component.setData({ itemsRef: [] });
+    component.setData({ itemsRef: {
+      child: () => {},
+    } });
     const showToast = sinon.stub();
     component.setMethods({ showToast });
     component.vm.addItem(item);

@@ -112,11 +112,12 @@
         v-for="item of items"
         v-bind:key="item.id"
         v-bind:item="item"
+        v-bind:itemsRef="itemsRef"
         v-on:removeItem="removeItem"
-        v-on:updateName="updateName"
         v-on:toggleInCart="toggleInCart"
         v-on:addToAPN="addToAPN"
         v-on:addToInstacart="addToInstacart"
+        v-on:showToast="showToast"
       >
       </each-item-container>
     </div>
@@ -147,6 +148,10 @@ export default {
   props: {
     items: {
       type: Array,
+      required: true,
+    },
+    itemsRef: {
+      type: Object,
       required: true,
     },
   },
@@ -250,15 +255,15 @@ export default {
         Cookies.set('quantities', newQuantities.concat(quantity));
       }
     },
+    showToast: function (message: string): void {
+      this.$emit('showToast', message);
+    },
     toggleInCart: function (item: Item): void {
       this.$emit('toggleInCart', item);
     },
     triggerErrorState: function (message: string): void {
       this.error = true;
       this.errorMssg = message;
-    },
-    updateName: function (newName: string, item: Item): void {
-      this.$emit('updateName', newName, item);
     },
   },
   mounted: async function () {
