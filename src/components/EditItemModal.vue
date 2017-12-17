@@ -98,7 +98,11 @@ export default {
     };
   },
   methods: {
-    closeModal: function (): void {
+    closeModal: function (optionalString?: string): void {
+      if (optionalString && optionalString === 'saved') {
+        this.$emit('closeModal');
+        return;
+      }
       const { name, aisle, note, quantity, initName, initAisle, initNote, initQty } = this;
       const options = {
         name,
@@ -142,7 +146,8 @@ export default {
         note,
         quantity,
       });
-      this.closeModal();
+      this.closeModal('saved');
+      this.showToast('Item saved.');
     },
     showToast: function (message: string): void {
       this.$emit('showToast', message);

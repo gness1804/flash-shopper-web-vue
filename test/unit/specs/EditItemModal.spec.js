@@ -55,7 +55,9 @@ describe('EditItemModal', () => {
   it('clicking the save item button should call the update method if there is a valid name', () => {
     const component = mount(EditItemModal, { propsData });
     const triggerErrorState = sinon.stub();
+    const closeModal = sinon.stub();
     component.setMethods({ triggerErrorState });
+    component.setMethods({ closeModal });
     component.setData({ targetItem: {
       update: sinon.spy(),
     } });
@@ -63,5 +65,6 @@ describe('EditItemModal', () => {
     button.trigger('click');
     sinon.assert.notCalled(triggerErrorState);
     sinon.assert.calledOnce(component.data().targetItem.update);
+    sinon.assert.calledWith(closeModal, 'saved');
   });
 });
