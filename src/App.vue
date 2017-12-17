@@ -14,7 +14,6 @@
       v-on:removeItem="removeItem"
       v-on:deleteAllItems="deleteAllItems"
       v-on:deleteAllInCart="deleteAllInCart"
-      v-on:updateName="updateName"
       v-on:toggleInCart="toggleInCart"
       v-on:addToAPN="addToAPN"
       v-on:addToInstacart="addToInstacart"
@@ -172,11 +171,6 @@ export default {
     toggleInCart: function (_item: Item): void {
       const newItem = { ..._item, inCart: !_item.inCart };
       this.itemsRef.child(_item.id).remove();
-      this.itemsRef.push(newItem);
-    },
-    updateName: function (newName: string, item: Item): void {
-      const newItem = { ...item, name: newName };
-      this.itemsRef.child(item.id).remove();
       this.itemsRef.push(newItem);
     },
   },

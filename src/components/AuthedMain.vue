@@ -114,7 +114,6 @@
         v-bind:item="item"
         v-bind:itemsRef="itemsRef"
         v-on:removeItem="removeItem"
-        v-on:updateName="updateName"
         v-on:toggleInCart="toggleInCart"
         v-on:addToAPN="addToAPN"
         v-on:addToInstacart="addToInstacart"
@@ -261,9 +260,6 @@ export default {
     triggerErrorState: function (message: string): void {
       this.error = true;
       this.errorMssg = message;
-    },
-    updateName: function (newName: string, item: Item): void {
-      this.$emit('updateName', newName, item);
     },
   },
   mounted: async function () {

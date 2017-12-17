@@ -2,9 +2,6 @@
   <div class="each-item-container">
     <h3
       class="each-item-name"
-      contenteditable
-      @input="updateName"
-      v-bind:title="title"
       v-bind:class="{ strike: item.inCart }"
     >
     {{item.name}}
@@ -36,6 +33,7 @@
       {{item.note}}
     </p>
     <p
+      class="each-item-quantity"
       v-if="item.quantity"
       v-bind:class="{ strike: item.inCart }"
     >
@@ -111,13 +109,11 @@ export default {
   data(): {
     inCartTitle: string,
      notInCartTitle: string,
-     title: string,
      showEditModal: boolean,
     } {
     return {
       inCartTitle: 'Remove Item from Cart',
       notInCartTitle: 'Add Item to Cart',
-      title: 'Click to Edit!',
       showEditModal: false,
     };
   },
@@ -142,10 +138,6 @@ export default {
     },
     toggleInCart: function (): void {
       this.$emit('toggleInCart', this.item);
-    },
-    updateName: function (e: Object): void {
-      const newText = e.target.innerText;
-      this.$emit('updateName', newText, this.item);
     },
   },
 };
