@@ -82,6 +82,8 @@
     <edit-item-modal
       v-if="showEditModal"
       v-on:closeModal="closeEditModal"
+      v-bind:item="item"
+      v-bind:itemsRef="itemsRef"
     >
     </edit-item-modal>
   </div>
@@ -98,6 +100,10 @@ export default {
   },
   props: {
     item: {
+      type: Object,
+      required: true,
+    },
+    itemsRef: {
       type: Object,
       required: true,
     },

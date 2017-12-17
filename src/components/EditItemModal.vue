@@ -45,7 +45,7 @@
         />
    </div>
    <button
-    class="button add-ingredient-modal-button"
+    class="button save-item-button"
     v-on:click="saveItem"
    >
      Save Item
@@ -54,11 +54,21 @@
 </template>
 
 <script>
-// import Item from '../models/Item';
+import Item from '../models/Item';
   // @flow
 
 export default {
   name: 'EditItemModal',
+  props: {
+    item: {
+      type: Object,
+      required: true,
+    },
+    itemsRef: {
+      type: Object,
+      required: true,
+    },
+  },
   data(): {
     name?: string,
     aisle?: string,
@@ -66,27 +76,19 @@ export default {
     quantity?: string,
     error: boolean,
     errorMssg?: string,
+    targetItem: Item,
     } {
     return {
-      name: '',
-      aisle: '',
-      note: '',
-      quantity: '',
+      name: this.item.name,
+      aisle: this.item.aisle || '',
+      note: this.item.note || '',
+      quantity: this.item.quantity || '',
       error: false,
       errorMssg: '',
+      targetItem: {},
     };
   },
   methods: {
-    // addIngredient: function (): void {
-    //   const { name, aisle, note, quantity } = this;
-    //   if (!name || !quantity) {
-    //     this.triggerErrorState('Oops! Your ingredient needs at least a name and a quantity to be valid. Please try again.');
-    //     return;
-    //   }
-    //   this.resetInputFields();
-    //   const ingredient = new Item(name, aisle, note, quantity);
-    //   this.$emit('addIngredient', ingredient);
-    // },
     closeModal: function (): void {
       this.$emit('closeModal');
       // const { name, aisle, note, quantity } = this;
@@ -113,12 +115,22 @@ export default {
       this.quantity = '';
     },
     saveItem: function (): void {
-
+      const { name, aisle, note, quantity } = this;
+      this.targetItem.update({
+        name,
+        aisle,
+        note,
+        quantity,
+      });
+      this.closeModal();
     },
     triggerErrorState: function (message: string): void {
       this.error = true;
       this.errorMssg = message;
     },
+  },
+  mounted: function (): void {
+    this.targetItem = this.itemsRef.child(this.item.id);
   },
 };
 </script>

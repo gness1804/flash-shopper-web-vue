@@ -112,6 +112,7 @@
         v-for="item of items"
         v-bind:key="item.id"
         v-bind:item="item"
+        v-bind:itemsRef="itemsRef"
         v-on:removeItem="removeItem"
         v-on:updateName="updateName"
         v-on:toggleInCart="toggleInCart"
@@ -147,6 +148,10 @@ export default {
   props: {
     items: {
       type: Array,
+      required: true,
+    },
+    itemsRef: {
+      type: Object,
       required: true,
     },
   },

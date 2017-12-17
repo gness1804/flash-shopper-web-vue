@@ -1,19 +1,44 @@
 import { mount } from 'avoriaz';
 import EditItemModal from '@/components/EditItemModal';
+import item from '../helpers/FakeItem';
 
 describe('EditItemModal', () => {
+  const propsData = {
+    item,
+    itemsRef: {
+      child: () => {},
+    },
+  };
+
   it('should render correctly', () => {
-    const component = mount(EditItemModal);
+    const component = mount(EditItemModal, { propsData });
     const header = component.find('h2')[0];
     expect(header.text()).to.equal('Edit Item');
   });
 
+  it('should contain the correct item data', () => {
+    const component = mount(EditItemModal, { propsData });
+    expect(component.data().name).to.equal('Foo bread');
+    expect(component.data().aisle).to.equal('10');
+    expect(component.data().note).to.equal('Please do not get stale bread');
+    expect(component.data().quantity).to.equal('2 loaves');
+  });
+
   it('clicking the close modal button should trigger the closeModal method', () => {
-    const component = mount(EditItemModal);
+    const component = mount(EditItemModal, { propsData });
     const closeModal = sinon.stub();
     component.setMethods({ closeModal });
     const button = component.find('.close-modal-button')[0];
     button.trigger('click');
     expect(closeModal.calledOnce).to.equal(true);
+  });
+
+  it('clicking the save item button should trigger the saveItem method', () => {
+    const component = mount(EditItemModal, { propsData });
+    const saveItem = sinon.stub();
+    component.setMethods({ saveItem });
+    const button = component.find('.save-item-button')[0];
+    button.trigger('click');
+    expect(saveItem.calledOnce).to.equal(true);
   });
 });
