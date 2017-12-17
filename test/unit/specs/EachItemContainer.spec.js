@@ -49,7 +49,7 @@ describe('EachItemContainer.vue', () => {
     expect(toggleInCart.calledOnce).to.equal(true);
   });
 
-  it('should call the AddToAPN method when user clicks the add to Amazon Prime Now button', () => {
+  it.skip('should call the AddToAPN method when user clicks the add to Amazon Prime Now button', () => {
     const component = mount(EachItemContainer, { propsData });
     const addToAPN = sinon.stub();
     component.setMethods({ addToAPN });

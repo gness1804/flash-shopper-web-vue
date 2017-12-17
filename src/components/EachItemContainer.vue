@@ -58,12 +58,12 @@
         v-on:click="toggleInCart"
         v-bind:title="item.inCart ? inCartTitle : notInCartTitle"
       />
-      <img
+      <!-- <img
         class="icon add-to-apn-button"
         src="../assets/amazon-prime-now.png"
         v-on:click="addToAPN"
         title="Add Item to Amazon Prime Now"
-      />
+      /> -->
       <img
         class="icon add-to-instacart-button"
         src="../assets/instacart.png"
