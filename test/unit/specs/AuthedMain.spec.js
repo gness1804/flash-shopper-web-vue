@@ -7,6 +7,9 @@ describe('AuthedMain.vue', () => {
   const Constructor = Vue.extend(AuthedMain);
   const propsData = {
     items,
+    itemsRef: {
+      child: () => {},
+    },
   };
 
   it('should render correct contents', () => {

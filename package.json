@@ -13,6 +13,7 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "flow": "flow",
     "pre-deploy": "scripts/pre-deploy.sh",
+    "predeploy": "scripts/pre-deploy.sh",
     "deploy": "scripts/deploy.sh"
   },
   "dependencies": {
