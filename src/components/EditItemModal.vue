@@ -69,6 +69,10 @@ export default {
       type: Object,
       required: true,
     },
+    recipe: {
+      type: Object,
+      required: false,
+    },
   },
   data(): {
     name?: string,
@@ -158,6 +162,14 @@ export default {
     },
   },
   mounted: function (): void {
+    // for help here, see https://firebase.google.com/docs/database/web/read-and-write?authuser=0
+    if (this.recipe) {
+      // set a var equal to the specific recipe ingredient (item) to be updated
+      // console.log('recipe:', this.recipe);
+      // console.log('this.itemsRef.child(...):', this.itemsRef.child('-L-xIkKKx-9_i_4FysZp'));
+      // this.targetItem = this.itemsRef.child(this.recipe.id);
+      return;
+    }
     this.targetItem = this.itemsRef.child(this.item.id);
   },
 };

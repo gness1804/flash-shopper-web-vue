@@ -200,6 +200,15 @@
         v-bind:note="note"
       >
       </note-modal>
+      <edit-item-modal
+      v-if="showEditModal"
+      v-on:closeModal="closeEditModal"
+      v-bind:item="selectedIngredient"
+      v-bind:itemsRef="itemsRef"
+      v-on:showToast="showToast"
+      v-bind:recipe="targetRecipe"
+    >
+    </edit-item-modal>
     </div>
     <!-- end of logged in section -->
     <div
@@ -221,6 +230,7 @@ import Toast from './Toast';
 import AddIngredientModal from './AddIngredientModal';
 import TimerModal from './TimerModal';
 import NoteModal from './NoteModal';
+import EditItemModal from './EditItemModal';
 import AppHeader from './AppHeader';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
@@ -240,6 +250,7 @@ export default {
     TimerModal,
     AppHeader,
     NoteModal,
+    EditItemModal,
   },
   data(): {
     id: string,
@@ -337,6 +348,9 @@ export default {
       } else {
         alert('Bad data. The order value must be a positive number greater than zero but no more than the number of existing directions.');
       }
+    },
+    closeEditModal: function (): void {
+      this.showEditModal = false;
     },
     closeModal: function (): void {
       this.showModal = false;
