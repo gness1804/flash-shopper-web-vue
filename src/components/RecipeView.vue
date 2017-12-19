@@ -69,6 +69,7 @@
         v-bind:ingredient="ingredient"
         v-on:removeIngredient="removeIngredient"
         v-on:transferIngredient="transferIngredient"
+        v-on:openEditModal="openEditModal"
       >
       </ingredient>
     </div>
@@ -266,6 +267,8 @@ export default {
     showInputsString: string,
     hideInputsString: string,
     showNoteModal: boolean,
+    showEditModal: boolean,
+    selectedIngredient: Item,
   } {
     return {
       id: '',
@@ -293,6 +296,8 @@ export default {
       showInputsString: buttonStrings.showInputs,
       hideInputsString: buttonStrings.hideInputs,
       showNoteModal: false,
+      showEditModal: false,
+      selectedIngredient: {},
     };
   },
   methods: {
@@ -449,6 +454,10 @@ export default {
     },
     logOut: function (): void {
       logOut();
+    },
+    openEditModal: function (ing: Item): void {
+      this.showEditModal = true;
+      this.selectedIngredient = ing;
     },
     openModal: function (): void {
       this.showModal = true;
