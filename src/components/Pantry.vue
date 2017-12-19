@@ -75,6 +75,7 @@
         v-bind:item="item"
         v-on:transferItemToMainList="transferItemToMainList"
         v-on:deleteItem="deleteItem"
+        v-on:viewEditModal="viewEditModal"
       >
       </each-pantry-item>
     </div>
@@ -134,6 +135,8 @@ export default {
       goHomeString: string,
       deleteAllItemsString: string,
       addItemString: string,
+      viewEdit: boolean,
+      itemToEdit: Item,
   } {
     return {
       isUser: false,
@@ -152,6 +155,8 @@ export default {
       goHomeString: buttonStrings.goHome,
       deleteAllItemsString: buttonStrings.deleteAllItems,
       addItemString: buttonStrings.addItem,
+      viewEdit: false,
+      itemToEdit: {},
     };
   },
   methods: {
@@ -256,6 +261,10 @@ export default {
     triggerErrorState: function (message: string): void {
       this.error = true;
       this.errorMssg = message;
+    },
+    viewEditModal: function (it: Item): void {
+      this.viewEdit = true;
+      this.itemToEdit = it;
     },
   },
   mounted: function (): void {
