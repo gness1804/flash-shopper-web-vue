@@ -13,6 +13,12 @@
         v-on:click="deleteItem"
         title="Delete Item"
       />
+      <img
+        class="large-icon edit-item-button"
+        src="../assets/pencil.png"
+        v-on:click="viewEditModal"
+        title="Edit Item"
+      />
   </div>
 </template>
 
@@ -36,6 +42,9 @@ export default {
     },
     transferItemToMainList: function (): void {
       this.$emit('transferItemToMainList', this.item);
+    },
+    viewEditModal: function (): void {
+      this.$emit('viewEditModal', this.item);
     },
   },
 };
