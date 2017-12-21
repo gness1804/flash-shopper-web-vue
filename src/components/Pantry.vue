@@ -95,6 +95,14 @@
     v-bind:message="toastMessage"
   >
   </toast>
+  <edit-item-modal
+    v-if="viewEdit"
+    v-on:closeModal="closeEditModal"
+    v-bind:item="itemToEdit"
+    v-bind:itemsRef="itemsRef"
+    v-on:showToast="showToast"
+    >
+    </edit-item-modal>
   </div>
 </template>
 
@@ -106,6 +114,7 @@ import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import EachPantryItem from './EachPantryItem';
 import Toast from './Toast';
 import AppHeader from './AppHeader';
+import EditItemModal from './EditItemModal';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
 import logOut from '../helpers/logOut';
@@ -117,6 +126,7 @@ export default {
     EachPantryItem,
     Toast,
     AppHeader,
+    EditItemModal,
   },
   data(): {
       isUser: boolean,
@@ -174,6 +184,9 @@ export default {
       } catch (error) {
         alert('Something went wrong. Please try again.');
       }
+    },
+    closeEditModal: function (): void {
+      this.viewEdit = false;
     },
     deleteAllItems: function (): void {
       const warning = confirm('Are you sure you want to delete ALL items? This cannot be undone!');
