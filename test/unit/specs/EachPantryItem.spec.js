@@ -30,4 +30,13 @@ describe('EachPantryItem', () => {
     button.trigger('click');
     expect(deleteItem.calledOnce).to.equal(true);
   });
+
+  it('should trigger the editItem method when the edit item button is clicked', () => {
+    const component = mount(EachPantryItem, { propsData });
+    const viewEditModal = sinon.stub();
+    component.setMethods({ viewEditModal });
+    const button = component.find('.edit-item-button')[0];
+    button.trigger('click');
+    expect(viewEditModal.calledOnce).to.equal(true);
+  });
 });
