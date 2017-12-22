@@ -357,6 +357,7 @@ export default {
     },
     closeNoteModal: function (): void {
       this.showNoteModal = false;
+      this.selectedIngredient = {};
     },
     closeTimerModal: function (): void {
       this.showTimerModal = false;
@@ -400,7 +401,16 @@ export default {
       }
     },
     editIngredient: function (ing: Item): void {
-      console.log('ing:', ing);
+      this.ingredients = this.ingredients.filter((i: Item) => {
+        return i.ingredientId !== ing.ingredientId;
+      });
+      this.ingredients = this.ingredients.concat(ing);
+      this.targetRecipe.update({
+        ingredients: this.ingredients,
+      });
+      this.closeEditModal();
+      this.showToast('Ingredient edited.');
+      this.selectedIngredient = {};
     },
     editNote: function (): void {
       this.showNoteModal = true;
