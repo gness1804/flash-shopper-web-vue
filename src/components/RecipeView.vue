@@ -204,9 +204,9 @@
       v-if="showEditModal"
       v-on:closeModal="closeEditModal"
       v-bind:item="selectedIngredient"
-      v-bind:itemsRef="itemsRef"
       v-on:showToast="showToast"
-      v-bind:recipe="targetRecipe"
+      v-bind:isIngredient="true"
+      v-on:editIngredient="editIngredient"
     >
     </edit-item-modal>
     </div>
@@ -398,6 +398,9 @@ export default {
           directions: this.directions,
         });
       }
+    },
+    editIngredient: function (ing: Item): void {
+      console.log('ing:', ing);
     },
     editNote: function (): void {
       this.showNoteModal = true;

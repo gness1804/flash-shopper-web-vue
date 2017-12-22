@@ -67,10 +67,10 @@ export default {
     },
     itemsRef: {
       type: Object,
-      required: true,
+      required: false,
     },
-    recipe: {
-      type: Object,
+    isIngredient: {
+      type: Boolean,
       required: false,
     },
   },
@@ -144,6 +144,11 @@ export default {
         this.triggerErrorState('Oops! Your item must have at least a name.');
         return;
       }
+      if (this.isIngredient) {
+        const newIng = { ...this.targetItem, name, aisle, note, quantity };
+        this.$emit('editIngredient', newIng);
+        return;
+      }
       this.targetItem.update({
         name,
         aisle,
@@ -162,12 +167,8 @@ export default {
     },
   },
   mounted: function (): void {
-    // for help here, see https://firebase.google.com/docs/database/web/read-and-write?authuser=0
-    if (this.recipe) {
-      // set a var equal to the specific recipe ingredient (item) to be updated
-      // console.log('recipe:', this.recipe);
-      // console.log('this.itemsRef.child(...):', this.itemsRef.child('-L-xIkKKx-9_i_4FysZp'));
-      // this.targetItem = this.itemsRef.child(this.recipe.id);
+    if (this.isIngredient) {
+      this.targetItem = this.item;
       return;
     }
     this.targetItem = this.itemsRef.child(this.item.id);
