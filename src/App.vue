@@ -62,6 +62,8 @@ export default {
     items: Array<Item>,
     toastMessage?: string,
     viewToast: boolean,
+    pantryShortItems: Array<Item>,
+    pantryRef: {},
   } {
     return {
       isUser: false,
@@ -71,6 +73,8 @@ export default {
       items: [],
       toastMessage: '',
       viewToast: false,
+      pantryShortItems: [],
+      pantryRef: {},
     };
   },
   methods: {
@@ -111,6 +115,18 @@ export default {
       this.itemsRef.set([]);
       this.showToast('Deleted all items.');
     },
+    getPantryShortItems: function (pantryRef: Object): void {
+      pantryRef.on('value', (snapshot: Array<Object>) => {
+        const newArr = [];
+        snapshot.forEach((item: Object) => {
+          newArr.push({
+            name: item.val().name,
+            id: item.key,
+          });
+        });
+        this.pantryShortItems = newArr;
+      });
+    },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
         if (user) {
@@ -119,7 +135,9 @@ export default {
           this.userEmail = user.email;
           this.userId = user.uid;
           this.itemsRef = firebase.database().ref(email + '/main') //eslint-disable-line
+          this.pantryRef = firebase.database().ref(email + '/pantry') //eslint-disable-line
           this.listenForItems(this.itemsRef);
+          this.getPantryShortItems(this.pantryRef);
         } else {
           this.isUser = false;
         }
