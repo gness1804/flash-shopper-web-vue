@@ -34,6 +34,7 @@ module.exports = {
     'flowtype-errors/show-errors': 'off',
     'no-plusplus': 'off',
     'max-len': 'off',
+    'no-restricted-syntax': 'off',
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       'js': 'never',

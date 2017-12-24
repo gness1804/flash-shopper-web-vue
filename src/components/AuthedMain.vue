@@ -136,6 +136,7 @@ import EachItemContainer from './EachItemContainer';
 import Item from '../models/Item';
 import thereAreItemsInCart from '../helpers/thereAreItemsInCart';
 import filterOutDuplicates from '../helpers/filterOutDuplicates';
+import flattenArr from '../helpers/flattenArr';
 import buttonStrings from '../helpers/buttonStrings';
 
 export default {
@@ -152,6 +153,10 @@ export default {
     itemsRef: {
       type: Object,
       required: true,
+    },
+    pantryShortItems: {
+      type: Array,
+      required: false,
     },
   },
   data(): {
@@ -254,6 +259,11 @@ export default {
       this.error = true;
       this.errorMssg = message;
     },
+  },
+  mounted: function (): void {
+    setTimeout(() => {
+      this.names = flattenArr(this.pantryShortItems);
+    }, 3000);
   },
 };
 </script>

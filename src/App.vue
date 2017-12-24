@@ -10,6 +10,7 @@
       v-if="isUser"
       v-bind:items="items"
       v-bind:itemsRef="itemsRef"
+      v-bind:pantryShortItems="pantryShortItems"
       v-on:addItem="addItem"
       v-on:removeItem="removeItem"
       v-on:deleteAllItems="deleteAllItems"
