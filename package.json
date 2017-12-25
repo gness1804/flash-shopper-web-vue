@@ -27,7 +27,6 @@
     "eslint-plugin-vue": "^2.1.0",
     "firebase": "^4.6.0",
     "i": "^0.3.6",
-    "js-cookie": "^2.2.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
