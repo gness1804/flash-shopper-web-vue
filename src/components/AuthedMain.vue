@@ -66,20 +66,7 @@
         @input="makeErrorFalse"
         v-model="quantity"
         class="text-input-field"
-        list="quantities"
       />
-      <datalist
-        id="quantities"
-        v-if="quantities.length > 0"
-      >
-        <option
-          v-for="qty in removeDuplicates(quantities)"
-          v-bind:key="qty.id"
-          v-bind:value="qty"
-        >
-          {{qty}}
-        </option>
-      </datalist>
     </div>
     <div class="buttons-container">
       <button
@@ -168,7 +155,6 @@ export default {
     errorMssg?: string,
     thereAreItemsInCart: Function,
     names: Array<string>,
-    quantities: Array<string>,
     goToPantryString: string,
     goToRecipesString: string,
     addItemString: string,
@@ -184,7 +170,6 @@ export default {
       errorMssg: '',
       thereAreItemsInCart,
       names: [],
-      quantities: [],
       goToPantryString: buttonStrings.goToPantry,
       goToRecipesString: buttonStrings.goToRecipes,
       addItemString: buttonStrings.addItem,
