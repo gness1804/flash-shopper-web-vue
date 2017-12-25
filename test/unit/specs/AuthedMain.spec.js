@@ -73,4 +73,10 @@ describe('AuthedMain.vue', () => {
     button.trigger('click');
     expect(deleteAllInCart.calledOnce).to.equal(true);
   });
+
+  it('should render the safari dropdown if the browser is safari', () => {
+    const component = mount(AuthedMain, { propsData });
+    component.setData({ isSafari: true });
+    expect(component.contains('.safari-dropdown')).to.equal(true);
+  });
 });

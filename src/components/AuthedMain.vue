@@ -49,7 +49,14 @@
       <select
         v-if="isSafari"
         v-model="name"
+        class="safari-dropdown"
       >
+        <option
+          disabled
+          value=""
+        >
+          Select a name
+        </option>
         <option
           v-for="name in removeDuplicates(names)"
           v-bind:key="name.id"
@@ -311,6 +318,10 @@ export default {
   .upper-icon {
     height: 40px;
     width: 40px;
+  }
+
+  .safari-dropdown {
+    margin-bottom: 30px;
   }
 
 </style>
