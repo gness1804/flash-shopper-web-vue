@@ -46,6 +46,7 @@
           {{name}}
         </option>
       </datalist>
+      <p v-if="isSafari">I should only show up in Safari.</p>
       <input
         type="text"
         placeholder="Aisle"
@@ -125,6 +126,7 @@ import thereAreItemsInCart from '../helpers/thereAreItemsInCart';
 import filterOutDuplicates from '../helpers/filterOutDuplicates';
 import flattenArr from '../helpers/flattenArr';
 import buttonStrings from '../helpers/buttonStrings';
+import browserMatches from '../helpers/browserMatches';
 
 export default {
   name: 'AuthedMain',
@@ -160,6 +162,7 @@ export default {
     addItemString: string,
     deleteAllItemsString: string,
     deleteAllInCartString: string,
+    isSafari: boolean,
   } {
     return {
       name: '',
@@ -175,6 +178,7 @@ export default {
       addItemString: buttonStrings.addItem,
       deleteAllItemsString: buttonStrings.deleteAllItems,
       deleteAllInCartString: buttonStrings.deleteAllInCart,
+      isSafari: false,
     };
   },
   methods: {
@@ -212,6 +216,12 @@ export default {
         this.$emit('deleteAllItems');
       }
     },
+    detectBrowser: function (): void {
+      const browser = navigator.userAgent;
+      if (browserMatches(browser)) {
+        this.isSafari = true;
+      }
+    },
     goToPantry: function (): void {
       this.$router.push('/pantry');
     },
@@ -246,6 +256,7 @@ export default {
     },
   },
   mounted: function (): void {
+    this.detectBrowser();
     setTimeout(() => {
       this.names = flattenArr(this.pantryShortItems);
     }, 3000);
