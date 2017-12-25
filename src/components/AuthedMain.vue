@@ -46,7 +46,18 @@
           {{name}}
         </option>
       </datalist>
-      <p v-if="isSafari">I should only show up in Safari.</p>
+      <select
+        v-if="isSafari"
+        v-model="name"
+      >
+        <option
+          v-for="name in removeDuplicates(names)"
+          v-bind:key="name.id"
+          v-bind:value="name"
+        >
+          {{name}}
+        </option>
+      </select>
       <input
         type="text"
         placeholder="Aisle"
