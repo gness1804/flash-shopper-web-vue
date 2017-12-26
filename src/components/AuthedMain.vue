@@ -47,7 +47,7 @@
         </option>
       </datalist>
       <select
-        v-if="isSafari"
+        v-if="isSafari && names.length > 0"
         v-model="name"
         class="safari-dropdown"
       >

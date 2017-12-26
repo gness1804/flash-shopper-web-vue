@@ -77,6 +77,7 @@ describe('AuthedMain.vue', () => {
   it('should render the safari dropdown if the browser is safari', () => {
     const component = mount(AuthedMain, { propsData });
     component.setData({ isSafari: true });
+    component.setData({ names: ['Bread', 'Milk', 'Cheese'] });
     expect(component.contains('.safari-dropdown')).to.equal(true);
   });
 });
