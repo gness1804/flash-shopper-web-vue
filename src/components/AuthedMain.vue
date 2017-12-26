@@ -46,6 +46,26 @@
           {{name}}
         </option>
       </datalist>
+      <select
+        v-if="isSafari && names.length > 0"
+        v-model="name"
+        class="safari-dropdown"
+      >
+        <option
+          disabled
+          value=""
+        >
+          Select a name
+        </option>
+        <option
+          v-for="name in removeDuplicates(names)"
+          v-bind:key="name.id"
+          v-bind:value="name"
+          class="safari-dropdown-item"
+        >
+          {{name}}
+        </option>
+      </select>
       <input
         type="text"
         placeholder="Aisle"
@@ -66,20 +86,7 @@
         @input="makeErrorFalse"
         v-model="quantity"
         class="text-input-field"
-        list="quantities"
       />
-      <datalist
-        id="quantities"
-        v-if="quantities.length > 0"
-      >
-        <option
-          v-for="qty in removeDuplicates(quantities)"
-          v-bind:key="qty.id"
-          v-bind:value="qty"
-        >
-          {{qty}}
-        </option>
-      </datalist>
     </div>
     <div class="buttons-container">
       <button
@@ -131,13 +138,14 @@
 <script>
 // @flow
 
-import * as Cookies from 'js-cookie';
 import NoItems from './NoItems';
 import EachItemContainer from './EachItemContainer';
 import Item from '../models/Item';
 import thereAreItemsInCart from '../helpers/thereAreItemsInCart';
 import filterOutDuplicates from '../helpers/filterOutDuplicates';
+import flattenArr from '../helpers/flattenArr';
 import buttonStrings from '../helpers/buttonStrings';
+import browserMatches from '../helpers/browserMatches';
 
 export default {
   name: 'AuthedMain',
@@ -154,6 +162,10 @@ export default {
       type: Object,
       required: true,
     },
+    pantryShortItems: {
+      type: Array,
+      required: false,
+    },
   },
   data(): {
     name?: string,
@@ -164,12 +176,12 @@ export default {
     errorMssg?: string,
     thereAreItemsInCart: Function,
     names: Array<string>,
-    quantities: Array<string>,
     goToPantryString: string,
     goToRecipesString: string,
     addItemString: string,
     deleteAllItemsString: string,
     deleteAllInCartString: string,
+    isSafari: boolean,
   } {
     return {
       name: '',
@@ -180,12 +192,12 @@ export default {
       errorMssg: '',
       thereAreItemsInCart,
       names: [],
-      quantities: [],
       goToPantryString: buttonStrings.goToPantry,
       goToRecipesString: buttonStrings.goToRecipes,
       addItemString: buttonStrings.addItem,
       deleteAllItemsString: buttonStrings.deleteAllItems,
       deleteAllInCartString: buttonStrings.deleteAllInCart,
+      isSafari: false,
     };
   },
   methods: {
@@ -198,7 +210,6 @@ export default {
       this.resetInputFields();
       const it = new Item(name, aisle, note, quantity);
       this.$emit('addItem', it);
-      this.setCookies(it);
     },
     addToAPN: function (_item: Item): void {
       this.$emit('addToAPN', _item);
@@ -224,6 +235,12 @@ export default {
         this.$emit('deleteAllItems');
       }
     },
+    detectBrowser: function (): void {
+      const browser = navigator.userAgent;
+      if (browserMatches(browser)) {
+        this.isSafari = true;
+      }
+    },
     goToPantry: function (): void {
       this.$router.push('/pantry');
     },
@@ -246,15 +263,6 @@ export default {
       this.note = '';
       this.quantity = '';
     },
-    setCookies: async function (item: Item): void {
-      const { name, quantity } = item;
-      const newNames = await JSON.parse(Cookies.get('names'));
-      Cookies.set('names', newNames.concat(name));
-      if (quantity) {
-        const newQuantities = await JSON.parse(Cookies.get('quantities'));
-        Cookies.set('quantities', newQuantities.concat(quantity));
-      }
-    },
     showToast: function (message: string): void {
       this.$emit('showToast', message);
     },
@@ -266,17 +274,11 @@ export default {
       this.errorMssg = message;
     },
   },
-  mounted: async function () {
-    if (Cookies.get('names')) {
-      this.names = await JSON.parse(Cookies.get('names'));
-    } else {
-      Cookies.set('names', []);
-    }
-    if (Cookies.get('quantities')) {
-      this.quantities = await JSON.parse(Cookies.get('quantities'));
-    } else {
-      Cookies.set('quantities', []);
-    }
+  mounted: function (): void {
+    this.detectBrowser();
+    setTimeout(() => {
+      this.names = flattenArr(this.pantryShortItems);
+    }, 3000);
   },
 };
 </script>
@@ -317,6 +319,10 @@ export default {
   .upper-icon {
     height: 40px;
     width: 40px;
+  }
+
+  .safari-dropdown {
+    margin-bottom: 30px;
   }
 
 </style>
