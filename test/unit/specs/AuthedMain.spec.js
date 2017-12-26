@@ -79,5 +79,7 @@ describe('AuthedMain.vue', () => {
     component.setData({ isSafari: true });
     component.setData({ names: ['Bread', 'Milk', 'Cheese'] });
     expect(component.contains('.safari-dropdown')).to.equal(true);
+    const el = component.find('.safari-dropdown-item')[0];
+    expect(el.text().trim()).to.equal('Bread');
   });
 });

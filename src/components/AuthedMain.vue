@@ -61,6 +61,7 @@
           v-for="name in removeDuplicates(names)"
           v-bind:key="name.id"
           v-bind:value="name"
+          class="safari-dropdown-item"
         >
           {{name}}
         </option>
