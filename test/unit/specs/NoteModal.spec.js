@@ -20,4 +20,12 @@ describe('NoteModal', () => {
     button.trigger('click');
     expect(closeModal.calledOnce).to.equal(true);
   });
+
+  it('clicking the clear note button should clear the note', () => {
+    const component = mount(NoteModal, { propsData });
+    expect(component.data().noteString).to.equal('One can substitute honey for sugar.');
+    const button = component.find('.clear-note-button')[0];
+    button.trigger('click');
+    expect(component.data().noteString).to.equal('');
+  });
 });

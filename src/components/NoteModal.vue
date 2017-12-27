@@ -13,6 +13,12 @@
       v-model="noteString"
     >
     </textarea>
+    <img
+      class="icon clear-note-button"
+      src="../assets/cancel-circle.png"
+      v-on:click="clearNote"
+      title="Clear Note"
+    />
     <button
       class="button save-note-button"
       v-on:click="saveNote"
@@ -35,13 +41,28 @@ export default {
     },
   },
   methods: {
-    closeModal: function (): void {
+    clearNote: function (): void {
+      this.noteString = '';
+    },
+    closeModal: function (saving?: string): void {
+      if (saving && saving === 'saving') {
+        this.$emit('closeNoteModal');
+        return;
+      }
+      if (this.noteString !== this.note) {
+        const warn = confirm('Are you use you want to leave without saving changes?');
+        if (warn) {
+          this.$emit('closeNoteModal');
+          return;
+        }
+        return;
+      }
       this.$emit('closeNoteModal');
     },
     saveNote: function (): void {
       if (this.noteString) {
         this.$emit('saveNote', this.noteString);
-        this.closeModal();
+        this.closeModal('saving');
       }
     },
   },
@@ -64,6 +85,16 @@ export default {
 
   .close-modal-button:hover {
     cursor: pointer;
+  }
+
+  .note-input {
+    height: 50%;
+    width: 60%;
+  }
+
+  .save-note-button {
+    display: block;
+    margin: 30px auto;
   }
 </style>
 
