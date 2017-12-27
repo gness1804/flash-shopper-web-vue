@@ -44,7 +44,11 @@ export default {
     clearNote: function (): void {
       this.noteString = '';
     },
-    closeModal: function (): void {
+    closeModal: function (saving?: string): void {
+      if (saving && saving === 'saving') {
+        this.$emit('closeNoteModal');
+        return;
+      }
       if (this.noteString !== this.note) {
         const warn = confirm('Are you use you want to leave without saving changes?');
         if (warn) {
@@ -58,7 +62,7 @@ export default {
     saveNote: function (): void {
       if (this.noteString) {
         this.$emit('saveNote', this.noteString);
-        this.closeModal();
+        this.closeModal('saving');
       }
     },
   },
