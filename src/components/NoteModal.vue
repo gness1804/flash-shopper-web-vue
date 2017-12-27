@@ -65,6 +65,16 @@ export default {
   .close-modal-button:hover {
     cursor: pointer;
   }
+
+  .note-input {
+    height: 50%;
+    width: 60%;
+  }
+
+  .save-note-button {
+    display: block;
+    margin: 30px auto;
+  }
 </style>
 
 
