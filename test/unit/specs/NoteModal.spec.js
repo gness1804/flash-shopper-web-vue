@@ -20,4 +20,9 @@ describe('NoteModal', () => {
     button.trigger('click');
     expect(closeModal.calledOnce).to.equal(true);
   });
+
+  // it('clicking the clear note button should clear the note', () => {
+  //   const component = mount(NoteModal, { propsData });
+
+  // });
 });
