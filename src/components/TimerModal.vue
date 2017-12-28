@@ -132,14 +132,17 @@ export default {
       }
       window.open(url);
     },
+    tabulateNumbers: function (): void {
+      for (let i = 0; i < 101; i++) {
+        if (i > 0) {
+          this.numbersOne.push(i);
+          this.numbersTwo.push(i);
+        }
+      }
+    },
   },
   mounted: function () {
-    for (let i = 0; i < 101; i++) {
-      if (i > 0) {
-        this.numbersOne.push(i);
-        this.numbersTwo.push(i);
-      }
-    }
+    this.tabulateNumbers();
   },
 };
 </script>

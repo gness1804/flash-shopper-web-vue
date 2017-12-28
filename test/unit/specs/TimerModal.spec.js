@@ -2,6 +2,15 @@ import { mount } from 'avoriaz';
 import TimerModal from '@/components/TimerModal';
 
 describe('TimerModal', () => {
+  it('should fire the tabulateNumbers method on mount', () => {
+    const component = mount(TimerModal);
+    const tabulateNumbers = sinon.stub();
+    component.setMethods({ tabulateNumbers });
+    setTimeout(() => {
+      expect(tabulateNumbers.calledOnce).to.equal(true);
+    }, 3000);
+  });
+
   it('clicking the close modal button should trigger the closeModal method', () => {
     const component = mount(TimerModal);
     const closeModal = sinon.stub();
