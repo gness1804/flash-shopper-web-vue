@@ -43,6 +43,14 @@ describe('TimerModal', () => {
     }, 3000);
   });
 
+  it('the startStopwatch method should call window.open with the correct url', () => {
+    Object.assign(window, { open: sinon.spy() });
+    const component = mount(TimerModal);
+    const button = component.find('.stopwatch-icon')[0];
+    button.trigger('click');
+    sinon.assert.calledWith(window.open, 'https://www.google.com/search?q=start+stopwatch');
+  });
+
   it('the startTimer method should call window.open with the correct url when there are no time inputs other than the default', () => {
     Object.assign(window, { open: sinon.spy() });
     const component = mount(TimerModal);
