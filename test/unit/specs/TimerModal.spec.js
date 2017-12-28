@@ -28,4 +28,18 @@ describe('TimerModal', () => {
     button.trigger('click');
     expect(startStopwatch.calledOnce).to.equal(true);
   });
+
+  it('tabulateNumbers should correctly populate the number dropdowns', () => {
+    const component = mount(TimerModal);
+    const n1 = component.data().numbersOne;
+    const n2 = component.data().numbersTwo;
+    setTimeout(() => {
+      expect(n1.length).to.equal(100);
+      expect(n2.length).to.equal(100);
+      expect(n1[0]).to.equal(1);
+      expect(n2[0]).to.equal(1);
+      expect(n1[n1.length - 1]).to.equal(100);
+      expect(n2[n2.length - 1]).to.equal(100);
+    }, 3000);
+  });
 });
