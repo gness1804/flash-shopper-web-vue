@@ -6,6 +6,20 @@ import item from '../helpers/FakeItem';
 describe('App.vue', () => {
   const userEmail = 'foo@foo.com';
 
+  it('should fire the initializeApp method on mount', () => {
+    const component = mount(App);
+    const initializeApp = sinon.stub();
+    component.setData({ items });
+    component.setData({ isUser: true });
+    component.setData({ userEmail });
+    component.setData({ items });
+    component.setData({ isUser: true });
+    component.setMethods({ initializeApp });
+    setTimeout(() => {
+      expect(initializeApp.calledOnce).to.equal(true);
+    }, 3000);
+  });
+
   it('should trigger show toast when the addItem method is called', () => {
     const component = mount(App);
     component.setData({ items });
