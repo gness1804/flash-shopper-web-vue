@@ -2,7 +2,7 @@
 import Item from '../models/Item';
 
 const sortIngredients = (ingredients: Array<Item>): Array<Item> => {
-  if (ingredients.length === 0) {
+  if (!ingredients || ingredients.length === 0) {
     return [];
   }
   return ingredients.sort((a: Item, b: Item) => {
