@@ -2,6 +2,7 @@ import Vue from 'vue';
 import { mount } from 'avoriaz';
 import AuthedMain from '@/components/AuthedMain';
 import items from '../helpers/FakeItemsArray';
+import pantryItems from '../helpers/FakePantryShortItems';
 
 describe('AuthedMain.vue', () => {
   const Constructor = Vue.extend(AuthedMain);
@@ -30,6 +31,17 @@ describe('AuthedMain.vue', () => {
     expect(addItemText.text().trim()).to.equal('Add Item');
     expect(deleteAllItemsText.text().trim()).to.equal('Delete ALL Items');
     expect(deleteAllInCartText.text().trim()).to.equal('Delete ALL in Cart');
+  });
+
+  it('should fire the detectBrowser method and assign this.names properly on mount', () => {
+    const component = mount(AuthedMain, { propsData });
+    const detectBrowser = sinon.stub();
+    component.setMethods({ detectBrowser });
+    component.setData({ pantryShortItems: pantryItems });
+    setTimeout(() => {
+      expect(detectBrowser.calledOnce).to.equal(true);
+      expect(component.data().names).to.equal(['Bread', 'Sausage', 'Milk', 'Frozen onions']);
+    }, 3000);
   });
 
   it('renders correct number of items', () => {

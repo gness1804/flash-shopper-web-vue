@@ -31,6 +31,17 @@ describe('Pantry', () => {
     expect(el2.text().trim()).to.equal('Add Item');
   });
 
+  it('should fire the initializeApp method on mount', () => {
+    const component = mount(Pantry);
+    const initializeApp = sinon.stub();
+    component.setData({ items });
+    component.setData({ isUser: true });
+    component.setMethods({ initializeApp });
+    setTimeout(() => {
+      expect(initializeApp.calledOnce).to.equal(true);
+    }, 3000);
+  });
+
   it('should trigger the delete all items method if user clicks on the delete all items button', () => {
     const component = mount(Pantry);
     component.setData({ items });
