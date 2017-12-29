@@ -58,4 +58,32 @@ describe('TimerModal', () => {
     button.trigger('click');
     sinon.assert.calledWith(window.open, 'https://www.google.com/search?q=set+timer+for+5+minutes');
   });
+
+  it('the startTimer method should call window.open with the correct url (the default) when the user enters a time but no unit', () => {
+    Object.assign(window, { open: sinon.spy() });
+    const component = mount(TimerModal);
+    component.setData({ timeTwo: '20' });
+    const button = component.find('.timer-button')[0];
+    button.trigger('click');
+    sinon.assert.calledWith(window.open, 'https://www.google.com/search?q=set+timer+for+5+minutes');
+  });
+
+  it('the startTimer method should call window.open with the correct url (the default) when the user enters a unit but no time', () => {
+    Object.assign(window, { open: sinon.spy() });
+    const component = mount(TimerModal);
+    component.setData({ unitsTwo: 'hours' });
+    const button = component.find('.timer-button')[0];
+    button.trigger('click');
+    sinon.assert.calledWith(window.open, 'https://www.google.com/search?q=set+timer+for+5+minutes');
+  });
+
+  it('the startTimer method should call window.open with the correct url (the full one) when the user enters both a unit and a time', () => {
+    Object.assign(window, { open: sinon.spy() });
+    const component = mount(TimerModal);
+    component.setData({ timeTwo: '20' });
+    component.setData({ unitsTwo: 'hours' });
+    const button = component.find('.timer-button')[0];
+    button.trigger('click');
+    sinon.assert.calledWith(window.open, 'https://www.google.com/search?q=set+timer+for+5+minutes+and+20+hours');
+  });
 });

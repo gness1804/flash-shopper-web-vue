@@ -110,7 +110,7 @@ export default {
       numbersTwo: [],
       timeOne: '5',
       unitsOne: 'minutes',
-      timeTwo: '0',
+      timeTwo: '',
       unitsTwo: '',
       stopwatchLink: 'https://www.google.com/search?q=start+stopwatch',
     };
