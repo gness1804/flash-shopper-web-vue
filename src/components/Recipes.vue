@@ -201,6 +201,7 @@ import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
 import logOut from '../helpers/logOut';
+import sortItems from '../helpers/sortItems';
 import Recipe from '../models/Recipe';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
@@ -356,7 +357,7 @@ export default {
             id: recipe.key,
           });
         });
-        this.sortItems(newArr);
+        this.recipes = sortItems(newArr);
       });
     },
     logOut: function (): void {
