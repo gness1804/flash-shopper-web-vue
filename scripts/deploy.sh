@@ -15,3 +15,4 @@ sed -i -e 's/href=\/static/href=dist\/static/g' index.html
 rm index.html-e
 
 git add . && git commit --no-verify && git push origin
+echo "Successfully deployed to gh pages."
