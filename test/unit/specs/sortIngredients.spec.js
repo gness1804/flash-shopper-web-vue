@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import sortIngredients from '../../../src/helpers/sortIngredients';
+import sortIngredients from '../../../src/helpers/sortItems';
 import ingredients from '../helpers/FakeIngredientsArray';
 
 describe('sortIngredients', () => {

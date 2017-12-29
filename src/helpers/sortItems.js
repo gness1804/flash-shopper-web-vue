@@ -1,11 +1,11 @@
 // @flow
 import Item from '../models/Item';
 
-const sortIngredients = (ingredients: Array<Item>): Array<Item> => {
-  if (!ingredients || ingredients.length === 0) {
+const sortItems = (items: Array<Item>): Array<Item> => {
+  if (!items || items.length === 0) {
     return [];
   }
-  return ingredients.sort((a: Item, b: Item) => {
+  return items.sort((a: Item, b: Item) => {
     const first = a.name.toLowerCase();
     const second = b.name.toLowerCase();
     if (first < second) {
@@ -18,4 +18,4 @@ const sortIngredients = (ingredients: Array<Item>): Array<Item> => {
   });
 };
 
-export default sortIngredients;
+export default sortItems;
