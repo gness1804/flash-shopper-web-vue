@@ -118,6 +118,7 @@ import EditItemModal from './EditItemModal';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
 import logOut from '../helpers/logOut';
+import sortItems from '../helpers/sortItems';
 import Item from '../models/Item';
 
 export default {
@@ -227,7 +228,7 @@ export default {
             id: item.key,
           });
         });
-        this.sortItems(newArr);
+        this.items = sortItems(newArr);
       });
     },
     logOut: function (): void {
@@ -250,19 +251,6 @@ export default {
         this.viewToast = false;
         this.toastMessage = '';
       }, 3000);
-    },
-    sortItems: function (_items: Array<Item>): void {
-      this.items = _items.sort((a, b) => {
-        const first = a.name.toLowerCase();
-        const second = b.name.toLowerCase();
-        if (first < second) {
-          return -1;
-        }
-        if (first > second) {
-          return 1;
-        }
-        return 0;
-      });
     },
     transferItemToMainList: function (item: Item): void {
       const email = cleanUpUserEmail(this.userEmail);

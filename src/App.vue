@@ -44,6 +44,7 @@ import AuthedMain from './components/AuthedMain';
 import Toast from './components/Toast';
 import AppHeader from './components/AppHeader';
 import cleanUpUserEmail from './helpers/cleanUpUserEmail';
+import sortItems from './helpers/sortItems';
 import logOut from './helpers/logOut';
 import Item from './models/Item';
 
@@ -157,7 +158,7 @@ export default {
             id: item.key,
           });
         });
-        this.sortItems(newArr);
+        this.items = sortItems(newArr);
       });
     },
     logOut: function (): void {
@@ -174,19 +175,6 @@ export default {
         this.viewToast = false;
         this.toastMessage = '';
       }, 3000);
-    },
-    sortItems: function (_items: Array<Item>): void {
-      this.items = _items.sort((a, b) => {
-        const first = a.name.toLowerCase();
-        const second = b.name.toLowerCase();
-        if (first < second) {
-          return -1;
-        }
-        if (first > second) {
-          return 1;
-        }
-        return 0;
-      });
     },
     toggleInCart: function (_item: Item): void {
       const newItem = { ..._item, inCart: !_item.inCart };

@@ -240,7 +240,7 @@ import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
 import orderIsValid from '../helpers/orderIsValid';
 import logOut from '../helpers/logOut';
-import sortIngredients from '../helpers/sortIngredients';
+import sortIngredients from '../helpers/sortItems';
 
 export default {
   name: 'recipeView',
