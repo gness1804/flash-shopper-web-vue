@@ -405,19 +405,6 @@ export default {
         this.toastMessage = '';
       }, 3000);
     },
-    sortItems: function (recipes: Array<Recipe>): void {
-      this.recipes = recipes.sort((a: Recipe, b: Recipe) => {
-        const first = a.title.toLowerCase();
-        const second = b.title.toLowerCase();
-        if (first < second) {
-          return -1;
-        }
-        if (first > second) {
-          return 1;
-        }
-        return 0;
-      });
-    },
     transferIngredient: function (ing: Item): void {
       const email = cleanUpUserEmail(this.userEmail);
       /* eslint-disable prefer-template */
