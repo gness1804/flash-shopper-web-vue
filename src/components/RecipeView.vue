@@ -69,6 +69,7 @@
         v-bind:ingredient="ingredient"
         v-on:removeIngredient="removeIngredient"
         v-on:transferIngredient="transferIngredient"
+        v-on:openEditModal="openEditModal"
       >
       </ingredient>
     </div>
@@ -199,6 +200,15 @@
         v-bind:note="note"
       >
       </note-modal>
+      <edit-item-modal
+      v-if="showEditModal"
+      v-on:closeModal="closeEditModal"
+      v-bind:item="selectedIngredient"
+      v-on:showToast="showToast"
+      v-bind:isIngredient="true"
+      v-on:editIngredient="editIngredient"
+    >
+    </edit-item-modal>
     </div>
     <!-- end of logged in section -->
     <div
@@ -220,6 +230,7 @@ import Toast from './Toast';
 import AddIngredientModal from './AddIngredientModal';
 import TimerModal from './TimerModal';
 import NoteModal from './NoteModal';
+import EditItemModal from './EditItemModal';
 import AppHeader from './AppHeader';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
@@ -229,6 +240,7 @@ import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
 import orderIsValid from '../helpers/orderIsValid';
 import logOut from '../helpers/logOut';
+import sortIngredients from '../helpers/sortIngredients';
 
 export default {
   name: 'recipeView',
@@ -239,6 +251,7 @@ export default {
     TimerModal,
     AppHeader,
     NoteModal,
+    EditItemModal,
   },
   data(): {
     id: string,
@@ -266,6 +279,8 @@ export default {
     showInputsString: string,
     hideInputsString: string,
     showNoteModal: boolean,
+    showEditModal: boolean,
+    selectedIngredient: Item,
   } {
     return {
       id: '',
@@ -293,6 +308,8 @@ export default {
       showInputsString: buttonStrings.showInputs,
       hideInputsString: buttonStrings.hideInputs,
       showNoteModal: false,
+      showEditModal: false,
+      selectedIngredient: {},
     };
   },
   methods: {
@@ -333,11 +350,15 @@ export default {
         alert('Bad data. The order value must be a positive number greater than zero but no more than the number of existing directions.');
       }
     },
+    closeEditModal: function (): void {
+      this.showEditModal = false;
+    },
     closeModal: function (): void {
       this.showModal = false;
     },
     closeNoteModal: function (): void {
       this.showNoteModal = false;
+      this.selectedIngredient = {};
     },
     closeTimerModal: function (): void {
       this.showTimerModal = false;
@@ -380,6 +401,18 @@ export default {
         });
       }
     },
+    editIngredient: function (ing: Item): void {
+      this.ingredients = this.ingredients.filter((i: Item) => {
+        return i.ingredientId !== ing.ingredientId;
+      });
+      this.ingredients = this.ingredients.concat(ing);
+      this.targetRecipe.update({
+        ingredients: this.ingredients,
+      });
+      this.closeEditModal();
+      this.showToast('Ingredient edited.');
+      this.selectedIngredient = {};
+    },
     editNote: function (): void {
       this.showNoteModal = true;
     },
@@ -391,7 +424,7 @@ export default {
       if (target) {
         this.title = target[0].title || '';
         this.image = target[0].image || 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
-        this.ingredients = target[0].ingredients || [];
+        this.ingredients = sortIngredients(target[0].ingredients) || [];
         this.directions = target[0].directions || [];
         this.note = target[0].note || 'Add a note...';
         this.targetRecipe = this.itemsRef.child(this.id);
@@ -449,6 +482,10 @@ export default {
     },
     logOut: function (): void {
       logOut();
+    },
+    openEditModal: function (ing: Item): void {
+      this.showEditModal = true;
+      this.selectedIngredient = ing;
     },
     openModal: function (): void {
       this.showModal = true;

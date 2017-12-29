@@ -19,6 +19,12 @@
       v-on:click="addIngredient"
       title="Add Ingredient"
     />
+     <img
+      class="icon edit-ingredient-icon"
+      src="../assets/pencil.png"
+      v-on:click="openEditModal"
+      title="Edit Ingredient"
+    />
     </div>
   </div>
 </template>
@@ -37,6 +43,9 @@ export default {
   methods: {
     addIngredient: function (): void {
       this.$emit('transferIngredient', this.ingredient);
+    },
+    openEditModal: function (): void {
+      this.$emit('openEditModal', this.ingredient);
     },
     removeIngredient: function (): void {
       const warning = confirm(`Delete ${this.ingredient.name}: are you sure?`);
