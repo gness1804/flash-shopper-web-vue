@@ -27,6 +27,16 @@ describe('Recipes.vue', () => {
     expect(el5.text().trim()).to.equal('Add Recipe');
   });
 
+  it('should fire the initializeApp method on mount', () => {
+    const component = mount(Recipes);
+    const initializeApp = sinon.stub();
+    component.setData({ isUser: true });
+    component.setMethods({ initializeApp });
+    setTimeout(() => {
+      expect(initializeApp.calledOnce).to.equal(true);
+    }, 3000);
+  });
+
   it('should display the correct number of recipes', () => {
     const component = mount(Recipes);
     component.setData({ isUser: true });

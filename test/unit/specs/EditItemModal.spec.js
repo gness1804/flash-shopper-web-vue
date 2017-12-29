@@ -24,6 +24,13 @@ describe('EditItemModal', () => {
     expect(component.data().quantity).to.equal('2 loaves');
   });
 
+  it('should properly assign this.targetItem on mount', () => {
+    const component = mount(EditItemModal, { propsData });
+    setTimeout(() => {
+      expect(component.data().targetItem).to.equal('1');
+    }, 3000);
+  });
+
   it('clicking the close modal button should trigger the closeModal method', () => {
     const component = mount(EditItemModal, { propsData });
     const closeModal = sinon.stub();

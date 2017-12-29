@@ -110,7 +110,7 @@ export default {
       numbersTwo: [],
       timeOne: '5',
       unitsOne: 'minutes',
-      timeTwo: '0',
+      timeTwo: '',
       unitsTwo: '',
       stopwatchLink: 'https://www.google.com/search?q=start+stopwatch',
     };
@@ -121,25 +121,34 @@ export default {
     },
     startStopwatch: function (): void {
       window.open('https://www.google.com/search?q=start+stopwatch');
+      this.closeModal();
     },
     startTimer: function (): void {
       const { timeOne, timeTwo, unitsOne, unitsTwo } = this;
       let url;
+      if (!timeOne || !unitsOne) {
+        alert('Oops! You need to enter at least one valid time.');
+        return;
+      }
       if (timeTwo && unitsTwo) {
         url = `https://www.google.com/search?q=set+timer+for+${timeOne}+${unitsOne}+and+${timeTwo}+${unitsTwo}`;
       } else {
         url = `https://www.google.com/search?q=set+timer+for+${timeOne}+${unitsOne}`;
       }
       window.open(url);
+      this.closeModal();
+    },
+    tabulateNumbers: function (): void {
+      for (let i = 0; i < 101; i++) {
+        if (i > 0) {
+          this.numbersOne.push(i);
+          this.numbersTwo.push(i);
+        }
+      }
     },
   },
   mounted: function () {
-    for (let i = 0; i < 101; i++) {
-      if (i > 0) {
-        this.numbersOne.push(i);
-        this.numbersTwo.push(i);
-      }
-    }
+    this.tabulateNumbers();
   },
 };
 </script>
