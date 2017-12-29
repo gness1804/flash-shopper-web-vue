@@ -121,6 +121,7 @@ export default {
     },
     startStopwatch: function (): void {
       window.open('https://www.google.com/search?q=start+stopwatch');
+      this.closeModal();
     },
     startTimer: function (): void {
       const { timeOne, timeTwo, unitsOne, unitsTwo } = this;
@@ -135,6 +136,7 @@ export default {
         url = `https://www.google.com/search?q=set+timer+for+${timeOne}+${unitsOne}`;
       }
       window.open(url);
+      this.closeModal();
     },
     tabulateNumbers: function (): void {
       for (let i = 0; i < 101; i++) {
