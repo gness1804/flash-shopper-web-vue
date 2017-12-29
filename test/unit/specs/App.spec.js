@@ -27,11 +27,13 @@ describe('App.vue', () => {
     component.setData({ userEmail });
     component.setData({ itemsRef: {
       child: () => {},
+      push: sinon.spy(),
     } });
     const showToast = sinon.stub();
     component.setMethods({ showToast });
     component.vm.addItem(item);
     expect(showToast.calledWith('Foo bread added to your list'));
+    sinon.assert.calledWith(component.data().itemsRef.push, item);
   });
 
   it('should trigger show toast when the deleteAllInCart method is called', () => {

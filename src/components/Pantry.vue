@@ -195,10 +195,10 @@ export default {
       }
     },
     deleteItem: function (item: Item): void {
-      if (this.itemsRef.length > 0) {
+      if (this.itemsRef) {
         this.itemsRef.child(item.id).remove();
+        this.showToast(`${item.name} removed from pantry.`);
       }
-      this.showToast(`${item.name} removed from pantry.`);
     },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
