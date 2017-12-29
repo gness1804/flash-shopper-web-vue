@@ -1,14 +1,5 @@
 const fakeIngredientsArray = [
   {
-    id: '1.5',
-    name: 'Ground beef',
-    aisle: 'Meat',
-    note: '',
-    quantity: '1 lb',
-    inCart: false,
-    ingredientId: 12345,
-  },
-  {
     id: '2',
     name: 'Tortillas',
     aisle: '10',
@@ -16,6 +7,15 @@ const fakeIngredientsArray = [
     quantity: '8',
     inCart: false,
     ingredientId: 54321,
+  },
+  {
+    id: '1.5',
+    name: 'Ground beef',
+    aisle: 'Meat',
+    note: '',
+    quantity: '1 lb',
+    inCart: false,
+    ingredientId: 12345,
   },
   {
     id: '3',

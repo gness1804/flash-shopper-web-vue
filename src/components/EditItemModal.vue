@@ -67,7 +67,11 @@ export default {
     },
     itemsRef: {
       type: Object,
-      required: true,
+      required: false,
+    },
+    isIngredient: {
+      type: Boolean,
+      required: false,
     },
   },
   data(): {
@@ -135,9 +139,14 @@ export default {
       this.quantity = '';
     },
     saveItem: function (): void {
-      const { name, aisle, note, quantity } = this;
+      const { name, aisle, note, quantity, item } = this;
       if (!name) {
         this.triggerErrorState('Oops! Your item must have at least a name.');
+        return;
+      }
+      if (this.isIngredient) {
+        const newIng = { ...item, name, aisle, note, quantity };
+        this.$emit('editIngredient', newIng);
         return;
       }
       this.targetItem.update({
@@ -158,6 +167,10 @@ export default {
     },
   },
   mounted: function (): void {
+    if (this.isIngredient) {
+      this.targetItem = this.item;
+      return;
+    }
     this.targetItem = this.itemsRef.child(this.item.id);
   },
 };
