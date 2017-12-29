@@ -240,6 +240,7 @@ import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
 import orderIsValid from '../helpers/orderIsValid';
 import logOut from '../helpers/logOut';
+import sortIngredients from '../helpers/sortIngredients';
 
 export default {
   name: 'recipeView',
@@ -423,7 +424,7 @@ export default {
       if (target) {
         this.title = target[0].title || '';
         this.image = target[0].image || 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
-        this.ingredients = target[0].ingredients || [];
+        this.ingredients = sortIngredients(target[0].ingredients) || [];
         this.directions = target[0].directions || [];
         this.note = target[0].note || 'Add a note...';
         this.targetRecipe = this.itemsRef.child(this.id);
