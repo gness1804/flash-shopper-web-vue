@@ -43,6 +43,24 @@ describe('TimerModal', () => {
     }, 3000);
   });
 
+  it('the startStopwatch method should fail if there is no time', () => {
+    Object.assign(window, { alert: sinon.spy() });
+    const component = mount(TimerModal);
+    component.setData({ timeOne: '' });
+    const button = component.find('.timer-button')[0];
+    button.trigger('click');
+    sinon.assert.calledWith(window.alert, 'Oops! You need to enter at least one valid time.');
+  });
+
+  it('the startStopwatch method should fail if there is no unit', () => {
+    Object.assign(window, { alert: sinon.spy() });
+    const component = mount(TimerModal);
+    component.setData({ unitsOne: '' });
+    const button = component.find('.timer-button')[0];
+    button.trigger('click');
+    sinon.assert.calledWith(window.alert, 'Oops! You need to enter at least one valid time.');
+  });
+
   it('the startStopwatch method should call window.open with the correct url', () => {
     Object.assign(window, { open: sinon.spy() });
     const component = mount(TimerModal);

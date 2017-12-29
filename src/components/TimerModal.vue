@@ -125,6 +125,10 @@ export default {
     startTimer: function (): void {
       const { timeOne, timeTwo, unitsOne, unitsTwo } = this;
       let url;
+      if (!timeOne || !unitsOne) {
+        alert('Oops! You need to enter at least one valid time.');
+        return;
+      }
       if (timeTwo && unitsTwo) {
         url = `https://www.google.com/search?q=set+timer+for+${timeOne}+${unitsOne}+and+${timeTwo}+${unitsTwo}`;
       } else {
