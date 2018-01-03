@@ -173,6 +173,12 @@
             v-on:click="changeOrderForDir(direction)"
             title="Reorder Direction"
           />
+          <img
+            class="icon check-matches-button"
+            src="../assets/eye.png"
+            v-on:click="checkMatches(direction)"
+            title="Check Matches"
+          />
         </li>
       </ol>
       </div>
@@ -282,6 +288,7 @@ export default {
     showNoteModal: boolean,
     showEditModal: boolean,
     selectedIngredient: Item,
+    ingNames: Array<Item>,
   } {
     return {
       id: '',
@@ -311,6 +318,7 @@ export default {
       showNoteModal: false,
       showEditModal: false,
       selectedIngredient: {},
+      ingNames: [],
     };
   },
   methods: {
@@ -350,6 +358,9 @@ export default {
       } else {
         alert('Bad data. The order value must be a positive number greater than zero but no more than the number of existing directions.');
       }
+    },
+    checkMatches: function (dir: Direction): void {
+      console.log('dir:', dir);
     },
     closeEditModal: function (): void {
       this.showEditModal = false;
@@ -448,7 +459,7 @@ export default {
     },
     getIngredientTitles: function (ings: Array<Item>): void {
       const names = flattenArr(ings);
-      console.log('names:', names);
+      this.ingNames = names;
     },
     goHome: function () {
       this.$router.push('/');
