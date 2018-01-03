@@ -240,6 +240,7 @@ import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
 import orderIsValid from '../helpers/orderIsValid';
 import logOut from '../helpers/logOut';
+import flattenArr from '../helpers/flattenArr';
 import sortIngredients from '../helpers/sortItems';
 
 export default {
@@ -429,6 +430,7 @@ export default {
         this.note = target[0].note || 'Add a note...';
         this.targetRecipe = this.itemsRef.child(this.id);
       }
+      this.getIngredientTitles(this.ingredients);
     },
     getImage: function (e: Object): void {
       this.reader.readAsDataURL(e.target.files[0]);
@@ -443,6 +445,10 @@ export default {
           alert(error);
         }
       }, 3000);
+    },
+    getIngredientTitles: function (ings: Array<Item>): void {
+      const names = flattenArr(ings);
+      console.log('names:', names);
     },
     goHome: function () {
       this.$router.push('/');
