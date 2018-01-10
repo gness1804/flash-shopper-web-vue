@@ -19,6 +19,7 @@
       v-on:addToAPN="addToAPN"
       v-on:addToInstacart="addToInstacart"
       v-on:showToast="showToast"
+      v-on:addToHEB="addToHEB"
     >
     </authed-main>
 
@@ -89,18 +90,21 @@ export default {
       }
     },
     addToAPN: function (_item: Item): void {
-      const newItem = { ..._item, inCart: true };
-      this.itemsRef.child(_item.id).remove();
-      this.itemsRef.push(newItem);
+      this.replaceItem(_item);
       window.open(
         `https://primenow.amazon.com/search?k=${_item.name}`,
         '_blank',
       );
     },
+    addToHEB: function (_item: Item): void {
+      this.replaceItem(_item);
+      window.open(
+        `https://www.heb.com/search/?q=${_item.name}`,
+        '_blank',
+      );
+    },
     addToInstacart: function (_item: Item): void {
-      const newItem = { ..._item, inCart: true };
-      this.itemsRef.child(_item.id).remove();
-      this.itemsRef.push(newItem);
+      this.replaceItem(_item);
       window.open(
         `https://www.instacart.com/store/h-e-b/search_v3/${_item.name}`,
         '_blank',
@@ -167,6 +171,11 @@ export default {
     removeItem: function (_item: Item): void {
       this.itemsRef.child(_item.id).remove();
       this.showToast(`Removed ${_item.name} from your list.`);
+    },
+    replaceItem: function (_item: Item): void {
+      const newItem = { ..._item, inCart: true };
+      this.itemsRef.child(_item.id).remove();
+      this.itemsRef.push(newItem);
     },
     showToast: function (message: string): void {
       this.toastMessage = message;
