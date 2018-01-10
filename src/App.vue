@@ -19,6 +19,7 @@
       v-on:addToAPN="addToAPN"
       v-on:addToInstacart="addToInstacart"
       v-on:showToast="showToast"
+      v-on:addToHEB="addToHEB"
     >
     </authed-main>
 
@@ -94,6 +95,15 @@ export default {
       this.itemsRef.push(newItem);
       window.open(
         `https://primenow.amazon.com/search?k=${_item.name}`,
+        '_blank',
+      );
+    },
+    addToHEB: function (_item: Item): void {
+      const newItem = { ..._item, inCart: true };
+      this.itemsRef.child(_item.id).remove();
+      this.itemsRef.push(newItem);
+      window.open(
+        `https://www.heb.com/search/?q=${_item.name}`,
         '_blank',
       );
     },
