@@ -97,7 +97,6 @@ export default {
       );
     },
     addToHEB: function (_item: Item): void {
-      this.replaceItem(_item);
       window.open(
         `https://www.heb.com/search/?q=${_item.name}`,
         '_blank',
