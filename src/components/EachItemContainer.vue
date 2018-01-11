@@ -71,6 +71,12 @@
         title="Add Item to Instacart"
       />
       <img
+        class="icon add-to-heb-button"
+        src="../assets/heb-icon.png"
+        v-on:click="addToHEB"
+        title="Add Item to HEB"
+      />
+      <img
         class="icon edit-item-button"
         src="../assets/pencil.png"
         v-on:click="openEditModal"
@@ -121,6 +127,9 @@ export default {
   methods: {
     addToAPN: function (): void {
       this.$emit('addToAPN', this.item);
+    },
+    addToHEB: function (): void {
+      this.$emit('addToHEB', this.item);
     },
     addToInstacart: function (): void {
       this.$emit('addToInstacart', this.item);

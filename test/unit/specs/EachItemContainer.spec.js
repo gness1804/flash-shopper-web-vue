@@ -67,6 +67,15 @@ describe('EachItemContainer.vue', () => {
     expect(addToInstacart.calledOnce).to.equal(true);
   });
 
+  it('should call the addToHEB method when user clicks the add to HEB button', () => {
+    const component = mount(EachItemContainer, { propsData });
+    const addToHEB = sinon.stub();
+    component.setMethods({ addToHEB });
+    const button = component.find('.add-to-heb-button')[0];
+    button.trigger('click');
+    expect(addToHEB.calledOnce).to.equal(true);
+  });
+
   it('should apply the strike styling when the item is in the cart', () => {
     const otherFakeItem = {
       id: '2',

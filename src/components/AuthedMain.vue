@@ -125,6 +125,7 @@
         v-on:addToAPN="addToAPN"
         v-on:addToInstacart="addToInstacart"
         v-on:showToast="showToast"
+        v-on:addToHEB="addToHEB"
       >
       </each-item-container>
     </div>
@@ -213,6 +214,9 @@ export default {
     },
     addToAPN: function (_item: Item): void {
       this.$emit('addToAPN', _item);
+    },
+    addToHEB: function (_item: Item): void {
+      this.$emit('addToHEB', _item);
     },
     addToInstacart: function (_item: Item): void {
       this.$emit('addToInstacart', _item);
