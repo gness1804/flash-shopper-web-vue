@@ -289,6 +289,7 @@ export default {
     showEditModal: boolean,
     selectedIngredient: Item,
     ingNames: Array<Item>,
+    dirToCheckAgainst: string,
   } {
     return {
       id: '',
@@ -319,6 +320,7 @@ export default {
       showEditModal: false,
       selectedIngredient: {},
       ingNames: [],
+      dirToCheckAgainst: '',
     };
   },
   methods: {
@@ -360,7 +362,7 @@ export default {
       }
     },
     checkMatches: function (dir: Direction): void {
-      console.log('dir:', dir);
+      this.dirToCheckAgainst = dir.details;
     },
     closeEditModal: function (): void {
       this.showEditModal = false;
