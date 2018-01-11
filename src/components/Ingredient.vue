@@ -1,6 +1,9 @@
 <template>
   <div class="ingredient">
-    <div class="container">
+    <div
+      class="container"
+      v-bind:class="{ highlighted: containsKeyText }"
+    >
       <p
         class="ingredient-quantity"
       >{{ingredient.quantity}}</p>
@@ -91,6 +94,11 @@ export default {
 
   .ingredient-name {
     margin-right: 10px;
+  }
+
+  .highlighted {
+    border: 2px solid #f00;
+    background-color: #C56415;
   }
 </style>
 
