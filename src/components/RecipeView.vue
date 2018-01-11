@@ -67,6 +67,7 @@
         v-for="ingredient of ingredients"
         v-bind:key="ingredient.id"
         v-bind:ingredient="ingredient"
+        v-bind:dirToCheckAgainst=dirToCheckAgainst
         v-on:removeIngredient="removeIngredient"
         v-on:transferIngredient="transferIngredient"
         v-on:openEditModal="openEditModal"

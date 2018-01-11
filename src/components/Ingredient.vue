@@ -31,6 +31,7 @@
 
 <script>
 // @flow
+// import containsDirString from '../helpers/containsDirString';
 
 export default {
   name: 'Ingredient',
@@ -39,6 +40,17 @@ export default {
       type: Object,
       required: true,
     },
+    dirToCheckAgainst: {
+      type: String,
+      required: false,
+    },
+  },
+  data(): {
+      containsKeyText: boolean,
+    } {
+    return {
+      containsKeyText: false,
+    };
   },
   methods: {
     addIngredient: function (): void {
@@ -52,6 +64,11 @@ export default {
       if (warning) {
         this.$emit('removeIngredient', this.ingredient);
       }
+    },
+  },
+  watch: {
+    dirToCheckAgainst: function (newVal) {
+      console.log(newVal);
     },
   },
 };
