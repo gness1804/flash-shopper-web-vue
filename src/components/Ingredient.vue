@@ -31,7 +31,7 @@
 
 <script>
 // @flow
-// import containsDirString from '../helpers/containsDirString';
+import containsDirString from '../helpers/containsDirString';
 
 export default {
   name: 'Ingredient',
@@ -67,8 +67,8 @@ export default {
     },
   },
   watch: {
-    dirToCheckAgainst: function (newVal) {
-      console.log(newVal);
+    dirToCheckAgainst: function (newVal): void {
+      this.containsKeyText = containsDirString(newVal, this.ingredient.name);
     },
   },
 };
