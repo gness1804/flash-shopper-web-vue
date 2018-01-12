@@ -20,6 +20,8 @@
       v-on:addToInstacart="addToInstacart"
       v-on:showToast="showToast"
       v-on:addToHEB="addToHEB"
+      v-on:sortAlpha="sortAlpha"
+      v-on:sortAisle="sortAisle"
     >
     </authed-main>
 
@@ -46,6 +48,7 @@ import Toast from './components/Toast';
 import AppHeader from './components/AppHeader';
 import cleanUpUserEmail from './helpers/cleanUpUserEmail';
 import sortItems from './helpers/sortItems';
+import sortItemsAisle from './helpers/sortItemsAisle';
 import logOut from './helpers/logOut';
 import Item from './models/Item';
 
@@ -183,6 +186,12 @@ export default {
         this.viewToast = false;
         this.toastMessage = '';
       }, 3000);
+    },
+    sortAisle: function (): void {
+      this.items = sortItemsAisle(this.items);
+    },
+    sortAlpha: function (): void {
+      this.items = sortItems(this.items);
     },
     toggleInCart: function (_item: Item): void {
       const newItem = { ..._item, inCart: !_item.inCart };
