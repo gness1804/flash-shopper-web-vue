@@ -20,7 +20,7 @@ const fakeIngredientsArray = [
   {
     id: '3',
     name: 'Salsa',
-    aisle: '10',
+    aisle: '12',
     note: '',
     quantity: '10 oz',
     inCart: false,
