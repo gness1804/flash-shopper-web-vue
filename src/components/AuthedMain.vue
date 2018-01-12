@@ -351,6 +351,21 @@ export default {
     margin-bottom: 30px;
   }
 
+  @media (max-width: 500px) {
+    .buttons-container {
+      flex-direction: column;
+    }
+
+    .button.bottom-button {
+      border-radius: 10px;
+      font-size: 20px;
+      margin-bottom: 5%;
+      margin-right: 0;
+      padding: 10px;
+      width: 60%;
+    }
+  }
+
 </style>
 
 
