@@ -93,7 +93,7 @@
         class="button bottom-button add-item-button"
         v-on:click="addItem"
       >
-      {{addItemString}}
+        {{addItemString}}
       </button>
       <button
         class="button bottom-button sort-alpha-button"
@@ -102,18 +102,24 @@
         {{sortAlphaString}}
       </button>
       <button
+        class="button bottom-button sort-aisle-button"
+        v-on:click="sortAisle"
+      >
+        {{sortAisleString}}
+      </button>
+      <button
         class="button warn-button bottom-button delete-all-items-button"
         v-on:click="deleteAllItems"
         v-bind:disabled="items.length === 0"
       >
-      {{deleteAllItemsString}}
+        {{deleteAllItemsString}}
       </button>
       <button
         class="button warn-button bottom-button delete-all-items-in-cart-button"
         v-on:click="deleteAllInCart"
         v-bind:disabled="!thereAreItemsInCart(items)"
       >
-      {{deleteAllInCartString}}
+        {{deleteAllInCartString}}
       </button>
     </div>
     <div
@@ -189,6 +195,7 @@ export default {
     deleteAllItemsString: string,
     deleteAllInCartString: string,
     sortAlphaString: string,
+    sortAisleString: string,
     isSafari: boolean,
   } {
     return {
@@ -206,6 +213,7 @@ export default {
       deleteAllItemsString: buttonStrings.deleteAllItems,
       deleteAllInCartString: buttonStrings.deleteAllInCart,
       sortAlphaString: buttonStrings.sortAlpha,
+      sortAisleString: buttonStrings.sortAisle,
       isSafari: false,
     };
   },
@@ -277,6 +285,9 @@ export default {
     },
     showToast: function (message: string): void {
       this.$emit('showToast', message);
+    },
+    sortAisle: function (): void {
+      this.$emit('sortAisle');
     },
     sortAlpha: function (): void {
       this.$emit('sortAlpha');
