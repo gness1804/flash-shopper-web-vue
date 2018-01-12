@@ -132,6 +132,12 @@
         v-if="directions && directions.length > 0"
       >
       <h4>Directions:</h4>
+      <img
+        class="icon unhighlight-all-button"
+        src="../assets/eye-blocked.png"
+        v-on:click="unHighlightAll"
+        title="Unhighlight All"
+      />
       <ol class="directions-list">
         <li
           class="direction-li"
@@ -586,6 +592,9 @@ export default {
       this.targetRecipe.update({
         directions: this.directions,
       });
+    },
+    unHighlightAll: function (): void {
+      this.dirToCheckAgainst = '';
     },
   },
   computed: {
