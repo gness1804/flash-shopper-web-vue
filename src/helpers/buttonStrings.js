@@ -14,6 +14,8 @@ const buttonStrings = {
   showInputs: 'Show Inputs',
   hideInputs: 'Hide Inputs',
   save: 'Save',
+  sortAlpha: 'Sort Alpha',
+  sortAisle: 'Sort Aisle',
 };
 
 export default buttonStrings;

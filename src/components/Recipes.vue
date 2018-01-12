@@ -201,6 +201,7 @@ import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
 import logOut from '../helpers/logOut';
+import sortItems from '../helpers/sortItems';
 import Recipe from '../models/Recipe';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
@@ -356,7 +357,7 @@ export default {
             id: recipe.key,
           });
         });
-        this.sortItems(newArr);
+        this.recipes = sortItems(newArr);
       });
     },
     logOut: function (): void {
@@ -403,19 +404,6 @@ export default {
         this.viewToast = false;
         this.toastMessage = '';
       }, 3000);
-    },
-    sortItems: function (recipes: Array<Recipe>): void {
-      this.recipes = recipes.sort((a: Recipe, b: Recipe) => {
-        const first = a.title.toLowerCase();
-        const second = b.title.toLowerCase();
-        if (first < second) {
-          return -1;
-        }
-        if (first > second) {
-          return 1;
-        }
-        return 0;
-      });
     },
     transferIngredient: function (ing: Item): void {
       const email = cleanUpUserEmail(this.userEmail);

@@ -93,21 +93,33 @@
         class="button bottom-button add-item-button"
         v-on:click="addItem"
       >
-      {{addItemString}}
+        {{addItemString}}
+      </button>
+      <button
+        class="button bottom-button sort-alpha-button"
+        v-on:click="sortAlpha"
+      >
+        {{sortAlphaString}}
+      </button>
+      <button
+        class="button bottom-button sort-aisle-button"
+        v-on:click="sortAisle"
+      >
+        {{sortAisleString}}
       </button>
       <button
         class="button warn-button bottom-button delete-all-items-button"
         v-on:click="deleteAllItems"
         v-bind:disabled="items.length === 0"
       >
-      {{deleteAllItemsString}}
+        {{deleteAllItemsString}}
       </button>
       <button
         class="button warn-button bottom-button delete-all-items-in-cart-button"
         v-on:click="deleteAllInCart"
         v-bind:disabled="!thereAreItemsInCart(items)"
       >
-      {{deleteAllInCartString}}
+        {{deleteAllInCartString}}
       </button>
     </div>
     <div
@@ -125,6 +137,7 @@
         v-on:addToAPN="addToAPN"
         v-on:addToInstacart="addToInstacart"
         v-on:showToast="showToast"
+        v-on:addToHEB="addToHEB"
       >
       </each-item-container>
     </div>
@@ -181,6 +194,8 @@ export default {
     addItemString: string,
     deleteAllItemsString: string,
     deleteAllInCartString: string,
+    sortAlphaString: string,
+    sortAisleString: string,
     isSafari: boolean,
   } {
     return {
@@ -197,6 +212,8 @@ export default {
       addItemString: buttonStrings.addItem,
       deleteAllItemsString: buttonStrings.deleteAllItems,
       deleteAllInCartString: buttonStrings.deleteAllInCart,
+      sortAlphaString: buttonStrings.sortAlpha,
+      sortAisleString: buttonStrings.sortAisle,
       isSafari: false,
     };
   },
@@ -213,6 +230,9 @@ export default {
     },
     addToAPN: function (_item: Item): void {
       this.$emit('addToAPN', _item);
+    },
+    addToHEB: function (_item: Item): void {
+      this.$emit('addToHEB', _item);
     },
     addToInstacart: function (_item: Item): void {
       this.$emit('addToInstacart', _item);
@@ -265,6 +285,12 @@ export default {
     },
     showToast: function (message: string): void {
       this.$emit('showToast', message);
+    },
+    sortAisle: function (): void {
+      this.$emit('sortAisle');
+    },
+    sortAlpha: function (): void {
+      this.$emit('sortAlpha');
     },
     toggleInCart: function (item: Item): void {
       this.$emit('toggleInCart', item);
@@ -323,6 +349,21 @@ export default {
 
   .safari-dropdown {
     margin-bottom: 30px;
+  }
+
+  @media (max-width: 500px) {
+    .buttons-container {
+      flex-direction: column;
+    }
+
+    .button.bottom-button {
+      border-radius: 10px;
+      font-size: 20px;
+      margin-bottom: 5%;
+      margin-right: 0;
+      padding: 10px;
+      width: 60%;
+    }
   }
 
 </style>
