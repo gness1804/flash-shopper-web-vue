@@ -76,7 +76,7 @@ export default {
     dirToCheckAgainst: async function (newVal): void {
       this.containsKeyText = await containsDirString(newVal, this.ingredient.name);
       if (this.containsKeyText) {
-        this.showToast('Ingredients marked!');
+        this.showToast('Ingredient(s) marked!');
       }
     },
   },

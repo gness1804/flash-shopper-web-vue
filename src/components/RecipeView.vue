@@ -596,7 +596,7 @@ export default {
     },
     unHighlightAll: function (): void {
       this.dirToCheckAgainst = '';
-      this.showToast('Cleared highlighted directions.');
+      this.showToast('Cleared highlighted ingredients.');
     },
   },
   computed: {
