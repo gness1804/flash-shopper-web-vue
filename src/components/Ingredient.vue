@@ -1,6 +1,9 @@
 <template>
   <div class="ingredient">
-    <div class="container">
+    <div
+      class="container"
+      v-bind:class="{ highlighted: containsKeyText }"
+    >
       <p
         class="ingredient-quantity"
       >{{ingredient.quantity}}</p>
@@ -31,6 +34,7 @@
 
 <script>
 // @flow
+import containsDirString from '../helpers/containsDirString';
 
 export default {
   name: 'Ingredient',
@@ -39,6 +43,17 @@ export default {
       type: Object,
       required: true,
     },
+    dirToCheckAgainst: {
+      type: String,
+      required: false,
+    },
+  },
+  data(): {
+      containsKeyText: boolean,
+    } {
+    return {
+      containsKeyText: false,
+    };
   },
   methods: {
     addIngredient: function (): void {
@@ -52,6 +67,11 @@ export default {
       if (warning) {
         this.$emit('removeIngredient', this.ingredient);
       }
+    },
+  },
+  watch: {
+    dirToCheckAgainst: function (newVal): void {
+      this.containsKeyText = containsDirString(newVal, this.ingredient.name);
     },
   },
 };
@@ -74,6 +94,11 @@ export default {
 
   .ingredient-name {
     margin-right: 10px;
+  }
+
+  .highlighted {
+    border: 2px solid #f00;
+    background-color: #C56415;
   }
 </style>
 

@@ -67,6 +67,7 @@
         v-for="ingredient of ingredients"
         v-bind:key="ingredient.id"
         v-bind:ingredient="ingredient"
+        v-bind:dirToCheckAgainst=dirToCheckAgainst
         v-on:removeIngredient="removeIngredient"
         v-on:transferIngredient="transferIngredient"
         v-on:openEditModal="openEditModal"
@@ -131,6 +132,12 @@
         v-if="directions && directions.length > 0"
       >
       <h4>Directions:</h4>
+      <img
+        class="icon unhighlight-all-button"
+        src="../assets/eye-blocked.png"
+        v-on:click="unHighlightAll"
+        title="Unhighlight All"
+      />
       <ol class="directions-list">
         <li
           class="direction-li"
@@ -172,6 +179,12 @@
             src="../assets/reorder.png"
             v-on:click="changeOrderForDir(direction)"
             title="Reorder Direction"
+          />
+          <img
+            class="icon check-matches-button"
+            src="../assets/eye.png"
+            v-on:click="checkMatches(direction)"
+            title="Check Matches"
           />
         </li>
       </ol>
@@ -240,6 +253,7 @@ import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
 import orderIsValid from '../helpers/orderIsValid';
 import logOut from '../helpers/logOut';
+import flattenArr from '../helpers/flattenArr';
 import sortIngredients from '../helpers/sortItems';
 
 export default {
@@ -281,6 +295,8 @@ export default {
     showNoteModal: boolean,
     showEditModal: boolean,
     selectedIngredient: Item,
+    ingNames: Array<Item>,
+    dirToCheckAgainst: string,
   } {
     return {
       id: '',
@@ -310,6 +326,8 @@ export default {
       showNoteModal: false,
       showEditModal: false,
       selectedIngredient: {},
+      ingNames: [],
+      dirToCheckAgainst: '',
     };
   },
   methods: {
@@ -349,6 +367,9 @@ export default {
       } else {
         alert('Bad data. The order value must be a positive number greater than zero but no more than the number of existing directions.');
       }
+    },
+    checkMatches: function (dir: Direction): void {
+      this.dirToCheckAgainst = dir.details;
     },
     closeEditModal: function (): void {
       this.showEditModal = false;
@@ -429,6 +450,7 @@ export default {
         this.note = target[0].note || 'Add a note...';
         this.targetRecipe = this.itemsRef.child(this.id);
       }
+      this.getIngredientTitles(this.ingredients);
     },
     getImage: function (e: Object): void {
       this.reader.readAsDataURL(e.target.files[0]);
@@ -443,6 +465,10 @@ export default {
           alert(error);
         }
       }, 3000);
+    },
+    getIngredientTitles: function (ings: Array<Item>): void {
+      const names = flattenArr(ings);
+      this.ingNames = names;
     },
     goHome: function () {
       this.$router.push('/');
@@ -566,6 +592,9 @@ export default {
       this.targetRecipe.update({
         directions: this.directions,
       });
+    },
+    unHighlightAll: function (): void {
+      this.dirToCheckAgainst = '';
     },
   },
   computed: {
