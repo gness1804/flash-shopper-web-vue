@@ -71,6 +71,7 @@
         v-on:removeIngredient="removeIngredient"
         v-on:transferIngredient="transferIngredient"
         v-on:openEditModal="openEditModal"
+        v-on:showToast=showToast
       >
       </ingredient>
     </div>
@@ -595,6 +596,7 @@ export default {
     },
     unHighlightAll: function (): void {
       this.dirToCheckAgainst = '';
+      this.showToast('Cleared highlighted directions.');
     },
   },
   computed: {
