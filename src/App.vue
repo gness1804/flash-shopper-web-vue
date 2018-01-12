@@ -20,6 +20,7 @@
       v-on:addToInstacart="addToInstacart"
       v-on:showToast="showToast"
       v-on:addToHEB="addToHEB"
+      v-on:sortAlpha="sortAlpha"
     >
     </authed-main>
 
@@ -183,6 +184,9 @@ export default {
         this.viewToast = false;
         this.toastMessage = '';
       }, 3000);
+    },
+    sortAlpha: function (): void {
+      this.items = sortItems(this.items);
     },
     toggleInCart: function (_item: Item): void {
       const newItem = { ..._item, inCart: !_item.inCart };

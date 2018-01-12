@@ -96,6 +96,12 @@
       {{addItemString}}
       </button>
       <button
+        class="button bottom-button sort-alpha-button"
+        v-on:click="sortAlpha"
+      >
+        {{sortAlphaString}}
+      </button>
+      <button
         class="button warn-button bottom-button delete-all-items-button"
         v-on:click="deleteAllItems"
         v-bind:disabled="items.length === 0"
@@ -182,6 +188,7 @@ export default {
     addItemString: string,
     deleteAllItemsString: string,
     deleteAllInCartString: string,
+    sortAlphaString: string,
     isSafari: boolean,
   } {
     return {
@@ -198,6 +205,7 @@ export default {
       addItemString: buttonStrings.addItem,
       deleteAllItemsString: buttonStrings.deleteAllItems,
       deleteAllInCartString: buttonStrings.deleteAllInCart,
+      sortAlphaString: buttonStrings.sortAlpha,
       isSafari: false,
     };
   },
@@ -269,6 +277,9 @@ export default {
     },
     showToast: function (message: string): void {
       this.$emit('showToast', message);
+    },
+    sortAlpha: function (): void {
+      this.$emit('sortAlpha');
     },
     toggleInCart: function (item: Item): void {
       this.$emit('toggleInCart', item);

@@ -14,6 +14,7 @@ const buttonStrings = {
   showInputs: 'Show Inputs',
   hideInputs: 'Hide Inputs',
   save: 'Save',
+  sortAlpha: 'Sort Alpha',
 };
 
 export default buttonStrings;
