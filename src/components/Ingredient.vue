@@ -68,10 +68,16 @@ export default {
         this.$emit('removeIngredient', this.ingredient);
       }
     },
+    showToast: function (message: string): void {
+      this.$emit('showToast', message);
+    },
   },
   watch: {
-    dirToCheckAgainst: function (newVal): void {
-      this.containsKeyText = containsDirString(newVal, this.ingredient.name);
+    dirToCheckAgainst: async function (newVal): void {
+      this.containsKeyText = await containsDirString(newVal, this.ingredient.name);
+      if (this.containsKeyText) {
+        this.showToast('Ingredient(s) marked!');
+      }
     },
   },
 };
