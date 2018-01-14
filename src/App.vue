@@ -70,6 +70,7 @@ export default {
     viewToast: boolean,
     pantryShortItems: Array<Item>,
     pantryRef: {},
+    sortPref: string,
   } {
     return {
       isUser: false,
@@ -81,6 +82,7 @@ export default {
       viewToast: false,
       pantryShortItems: [],
       pantryRef: {},
+      sortPref: 'alpha',
     };
   },
   methods: {
@@ -164,7 +166,13 @@ export default {
             id: item.key,
           });
         });
-        this.items = sortItems(newArr);
+        if (this.sortPref === 'alpha') {
+          this.items = sortItems(newArr);
+        } else if (this.sortPref === 'aisle') {
+          this.items = sortItemsAisle(newArr);
+        } else {
+          this.items = sortItems(newArr);
+        }
       });
     },
     logOut: function (): void {
@@ -192,6 +200,7 @@ export default {
     },
     sortAlpha: function (): void {
       this.items = sortItems(this.items);
+      localStorage.setItem('fsSortPref', 'alpha');
     },
     toggleInCart: function (_item: Item): void {
       const newItem = { ..._item, inCart: !_item.inCart };
@@ -200,6 +209,11 @@ export default {
     },
   },
   mounted: function (): void {
+    if (localStorage.getItem('fsSortPref')) {
+      this.sortPref = localStorage.getItem('fsSortPref');
+    } else {
+      this.sortPref = 'alpha';
+    }
     this.initializeApp();
   },
 };
