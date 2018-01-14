@@ -197,6 +197,7 @@ export default {
     },
     sortAisle: function (): void {
       this.items = sortItemsAisle(this.items);
+      localStorage.setItem('fsSortPref', 'aisle');
     },
     sortAlpha: function (): void {
       this.items = sortItems(this.items);
