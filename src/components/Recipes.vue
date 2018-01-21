@@ -202,6 +202,7 @@ import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
 import logOut from '../helpers/logOut';
 import sortItems from '../helpers/sortItems';
+import display from '../helpers/displayVars';
 import Recipe from '../models/Recipe';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
@@ -328,7 +329,7 @@ export default {
         } catch (error) {
           alert(error);
         }
-      }, 3000);
+      }, display.timerStandard);
     },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
@@ -403,7 +404,7 @@ export default {
       setTimeout(() => {
         this.viewToast = false;
         this.toastMessage = '';
-      }, 3000);
+      }, display.timerStandard);
     },
     transferIngredient: function (ing: Item): void {
       const email = cleanUpUserEmail(this.userEmail);

@@ -1,5 +1,6 @@
 import { mount } from 'avoriaz';
 import AppHeader from '@/components/AppHeader';
+import display from '../../../src/helpers/displayVars';
 
 describe('AppHeader', () => {
   const propsData = {
@@ -83,7 +84,7 @@ describe('AppHeader', () => {
     const button = component.find('.go-home-button')[0];
     setTimeout(() => {
       button.trigger('click');
-    }, 3000);
+    }, display.timerStandard);
     expect(goHome.calledOnce).to.equal(false);
   });
 
@@ -95,7 +96,7 @@ describe('AppHeader', () => {
     const button = component.find('.go-to-pantry-button')[0];
     setTimeout(() => {
       button.trigger('click');
-    }, 3000);
+    }, display.timerStandard);
     expect(goToPantry.calledOnce).to.equal(false);
   });
 
@@ -107,7 +108,7 @@ describe('AppHeader', () => {
     const button = component.find('.go-to-recipes-button')[0];
     setTimeout(() => {
       button.trigger('click');
-    }, 3000);
+    }, display.timerStandard);
     expect(goToRecipes.calledOnce).to.equal(false);
   });
 });

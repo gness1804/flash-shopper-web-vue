@@ -3,6 +3,7 @@ import { mount } from 'avoriaz';
 import AuthedMain from '@/components/AuthedMain';
 import items from '../helpers/FakeItemsArray';
 import pantryItems from '../helpers/FakePantryShortItems';
+import display from '../../../src/helpers/displayVars';
 
 describe('AuthedMain.vue', () => {
   const Constructor = Vue.extend(AuthedMain);
@@ -41,7 +42,7 @@ describe('AuthedMain.vue', () => {
     setTimeout(() => {
       expect(detectBrowser.calledOnce).to.equal(true);
       expect(component.data().names).to.equal(['Bread', 'Sausage', 'Milk', 'Frozen onions']);
-    }, 3000);
+    }, display.timerStandard);
   });
 
   it('renders correct number of items', () => {

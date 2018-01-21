@@ -50,6 +50,7 @@ import cleanUpUserEmail from './helpers/cleanUpUserEmail';
 import sortItems from './helpers/sortItems';
 import sortItemsAisle from './helpers/sortItemsAisle';
 import logOut from './helpers/logOut';
+import display from './helpers/displayVars';
 import Item from './models/Item';
 
 export default {
@@ -193,7 +194,7 @@ export default {
       setTimeout(() => {
         this.viewToast = false;
         this.toastMessage = '';
-      }, 3000);
+      }, display.timerStandard);
     },
     sortAisle: function (): void {
       this.items = sortItemsAisle(this.items);

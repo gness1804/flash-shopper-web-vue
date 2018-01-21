@@ -35,6 +35,7 @@
 <script>
 // @flow
 import containsDirString from '../helpers/containsDirString';
+import display from '../helpers/displayVars';
 
 export default {
   name: 'Ingredient',
@@ -58,6 +59,10 @@ export default {
   methods: {
     addIngredient: function (): void {
       this.$emit('transferIngredient', this.ingredient);
+      this.containsKeyText = true;
+      setTimeout(() => {
+        this.containsKeyText = false;
+      }, display.timerStandard);
     },
     openEditModal: function (): void {
       this.$emit('openEditModal', this.ingredient);
