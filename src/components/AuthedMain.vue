@@ -159,6 +159,7 @@ import filterOutDuplicates from '../helpers/filterOutDuplicates';
 import flattenArr from '../helpers/flattenArr';
 import buttonStrings from '../helpers/buttonStrings';
 import browserMatches from '../helpers/browserMatches';
+import display from '../helpers/displayVars';
 
 export default {
   name: 'AuthedMain',
@@ -304,7 +305,7 @@ export default {
     this.detectBrowser();
     setTimeout(() => {
       this.names = flattenArr(this.pantryShortItems);
-    }, 3000);
+    }, display.timerStandard);
   },
 };
 </script>

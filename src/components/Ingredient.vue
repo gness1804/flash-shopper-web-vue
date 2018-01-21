@@ -35,6 +35,7 @@
 <script>
 // @flow
 import containsDirString from '../helpers/containsDirString';
+import display from '../helpers/displayVars';
 
 export default {
   name: 'Ingredient',
@@ -61,7 +62,7 @@ export default {
       this.containsKeyText = true;
       setTimeout(() => {
         this.containsKeyText = false;
-      }, 3000);
+      }, display.timerStandard);
     },
     openEditModal: function (): void {
       this.$emit('openEditModal', this.ingredient);

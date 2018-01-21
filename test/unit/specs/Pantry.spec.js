@@ -3,6 +3,7 @@ import { mount } from 'avoriaz';
 import Pantry from '@/components/Pantry';
 import items from '../helpers/FakeItemsArray';
 import item from '../helpers/FakeItem';
+import display from '../../../src/helpers/displayVars';
 
 describe('Pantry', () => {
   const name = 'Bagels';
@@ -39,7 +40,7 @@ describe('Pantry', () => {
     component.setMethods({ initializeApp });
     setTimeout(() => {
       expect(initializeApp.calledOnce).to.equal(true);
-    }, 3000);
+    }, display.timerStandard);
   });
 
   it('should trigger the delete all items method if user clicks on the delete all items button', () => {

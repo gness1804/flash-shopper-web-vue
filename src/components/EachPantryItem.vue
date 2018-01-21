@@ -27,6 +27,7 @@
 
 <script>
 // @flow
+import display from '../helpers/displayVars';
 
 export default {
   name: 'EachPantryItem',
@@ -55,7 +56,7 @@ export default {
       this.isHighlighted = true;
       setTimeout(() => {
         this.isHighlighted = false;
-      }, 3000);
+      }, display.timerStandard);
     },
     viewEditModal: function (): void {
       this.$emit('viewEditModal', this.item);
