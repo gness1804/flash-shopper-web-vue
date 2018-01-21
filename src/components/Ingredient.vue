@@ -58,6 +58,10 @@ export default {
   methods: {
     addIngredient: function (): void {
       this.$emit('transferIngredient', this.ingredient);
+      this.containsKeyText = true;
+      setTimeout(() => {
+        this.containsKeyText = false;
+      }, 3000);
     },
     openEditModal: function (): void {
       this.$emit('openEditModal', this.ingredient);
