@@ -119,6 +119,7 @@ import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
 import logOut from '../helpers/logOut';
 import sortItems from '../helpers/sortItems';
+import display from '../helpers/displayVars';
 import Item from '../models/Item';
 
 export default {
@@ -250,7 +251,7 @@ export default {
       setTimeout(() => {
         this.viewToast = false;
         this.toastMessage = '';
-      }, 3000);
+      }, display.timerStandard);
     },
     transferItemToMainList: function (item: Item): void {
       const email = cleanUpUserEmail(this.userEmail);

@@ -256,6 +256,7 @@ import orderIsValid from '../helpers/orderIsValid';
 import logOut from '../helpers/logOut';
 import flattenArr from '../helpers/flattenArr';
 import sortIngredients from '../helpers/sortItems';
+import display from '../helpers/displayVars';
 
 export default {
   name: 'recipeView',
@@ -465,7 +466,7 @@ export default {
         } catch (error) {
           alert(error);
         }
-      }, 3000);
+      }, display.timerStandard);
     },
     getIngredientTitles: function (ings: Array<Item>): void {
       const names = flattenArr(ings);
@@ -566,7 +567,7 @@ export default {
       setTimeout(() => {
         this.viewToast = false;
         this.toastMessage = '';
-      }, 3000);
+      }, display.timerStandard);
     },
     toggleDone: function (dir: Direction): void {
       const ind = this.directions.indexOf(dir);

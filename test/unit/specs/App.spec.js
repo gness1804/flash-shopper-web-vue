@@ -2,6 +2,7 @@ import { mount } from 'avoriaz';
 import App from '@/App';
 import items from '../helpers/FakeItemsArray';
 import item from '../helpers/FakeItem';
+import display from '../../../src/helpers/displayVars';
 
 describe('App.vue', () => {
   const userEmail = 'foo@foo.com';
@@ -17,7 +18,7 @@ describe('App.vue', () => {
     component.setMethods({ initializeApp });
     setTimeout(() => {
       expect(initializeApp.calledOnce).to.equal(true);
-    }, 3000);
+    }, display.timerStandard);
   });
 
   it('should trigger show toast when the addItem method is called', () => {
