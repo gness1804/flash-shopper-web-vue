@@ -16,6 +16,7 @@
     >
       <img
           class="large-icon"
+          v-bind:class="{ hidden: isButtonDisabled }"
           src="../assets/plus-icon-small.png"
           title="Add Item to Main List"
         />
@@ -121,6 +122,10 @@ export default {
   .blank-button {
     background-color: transparent;
     border: none;
+  }
+
+  .hidden {
+    display: none;
   }
 </style>
 
