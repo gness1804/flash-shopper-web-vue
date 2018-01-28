@@ -73,6 +73,7 @@
         v-for="item of items"
         v-bind:key="item.id"
         v-bind:item="item"
+        v-bind:mainShortItems="mainShortItems"
         v-on:transferItemToMainList="transferItemToMainList"
         v-on:deleteItem="deleteItem"
         v-on:viewEditModal="viewEditModal"
@@ -149,6 +150,7 @@ export default {
       addItemString: string,
       viewEdit: boolean,
       itemToEdit: Item,
+      mainShortItems: Array<Item>,
   } {
     return {
       isUser: false,
@@ -169,6 +171,7 @@ export default {
       addItemString: buttonStrings.addItem,
       viewEdit: false,
       itemToEdit: {},
+      mainShortItems: [],
     };
   },
   methods: {
@@ -202,6 +205,18 @@ export default {
         this.showToast(`${item.name} removed from pantry.`);
       }
     },
+    getMainShortItems: function (mainItems: Object): void {
+      mainItems.on('value', (snapshot: Array<Object>) => {
+        const newArr = [];
+        snapshot.forEach((item: Object) => {
+          newArr.push({
+            name: item.val().name,
+            id: item.key,
+          });
+        });
+        this.mainShortItems = newArr;
+      });
+    },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
         if (user) {
@@ -209,8 +224,10 @@ export default {
           const email = cleanUpUserEmail(user.email);
           this.userEmail = user.email;
           this.userId = user.uid;
-          this.itemsRef = firebase.database().ref(email + '/pantry') //eslint-disable-line
+          this.itemsRef = firebase.database().ref(email + '/pantry'); //eslint-disable-line
+          const mainShortList = firebase.database().ref(email + '/main'); //eslint-disable-line
           this.listenForItems(this.itemsRef);
+          this.getMainShortItems(mainShortList);
         } else {
           this.isUser = false;
         }
