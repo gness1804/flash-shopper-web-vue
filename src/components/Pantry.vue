@@ -73,6 +73,7 @@
         v-for="item of items"
         v-bind:key="item.id"
         v-bind:item="item"
+        v-bind:mainShortItems="mainShortItems"
         v-on:transferItemToMainList="transferItemToMainList"
         v-on:deleteItem="deleteItem"
         v-on:viewEditModal="viewEditModal"

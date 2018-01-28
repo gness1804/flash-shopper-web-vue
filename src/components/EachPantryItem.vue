@@ -3,7 +3,12 @@
     class="each-pantry-item"
     v-bind:class="{ highlighted: isHighlighted }"
   >
-    <h3 class="pantry-item-name">{{item.name}}</h3>
+    <h3
+      class="pantry-item-name"
+      v-bind:class="{ grayedOut: isInMainList }"
+    >
+      {{item.name}}
+    </h3>
     <img
         class="large-icon add-item-to-main-list-button"
         src="../assets/plus-icon-small.png"
@@ -28,6 +33,7 @@
 <script>
 // @flow
 import display from '../helpers/displayVars';
+import titleMatchesMainItem from '../helpers/titleMatchesMainItem';
 
 export default {
   name: 'EachPantryItem',
@@ -36,12 +42,18 @@ export default {
       type: Object,
       required: true,
     },
+    mainShortItems: {
+      type: Array,
+      required: false,
+    },
   },
   data(): {
     isHighlighted: boolean,
+    isInMainList: boolean,
   } {
     return {
       isHighlighted: false,
+      isInMainList: false,
     };
   },
   methods: {
@@ -62,6 +74,13 @@ export default {
       this.$emit('viewEditModal', this.item);
     },
   },
+  mounted: function (): void {
+    setTimeout(() => {
+      if (titleMatchesMainItem(this.item.name, this.mainShortItems)) {
+        this.isInMainList = true;
+      }
+    }, display.timerStandard);
+  },
 };
 </script>
 
@@ -80,6 +99,11 @@ export default {
 
   .pantry-item-name {
     margin-right: 40px;
+  }
+
+  .grayedOut {
+    color:#8c8383;
+    text-decoration: line-through;
   }
 </style>
 
