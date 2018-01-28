@@ -10,7 +10,7 @@ describe('EachPantryItem', () => {
   it('should render the correct contents', () => {
     const component = mount(EachPantryItem, { propsData });
     const name = component.find('.pantry-item-name')[0];
-    expect(name.text()).to.equal('Foo bread');
+    expect(name.text().trim()).to.equal('Foo bread');
   });
 
   it('should trigger the transferItemToMainList method when the add item button is clicked', () => {
