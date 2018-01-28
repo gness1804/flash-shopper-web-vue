@@ -9,12 +9,17 @@
     >
       {{item.name}}
     </h3>
-    <img
-        class="large-icon add-item-to-main-list-button"
-        src="../assets/plus-icon-small.png"
-        v-on:click="transferItemToMainList"
-        title="Add Item to Main List"
-      />
+    <button
+      v-bind:disabled="isButtonDisabled"
+      v-on:click="transferItemToMainList"
+      class="blank-button add-item-to-main-list-button"
+    >
+      <img
+          class="large-icon"
+          src="../assets/plus-icon-small.png"
+          title="Add Item to Main List"
+        />
+    </button>
       <img
         class="large-icon delete-item-button"
         src="../assets/cancel-circle.png"
@@ -50,10 +55,12 @@ export default {
   data(): {
     isHighlighted: boolean,
     isInMainList: boolean,
+    isButtonDisabled: boolean,
   } {
     return {
       isHighlighted: false,
       isInMainList: false,
+      isButtonDisabled: false,
     };
   },
   methods: {
@@ -63,9 +70,14 @@ export default {
         this.$emit('deleteItem', this.item);
       }
     },
+    setDisabledState: function (): void {
+      this.isInMainList = true;
+      this.isButtonDisabled = true;
+    },
     transferItemToMainList: function (): void {
       this.$emit('transferItemToMainList', this.item);
       this.isHighlighted = true;
+      this.setDisabledState();
       setTimeout(() => {
         this.isHighlighted = false;
       }, display.timerStandard);
@@ -77,7 +89,7 @@ export default {
   mounted: function (): void {
     setTimeout(() => {
       if (titleMatchesMainItem(this.item.name, this.mainShortItems)) {
-        this.isInMainList = true;
+        this.setDisabledState();
       }
     }, display.timerStandard);
   },
@@ -104,6 +116,11 @@ export default {
   .grayedOut {
     color:#8c8383;
     text-decoration: line-through;
+  }
+
+  .blank-button {
+    background-color: transparent;
+    border: none;
   }
 </style>
 
