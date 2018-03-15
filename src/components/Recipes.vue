@@ -33,6 +33,13 @@
           v-model="title"
           class="text-input-field"
         />
+        <input
+          type="text"
+          placeholder="Source"
+          @input="makeErrorFalse"
+          v-model="source"
+          class="text-input-field"
+        />
         <div
           class="image-container"
         >
@@ -228,6 +235,7 @@ export default {
       ingredients: Array<Item>,
       directions?: Array<Direction>,
       note?: string,
+      source?: string,
       error: boolean,
       errorMssg?: string,
       reader: Object,
@@ -251,6 +259,7 @@ export default {
       ingredients: [],
       directions: [],
       note: '',
+      source: '',
       error: false,
       errorMssg: '',
       reader: new FileReader(),
@@ -280,13 +289,13 @@ export default {
       this.showToast('Ingredient added.');
     },
     addRecipe: function (): void {
-      const { title, image, ingredients, directions, note } = this;
+      const { title, image, ingredients, directions, note, source } = this;
       if (!title || ingredients.length === 0) {
         alert('Oops, you must enter at least a title and one ingredient. Please try again.');
         return;
       }
       this.resetInputFields();
-      const recipe = new Recipe(title, image, ingredients, directions, note);
+      const recipe = new Recipe(title, image, ingredients, directions, note, source);
       this.itemsRef.push(recipe);
       this.showToast(`${recipe.title} successfully added.`);
     },
@@ -355,6 +364,7 @@ export default {
             ingredients: recipe.val().ingredients,
             directions: recipe.val().directions,
             note: recipe.val().note,
+            source: recipe.val().source,
             id: recipe.key,
           });
         });

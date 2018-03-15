@@ -58,6 +58,23 @@
       v-on:click="editNote"
       title="Edit Note"
     />
+    <p
+      class="source-output"
+    >
+      {{source}}
+    </p>
+    <img
+      class="delete-source-button"
+      src="../assets/cancel-circle.png"
+      v-on:click="deleteSource"
+      title="Delete Source"
+    />
+    <img
+      class="icon edit-source-button"
+      src="../assets/pencil.png"
+      v-on:click="editSource"
+      title="Edit Source"
+    />
     <div
       class="ingredients-container"
       v-if="ingredients && ingredients.length > 0"
@@ -276,6 +293,7 @@ export default {
     ingredients: Array<Item>,
     directions: Array<string>,
     note: string,
+    source: string,
     isUser: boolean,
     userEmail: string,
     userId: string,
@@ -307,6 +325,7 @@ export default {
       ingredients: [],
       directions: [],
       note: 'Add a note...',
+      source: '',
       isUser: false,
       userEmail: '',
       userId: '',
@@ -410,6 +429,9 @@ export default {
         this.note = 'Add a note...';
       }
     },
+    deleteSource: function (): void {
+
+    },
     editDirection: function (dir: Direction): void {
       const ind = this.directions.indexOf(dir);
       const newText = prompt('Enter the new direction text.', dir.details);
@@ -439,6 +461,9 @@ export default {
     editNote: function (): void {
       this.showNoteModal = true;
     },
+    editSource: function (): void {
+
+    },
     filterOutTargetRecipe: function (recipes: Array<Recipe>): void {
       const targetId = this.id;
       const target = recipes.filter((rec: Recipe) => {
@@ -450,6 +475,7 @@ export default {
         this.ingredients = sortIngredients(target[0].ingredients) || [];
         this.directions = target[0].directions || [];
         this.note = target[0].note || 'Add a note...';
+        this.source = target[0].source || 'Add a source now.';
         this.targetRecipe = this.itemsRef.child(this.id);
       }
       this.getIngredientTitles(this.ingredients);
@@ -502,6 +528,7 @@ export default {
             ingredients: recipe.val().ingredients,
             directions: recipe.val().directions,
             note: recipe.val().note,
+            source: recipe.val().source,
             id: recipe.key,
           });
         });
