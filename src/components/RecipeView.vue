@@ -75,6 +75,10 @@
       v-on:click="editSource"
       title="Edit Source"
     />
+    <add-source
+      v-if="showAddSourceInput"
+    >
+    </add-source>
     <div
       class="ingredients-container"
       v-if="ingredients && ingredients.length > 0"
@@ -263,6 +267,7 @@ import TimerModal from './TimerModal';
 import NoteModal from './NoteModal';
 import EditItemModal from './EditItemModal';
 import AppHeader from './AppHeader';
+import AddSource from './AddSource';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
 import Recipe from '../models/Recipe';
@@ -285,6 +290,7 @@ export default {
     AppHeader,
     NoteModal,
     EditItemModal,
+    AddSource,
   },
   data(): {
     id: string,
@@ -317,6 +323,7 @@ export default {
     selectedIngredient: Item,
     ingNames: Array<Item>,
     dirToCheckAgainst: string,
+    showAddSourceInput: boolean,
   } {
     return {
       id: '',
@@ -349,6 +356,7 @@ export default {
       selectedIngredient: {},
       ingNames: [],
       dirToCheckAgainst: '',
+      showAddSourceInput: false,
     };
   },
   methods: {
@@ -462,7 +470,7 @@ export default {
       this.showNoteModal = true;
     },
     editSource: function (): void {
-
+      this.showAddSourceInput = true;
     },
     filterOutTargetRecipe: function (recipes: Array<Recipe>): void {
       const targetId = this.id;
