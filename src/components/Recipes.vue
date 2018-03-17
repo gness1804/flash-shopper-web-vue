@@ -33,6 +33,14 @@
           v-model="title"
           class="text-input-field"
         />
+        <input
+          type="text"
+          placeholder="Source"
+          @input="makeErrorFalse"
+          v-model="source"
+          class="text-input-field add-source-input"
+          v-on:blur="verifySource"
+        />
         <div
           class="image-container"
         >
@@ -203,6 +211,7 @@ import sequentialize from '../helpers/sequentialize';
 import logOut from '../helpers/logOut';
 import sortItems from '../helpers/sortItems';
 import display from '../helpers/displayVars';
+import httpValidate from '../helpers/httpValidate';
 import Recipe from '../models/Recipe';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
@@ -228,6 +237,7 @@ export default {
       ingredients: Array<Item>,
       directions?: Array<Direction>,
       note?: string,
+      source?: string,
       error: boolean,
       errorMssg?: string,
       reader: Object,
@@ -251,6 +261,7 @@ export default {
       ingredients: [],
       directions: [],
       note: '',
+      source: '',
       error: false,
       errorMssg: '',
       reader: new FileReader(),
@@ -280,13 +291,17 @@ export default {
       this.showToast('Ingredient added.');
     },
     addRecipe: function (): void {
-      const { title, image, ingredients, directions, note } = this;
+      const { title, image, ingredients, directions, note, source } = this;
       if (!title || ingredients.length === 0) {
         alert('Oops, you must enter at least a title and one ingredient. Please try again.');
         return;
       }
+      if (source && !httpValidate(source)) {
+        alert('Oops, your source must be a valid URL. Please try again.');
+        return;
+      }
       this.resetInputFields();
-      const recipe = new Recipe(title, image, ingredients, directions, note);
+      const recipe = new Recipe(title, image, ingredients, directions, note, source);
       this.itemsRef.push(recipe);
       this.showToast(`${recipe.title} successfully added.`);
     },
@@ -355,6 +370,7 @@ export default {
             ingredients: recipe.val().ingredients,
             directions: recipe.val().directions,
             note: recipe.val().note,
+            source: recipe.val().source,
             id: recipe.key,
           });
         });
@@ -416,6 +432,16 @@ export default {
     triggerErrorState: function (message: string): void {
       this.error = true;
       this.errorMssg = message;
+    },
+    verifySource: function (): void {
+      if (!this.source) {
+        return;
+      }
+      if (!httpValidate(this.source)) {
+        alert('Oops! Your source must be a valid url.');
+      } else {
+        this.showToast('Cool! URL checks out.');
+      }
     },
   },
   computed: {
@@ -510,6 +536,11 @@ export default {
 
   .clear-notes-button:hover {
     cursor: pointer;
+  }
+
+  .add-source-input {
+    display: block;
+    margin: 0 auto;
   }
 </style>
 

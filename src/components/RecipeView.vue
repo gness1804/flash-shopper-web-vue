@@ -58,6 +58,33 @@
       v-on:click="editNote"
       title="Edit Note"
     />
+    <a
+      v-if="validateURL(source)"
+      class="source-output-link"
+      v-bind:href="source"
+      target="_blank"
+    >
+      {{source}}
+    </a>
+    <p
+      v-else
+      class="source-output-raw-text"
+    >
+      {{source}}
+    </p>
+    <img
+      class="icon edit-source-button"
+      src="../assets/pencil.png"
+      v-on:click="editSource"
+      title="Edit Source"
+    />
+    <add-source
+      v-if="showAddSourceInput"
+      v-bind:source="source"
+      v-on:hideAddSourceInput="hideAddSourceInput"
+      v-on:saveSource="saveSource"
+    >
+    </add-source>
     <div
       class="ingredients-container"
       v-if="ingredients && ingredients.length > 0"
@@ -246,6 +273,7 @@ import TimerModal from './TimerModal';
 import NoteModal from './NoteModal';
 import EditItemModal from './EditItemModal';
 import AppHeader from './AppHeader';
+import AddSource from './AddSource';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
 import Recipe from '../models/Recipe';
@@ -257,6 +285,7 @@ import logOut from '../helpers/logOut';
 import flattenArr from '../helpers/flattenArr';
 import sortIngredients from '../helpers/sortItems';
 import display from '../helpers/displayVars';
+import httpValidate from '../helpers/httpValidate';
 
 export default {
   name: 'recipeView',
@@ -268,6 +297,7 @@ export default {
     AppHeader,
     NoteModal,
     EditItemModal,
+    AddSource,
   },
   data(): {
     id: string,
@@ -276,6 +306,7 @@ export default {
     ingredients: Array<Item>,
     directions: Array<string>,
     note: string,
+    source: string,
     isUser: boolean,
     userEmail: string,
     userId: string,
@@ -299,6 +330,8 @@ export default {
     selectedIngredient: Item,
     ingNames: Array<Item>,
     dirToCheckAgainst: string,
+    showAddSourceInput: boolean,
+    validateURL: Function,
   } {
     return {
       id: '',
@@ -307,6 +340,7 @@ export default {
       ingredients: [],
       directions: [],
       note: 'Add a note...',
+      source: '',
       isUser: false,
       userEmail: '',
       userId: '',
@@ -330,6 +364,8 @@ export default {
       selectedIngredient: {},
       ingNames: [],
       dirToCheckAgainst: '',
+      showAddSourceInput: false,
+      validateURL: httpValidate,
     };
   },
   methods: {
@@ -439,6 +475,9 @@ export default {
     editNote: function (): void {
       this.showNoteModal = true;
     },
+    editSource: function (): void {
+      this.showAddSourceInput = true;
+    },
     filterOutTargetRecipe: function (recipes: Array<Recipe>): void {
       const targetId = this.id;
       const target = recipes.filter((rec: Recipe) => {
@@ -450,6 +489,7 @@ export default {
         this.ingredients = sortIngredients(target[0].ingredients) || [];
         this.directions = target[0].directions || [];
         this.note = target[0].note || 'Add a note...';
+        this.source = target[0].source || display.addSourceDefault;
         this.targetRecipe = this.itemsRef.child(this.id);
       }
       this.getIngredientTitles(this.ingredients);
@@ -472,8 +512,11 @@ export default {
       const names = flattenArr(ings);
       this.ingNames = names;
     },
-    goHome: function () {
+    goHome: function (): void {
       this.$router.push('/');
+    },
+    hideAddSourceInput: function (): void {
+      this.showAddSourceInput = false;
     },
     hideInputs: function (): void {
       this.showShowHideContainer = false;
@@ -502,6 +545,7 @@ export default {
             ingredients: recipe.val().ingredients,
             directions: recipe.val().directions,
             note: recipe.val().note,
+            source: recipe.val().source,
             id: recipe.key,
           });
         });
@@ -549,6 +593,13 @@ export default {
         note: this.note,
       });
       this.showToast('Note updated.');
+    },
+    saveSource: function (_source: string): void {
+      this.source = _source;
+      this.targetRecipe.update({
+        source: this.source,
+      });
+      this.showToast('Source updated.');
     },
     saveTitle: function (): void {
       const text = document.querySelector('.recipe-view-headline').innerText;
@@ -695,6 +746,11 @@ export default {
 
   .edit-note-button {
     margin-left: 20px;
+  }
+
+  .source-output-link {
+    display: block;
+    margin: 20px auto;
   }
 </style>
 
