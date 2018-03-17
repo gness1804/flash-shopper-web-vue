@@ -23,6 +23,7 @@
 <script>
 // @flow
 import buttonStrings from '../helpers/buttonStrings';
+import httpValidate from '../helpers/httpValidate';
 
 export default {
   name: 'addSource',
@@ -46,6 +47,10 @@ export default {
     },
     saveSource: async function (): void {
       if (this.newSource) {
+        if (!httpValidate(this.newSource)) {
+          alert('Oops! Your source must be a valid URL.');
+          return;
+        }
         await this.$emit('saveSource', this.newSource);
         this.$emit('hideAddSourceInput');
       } else {
