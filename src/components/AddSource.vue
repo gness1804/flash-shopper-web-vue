@@ -17,6 +17,12 @@
     >
       {{cancelString}}
     </button>
+    <button
+      class="button clear-button"
+      v-on:click="clear"
+    >
+      {{clearString}}
+    </button>
   </div>
 </template>
 
@@ -45,6 +51,9 @@ export default {
       }
       this.$emit('hideAddSourceInput');
     },
+    clear: function (): void {
+      this.newSource = '';
+    },
     saveSource: async function (): void {
       if (this.newSource) {
         if (!httpValidate(this.newSource)) {
@@ -63,11 +72,13 @@ export default {
     newSource: string,
     saveString: string,
     cancelString: string,
+    clearString: string,
   } {
     return {
       newSource: this.source,
       saveString: buttonStrings.save,
       cancelString: buttonStrings.cancel,
+      clearString: buttonStrings.clear,
     };
   },
 };

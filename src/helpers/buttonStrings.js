@@ -17,6 +17,7 @@ const buttonStrings = {
   sortAlpha: 'Sort Alpha',
   sortAisle: 'Sort Aisle',
   cancel: 'Cancel',
+  clear: 'Clear',
 };
 
 export default buttonStrings;
