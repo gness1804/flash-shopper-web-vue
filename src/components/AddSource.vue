@@ -4,6 +4,7 @@
       placeholder="Edit Source..."
       type="text"
       v-model="newSource"
+      v-on:click="clearDefault"
     />
     <button
       class="button save-source-button"
@@ -54,6 +55,11 @@ export default {
     },
     clear: function (): void {
       this.newSource = '';
+    },
+    clearDefault: function (): void {
+      if (this.newSource === display.addSourceDefault) {
+        this.newSource = '';
+      }
     },
     saveSource: async function (): void {
       if (this.newSource) {
