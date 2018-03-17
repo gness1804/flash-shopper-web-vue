@@ -30,6 +30,7 @@
 // @flow
 import buttonStrings from '../helpers/buttonStrings';
 import httpValidate from '../helpers/httpValidate';
+import display from '../helpers/displayVars';
 
 export default {
   name: 'addSource',
@@ -63,7 +64,7 @@ export default {
         await this.$emit('saveSource', this.newSource);
         this.$emit('hideAddSourceInput');
       } else {
-        await this.$emit('saveSource', 'Add a source.');
+        await this.$emit('saveSource', display.addSourceDefault);
         this.$emit('hideAddSourceInput');
       }
     },

@@ -489,7 +489,7 @@ export default {
         this.ingredients = sortIngredients(target[0].ingredients) || [];
         this.directions = target[0].directions || [];
         this.note = target[0].note || 'Add a note...';
-        this.source = target[0].source || 'Add a source now.';
+        this.source = target[0].source || display.addSourceDefault;
         this.targetRecipe = this.itemsRef.child(this.id);
       }
       this.getIngredientTitles(this.ingredients);
