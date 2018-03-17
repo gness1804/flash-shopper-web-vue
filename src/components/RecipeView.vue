@@ -79,6 +79,7 @@
       v-if="showAddSourceInput"
       v-bind:source="source"
       v-on:hideAddSourceInput="hideAddSourceInput"
+      v-on:saveSource="saveSource"
     >
     </add-source>
     <div
@@ -589,6 +590,13 @@ export default {
         note: this.note,
       });
       this.showToast('Note updated.');
+    },
+    saveSource: function (_source: string): void {
+      this.source = _source;
+      this.targetRecipe.update({
+        source: this.source,
+      });
+      this.showToast('Source updated.');
     },
     saveTitle: function (): void {
       const text = document.querySelector('.recipe-view-headline').innerText;

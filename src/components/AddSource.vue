@@ -44,8 +44,13 @@ export default {
       }
       this.$emit('hideAddSourceInput');
     },
-    saveSource: function (): void {
-
+    saveSource: async function (): void {
+      if (this.newSource) {
+        await this.$emit('saveSource', this.newSource);
+        this.$emit('hideAddSourceInput');
+      } else {
+        this.$emit('saveSource', 'Add a source.');
+      }
     },
   },
   data(): {
