@@ -58,8 +58,17 @@
       v-on:click="editNote"
       title="Edit Note"
     />
+    <a
+      v-if="validateURL(source)"
+      class="source-output-link"
+      v-bind:href="source"
+      target="_blank"
+    >
+      {{source}}
+    </a>
     <p
-      class="source-output"
+      v-else
+      class="source-output-raw-text"
     >
       {{source}}
     </p>
@@ -276,6 +285,7 @@ import logOut from '../helpers/logOut';
 import flattenArr from '../helpers/flattenArr';
 import sortIngredients from '../helpers/sortItems';
 import display from '../helpers/displayVars';
+import httpValidate from '../helpers/httpValidate';
 
 export default {
   name: 'recipeView',
@@ -321,6 +331,7 @@ export default {
     ingNames: Array<Item>,
     dirToCheckAgainst: string,
     showAddSourceInput: boolean,
+    validateURL: Function,
   } {
     return {
       id: '',
@@ -354,6 +365,7 @@ export default {
       ingNames: [],
       dirToCheckAgainst: '',
       showAddSourceInput: false,
+      validateURL: httpValidate,
     };
   },
   methods: {
@@ -734,6 +746,11 @@ export default {
 
   .edit-note-button {
     margin-left: 20px;
+  }
+
+  .source-output-link {
+    display: block;
+    margin: 20px auto;
   }
 </style>
 
