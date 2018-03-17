@@ -64,12 +64,6 @@
       {{source}}
     </p>
     <img
-      class="delete-source-button"
-      src="../assets/cancel-circle.png"
-      v-on:click="deleteSource"
-      title="Delete Source"
-    />
-    <img
       class="icon edit-source-button"
       src="../assets/pencil.png"
       v-on:click="editSource"
@@ -439,9 +433,6 @@ export default {
         this.showToast('Note deleted.');
         this.note = 'Add a note...';
       }
-    },
-    deleteSource: function (): void {
-
     },
     editDirection: function (dir: Direction): void {
       const ind = this.directions.indexOf(dir);
