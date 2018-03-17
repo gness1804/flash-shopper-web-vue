@@ -77,6 +77,8 @@
     />
     <add-source
       v-if="showAddSourceInput"
+      v-bind:source="source"
+      v-on:hideAddSourceInput="hideAddSourceInput"
     >
     </add-source>
     <div
@@ -506,8 +508,11 @@ export default {
       const names = flattenArr(ings);
       this.ingNames = names;
     },
-    goHome: function () {
+    goHome: function (): void {
       this.$router.push('/');
+    },
+    hideAddSourceInput: function (): void {
+      this.showAddSourceInput = false;
     },
     hideInputs: function (): void {
       this.showShowHideContainer = false;
