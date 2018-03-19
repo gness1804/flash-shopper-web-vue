@@ -87,7 +87,7 @@
         v-model="quantity"
         class="text-input-field"
       />
-      <!-- unit field here -->
+      <!-- units field here -->
     </div>
     <div class="buttons-container">
       <button
