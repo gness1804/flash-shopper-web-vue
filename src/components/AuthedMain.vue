@@ -87,6 +87,7 @@
         v-model="quantity"
         class="text-input-field"
       />
+      <!-- unit field here -->
     </div>
     <div class="buttons-container">
       <button
@@ -186,6 +187,7 @@ export default {
     aisle?: string,
     note?: string,
     quantity?: string,
+    units: number,
     error: boolean,
     errorMssg?: string,
     thereAreItemsInCart: Function,
@@ -204,6 +206,7 @@ export default {
       aisle: '',
       note: '',
       quantity: '',
+      units: 1,
       error: false,
       errorMssg: '',
       thereAreItemsInCart,
@@ -220,13 +223,13 @@ export default {
   },
   methods: {
     addItem: function (): void {
-      const { name, aisle, note, quantity } = this;
+      const { name, aisle, note, quantity, units } = this;
       if (!name) {
         this.triggerErrorState('Oops! Your item needs at least a name to be valid. Please try again.');
         return;
       }
       this.resetInputFields();
-      const it = new Item(name, aisle, note, quantity);
+      const it = new Item({ name, aisle, note, quantity, units });
       this.$emit('addItem', it);
     },
     addToAPN: function (_item: Item): void {

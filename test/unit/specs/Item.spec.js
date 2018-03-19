@@ -2,7 +2,13 @@ import { assert } from 'chai';
 import Item from '../../../src/models/Item';
 
 describe('Item', () => {
-  const item = new Item('Ground beef', 'Meat section', 'Lean variety', '1 lb');
+  const item = new Item({
+    name: 'Ground beef',
+    aisle: 'Meat section',
+    note: 'Lean variety',
+    quantity: '1 lb',
+    units: 3,
+  });
 
   it('should be a constructor', () => {
     assert.instanceOf(item, Item);
@@ -15,5 +21,6 @@ describe('Item', () => {
     assert.strictEqual(item.note, 'Lean variety');
     assert.strictEqual(item.quantity, '1 lb');
     assert.strictEqual(item.inCart, false);
+    assert.strictEqual(item.units, 3);
   });
 });
