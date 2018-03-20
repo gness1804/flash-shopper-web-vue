@@ -90,8 +90,9 @@
       <p>
         Units:
       </p>
-      <number-selector>
-
+      <number-selector
+        v-on:selectNumber="selectNumber"
+      >
       </number-selector>
     </div>
     <div class="buttons-container">
@@ -293,6 +294,9 @@ export default {
       this.aisle = '';
       this.note = '';
       this.quantity = '';
+    },
+    selectNumber: function (_units: number): void {
+      this.units = _units;
     },
     showToast: function (message: string): void {
       this.$emit('showToast', message);

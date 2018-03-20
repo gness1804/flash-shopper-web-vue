@@ -43,6 +43,9 @@ export default {
   mounted: function (): void {
     this.tabulateNumbers();
   },
+  updated: function (): void {
+    this.$emit('selectNumber', this.units);
+  },
 };
 </script>
 
