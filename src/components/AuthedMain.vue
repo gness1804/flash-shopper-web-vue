@@ -87,7 +87,21 @@
         v-model="quantity"
         class="text-input-field"
       />
-      <!-- units field here -->
+      <p>
+        Units:
+      </p>
+      <select
+          class="units-select"
+          v-model="units"
+        >
+          <option
+            v-for="num of nums"
+            v-bind:key="num * Math.random()"
+            v-bind:value="num"
+          >
+            {{num}}
+          </option>
+      </select>
     </div>
     <div class="buttons-container">
       <button
@@ -200,6 +214,7 @@ export default {
     sortAlphaString: string,
     sortAisleString: string,
     isSafari: boolean,
+    nums: number[],
   } {
     return {
       name: '',
@@ -219,6 +234,7 @@ export default {
       sortAlphaString: buttonStrings.sortAlpha,
       sortAisleString: buttonStrings.sortAisle,
       isSafari: false,
+      nums: [],
     };
   },
   methods: {
@@ -296,6 +312,13 @@ export default {
     sortAlpha: function (): void {
       this.$emit('sortAlpha');
     },
+    tabulateNumbers: function (): void {
+      for (let i = 0; i < 101; i++) {
+        if (i > 0) {
+          this.nums.push(i);
+        }
+      }
+    },
     toggleInCart: function (item: Item): void {
       this.$emit('toggleInCart', item);
     },
@@ -305,6 +328,7 @@ export default {
     },
   },
   mounted: function (): void {
+    this.tabulateNumbers();
     this.detectBrowser();
     setTimeout(() => {
       this.names = flattenArr(this.pantryShortItems);
