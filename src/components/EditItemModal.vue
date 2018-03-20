@@ -43,6 +43,7 @@
         v-model="quantity"
         class="text-input-field"
         />
+        <!-- units dropdown here -->
    </div>
    <button
     class="button save-item-button"
@@ -57,6 +58,22 @@
 import Item from '../models/Item';
 import thereAreChanges from '../helpers/thereAreChanges';
   // @flow
+
+interface Data {
+  name?: string,
+  aisle?: string,
+  note?: string,
+  quantity?: string,
+  units: number,
+  error: boolean,
+  errorMssg?: string,
+  targetItem: Item,
+  initName: string,
+  initAisle: string,
+  initNote: string,
+  initQty: string,
+  initUnits: number,
+}
 
 export default {
   name: 'EditItemModal',
@@ -74,24 +91,13 @@ export default {
       required: false,
     },
   },
-  data(): {
-    name?: string,
-    aisle?: string,
-    note?: string,
-    quantity?: string,
-    error: boolean,
-    errorMssg?: string,
-    targetItem: Item,
-    initName: string,
-    initAisle: string,
-    initNote: string,
-    initQty: string,
-    } {
+  data(): Data {
     return {
       name: this.item.name,
       aisle: this.item.aisle || '',
       note: this.item.note || '',
       quantity: this.item.quantity || '',
+      units: this.item.units || 1,
       error: false,
       errorMssg: '',
       targetItem: {},
@@ -99,6 +105,7 @@ export default {
       initAisle: this.item.aisle || '',
       initNote: this.item.note || '',
       initQty: this.item.quantity || '',
+      initUnits: this.item.units || 1,
     };
   },
   methods: {
@@ -107,16 +114,18 @@ export default {
         this.$emit('closeModal');
         return;
       }
-      const { name, aisle, note, quantity, initName, initAisle, initNote, initQty } = this;
+      const { name, aisle, note, quantity, units, initName, initAisle, initNote, initQty, initUnits } = this;
       const options = {
         name,
         aisle,
         note,
         quantity,
+        units,
         initName,
         initAisle,
         initNote,
         initQty,
+        initUnits,
       };
       if (thereAreChanges(options)) {
         const warning = confirm('Warning: You have unsaved changes! Are you sure you want to exit editing?');
@@ -139,13 +148,13 @@ export default {
       this.quantity = '';
     },
     saveItem: function (): void {
-      const { name, aisle, note, quantity, item } = this;
+      const { name, aisle, note, quantity, units, item } = this;
       if (!name) {
         this.triggerErrorState('Oops! Your item must have at least a name.');
         return;
       }
       if (this.isIngredient) {
-        const newIng = { ...item, name, aisle, note, quantity };
+        const newIng = { ...item, name, aisle, note, quantity, units };
         this.$emit('editIngredient', newIng);
         return;
       }
@@ -154,6 +163,7 @@ export default {
         aisle,
         note,
         quantity,
+        units,
       });
       this.closeModal('saved');
       this.showToast('Item saved.');
