@@ -7,7 +7,6 @@ describe('Item', () => {
     aisle: 'Meat section',
     note: 'Lean variety',
     quantity: '1 lb',
-    units: 3,
   });
 
   it('should be a constructor', () => {
@@ -21,6 +20,6 @@ describe('Item', () => {
     assert.strictEqual(item.note, 'Lean variety');
     assert.strictEqual(item.quantity, '1 lb');
     assert.strictEqual(item.inCart, false);
-    assert.strictEqual(item.units, 3);
+    assert.strictEqual(item.done, false);
   });
 });

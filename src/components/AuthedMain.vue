@@ -87,13 +87,6 @@
         v-model="quantity"
         class="text-input-field"
       />
-      <p>
-        Units:
-      </p>
-      <number-selector
-        v-on:selectNumber="selectNumber"
-      >
-      </number-selector>
     </div>
     <div class="buttons-container">
       <button
@@ -160,7 +153,6 @@
 
 import NoItems from './NoItems';
 import EachItemContainer from './EachItemContainer';
-import NumberSelector from './NumberSelector';
 import Item from '../models/Item';
 import thereAreItemsInCart from '../helpers/thereAreItemsInCart';
 import filterOutDuplicates from '../helpers/filterOutDuplicates';
@@ -174,7 +166,6 @@ export default {
   components: {
     NoItems,
     EachItemContainer,
-    NumberSelector,
   },
   props: {
     items: {
@@ -195,7 +186,7 @@ export default {
     aisle?: string,
     note?: string,
     quantity?: string,
-    units: number,
+    done: boolean,
     error: boolean,
     errorMssg?: string,
     thereAreItemsInCart: Function,
@@ -214,7 +205,7 @@ export default {
       aisle: '',
       note: '',
       quantity: '',
-      units: 1,
+      done: false,
       error: false,
       errorMssg: '',
       thereAreItemsInCart,
@@ -231,13 +222,13 @@ export default {
   },
   methods: {
     addItem: function (): void {
-      const { name, aisle, note, quantity, units } = this;
+      const { name, aisle, note, quantity } = this;
       if (!name) {
         this.triggerErrorState('Oops! Your item needs at least a name to be valid. Please try again.');
         return;
       }
       this.resetInputFields();
-      const it = new Item({ name, aisle, note, quantity, units });
+      const it = new Item({ name, aisle, note, quantity });
       this.$emit('addItem', it);
     },
     addToAPN: function (_item: Item): void {
@@ -294,9 +285,6 @@ export default {
       this.aisle = '';
       this.note = '';
       this.quantity = '';
-    },
-    selectNumber: function (_units: number): void {
-      this.units = _units;
     },
     showToast: function (message: string): void {
       this.$emit('showToast', message);

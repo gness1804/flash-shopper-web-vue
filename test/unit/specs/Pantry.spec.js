@@ -77,7 +77,7 @@ describe('Pantry', () => {
         quantity: '2 bags',
         inCart: false,
         ingredientId: null,
-        units: 8,
+        done: false,
       };
     const component = mount(Pantry);
     component.setData({ items });
@@ -85,7 +85,6 @@ describe('Pantry', () => {
     component.setData({ aisle: '22' });
     component.setData({ note: 'Do not get store brand' });
     component.setData({ quantity: '2 bags' });
-    component.setData({ units: 8 });
     component.setData({ itemsRef });
     const triggerErrorState = sinon.stub();
     component.setMethods({ triggerErrorState });

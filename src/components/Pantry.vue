@@ -52,7 +52,6 @@
         v-model="quantity"
         class="text-input-field"
       />
-      <!-- units field here -->
     </div>
     <button
         class="button add-item-to-pantry-button"
@@ -142,7 +141,6 @@ export default {
       aisle?: string,
       note?: string,
       quantity?: string,
-      units: number,
       error: boolean,
       errorMssg?: string,
       toastMessage?: string,
@@ -164,7 +162,6 @@ export default {
       aisle: '',
       note: '',
       quantity: '',
-      units: 1,
       error: false,
       errorMssg: '',
       toastMessage: '',
@@ -179,13 +176,13 @@ export default {
   },
   methods: {
     addItem: function (): void {
-      const { name, aisle, note, quantity, units } = this;
+      const { name, aisle, note, quantity } = this;
       if (!name) {
         this.triggerErrorState('Oops, you must enter at least a name. Please try again.');
         return;
       }
       this.resetInputFields();
-      const item = new Item({ name, aisle, note, quantity, units });
+      const item = new Item({ name, aisle, note, quantity });
       try {
         this.itemsRef.push(item);
         this.showToast(`${item.name} added to pantry.`);
@@ -246,7 +243,7 @@ export default {
             quantity: item.val().quantity,
             note: item.val().note,
             inCart: item.val().inCart || false,
-            units: item.val().units || 1,
+            done: item.val().done || false,
             id: item.key,
           });
         });

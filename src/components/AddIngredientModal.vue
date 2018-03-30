@@ -43,7 +43,6 @@
         v-model="quantity"
         class="text-input-field"
         />
-        <!-- units field here -->
    </div>
    <button
     class="button add-ingredient-modal-button"
@@ -65,7 +64,6 @@ export default {
     aisle?: string,
     note?: string,
     quantity?: string,
-    units: number,
     error: boolean,
     errorMssg?: string,
     } {
@@ -74,20 +72,19 @@ export default {
       aisle: '',
       note: '',
       quantity: '',
-      units: 1,
       error: false,
       errorMssg: '',
     };
   },
   methods: {
     addIngredient: function (): void {
-      const { name, aisle, note, quantity, units } = this;
+      const { name, aisle, note, quantity } = this;
       if (!name || !quantity) {
         this.triggerErrorState('Oops! Your ingredient needs at least a name and a quantity to be valid. Please try again.');
         return;
       }
       this.resetInputFields();
-      const ingredient = new Item({ name, aisle, note, quantity, units });
+      const ingredient = new Item({ name, aisle, note, quantity });
       this.$emit('addIngredient', ingredient);
     },
     closeModal: function (): void {

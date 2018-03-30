@@ -164,7 +164,7 @@ export default {
             quantity: item.val().quantity,
             note: item.val().note,
             inCart: item.val().inCart || false,
-            units: item.val().units || 1,
+            done: item.val().done || false,
             id: item.key,
           });
         });
