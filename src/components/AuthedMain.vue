@@ -138,6 +138,7 @@
         v-on:addToInstacart="addToInstacart"
         v-on:showToast="showToast"
         v-on:addToHEB="addToHEB"
+        v-on:transferToDone="transferToDone"
       >
       </each-item-container>
     </div>
@@ -297,6 +298,9 @@ export default {
     },
     toggleInCart: function (item: Item): void {
       this.$emit('toggleInCart', item);
+    },
+    transferToDone: function (_item: Item): void {
+      this.$emit('transferToDone', _item);
     },
     triggerErrorState: function (message: string): void {
       this.error = true;

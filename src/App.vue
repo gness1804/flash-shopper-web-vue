@@ -22,6 +22,7 @@
       v-on:addToHEB="addToHEB"
       v-on:sortAlpha="sortAlpha"
       v-on:sortAisle="sortAisle"
+      v-on:transferToDone="transferToDone"
     >
     </authed-main>
 
@@ -209,6 +210,10 @@ export default {
       const newItem = { ..._item, inCart: !_item.inCart };
       this.itemsRef.child(_item.id).remove();
       this.itemsRef.push(newItem);
+    },
+    transferToDone: function (_item: Item): void {
+      console.log('sanity check');
+      console.log('_item:', _item);
     },
   },
   mounted: function (): void {
