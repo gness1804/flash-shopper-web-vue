@@ -212,8 +212,11 @@ export default {
       this.itemsRef.push(newItem);
     },
     transferToDone: function (_item: Item): void {
-      console.log('sanity check');
-      console.log('_item:', _item);
+      const email = cleanUpUserEmail(this.userEmail);
+      /* eslint-disable prefer-template */
+      firebase.database().ref(email + '/completed').push(_item);
+      this.showToast(`${_item.name} completed.`);
+       /* eslint-enable prefer-template */
     },
   },
   mounted: function (): void {
