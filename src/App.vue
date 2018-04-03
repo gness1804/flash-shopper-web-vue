@@ -52,6 +52,7 @@ import sortItems from './helpers/sortItems';
 import sortItemsAisle from './helpers/sortItemsAisle';
 import logOut from './helpers/logOut';
 import display from './helpers/displayVars';
+import weedOutDones from './helpers/weedOutDones';
 import Item from './models/Item';
 
 export default {
@@ -155,8 +156,8 @@ export default {
         }
       });
     },
-    listenForItems: function (itemsRef: Object): void {
-      itemsRef.on('value', (snapshot: Array<Object>) => {
+    listenForItems: async function (itemsRef: Object): void {
+      itemsRef.on('value', async (snapshot: Array<Object>) => {
         const newArr = [];
         snapshot.forEach((item: Object) => {
           newArr.push({
@@ -169,12 +170,13 @@ export default {
             id: item.key,
           });
         });
+        const noDones = await weedOutDones(newArr);
         if (this.sortPref === 'alpha') {
-          this.items = sortItems(newArr);
+          this.items = sortItems(noDones);
         } else if (this.sortPref === 'aisle') {
-          this.items = sortItemsAisle(newArr);
+          this.items = sortItemsAisle(noDones);
         } else {
-          this.items = sortItems(newArr);
+          this.items = sortItems(noDones);
         }
       });
     },
@@ -211,8 +213,10 @@ export default {
       this.itemsRef.child(_item.id).remove();
       this.itemsRef.push(newItem);
     },
-    transferToDone: function (_item: Item): void {
+    transferToDone: async function (_item: Item): void {
       const email = cleanUpUserEmail(this.userEmail);
+      const target = this.itemsRef.child(_item.id);
+      await target.update({ done: true });
       /* eslint-disable prefer-template */
       firebase.database().ref(email + '/completed').push(_item);
       this.showToast(`${_item.name} completed.`);
