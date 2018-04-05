@@ -94,6 +94,12 @@
     >
       Make!
     </button>
+    <button
+      class="button warn-button reset-recipe-button"
+      v-on:click="resetTimesMade"
+    >
+      Reset
+    </button>
     <div
       class="ingredients-container"
       v-if="ingredients && ingredients.length > 0"
@@ -610,6 +616,15 @@ export default {
     },
     reorderDirections: function (): void {
       this.directions = sequentialize(this.directions);
+    },
+    resetTimesMade: function (): void {
+      const warn = confirm('Reset times made: are you sure?');
+      if (warn) {
+        this.timesMade = 0;
+        this.targetRecipe.update({
+          timesMade: this.timesMade,
+        });
+      }
     },
     saveNote: function (_note: string): void {
       this.note = _note;
