@@ -85,6 +85,15 @@
       v-on:saveSource="saveSource"
     >
     </add-source>
+    <p>
+      Times Made: {{timesMade}}
+    </p>
+    <button
+      class="button make-recipe-button"
+      v-on:click="increaseTimesMade"
+    >
+      Make!
+    </button>
     <div
       class="ingredients-container"
       v-if="ingredients && ingredients.length > 0"
@@ -287,6 +296,42 @@ import sortIngredients from '../helpers/sortItems';
 import display from '../helpers/displayVars';
 import httpValidate from '../helpers/httpValidate';
 
+interface Data {
+  id: string,
+  title: string,
+  image: string,
+  ingredients: Array<Item>,
+  directions: Array<string>,
+  note: string,
+  source: string,
+  isUser: boolean,
+  userEmail: string,
+  userId: string,
+  itemsRef: Object,
+  toastMessage: string,
+  viewToast: boolean,
+  targetRecipe: Recipe,
+  reader: Object,
+  showModal: boolean,
+  removeImageString: string,
+  addIngredientString: string,
+  addDirectionString: string,
+  goHomeString: string,
+  showTimerModal: boolean,
+  uncheckAllString: string,
+  showShowHideContainer: boolean,
+  showInputsString: string,
+  hideInputsString: string,
+  showNoteModal: boolean,
+  showEditModal: boolean,
+  selectedIngredient: Item,
+  ingNames: Array<Item>,
+  dirToCheckAgainst: string,
+  showAddSourceInput: boolean,
+  validateURL: Function,
+  timesMade: number,
+}
+
 export default {
   name: 'recipeView',
   components: {
@@ -299,41 +344,7 @@ export default {
     EditItemModal,
     AddSource,
   },
-  data(): {
-    id: string,
-    title: string,
-    image: string,
-    ingredients: Array<Item>,
-    directions: Array<string>,
-    note: string,
-    source: string,
-    isUser: boolean,
-    userEmail: string,
-    userId: string,
-    itemsRef: Object,
-    toastMessage: string,
-    viewToast: boolean,
-    targetRecipe: Recipe,
-    reader: Object,
-    showModal: boolean,
-    removeImageString: string,
-    addIngredientString: string,
-    addDirectionString: string,
-    goHomeString: string,
-    showTimerModal: boolean,
-    uncheckAllString: string,
-    showShowHideContainer: boolean,
-    showInputsString: string,
-    hideInputsString: string,
-    showNoteModal: boolean,
-    showEditModal: boolean,
-    selectedIngredient: Item,
-    ingNames: Array<Item>,
-    dirToCheckAgainst: string,
-    showAddSourceInput: boolean,
-    validateURL: Function,
-    timesMade: number,
-  } {
+  data(): Data {
     return {
       id: '',
       title: '',
@@ -523,6 +534,15 @@ export default {
     },
     hideInputs: function (): void {
       this.showShowHideContainer = false;
+    },
+    increaseTimesMade: function (): void {
+      const warning = confirm('Are you sure you want to make this dish?');
+      if (warning) {
+        this.timesMade++;
+        this.targetRecipe.update({
+          timesMade: this.timesMade,
+        });
+      }
     },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
