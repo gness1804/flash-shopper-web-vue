@@ -332,6 +332,7 @@ export default {
     dirToCheckAgainst: string,
     showAddSourceInput: boolean,
     validateURL: Function,
+    timesMade: number,
   } {
     return {
       id: '',
@@ -366,6 +367,7 @@ export default {
       dirToCheckAgainst: '',
       showAddSourceInput: false,
       validateURL: httpValidate,
+      timesMade: 0,
     };
   },
   methods: {
@@ -490,6 +492,7 @@ export default {
         this.directions = target[0].directions || [];
         this.note = target[0].note || 'Add a note...';
         this.source = target[0].source || display.addSourceDefault;
+        this.timesMade = target[0].timesMade || 0;
         this.targetRecipe = this.itemsRef.child(this.id);
       }
       this.getIngredientTitles(this.ingredients);
@@ -537,7 +540,7 @@ export default {
     },
     listenForItems: function (itemsRef: Object): void {
       itemsRef.on('value', (snapshot: Array<Object>) => {
-        const newArr = [];
+        const newArr: Recipe[] = [];
         snapshot.forEach((recipe: Object) => {
           newArr.push({
             title: recipe.val().title,
@@ -546,6 +549,7 @@ export default {
             directions: recipe.val().directions,
             note: recipe.val().note,
             source: recipe.val().source,
+            timesMade: recipe.val().timesMade,
             id: recipe.key,
           });
         });

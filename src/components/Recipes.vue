@@ -308,6 +308,7 @@ export default {
         directions,
         note,
         source,
+        timesMade: 0,
       });
       this.itemsRef.push(recipe);
       this.showToast(`${recipe.title} successfully added.`);
