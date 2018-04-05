@@ -1,6 +1,15 @@
 // @flow
 import Item from './Item';
 
+interface Opts {
+  title: string,
+  image: string,
+  ingredients: Item[],
+  directions?: string[],
+  note?: string,
+  source?: string,
+  timesMade?: number,
+}
 class Recipe {
   id: string | null;
   title: string;
@@ -9,15 +18,17 @@ class Recipe {
   directions: Array<string> | null;
   note: string;
   source: string;
+  timesMade: number;
 
-  constructor(title: string, image: string, ingredients: Array<Item>, directions?: Array<string>, note: string, source: string) {
+  constructor(opts: Opts) {
     this.id = null;
-    this.title = title;
-    this.image = image;
-    this.ingredients = ingredients;
-    this.directions = directions || null;
-    this.note = note || '';
-    this.source = source || '';
+    this.title = opts.title;
+    this.image = opts.image;
+    this.ingredients = opts.ingredients;
+    this.directions = opts.directions || null;
+    this.note = opts.note || '';
+    this.source = opts.source || '';
+    this.timesMade = opts.timesMade || 0;
   }
 }
 

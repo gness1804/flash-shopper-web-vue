@@ -23,6 +23,8 @@ const fakeRecipe = {
     },
   ],
   note: '',
+  source: 'https://yummy-recipes.com',
+  timesMade: 3,
 };
 
 export default fakeRecipe;

@@ -4,7 +4,15 @@ import ingredients from '../helpers/FakeIngredientsArray';
 import directions from '../helpers/FakeDirections';
 
 describe('Recipe', () => {
-  const beefTacos = new Recipe('Beef Tacos', 'my/.image', ingredients, directions, 'Defrost ground beef before starting');
+  const beefTacos = new Recipe({
+    title: 'Beef Tacos',
+    image: 'my/.image',
+    ingredients,
+    directions,
+    note: 'Defrost ground beef before starting',
+    source: 'https://yummy-recipes.com',
+    timesMade: 2,
+  });
 
   it('should be a constructor', () => {
     assert.instanceOf(beefTacos, Recipe);
@@ -17,5 +25,7 @@ describe('Recipe', () => {
     assert.strictEqual(beefTacos.ingredients, ingredients);
     assert.strictEqual(beefTacos.directions, directions);
     assert.strictEqual(beefTacos.note, 'Defrost ground beef before starting');
+    assert.strictEqual(beefTacos.source, 'https://yummy-recipes.com');
+    assert.strictEqual(beefTacos.timesMade, 2);
   });
 });
