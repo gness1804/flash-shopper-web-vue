@@ -8,6 +8,7 @@ interface Opts {
   directions?: string[],
   note?: string,
   source?: string,
+  timesMade?: number,
 }
 class Recipe {
   id: string | null;
@@ -17,6 +18,7 @@ class Recipe {
   directions: Array<string> | null;
   note: string;
   source: string;
+  timesMade: number;
 
   constructor(opts: Opts) {
     this.id = null;
@@ -26,6 +28,7 @@ class Recipe {
     this.directions = opts.directions || null;
     this.note = opts.note || '';
     this.source = opts.source || '';
+    this.timesMade = opts.timesMade || 0;
   }
 }
 
