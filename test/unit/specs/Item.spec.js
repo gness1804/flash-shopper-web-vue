@@ -20,6 +20,5 @@ describe('Item', () => {
     assert.strictEqual(item.note, 'Lean variety');
     assert.strictEqual(item.quantity, '1 lb');
     assert.strictEqual(item.inCart, false);
-    assert.strictEqual(item.done, false);
   });
 });

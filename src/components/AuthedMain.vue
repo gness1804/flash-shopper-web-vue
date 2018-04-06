@@ -162,6 +162,25 @@ import buttonStrings from '../helpers/buttonStrings';
 import browserMatches from '../helpers/browserMatches';
 import display from '../helpers/displayVars';
 
+interface Data {
+  name?: string,
+  aisle?: string,
+  note?: string,
+  quantity?: string,
+  error: boolean,
+  errorMssg?: string,
+  thereAreItemsInCart: Function,
+  names: Array<string>,
+  goToPantryString: string,
+  goToRecipesString: string,
+  addItemString: string,
+  deleteAllItemsString: string,
+  deleteAllInCartString: string,
+  sortAlphaString: string,
+  sortAisleString: string,
+  isSafari: boolean,
+}
+
 export default {
   name: 'AuthedMain',
   components: {
@@ -182,31 +201,12 @@ export default {
       required: false,
     },
   },
-  data(): {
-    name?: string,
-    aisle?: string,
-    note?: string,
-    quantity?: string,
-    done: boolean,
-    error: boolean,
-    errorMssg?: string,
-    thereAreItemsInCart: Function,
-    names: Array<string>,
-    goToPantryString: string,
-    goToRecipesString: string,
-    addItemString: string,
-    deleteAllItemsString: string,
-    deleteAllInCartString: string,
-    sortAlphaString: string,
-    sortAisleString: string,
-    isSafari: boolean,
-  } {
+  data(): Data {
     return {
       name: '',
       aisle: '',
       note: '',
       quantity: '',
-      done: false,
       error: false,
       errorMssg: '',
       thereAreItemsInCart,

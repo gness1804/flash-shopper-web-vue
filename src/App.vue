@@ -54,6 +54,19 @@ import logOut from './helpers/logOut';
 import display from './helpers/displayVars';
 import Item from './models/Item';
 
+interface Data {
+  isUser: boolean,
+  itemsRef: Object,
+  userEmail?: string,
+  userId: string | null,
+  items: Array<Item>,
+  toastMessage?: string,
+  viewToast: boolean,
+  pantryShortItems: Array<Item>,
+  pantryRef: {},
+  sortPref: string,
+}
+
 export default {
   name: 'app',
   components: {
@@ -62,18 +75,7 @@ export default {
     Toast,
     AppHeader,
   },
-  data(): {
-    isUser: boolean,
-    itemsRef: Object,
-    userEmail?: string,
-    userId: string | null,
-    items: Array<Item>,
-    toastMessage?: string,
-    viewToast: boolean,
-    pantryShortItems: Array<Item>,
-    pantryRef: {},
-    sortPref: string,
-  } {
+  data(): Data {
     return {
       isUser: false,
       itemsRef: {},
@@ -165,7 +167,6 @@ export default {
             quantity: item.val().quantity,
             note: item.val().note,
             inCart: item.val().inCart || false,
-            done: item.val().done || false,
             id: item.key,
           });
         });

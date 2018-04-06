@@ -243,7 +243,6 @@ export default {
             quantity: item.val().quantity,
             note: item.val().note,
             inCart: item.val().inCart || false,
-            done: item.val().done || false,
             id: item.key,
           });
         });

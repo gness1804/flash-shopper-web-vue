@@ -77,7 +77,6 @@ describe('Pantry', () => {
         quantity: '2 bags',
         inCart: false,
         ingredientId: null,
-        done: false,
       };
     const component = mount(Pantry);
     component.setData({ items });

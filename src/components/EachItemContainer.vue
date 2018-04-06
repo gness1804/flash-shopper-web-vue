@@ -159,8 +159,7 @@ export default {
       this.$emit('toggleInCart', this.item);
     },
     transferToDone: function (): void {
-      const newItem = { ...this.item, done: true };
-      this.$emit('transferToDone', newItem);
+      this.$emit('transferToDone', this.item);
     },
   },
 };
