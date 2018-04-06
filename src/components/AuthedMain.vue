@@ -122,6 +122,12 @@
         {{deleteAllInCartString}}
       </button>
     </div>
+    <button
+      class="button go-to-completed-button"
+      v-on:click="goToCompleted"
+    >
+      Go to Completed
+    </button>
     <div
       class="items-container"
       v-if="items.length > 0"
@@ -265,6 +271,11 @@ export default {
         this.isSafari = true;
       }
     },
+    goToCompleted: function (): void {
+      if (this.$router) {
+        this.$router.push('/completed');
+      }
+    },
     goToPantry: function (): void {
       this.$router.push('/pantry');
     },
@@ -356,6 +367,10 @@ export default {
 
   .safari-dropdown {
     margin-bottom: 30px;
+  }
+
+  .go-to-completed-button {
+    margin-top: 20px;
   }
 
   @media (max-width: 500px) {

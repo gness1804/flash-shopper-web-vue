@@ -5,6 +5,7 @@ import Pantry from '../components/Pantry';
 import Recipes from '../components/Recipes';
 import RecipeView from '../components/RecipeView';
 import Error from '../components/Error';
+import Completed from '../components/Completed';
 
 Vue.use(VueRouter);
 
@@ -27,6 +28,10 @@ const routes = [
   {
     path: '/recipes/:id',
     component: RecipeView,
+  },
+  {
+    path: '/completed',
+    component: Completed,
   },
   {
     path: '/404',
