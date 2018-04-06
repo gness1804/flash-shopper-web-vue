@@ -301,7 +301,15 @@ export default {
         return;
       }
       this.resetInputFields();
-      const recipe = new Recipe(title, image, ingredients, directions, note, source);
+      const recipe = new Recipe({
+        title,
+        image,
+        ingredients,
+        directions,
+        note,
+        source,
+        timesMade: 0,
+      });
       this.itemsRef.push(recipe);
       this.showToast(`${recipe.title} successfully added.`);
     },

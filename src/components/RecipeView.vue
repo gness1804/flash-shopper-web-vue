@@ -85,6 +85,21 @@
       v-on:saveSource="saveSource"
     >
     </add-source>
+    <p>
+      Times Made: {{timesMade}}
+    </p>
+    <button
+      class="button make-recipe-button"
+      v-on:click="increaseTimesMade"
+    >
+      Make!
+    </button>
+    <button
+      class="button warn-button reset-recipe-button"
+      v-on:click="resetTimesMade"
+    >
+      Reset
+    </button>
     <div
       class="ingredients-container"
       v-if="ingredients && ingredients.length > 0"
@@ -287,6 +302,42 @@ import sortIngredients from '../helpers/sortItems';
 import display from '../helpers/displayVars';
 import httpValidate from '../helpers/httpValidate';
 
+interface Data {
+  id: string,
+  title: string,
+  image: string,
+  ingredients: Array<Item>,
+  directions: Array<string>,
+  note: string,
+  source: string,
+  isUser: boolean,
+  userEmail: string,
+  userId: string,
+  itemsRef: Object,
+  toastMessage: string,
+  viewToast: boolean,
+  targetRecipe: Recipe,
+  reader: Object,
+  showModal: boolean,
+  removeImageString: string,
+  addIngredientString: string,
+  addDirectionString: string,
+  goHomeString: string,
+  showTimerModal: boolean,
+  uncheckAllString: string,
+  showShowHideContainer: boolean,
+  showInputsString: string,
+  hideInputsString: string,
+  showNoteModal: boolean,
+  showEditModal: boolean,
+  selectedIngredient: Item,
+  ingNames: Array<Item>,
+  dirToCheckAgainst: string,
+  showAddSourceInput: boolean,
+  validateURL: Function,
+  timesMade: number,
+}
+
 export default {
   name: 'recipeView',
   components: {
@@ -299,40 +350,7 @@ export default {
     EditItemModal,
     AddSource,
   },
-  data(): {
-    id: string,
-    title: string,
-    image: string,
-    ingredients: Array<Item>,
-    directions: Array<string>,
-    note: string,
-    source: string,
-    isUser: boolean,
-    userEmail: string,
-    userId: string,
-    itemsRef: Object,
-    toastMessage: string,
-    viewToast: boolean,
-    targetRecipe: Recipe,
-    reader: Object,
-    showModal: boolean,
-    removeImageString: string,
-    addIngredientString: string,
-    addDirectionString: string,
-    goHomeString: string,
-    showTimerModal: boolean,
-    uncheckAllString: string,
-    showShowHideContainer: boolean,
-    showInputsString: string,
-    hideInputsString: string,
-    showNoteModal: boolean,
-    showEditModal: boolean,
-    selectedIngredient: Item,
-    ingNames: Array<Item>,
-    dirToCheckAgainst: string,
-    showAddSourceInput: boolean,
-    validateURL: Function,
-  } {
+  data(): Data {
     return {
       id: '',
       title: '',
@@ -366,6 +384,7 @@ export default {
       dirToCheckAgainst: '',
       showAddSourceInput: false,
       validateURL: httpValidate,
+      timesMade: 0,
     };
   },
   methods: {
@@ -490,6 +509,7 @@ export default {
         this.directions = target[0].directions || [];
         this.note = target[0].note || 'Add a note...';
         this.source = target[0].source || display.addSourceDefault;
+        this.timesMade = target[0].timesMade || 0;
         this.targetRecipe = this.itemsRef.child(this.id);
       }
       this.getIngredientTitles(this.ingredients);
@@ -521,6 +541,15 @@ export default {
     hideInputs: function (): void {
       this.showShowHideContainer = false;
     },
+    increaseTimesMade: function (): void {
+      const warning = confirm('Are you sure you want to make this dish?');
+      if (warning) {
+        this.timesMade++;
+        this.targetRecipe.update({
+          timesMade: this.timesMade,
+        });
+      }
+    },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
         if (user) {
@@ -537,7 +566,7 @@ export default {
     },
     listenForItems: function (itemsRef: Object): void {
       itemsRef.on('value', (snapshot: Array<Object>) => {
-        const newArr = [];
+        const newArr: Recipe[] = [];
         snapshot.forEach((recipe: Object) => {
           newArr.push({
             title: recipe.val().title,
@@ -546,6 +575,7 @@ export default {
             directions: recipe.val().directions,
             note: recipe.val().note,
             source: recipe.val().source,
+            timesMade: recipe.val().timesMade,
             id: recipe.key,
           });
         });
@@ -586,6 +616,15 @@ export default {
     },
     reorderDirections: function (): void {
       this.directions = sequentialize(this.directions);
+    },
+    resetTimesMade: function (): void {
+      const warn = confirm('Reset times made: are you sure?');
+      if (warn) {
+        this.timesMade = 0;
+        this.targetRecipe.update({
+          timesMade: this.timesMade,
+        });
+      }
     },
     saveNote: function (_note: string): void {
       this.note = _note;

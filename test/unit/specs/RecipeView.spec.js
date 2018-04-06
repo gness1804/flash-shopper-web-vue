@@ -82,7 +82,7 @@ describe('RecipeView.vue', () => {
     sinon.assert.calledOnce(component.data().targetRecipe.update);
   });
 
-  it('clicking the reorder button and entering a new order should reorder the directions correctly (no. 2. -- > no. 1)', () => {
+  it('clicking the reorder button and entering a new order should reorder the directions correctly (no. 2. --> no. 1)', () => {
     Object.assign(window, { prompt: () => 1 });
     const component = mount(RecipeView);
     component.setData({ isUser: true });
