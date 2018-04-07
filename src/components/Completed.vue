@@ -6,6 +6,16 @@
       v-on:logOut="logOut"
     >
     </app-header>
+    <h2>
+      Completed Items
+    </h2>
+    <button
+      v-if="items.length > 0"
+      class="button warn-button delete-all-items-button"
+      v-on:click="deleteAllItems"
+    >
+      {{deleteAllString}}
+    </button>
     <div
     class="items"
     v-if="items.length > 0"
@@ -37,6 +47,7 @@ import logOut from '../helpers/logOut';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import sortItems from '../helpers/sortItems';
 import display from '../helpers/displayVars';
+import buttonStrings from '../helpers/buttonStrings';
 import Item from '../models/Item';
 
 interface Data {
@@ -47,6 +58,7 @@ interface Data {
   items: Item[],
   toastMessage: string,
   viewToast: boolean,
+  deleteAllString: string,
 }
 
 export default {
@@ -64,9 +76,17 @@ export default {
       items: [],
       toastMessage: '',
       viewToast: false,
+      deleteAllString: buttonStrings.deleteAllItems,
     };
   },
   methods: {
+    deleteAllItems: function (): void {
+      const warn = confirm('Are you sure you want to delete all items?');
+      if (warn) {
+        this.itemsRef.set([]);
+        this.showToast('Deleted all items.');
+      }
+    },
     deleteItem: function (_item: Item): void {
       const warn = confirm('Are you sure you want to delete this item?');
       if (warn) {
@@ -130,7 +150,9 @@ export default {
 
 
 <style scoped>
-
+  .delete-all-items-button {
+    margin: 20px auto;
+  }
 </style>
 
 
