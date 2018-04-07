@@ -167,6 +167,7 @@ export default {
             quantity: item.val().quantity,
             note: item.val().note,
             inCart: item.val().inCart || false,
+            dateCompleted: item.val().dateCompleted || null,
             id: item.key,
           });
         });

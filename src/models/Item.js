@@ -6,6 +6,7 @@ interface Options {
   note?: string,
   quantity?: string,
   inCart?: boolean,
+  dateCompleted?: number | null,
 }
 class Item {
   id: string | null;
@@ -15,6 +16,7 @@ class Item {
   quantity: string;
   inCart: boolean;
   ingredientId: number | null;
+  dateCompleted: number | null;
 
   constructor(opt: Options) {
     this.id = null;
@@ -24,6 +26,7 @@ class Item {
     this.quantity = opt.quantity || '';
     this.inCart = opt.inCart || false;
     this.ingredientId = null;
+    this.dateCompleted = opt.dateCompleted || null;
   }
 }
 
