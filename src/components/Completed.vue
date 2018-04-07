@@ -6,7 +6,17 @@
       v-on:logOut="logOut"
     >
     </app-header>
-    <p>I am the completed items.</p>
+    <div
+    class="items"
+    v-if="items.length > 0"
+    >
+      <p>I should appear if there are items.</p>
+    </div>
+    <p
+      v-else
+    >
+      It looks like you do not have any completed items. When you mark an item as completed, it will show up here.
+    </p>
   </div>
 </template>
 
