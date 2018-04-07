@@ -1,7 +1,8 @@
 <template lang="pug">
   .each-completed-item
     h3.completed-item-name {{item.name}}
-    img.large-icon.restore-to-main-button(src="../assets/arrow-up.png" v-on:click="restoreItemToMain")
+    img.large-icon.restore-to-main-button(src="../assets/arrow-up.png" v-on:click="restoreItemToMain" title="Restore to Main List")
+    img.large-icon.delete-item-button(src="../assets/cancel-circle.png" v-on:click="deleteItem" title="Delete Item")
 </template>
 
 <script>
@@ -16,6 +17,9 @@ export default {
     },
   },
   methods: {
+    deleteItem: function (): void {
+      this.$emit('deleteItem', this.item);
+    },
     restoreItemToMain: function (): void {
       this.$emit('restoreItemToMain', this.item);
     },
@@ -23,7 +27,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
   .each-completed-item {
     align-items: center;
     display: flex;

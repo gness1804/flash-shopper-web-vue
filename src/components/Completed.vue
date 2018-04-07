@@ -15,6 +15,7 @@
         v-bind:key="item.id"
         v-bind:item="item"
         v-on:restoreItemToMain="restoreItemToMain"
+        v-on:deleteItem="deleteItem"
       >
       </each-completed-item>
     </div>
@@ -66,6 +67,13 @@ export default {
     };
   },
   methods: {
+    deleteItem: function (_item: Item): void {
+      const warn = confirm('Are you sure you want to delete this item?');
+      if (warn) {
+        this.itemsRef.child(_item.id).remove();
+        this.showToast('Item deleted.');
+      }
+    },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
         if (user) {
