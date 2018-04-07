@@ -14,6 +14,7 @@
         v-for="item of items"
         v-bind:key="item.id"
         v-bind:item="item"
+        v-on:restoreItemToMain="restoreItemToMain"
       >
       </each-completed-item>
     </div>
@@ -34,6 +35,7 @@ import EachCompletedItem from './EachCompletedItem';
 import logOut from '../helpers/logOut';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import sortItems from '../helpers/sortItems';
+import display from '../helpers/displayVars';
 import Item from '../models/Item';
 
 interface Data {
@@ -42,6 +44,8 @@ interface Data {
   userId: string,
   itemsRef: Object,
   items: Item[],
+  toastMessage: string,
+  viewToast: boolean,
 }
 
 export default {
@@ -57,6 +61,8 @@ export default {
       userId: '',
       itemsRef: {},
       items: [],
+      toastMessage: '',
+      viewToast: false,
     };
   },
   methods: {
@@ -92,6 +98,20 @@ export default {
     },
     logOut: function (): void {
       logOut();
+    },
+    restoreItemToMain: function (_item: Item): void {
+      const email = cleanUpUserEmail(this.userEmail);
+      this.itemsRef.child(_item.id).remove();
+      firebase.database().ref(`${email}/main`).push(_item);
+      this.showToast(`${_item.name} restored to main list.`);
+    },
+    showToast: function (message: string): void {
+      this.toastMessage = message;
+      this.viewToast = true;
+      setTimeout(() => {
+        this.viewToast = false;
+        this.toastMessage = '';
+      }, display.timerStandard);
     },
   },
   mounted: function (): void {

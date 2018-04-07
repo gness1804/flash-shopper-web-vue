@@ -1,7 +1,7 @@
 <template lang="pug">
   .each-completed-item
     h3.completed-item-name {{item.name}}
-    img.large-icon.restore-to-main-button(src="../assets/arrow-up.png")
+    img.large-icon.restore-to-main-button(src="../assets/arrow-up.png" v-on:click="restoreItemToMain")
 </template>
 
 <script>
@@ -13,6 +13,11 @@ export default {
     item: {
       type: Object,
       required: true,
+    },
+  },
+  methods: {
+    restoreItemToMain: function (): void {
+      this.$emit('restoreItemToMain', this.item);
     },
   },
 };
