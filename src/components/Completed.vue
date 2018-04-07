@@ -10,7 +10,12 @@
     class="items"
     v-if="items.length > 0"
     >
-      <p>I should appear if there are items.</p>
+      <each-completed-item
+        v-for="item of items"
+        v-bind:key="item.id"
+        v-bind:item="item"
+      >
+      </each-completed-item>
     </div>
     <p
       v-else
@@ -25,6 +30,7 @@
 import * as firebase from 'firebase';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import AppHeader from './AppHeader';
+import EachCompletedItem from './EachCompletedItem';
 import logOut from '../helpers/logOut';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import sortItems from '../helpers/sortItems';
@@ -42,6 +48,7 @@ export default {
   name: 'completed',
   components: {
     AppHeader,
+    EachCompletedItem,
   },
   data(): Data {
     return {
