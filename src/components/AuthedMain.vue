@@ -115,11 +115,11 @@
         {{deleteAllItemsString}}
       </button>
       <button
-        class="button warn-button bottom-button delete-all-items-in-cart-button"
-        v-on:click="deleteAllInCart"
+        class="button warn-button bottom-button complete-all-items-in-cart-button"
+        v-on:click="completeAllInCart"
         v-bind:disabled="!thereAreItemsInCart(items)"
       >
-        {{deleteAllInCartString}}
+        {{completeAllInCartString}}
       </button>
     </div>
     <div
@@ -175,7 +175,7 @@ interface Data {
   goToRecipesString: string,
   addItemString: string,
   deleteAllItemsString: string,
-  deleteAllInCartString: string,
+  completeAllInCartString: string,
   sortAlphaString: string,
   sortAisleString: string,
   isSafari: boolean,
@@ -215,7 +215,7 @@ export default {
       goToRecipesString: buttonStrings.goToRecipes,
       addItemString: buttonStrings.addItem,
       deleteAllItemsString: buttonStrings.deleteAllItems,
-      deleteAllInCartString: buttonStrings.deleteAllInCart,
+      completeAllInCartString: buttonStrings.completeAllInCart,
       sortAlphaString: buttonStrings.sortAlpha,
       sortAisleString: buttonStrings.sortAisle,
       isSafari: false,
@@ -241,17 +241,17 @@ export default {
     addToInstacart: function (_item: Item): void {
       this.$emit('addToInstacart', _item);
     },
+    completeAllInCart: function (): void {
+      const warning = confirm('Are you sure you want to mark ALL the items in your cart as completed?');
+      if (warning) {
+        this.$emit('completeAllInCart');
+      }
+    },
     countItemsInCart: function (): number {
       const newArr = this.items.filter((item: Item) => {
         return item.inCart;
       });
       return newArr.length;
-    },
-    deleteAllInCart: function (): void {
-      const warning = confirm('Are you sure you want to delete ALL items in your cart? This cannot be undone!');
-      if (warning) {
-        this.$emit('deleteAllInCart');
-      }
     },
     deleteAllItems: function (): void {
       const warning = confirm('Are you sure you want to delete ALL items? This cannot be undone!');
