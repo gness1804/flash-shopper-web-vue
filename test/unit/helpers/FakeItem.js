@@ -5,6 +5,7 @@ const fakeItem = {
   note: 'Please do not get stale bread',
   quantity: '2 loaves',
   inCart: false,
+  dateCompleted: null,
 };
 
 export default fakeItem;

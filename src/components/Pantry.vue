@@ -123,6 +123,28 @@ import sortItems from '../helpers/sortItems';
 import display from '../helpers/displayVars';
 import Item from '../models/Item';
 
+interface Data {
+   isUser: boolean,
+    itemsRef: Object,
+    userEmail?: string,
+    userId: string | null,
+    items: Array<Item>,
+    name?: string,
+    aisle?: string,
+    note?: string,
+    quantity?: string,
+    error: boolean,
+    errorMssg?: string,
+    toastMessage?: string,
+    viewToast: boolean,
+    goHomeString: string,
+    deleteAllItemsString: string,
+    addItemString: string,
+    viewEdit: boolean,
+    itemToEdit: Item,
+    mainShortItems: Array<Item>,
+}
+
 export default {
   name: 'Pantry',
   components: {
@@ -131,27 +153,7 @@ export default {
     AppHeader,
     EditItemModal,
   },
-  data(): {
-      isUser: boolean,
-      itemsRef: Object,
-      userEmail?: string,
-      userId: string | null,
-      items: Array<Item>,
-      name?: string,
-      aisle?: string,
-      note?: string,
-      quantity?: string,
-      error: boolean,
-      errorMssg?: string,
-      toastMessage?: string,
-      viewToast: boolean,
-      goHomeString: string,
-      deleteAllItemsString: string,
-      addItemString: string,
-      viewEdit: boolean,
-      itemToEdit: Item,
-      mainShortItems: Array<Item>,
-  } {
+  data(): Data {
     return {
       isUser: false,
       itemsRef: {},
@@ -182,7 +184,7 @@ export default {
         return;
       }
       this.resetInputFields();
-      const item = new Item(name, aisle, note, quantity);
+      const item = new Item({ name, aisle, note, quantity });
       try {
         this.itemsRef.push(item);
         this.showToast(`${item.name} added to pantry.`);
