@@ -45,6 +45,12 @@
       >
         {{goToRecipesString}}
       </button>
+      <button
+      class="button header-button go-to-completed-button"
+      v-on:click="goToCompleted"
+      >
+      {{goToCompletedString}}
+    </button>
       </div>
     </div>
     <div
@@ -71,6 +77,15 @@
 // @flow
 import buttonStrings from '../helpers/buttonStrings';
 
+interface Data {
+  logOutString: string,
+  goHomeString: string,
+  goToPantryString: string,
+  goToRecipesString: string,
+  currentRoute: string,
+  goToCompletedString: string,
+}
+
 export default {
   name: 'appHeader',
   props: {
@@ -83,25 +98,25 @@ export default {
       required: false,
     },
   },
-  data(): {
-    logOutString: string,
-    goHomeString: string,
-    goToPantryString: string,
-    goToRecipesString: string,
-    currentRoute: string,
-  } {
+  data(): Data {
     return {
       logOutString: buttonStrings.logOut,
       goHomeString: buttonStrings.goHome,
       goToPantryString: buttonStrings.goToPantry,
       goToRecipesString: buttonStrings.goToRecipes,
       currentRoute: '',
+      goToCompletedString: buttonStrings.goToCompleted,
     };
   },
   methods: {
     goHome: function (): void {
       if (this.$router) {
         this.$router.push('/');
+      }
+    },
+    goToCompleted: function (): void {
+      if (this.$router) {
+        this.$router.push('/completed');
       }
     },
     goToPantry: function (): void {

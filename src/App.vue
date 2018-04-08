@@ -22,6 +22,7 @@
       v-on:addToHEB="addToHEB"
       v-on:sortAlpha="sortAlpha"
       v-on:sortAisle="sortAisle"
+      v-on:transferToDone="transferToDone"
     >
     </authed-main>
 
@@ -53,6 +54,19 @@ import logOut from './helpers/logOut';
 import display from './helpers/displayVars';
 import Item from './models/Item';
 
+interface Data {
+  isUser: boolean,
+  itemsRef: Object,
+  userEmail?: string,
+  userId: string | null,
+  items: Array<Item>,
+  toastMessage?: string,
+  viewToast: boolean,
+  pantryShortItems: Array<Item>,
+  pantryRef: {},
+  sortPref: string,
+}
+
 export default {
   name: 'app',
   components: {
@@ -61,18 +75,7 @@ export default {
     Toast,
     AppHeader,
   },
-  data(): {
-    isUser: boolean,
-    itemsRef: Object,
-    userEmail?: string,
-    userId: string | null,
-    items: Array<Item>,
-    toastMessage?: string,
-    viewToast: boolean,
-    pantryShortItems: Array<Item>,
-    pantryRef: {},
-    sortPref: string,
-  } {
+  data(): Data {
     return {
       isUser: false,
       itemsRef: {},
@@ -154,9 +157,9 @@ export default {
         }
       });
     },
-    listenForItems: function (itemsRef: Object): void {
-      itemsRef.on('value', (snapshot: Array<Object>) => {
-        const newArr = [];
+    listenForItems: async function (itemsRef: Object): void {
+      itemsRef.on('value', async (snapshot: Array<Object>) => {
+        const newArr: Item[] = [];
         snapshot.forEach((item: Object) => {
           newArr.push({
             name: item.val().name,
@@ -164,6 +167,7 @@ export default {
             quantity: item.val().quantity,
             note: item.val().note,
             inCart: item.val().inCart || false,
+            dateCompleted: item.val().dateCompleted || null,
             id: item.key,
           });
         });
@@ -208,6 +212,14 @@ export default {
       const newItem = { ..._item, inCart: !_item.inCart };
       this.itemsRef.child(_item.id).remove();
       this.itemsRef.push(newItem);
+    },
+    transferToDone: async function (_item: Item): void {
+      const email = cleanUpUserEmail(this.userEmail);
+      this.itemsRef.child(_item.id).remove();
+      /* eslint-disable prefer-template */
+      firebase.database().ref(email + '/completed').push(_item);
+      this.showToast(`${_item.name} completed.`);
+       /* eslint-enable prefer-template */
     },
   },
   mounted: function (): void {

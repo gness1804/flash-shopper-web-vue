@@ -84,7 +84,7 @@ export default {
         return;
       }
       this.resetInputFields();
-      const ingredient = new Item(name, aisle, note, quantity);
+      const ingredient = new Item({ name, aisle, note, quantity });
       this.$emit('addIngredient', ingredient);
     },
     closeModal: function (): void {

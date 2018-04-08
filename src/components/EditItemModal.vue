@@ -58,6 +58,20 @@ import Item from '../models/Item';
 import thereAreChanges from '../helpers/thereAreChanges';
   // @flow
 
+interface Data {
+  name?: string,
+  aisle?: string,
+  note?: string,
+  quantity?: string,
+  error: boolean,
+  errorMssg?: string,
+  targetItem: Item,
+  initName: string,
+  initAisle: string,
+  initNote: string,
+  initQty: string,
+}
+
 export default {
   name: 'EditItemModal',
   props: {
@@ -74,19 +88,7 @@ export default {
       required: false,
     },
   },
-  data(): {
-    name?: string,
-    aisle?: string,
-    note?: string,
-    quantity?: string,
-    error: boolean,
-    errorMssg?: string,
-    targetItem: Item,
-    initName: string,
-    initAisle: string,
-    initNote: string,
-    initQty: string,
-    } {
+  data(): Data {
     return {
       name: this.item.name,
       aisle: this.item.aisle || '',

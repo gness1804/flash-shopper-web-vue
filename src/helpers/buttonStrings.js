@@ -1,4 +1,28 @@
-const buttonStrings = {
+// @flow
+interface Data {
+  logOut: string,
+  goToPantry: string,
+  goToRecipes: string,
+  addItem: string,
+  deleteAllItems: string,
+  deleteAllInCart: string,
+  goHome: string,
+  removeImage: string,
+  addIngredient: string,
+  addDirection: string,
+  addRecipe: string,
+  uncheckAll: string,
+  showInputs: string,
+  hideInputs: string,
+  save: string,
+  sortAlpha: string,
+  sortAisle: string,
+  cancel: string,
+  clear: string,
+  goToCompleted: string,
+}
+
+const buttonStrings: Data = {
   logOut: 'Log Out',
   goToPantry: 'Go to Pantry',
   goToRecipes: 'Go to Recipes',
@@ -18,6 +42,7 @@ const buttonStrings = {
   sortAisle: 'Sort Aisle',
   cancel: 'Cancel',
   clear: 'Clear',
+  goToCompleted: 'Go to Completed',
 };
 
 export default buttonStrings;

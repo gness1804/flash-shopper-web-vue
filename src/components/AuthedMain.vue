@@ -138,6 +138,7 @@
         v-on:addToInstacart="addToInstacart"
         v-on:showToast="showToast"
         v-on:addToHEB="addToHEB"
+        v-on:transferToDone="transferToDone"
       >
       </each-item-container>
     </div>
@@ -161,6 +162,25 @@ import buttonStrings from '../helpers/buttonStrings';
 import browserMatches from '../helpers/browserMatches';
 import display from '../helpers/displayVars';
 
+interface Data {
+  name?: string,
+  aisle?: string,
+  note?: string,
+  quantity?: string,
+  error: boolean,
+  errorMssg?: string,
+  thereAreItemsInCart: Function,
+  names: Array<string>,
+  goToPantryString: string,
+  goToRecipesString: string,
+  addItemString: string,
+  deleteAllItemsString: string,
+  deleteAllInCartString: string,
+  sortAlphaString: string,
+  sortAisleString: string,
+  isSafari: boolean,
+}
+
 export default {
   name: 'AuthedMain',
   components: {
@@ -181,24 +201,7 @@ export default {
       required: false,
     },
   },
-  data(): {
-    name?: string,
-    aisle?: string,
-    note?: string,
-    quantity?: string,
-    error: boolean,
-    errorMssg?: string,
-    thereAreItemsInCart: Function,
-    names: Array<string>,
-    goToPantryString: string,
-    goToRecipesString: string,
-    addItemString: string,
-    deleteAllItemsString: string,
-    deleteAllInCartString: string,
-    sortAlphaString: string,
-    sortAisleString: string,
-    isSafari: boolean,
-  } {
+  data(): Data {
     return {
       name: '',
       aisle: '',
@@ -226,7 +229,7 @@ export default {
         return;
       }
       this.resetInputFields();
-      const it = new Item(name, aisle, note, quantity);
+      const it = new Item({ name, aisle, note, quantity });
       this.$emit('addItem', it);
     },
     addToAPN: function (_item: Item): void {
@@ -295,6 +298,9 @@ export default {
     },
     toggleInCart: function (item: Item): void {
       this.$emit('toggleInCart', item);
+    },
+    transferToDone: function (_item: Item): void {
+      this.$emit('transferToDone', _item);
     },
     triggerErrorState: function (message: string): void {
       this.error = true;
