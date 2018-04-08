@@ -28,10 +28,10 @@ describe('AuthedMain.vue', () => {
     const component = mount(AuthedMain, { propsData });
     const addItemText = component.find('.add-item-button')[0];
     const deleteAllItemsText = component.find('.delete-all-items-button')[0];
-    const deleteAllInCartText = component.find('.delete-all-items-in-cart-button')[0];
+    const completeAllInCartText = component.find('.complete-all-items-in-cart-button')[0];
     expect(addItemText.text().trim()).to.equal('Add Item');
     expect(deleteAllItemsText.text().trim()).to.equal('Delete ALL Items');
-    expect(deleteAllInCartText.text().trim()).to.equal('Delete ALL in Cart');
+    expect(completeAllInCartText.text().trim()).to.equal('Complete ALL in Cart');
   });
 
   it('should fire the detectBrowser method and assign this.names properly on mount', () => {
@@ -78,13 +78,13 @@ describe('AuthedMain.vue', () => {
     expect(deleteAllItems.calledOnce).to.equal(true);
   });
 
-  it('should trigger the delete all items in cart method if user clicks on the delete all items in cart button', () => {
+  it('should trigger the complete all items in cart method if user clicks on the complete all items in cart button', () => {
     const component = mount(AuthedMain, { propsData });
-    const deleteAllInCart = sinon.stub();
-    component.setMethods({ deleteAllInCart });
-    const button = component.find('.delete-all-items-in-cart-button')[0];
+    const completeAllInCart = sinon.stub();
+    component.setMethods({ completeAllInCart });
+    const button = component.find('.complete-all-items-in-cart-button')[0];
     button.trigger('click');
-    expect(deleteAllInCart.calledOnce).to.equal(true);
+    expect(completeAllInCart.calledOnce).to.equal(true);
   });
 
   it('should render the safari dropdown if the browser is safari', () => {

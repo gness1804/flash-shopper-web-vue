@@ -14,7 +14,7 @@
       v-on:addItem="addItem"
       v-on:removeItem="removeItem"
       v-on:deleteAllItems="deleteAllItems"
-      v-on:deleteAllInCart="deleteAllInCart"
+      v-on:completeAllInCart="completeAllInCart"
       v-on:toggleInCart="toggleInCart"
       v-on:addToAPN="addToAPN"
       v-on:addToInstacart="addToInstacart"
@@ -42,6 +42,7 @@
 // @flow
 
 import * as firebase from 'firebase';
+import moment from 'moment';
 import firebaseApp from '../firebaseConfig';  // eslint-disable-line
 import PreAuth from './components/PreAuth';
 import AuthedMain from './components/AuthedMain';
@@ -118,12 +119,13 @@ export default {
         '_blank',
       );
     },
-    deleteAllInCart: function (): void {
-      const newItems = this.items.filter((item: Item) => {
-        return !item.inCart;
-      });
-      this.itemsRef.set(newItems);
-      this.showToast('Removed all items in cart.');
+    completeAllInCart: function (): void {
+      for (const item of this.items) {
+        if (item.inCart) {
+          const newItem: Item = { ...item, dateCompleted: moment().format('MMM Do YY') };
+          this.transferToDone(newItem);
+        }
+      }
     },
     deleteAllItems: function (): void {
       this.itemsRef.set([]);

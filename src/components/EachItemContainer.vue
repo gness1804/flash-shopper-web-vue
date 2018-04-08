@@ -103,6 +103,7 @@
 <script>
 import moment from 'moment';
 import EditItemModal from './EditItemModal';
+import Item from '../models/Item';
 // @flow
 
 export default {
@@ -160,7 +161,7 @@ export default {
       this.$emit('toggleInCart', this.item);
     },
     transferToDone: function (): void {
-      const newItem = { ...this.item, dateCompleted: moment().format('MMM Do YY') };
+      const newItem: Item = { ...this.item, dateCompleted: moment().format('MMM Do YY') };
       this.$emit('transferToDone', newItem);
     },
   },
