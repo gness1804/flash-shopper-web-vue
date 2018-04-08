@@ -37,20 +37,6 @@ describe('App.vue', () => {
     sinon.assert.calledWith(component.data().itemsRef.push, item);
   });
 
-  it('should trigger show toast when the deleteAllInCart method is called', () => {
-    const component = mount(App);
-    component.setData({ items });
-    component.setData({ isUser: true });
-    component.setData({ userEmail });
-    component.setData({ itemsRef: {
-      set: sinon.spy(),
-    } });
-    const showToast = sinon.stub();
-    component.setMethods({ showToast });
-    component.vm.deleteAllInCart();
-    expect(showToast.calledWith('Removed all items in cart.'));
-  });
-
   it('should trigger show toast when the deleteAllItems method is called', () => {
     const component = mount(App);
     component.setData({ items });
