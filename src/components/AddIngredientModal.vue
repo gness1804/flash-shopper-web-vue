@@ -55,18 +55,12 @@
 
 <script>
 import Item from '../models/Item';
+import { ItemModal } from '../types/interfaces/ItemModals';
   // @flow
 
 export default {
   name: 'AddIngredientModal',
-  data(): {
-    name?: string,
-    aisle?: string,
-    note?: string,
-    quantity?: string,
-    error: boolean,
-    errorMssg?: string,
-    } {
+  data(): ItemModal {
     return {
       name: '',
       aisle: '',
