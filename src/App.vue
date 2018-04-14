@@ -54,19 +54,7 @@ import sortItemsAisle from './helpers/sortItemsAisle';
 import logOut from './helpers/logOut';
 import display from './helpers/displayVars';
 import Item from './models/Item';
-
-interface Data {
-  isUser: boolean,
-  itemsRef: Object,
-  userEmail?: string,
-  userId: string | null,
-  items: Array<Item>,
-  toastMessage?: string,
-  viewToast: boolean,
-  pantryShortItems: Array<Item>,
-  pantryRef: {},
-  sortPref: string,
-}
+import { AppInt } from './types/interfaces/App';
 
 export default {
   name: 'app',
@@ -76,7 +64,7 @@ export default {
     Toast,
     AppHeader,
   },
-  data(): Data {
+  data(): AppInt {
     return {
       isUser: false,
       itemsRef: {},
