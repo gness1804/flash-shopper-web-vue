@@ -161,25 +161,7 @@ import flattenArr from '../helpers/flattenArr';
 import buttonStrings from '../helpers/buttonStrings';
 import browserMatches from '../helpers/browserMatches';
 import display from '../helpers/displayVars';
-
-interface Data {
-  name?: string,
-  aisle?: string,
-  note?: string,
-  quantity?: string,
-  error: boolean,
-  errorMssg?: string,
-  thereAreItemsInCart: Function,
-  names: Array<string>,
-  goToPantryString: string,
-  goToRecipesString: string,
-  addItemString: string,
-  deleteAllItemsString: string,
-  completeAllInCartString: string,
-  sortAlphaString: string,
-  sortAisleString: string,
-  isSafari: boolean,
-}
+import { AuthedMainInt } from '../types/interfaces/AuthedMain';
 
 export default {
   name: 'AuthedMain',
@@ -201,7 +183,7 @@ export default {
       required: false,
     },
   },
-  data(): Data {
+  data(): AuthedMainInt {
     return {
       name: '',
       aisle: '',
