@@ -1,28 +1,8 @@
 // @flow
-interface Data {
-  logOut: string,
-  goToPantry: string,
-  goToRecipes: string,
-  addItem: string,
-  deleteAllItems: string,
-  completeAllInCart: string,
-  goHome: string,
-  removeImage: string,
-  addIngredient: string,
-  addDirection: string,
-  addRecipe: string,
-  uncheckAll: string,
-  showInputs: string,
-  hideInputs: string,
-  save: string,
-  sortAlpha: string,
-  sortAisle: string,
-  cancel: string,
-  clear: string,
-  goToCompleted: string,
-}
 
-const buttonStrings: Data = {
+import { strings } from '../types/interfaces/ButtonStrings';
+
+const buttonStrings: strings = {
   logOut: 'Log Out',
   goToPantry: 'Go to Pantry',
   goToRecipes: 'Go to Recipes',

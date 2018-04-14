@@ -31,6 +31,7 @@
 <script>
 // @flow
 import buttonStrings from '../helpers/buttonStrings';
+import { NoteModalInt } from '../types/interfaces/OtherModals';
 
 export default {
   name: 'noteModal',
@@ -62,10 +63,7 @@ export default {
       }
     },
   },
-  data(): {
-    noteString: string,
-    saveString: string,
-  } {
+  data(): NoteModalInt {
     return {
       noteString: this.note,
       saveString: buttonStrings.save,
