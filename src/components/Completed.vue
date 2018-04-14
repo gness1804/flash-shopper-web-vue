@@ -49,17 +49,7 @@ import sortItems from '../helpers/sortItems';
 import display from '../helpers/displayVars';
 import buttonStrings from '../helpers/buttonStrings';
 import Item from '../models/Item';
-
-interface Data {
-  isUser: boolean,
-  userEmail: string,
-  userId: string,
-  itemsRef: Object,
-  items: Item[],
-  toastMessage: string,
-  viewToast: boolean,
-  deleteAllString: string,
-}
+import { CompletedInt } from '../types/interfaces/Completed';
 
 export default {
   name: 'completed',
@@ -67,7 +57,7 @@ export default {
     AppHeader,
     EachCompletedItem,
   },
-  data(): Data {
+  data(): CompletedInt {
     return {
       isUser: false,
       userEmail: '',
