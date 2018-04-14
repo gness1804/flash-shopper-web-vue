@@ -13,7 +13,7 @@ export interface ItemModal {
 export interface EditItemModal extends ItemModal {
   targetItem: Item,
   initName: string,
-  initAisle: string,
-  initNote: string,
-  initQty: string,
+  initAisle?: string,
+  initNote?: string,
+  initQty?: string,
 }
