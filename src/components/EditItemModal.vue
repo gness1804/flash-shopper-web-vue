@@ -55,7 +55,7 @@
 
 <script>
 import thereAreChanges from '../helpers/thereAreChanges';
-import { EditItemModal } from '../types/interfaces/ItemModals';
+import { EditItemModalInt } from '../types/interfaces/ItemModals';
   // @flow
 
 export default {
@@ -74,7 +74,7 @@ export default {
       required: false,
     },
   },
-  data(): EditItemModal {
+  data(): EditItemModalInt {
     return {
       name: this.item.name,
       aisle: this.item.aisle || '',

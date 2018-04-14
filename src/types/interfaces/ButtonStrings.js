@@ -1,6 +1,6 @@
 // @flow
 
-export interface strings {
+export interface ButtonStringsInt {
   logOut: string,
   goToPantry: string,
   goToRecipes: string,

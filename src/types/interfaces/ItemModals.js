@@ -1,7 +1,7 @@
 // @flow
 import Item from '../../models/Item';
 
-export interface ItemModal {
+export interface ItemModalInt {
   name: string,
   aisle?: string,
   note?: string,
@@ -10,7 +10,7 @@ export interface ItemModal {
   errorMssg?: string,
 }
 
-export interface EditItemModal extends ItemModal {
+export interface EditItemModalInt extends ItemModalInt {
   targetItem: Item,
   initName: string,
   initAisle?: string,
