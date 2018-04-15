@@ -11,3 +11,10 @@ export interface CoreFBDataInt {
   itemsRef: Object,
   items: Item[],
 }
+
+export interface PreAuthInt {
+  email?: string,
+  password?: string,
+  errorMssg?: string,
+  error: boolean,
+}

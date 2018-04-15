@@ -215,6 +215,7 @@ import httpValidate from '../helpers/httpValidate';
 import Recipe from '../models/Recipe';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
+import { RecipesInt } from '../types/interfaces/Recipes';
 
 export default {
   name: 'Recipes',
@@ -226,30 +227,7 @@ export default {
     EachRecipe,
     AppHeader,
   },
-  data(): {
-      isUser: boolean,
-      itemsRef: Object,
-      userEmail?: string,
-      userId: string | null,
-      recipes: Array<Recipe>,
-      title?: string,
-      image: string,
-      ingredients: Array<Item>,
-      directions?: Array<Direction>,
-      note?: string,
-      source?: string,
-      error: boolean,
-      errorMssg?: string,
-      reader: Object,
-      viewToast: boolean,
-      toastMessage?: string,
-      showModal: boolean,
-      removeImageString: string,
-      addIngredientString: string,
-      addDirectionString: string,
-      addRecipeString: string,
-      howManyDirections: number | null,
-  } {
+  data(): RecipesInt {
     return {
       isUser: false,
       itemsRef: {},
