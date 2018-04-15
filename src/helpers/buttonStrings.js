@@ -20,6 +20,7 @@ const buttonStrings: ButtonStringsInt = {
   save: 'Save',
   sortAlpha: 'Sort Alpha',
   sortAisle: 'Sort Aisle',
+  sortByTimesMade: 'Sort by Times Made',
   cancel: 'Cancel',
   clear: 'Clear',
   goToCompleted: 'Go to Completed',
