@@ -11,3 +11,13 @@ export interface AddSourceInt {
   cancelString: string,
   clearString: string,
 }
+
+export interface TimerModalInt {
+  numbersOne: number[],
+  numbersTwo: number[],
+  timeOne: string,
+  unitsOne: string,
+  timeTwo: string,
+  unitsTwo: string,
+  stopwatchLink: string,
+}

@@ -93,18 +93,11 @@
 
 <script>
 // @flow
+import { TimerModalInt } from '../types/interfaces/OtherModals';
 
 export default {
   name: 'timerModal',
-  data(): {
-    numbersOne: Array<number>,
-    numbersTwo: Array<number>,
-    timeOne: string,
-    unitsOne: string,
-    timeTwo: string,
-    unitsTwo: string,
-    stopwatchLink: string,
-  } {
+  data(): TimerModalInt {
     return {
       numbersOne: [],
       numbersTwo: [],
