@@ -17,6 +17,11 @@
         v-on:click="removeRecipe"
         title="Delete Recipe"
       />
+    <p
+      class="times-made"
+    >
+      {{recipe.timesMade}}
+    </p>
   </div>
 </template>
 

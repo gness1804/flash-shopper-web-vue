@@ -357,6 +357,7 @@ export default {
             directions: recipe.val().directions,
             note: recipe.val().note,
             source: recipe.val().source,
+            timesMade: recipe.val().timesMade || 0,
             id: recipe.key,
           });
         });
