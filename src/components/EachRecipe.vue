@@ -17,6 +17,11 @@
         v-on:click="removeRecipe"
         title="Delete Recipe"
       />
+    <p
+      class="times-made"
+    >
+      X {{recipe.timesMade}}
+    </p>
   </div>
 </template>
 
@@ -69,6 +74,10 @@ export default {
   }
 
   .recipe-link {
+    margin-right: 20px;
+  }
+
+  .remove-recipe-button {
     margin-right: 20px;
   }
 </style>

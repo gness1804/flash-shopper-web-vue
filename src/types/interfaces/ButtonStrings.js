@@ -18,6 +18,7 @@ export interface ButtonStringsInt {
   save: string,
   sortAlpha: string,
   sortAisle: string,
+  sortByTimesMade: string,
   cancel: string,
   clear: string,
   goToCompleted: string,

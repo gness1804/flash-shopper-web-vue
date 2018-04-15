@@ -24,6 +24,7 @@ const fakeRecipes = [
       },
     ],
     note: '',
+    timesMade: 2,
   },
   {
     id: '3',
@@ -50,6 +51,7 @@ const fakeRecipes = [
       },
     ],
     note: '',
+    timesMade: 5,
   },
   {
     id: '4793702',
@@ -67,6 +69,7 @@ const fakeRecipes = [
       },
     ],
     note: 'This takes a long time to cook. Be sure to prepare ample time for it.',
+    timesMade: 0,
   },
 ];
 

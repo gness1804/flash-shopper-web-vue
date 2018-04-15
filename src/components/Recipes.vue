@@ -149,6 +149,22 @@
       >
         {{addRecipeString}}
       </button>
+      <div
+        class="bottom-buttons-container"
+      >
+        <button
+          class="button sort-alpha-button"
+          v-on:click="sortAlpha"
+        >
+          {{sortAlphaString}}
+        </button>
+        <button
+          class="button sort-times-made-button"
+          v-on:click="sortByTimesMade"
+        >
+          {{sortTimesMadeString}}
+        </button>
+      </div>
       <p
         class="recipe-count"
       >
@@ -210,6 +226,7 @@ import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
 import logOut from '../helpers/logOut';
 import sortItems from '../helpers/sortItems';
+import sortByTimesMadeHelper from '../helpers/sortByTimesMadeHelper';
 import display from '../helpers/displayVars';
 import httpValidate from '../helpers/httpValidate';
 import Recipe from '../models/Recipe';
@@ -250,6 +267,8 @@ export default {
       addIngredientString: buttonStrings.addIngredient,
       addDirectionString: buttonStrings.addDirection,
       addRecipeString: buttonStrings.addRecipe,
+      sortAlphaString: buttonStrings.sortAlpha,
+      sortTimesMadeString: buttonStrings.sortByTimesMade,
       howManyDirections: null,
     };
   },
@@ -357,6 +376,7 @@ export default {
             directions: recipe.val().directions,
             note: recipe.val().note,
             source: recipe.val().source,
+            timesMade: recipe.val().timesMade || 0,
             id: recipe.key,
           });
         });
@@ -399,6 +419,12 @@ export default {
       this.ingredients = [];
       this.directions = [];
       this.note = '';
+    },
+    sortAlpha: function (): void {
+      this.recipes = sortItems(this.recipes);
+    },
+    sortByTimesMade: function (): void {
+      this.recipes = sortByTimesMadeHelper(this.recipes);
     },
     showToast: function (message: string): void {
       this.toastMessage = message;
