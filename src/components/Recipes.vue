@@ -149,6 +149,16 @@
       >
         {{addRecipeString}}
       </button>
+      <div
+        class="bottom-buttons-container"
+      >
+        <button
+          class="button sort-alpha-button"
+          v-on:click="sortAlpha"
+        >
+          {{sortAlphaString}}
+        </button>
+      </div>
       <p
         class="recipe-count"
       >
@@ -250,6 +260,7 @@ export default {
       addIngredientString: buttonStrings.addIngredient,
       addDirectionString: buttonStrings.addDirection,
       addRecipeString: buttonStrings.addRecipe,
+      sortAlphaString: buttonStrings.sortAlpha,
       howManyDirections: null,
     };
   },
@@ -400,6 +411,9 @@ export default {
       this.ingredients = [];
       this.directions = [];
       this.note = '';
+    },
+    sortAlpha: function (): void {
+      this.recipes = sortItems(this.recipes);
     },
     showToast: function (message: string): void {
       this.toastMessage = message;
