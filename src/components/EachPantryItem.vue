@@ -40,6 +40,7 @@
 // @flow
 import display from '../helpers/displayVars';
 import titleMatchesMainItem from '../helpers/titleMatchesMainItem';
+import { EachPantryItemInt } from '../types/interfaces/EachItemContainer';
 
 export default {
   name: 'EachPantryItem',
@@ -53,11 +54,7 @@ export default {
       required: false,
     },
   },
-  data(): {
-    isHighlighted: boolean,
-    isInMainList: boolean,
-    isButtonDisabled: boolean,
-  } {
+  data(): EachPantryItemInt {
     return {
       isHighlighted: false,
       isInMainList: false,

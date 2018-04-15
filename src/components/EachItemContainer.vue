@@ -104,6 +104,7 @@
 import moment from 'moment';
 import EditItemModal from './EditItemModal';
 import Item from '../models/Item';
+import { EachItemContainerInt } from '../types/interfaces/EachItemContainer';
 // @flow
 
 export default {
@@ -121,11 +122,7 @@ export default {
       required: true,
     },
   },
-  data(): {
-    inCartTitle: string,
-     notInCartTitle: string,
-     showEditModal: boolean,
-    } {
+  data(): EachItemContainerInt {
     return {
       inCartTitle: 'Remove Item from Cart',
       notInCartTitle: 'Add Item to Cart',

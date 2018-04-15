@@ -32,6 +32,7 @@
 import buttonStrings from '../helpers/buttonStrings';
 import httpValidate from '../helpers/httpValidate';
 import display from '../helpers/displayVars';
+import { AddSourceInt } from '../types/interfaces/OtherModals';
 
 export default {
   name: 'addSource',
@@ -75,12 +76,7 @@ export default {
       }
     },
   },
-  data(): {
-    newSource: string,
-    saveString: string,
-    cancelString: string,
-    clearString: string,
-  } {
+  data(): AddSourceInt {
     return {
       newSource: this.source,
       saveString: buttonStrings.save,

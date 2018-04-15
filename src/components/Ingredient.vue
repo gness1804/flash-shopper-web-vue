@@ -36,6 +36,7 @@
 // @flow
 import containsDirString from '../helpers/containsDirString';
 import display from '../helpers/displayVars';
+import { IngredientInt } from '../types/interfaces/Ingredient';
 
 export default {
   name: 'Ingredient',
@@ -49,9 +50,7 @@ export default {
       required: false,
     },
   },
-  data(): {
-      containsKeyText: boolean,
-    } {
+  data(): IngredientInt {
     return {
       containsKeyText: false,
     };

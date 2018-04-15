@@ -50,15 +50,11 @@
 // @flow
 
 import * as firebase from 'firebase';
+import { PreAuthInt } from '../types/interfaces/CoreFunc';
 
 export default {
   name: 'PreAuth',
-  data(): {
-    email?: string,
-    password?: string,
-    errorMssg?: string,
-    error: boolean,
-  } {
+  data(): PreAuthInt {
     return {
       email: '',
       password: '',

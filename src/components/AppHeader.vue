@@ -76,15 +76,7 @@
 <script>
 // @flow
 import buttonStrings from '../helpers/buttonStrings';
-
-interface Data {
-  logOutString: string,
-  goHomeString: string,
-  goToPantryString: string,
-  goToRecipesString: string,
-  currentRoute: string,
-  goToCompletedString: string,
-}
+import { AppHeaderInt } from '../types/interfaces/AppHeader';
 
 export default {
   name: 'appHeader',
@@ -98,7 +90,7 @@ export default {
       required: false,
     },
   },
-  data(): Data {
+  data(): AppHeaderInt {
     return {
       logOutString: buttonStrings.logOut,
       goHomeString: buttonStrings.goHome,

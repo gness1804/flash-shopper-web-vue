@@ -301,42 +301,7 @@ import flattenArr from '../helpers/flattenArr';
 import sortIngredients from '../helpers/sortItems';
 import display from '../helpers/displayVars';
 import httpValidate from '../helpers/httpValidate';
-
-interface Data {
-  id: string,
-  title: string,
-  image: string,
-  ingredients: Array<Item>,
-  directions: Array<string>,
-  note: string,
-  source: string,
-  isUser: boolean,
-  userEmail: string,
-  userId: string,
-  itemsRef: Object,
-  toastMessage: string,
-  viewToast: boolean,
-  targetRecipe: Recipe,
-  reader: Object,
-  showModal: boolean,
-  removeImageString: string,
-  addIngredientString: string,
-  addDirectionString: string,
-  goHomeString: string,
-  showTimerModal: boolean,
-  uncheckAllString: string,
-  showShowHideContainer: boolean,
-  showInputsString: string,
-  hideInputsString: string,
-  showNoteModal: boolean,
-  showEditModal: boolean,
-  selectedIngredient: Item,
-  ingNames: Array<Item>,
-  dirToCheckAgainst: string,
-  showAddSourceInput: boolean,
-  validateURL: Function,
-  timesMade: number,
-}
+import { RecipeViewInt } from '../types/interfaces/RecipeView';
 
 export default {
   name: 'recipeView',
@@ -350,7 +315,7 @@ export default {
     EditItemModal,
     AddSource,
   },
-  data(): Data {
+  data(): RecipeViewInt {
     return {
       id: '',
       title: '',
