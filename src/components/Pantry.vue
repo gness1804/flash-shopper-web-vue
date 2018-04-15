@@ -122,28 +122,7 @@ import logOut from '../helpers/logOut';
 import sortItems from '../helpers/sortItems';
 import display from '../helpers/displayVars';
 import Item from '../models/Item';
-
-interface Data {
-   isUser: boolean,
-    itemsRef: Object,
-    userEmail?: string,
-    userId: string | null,
-    items: Array<Item>,
-    name?: string,
-    aisle?: string,
-    note?: string,
-    quantity?: string,
-    error: boolean,
-    errorMssg?: string,
-    toastMessage?: string,
-    viewToast: boolean,
-    goHomeString: string,
-    deleteAllItemsString: string,
-    addItemString: string,
-    viewEdit: boolean,
-    itemToEdit: Item,
-    mainShortItems: Array<Item>,
-}
+import { PantryInt } from '../types/interfaces/Pantry';
 
 export default {
   name: 'Pantry',
@@ -153,7 +132,7 @@ export default {
     AppHeader,
     EditItemModal,
   },
-  data(): Data {
+  data(): PantryInt {
     return {
       isUser: false,
       itemsRef: {},
