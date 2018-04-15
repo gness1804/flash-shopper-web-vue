@@ -20,7 +20,7 @@
     <p
       class="times-made"
     >
-      {{recipe.timesMade}}
+      X {{recipe.timesMade}}
     </p>
   </div>
 </template>
@@ -74,6 +74,10 @@ export default {
   }
 
   .recipe-link {
+    margin-right: 20px;
+  }
+
+  .remove-recipe-button {
     margin-right: 20px;
   }
 </style>
