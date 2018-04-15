@@ -31,6 +31,7 @@
 <script>
 // @flow
 import buttonStrings from '../helpers/buttonStrings';
+import { NoteModalInt } from '../types/interfaces/OtherModals';
 
 export default {
   name: 'noteModal',
@@ -44,11 +45,7 @@ export default {
     clearNote: function (): void {
       this.noteString = '';
     },
-    closeModal: function (saving?: string): void {
-      if (saving && saving === 'saving') {
-        this.$emit('closeNoteModal');
-        return;
-      }
+    closeModal: function (): void {
       if (this.noteString !== this.note) {
         const warn = confirm('Are you use you want to leave without saving changes?');
         if (warn) {
@@ -59,17 +56,14 @@ export default {
       }
       this.$emit('closeNoteModal');
     },
-    saveNote: function (): void {
+    saveNote: async function (): void {
       if (this.noteString) {
-        this.$emit('saveNote', this.noteString);
-        this.closeModal('saving');
+        await this.$emit('saveNote', this.noteString);
+        this.$emit('closeNoteModal');
       }
     },
   },
-  data(): {
-    noteString: string,
-    saveString: string,
-  } {
+  data(): NoteModalInt {
     return {
       noteString: this.note,
       saveString: buttonStrings.save,

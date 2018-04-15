@@ -54,8 +54,8 @@
 </template>
 
 <script>
-import Item from '../models/Item';
 import thereAreChanges from '../helpers/thereAreChanges';
+import { EditItemModalInt } from '../types/interfaces/ItemModals';
   // @flow
 
 export default {
@@ -74,19 +74,7 @@ export default {
       required: false,
     },
   },
-  data(): {
-    name?: string,
-    aisle?: string,
-    note?: string,
-    quantity?: string,
-    error: boolean,
-    errorMssg?: string,
-    targetItem: Item,
-    initName: string,
-    initAisle: string,
-    initNote: string,
-    initQty: string,
-    } {
+  data(): EditItemModalInt {
     return {
       name: this.item.name,
       aisle: this.item.aisle || '',

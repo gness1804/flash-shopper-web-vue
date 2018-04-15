@@ -1,5 +1,6 @@
 import { mount } from 'avoriaz';
 import TimerModal from '@/components/TimerModal';
+import display from '../../../src/helpers/displayVars';
 
 describe('TimerModal', () => {
   it('should fire the tabulateNumbers method on mount', () => {
@@ -8,7 +9,7 @@ describe('TimerModal', () => {
     component.setMethods({ tabulateNumbers });
     setTimeout(() => {
       expect(tabulateNumbers.calledOnce).to.equal(true);
-    }, 3000);
+    }, display.timerStandard);
   });
 
   it('clicking the close modal button should trigger the closeModal method', () => {
@@ -40,7 +41,7 @@ describe('TimerModal', () => {
       expect(n2[0]).to.equal(1);
       expect(n1[n1.length - 1]).to.equal(100);
       expect(n2[n2.length - 1]).to.equal(100);
-    }, 3000);
+    }, display.timerStandard);
   });
 
   it('the startStopwatch method should fail if there is no time', () => {

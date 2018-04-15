@@ -73,6 +73,7 @@
         v-for="item of items"
         v-bind:key="item.id"
         v-bind:item="item"
+        v-bind:mainShortItems="mainShortItems"
         v-on:transferItemToMainList="transferItemToMainList"
         v-on:deleteItem="deleteItem"
         v-on:viewEditModal="viewEditModal"
@@ -119,7 +120,9 @@ import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import buttonStrings from '../helpers/buttonStrings';
 import logOut from '../helpers/logOut';
 import sortItems from '../helpers/sortItems';
+import display from '../helpers/displayVars';
 import Item from '../models/Item';
+import { PantryInt } from '../types/interfaces/Pantry';
 
 export default {
   name: 'Pantry',
@@ -129,26 +132,7 @@ export default {
     AppHeader,
     EditItemModal,
   },
-  data(): {
-      isUser: boolean,
-      itemsRef: Object,
-      userEmail?: string,
-      userId: string | null,
-      items: Array<Item>,
-      name?: string,
-      aisle?: string,
-      note?: string,
-      quantity?: string,
-      error: boolean,
-      errorMssg?: string,
-      toastMessage?: string,
-      viewToast: boolean,
-      goHomeString: string,
-      deleteAllItemsString: string,
-      addItemString: string,
-      viewEdit: boolean,
-      itemToEdit: Item,
-  } {
+  data(): PantryInt {
     return {
       isUser: false,
       itemsRef: {},
@@ -168,6 +152,7 @@ export default {
       addItemString: buttonStrings.addItem,
       viewEdit: false,
       itemToEdit: {},
+      mainShortItems: [],
     };
   },
   methods: {
@@ -178,7 +163,7 @@ export default {
         return;
       }
       this.resetInputFields();
-      const item = new Item(name, aisle, note, quantity);
+      const item = new Item({ name, aisle, note, quantity });
       try {
         this.itemsRef.push(item);
         this.showToast(`${item.name} added to pantry.`);
@@ -201,6 +186,18 @@ export default {
         this.showToast(`${item.name} removed from pantry.`);
       }
     },
+    getMainShortItems: function (mainItems: Object): void {
+      mainItems.on('value', (snapshot: Array<Object>) => {
+        const newArr = [];
+        snapshot.forEach((item: Object) => {
+          newArr.push({
+            name: item.val().name,
+            id: item.key,
+          });
+        });
+        this.mainShortItems = newArr;
+      });
+    },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
         if (user) {
@@ -208,8 +205,10 @@ export default {
           const email = cleanUpUserEmail(user.email);
           this.userEmail = user.email;
           this.userId = user.uid;
-          this.itemsRef = firebase.database().ref(email + '/pantry') //eslint-disable-line
+          this.itemsRef = firebase.database().ref(email + '/pantry'); //eslint-disable-line
+          const mainShortList = firebase.database().ref(email + '/main'); //eslint-disable-line
           this.listenForItems(this.itemsRef);
+          this.getMainShortItems(mainShortList);
         } else {
           this.isUser = false;
         }
@@ -250,7 +249,7 @@ export default {
       setTimeout(() => {
         this.viewToast = false;
         this.toastMessage = '';
-      }, 3000);
+      }, display.timerStandard);
     },
     transferItemToMainList: function (item: Item): void {
       const email = cleanUpUserEmail(this.userEmail);

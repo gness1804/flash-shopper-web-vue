@@ -2,6 +2,7 @@ import { mount } from 'avoriaz';
 import App from '@/App';
 import items from '../helpers/FakeItemsArray';
 import item from '../helpers/FakeItem';
+import display from '../../../src/helpers/displayVars';
 
 describe('App.vue', () => {
   const userEmail = 'foo@foo.com';
@@ -17,7 +18,7 @@ describe('App.vue', () => {
     component.setMethods({ initializeApp });
     setTimeout(() => {
       expect(initializeApp.calledOnce).to.equal(true);
-    }, 3000);
+    }, display.timerStandard);
   });
 
   it('should trigger show toast when the addItem method is called', () => {
@@ -34,20 +35,6 @@ describe('App.vue', () => {
     component.vm.addItem(item);
     expect(showToast.calledWith('Foo bread added to your list'));
     sinon.assert.calledWith(component.data().itemsRef.push, item);
-  });
-
-  it('should trigger show toast when the deleteAllInCart method is called', () => {
-    const component = mount(App);
-    component.setData({ items });
-    component.setData({ isUser: true });
-    component.setData({ userEmail });
-    component.setData({ itemsRef: {
-      set: sinon.spy(),
-    } });
-    const showToast = sinon.stub();
-    component.setMethods({ showToast });
-    component.vm.deleteAllInCart();
-    expect(showToast.calledWith('Removed all items in cart.'));
   });
 
   it('should trigger show toast when the deleteAllItems method is called', () => {

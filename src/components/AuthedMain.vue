@@ -115,11 +115,11 @@
         {{deleteAllItemsString}}
       </button>
       <button
-        class="button warn-button bottom-button delete-all-items-in-cart-button"
-        v-on:click="deleteAllInCart"
+        class="button warn-button bottom-button complete-all-items-in-cart-button"
+        v-on:click="completeAllInCart"
         v-bind:disabled="!thereAreItemsInCart(items)"
       >
-        {{deleteAllInCartString}}
+        {{completeAllInCartString}}
       </button>
     </div>
     <div
@@ -138,6 +138,7 @@
         v-on:addToInstacart="addToInstacart"
         v-on:showToast="showToast"
         v-on:addToHEB="addToHEB"
+        v-on:transferToDone="transferToDone"
       >
       </each-item-container>
     </div>
@@ -159,6 +160,8 @@ import filterOutDuplicates from '../helpers/filterOutDuplicates';
 import flattenArr from '../helpers/flattenArr';
 import buttonStrings from '../helpers/buttonStrings';
 import browserMatches from '../helpers/browserMatches';
+import display from '../helpers/displayVars';
+import { AuthedMainInt } from '../types/interfaces/AuthedMain';
 
 export default {
   name: 'AuthedMain',
@@ -180,24 +183,7 @@ export default {
       required: false,
     },
   },
-  data(): {
-    name?: string,
-    aisle?: string,
-    note?: string,
-    quantity?: string,
-    error: boolean,
-    errorMssg?: string,
-    thereAreItemsInCart: Function,
-    names: Array<string>,
-    goToPantryString: string,
-    goToRecipesString: string,
-    addItemString: string,
-    deleteAllItemsString: string,
-    deleteAllInCartString: string,
-    sortAlphaString: string,
-    sortAisleString: string,
-    isSafari: boolean,
-  } {
+  data(): AuthedMainInt {
     return {
       name: '',
       aisle: '',
@@ -211,7 +197,7 @@ export default {
       goToRecipesString: buttonStrings.goToRecipes,
       addItemString: buttonStrings.addItem,
       deleteAllItemsString: buttonStrings.deleteAllItems,
-      deleteAllInCartString: buttonStrings.deleteAllInCart,
+      completeAllInCartString: buttonStrings.completeAllInCart,
       sortAlphaString: buttonStrings.sortAlpha,
       sortAisleString: buttonStrings.sortAisle,
       isSafari: false,
@@ -225,7 +211,7 @@ export default {
         return;
       }
       this.resetInputFields();
-      const it = new Item(name, aisle, note, quantity);
+      const it = new Item({ name, aisle, note, quantity });
       this.$emit('addItem', it);
     },
     addToAPN: function (_item: Item): void {
@@ -237,17 +223,17 @@ export default {
     addToInstacart: function (_item: Item): void {
       this.$emit('addToInstacart', _item);
     },
+    completeAllInCart: function (): void {
+      const warning = confirm('Are you sure you want to mark ALL the items in your cart as completed?');
+      if (warning) {
+        this.$emit('completeAllInCart');
+      }
+    },
     countItemsInCart: function (): number {
       const newArr = this.items.filter((item: Item) => {
         return item.inCart;
       });
       return newArr.length;
-    },
-    deleteAllInCart: function (): void {
-      const warning = confirm('Are you sure you want to delete ALL items in your cart? This cannot be undone!');
-      if (warning) {
-        this.$emit('deleteAllInCart');
-      }
     },
     deleteAllItems: function (): void {
       const warning = confirm('Are you sure you want to delete ALL items? This cannot be undone!');
@@ -295,6 +281,9 @@ export default {
     toggleInCart: function (item: Item): void {
       this.$emit('toggleInCart', item);
     },
+    transferToDone: function (_item: Item): void {
+      this.$emit('transferToDone', _item);
+    },
     triggerErrorState: function (message: string): void {
       this.error = true;
       this.errorMssg = message;
@@ -304,7 +293,7 @@ export default {
     this.detectBrowser();
     setTimeout(() => {
       this.names = flattenArr(this.pantryShortItems);
-    }, 3000);
+    }, display.timerStandard);
   },
 };
 </script>

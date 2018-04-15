@@ -58,6 +58,48 @@
       v-on:click="editNote"
       title="Edit Note"
     />
+    <a
+      v-if="validateURL(source)"
+      class="source-output-link"
+      v-bind:href="source"
+      target="_blank"
+    >
+      {{source}}
+    </a>
+    <p
+      v-else
+      class="source-output-raw-text"
+    >
+      {{source}}
+    </p>
+    <img
+      class="icon edit-source-button"
+      src="../assets/pencil.png"
+      v-on:click="editSource"
+      title="Edit Source"
+    />
+    <add-source
+      v-if="showAddSourceInput"
+      v-bind:source="source"
+      v-on:hideAddSourceInput="hideAddSourceInput"
+      v-on:saveSource="saveSource"
+    >
+    </add-source>
+    <p>
+      Times Made: {{timesMade}}
+    </p>
+    <button
+      class="button make-recipe-button"
+      v-on:click="increaseTimesMade"
+    >
+      Make!
+    </button>
+    <button
+      class="button warn-button reset-recipe-button"
+      v-on:click="resetTimesMade"
+    >
+      Reset
+    </button>
     <div
       class="ingredients-container"
       v-if="ingredients && ingredients.length > 0"
@@ -246,6 +288,7 @@ import TimerModal from './TimerModal';
 import NoteModal from './NoteModal';
 import EditItemModal from './EditItemModal';
 import AppHeader from './AppHeader';
+import AddSource from './AddSource';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
 import Recipe from '../models/Recipe';
@@ -256,6 +299,9 @@ import orderIsValid from '../helpers/orderIsValid';
 import logOut from '../helpers/logOut';
 import flattenArr from '../helpers/flattenArr';
 import sortIngredients from '../helpers/sortItems';
+import display from '../helpers/displayVars';
+import httpValidate from '../helpers/httpValidate';
+import { RecipeViewInt } from '../types/interfaces/RecipeView';
 
 export default {
   name: 'recipeView',
@@ -267,38 +313,9 @@ export default {
     AppHeader,
     NoteModal,
     EditItemModal,
+    AddSource,
   },
-  data(): {
-    id: string,
-    title: string,
-    image: string,
-    ingredients: Array<Item>,
-    directions: Array<string>,
-    note: string,
-    isUser: boolean,
-    userEmail: string,
-    userId: string,
-    itemsRef: Object,
-    toastMessage: string,
-    viewToast: boolean,
-    targetRecipe: Recipe,
-    reader: Object,
-    showModal: boolean,
-    removeImageString: string,
-    addIngredientString: string,
-    addDirectionString: string,
-    goHomeString: string,
-    showTimerModal: boolean,
-    uncheckAllString: string,
-    showShowHideContainer: boolean,
-    showInputsString: string,
-    hideInputsString: string,
-    showNoteModal: boolean,
-    showEditModal: boolean,
-    selectedIngredient: Item,
-    ingNames: Array<Item>,
-    dirToCheckAgainst: string,
-  } {
+  data(): RecipeViewInt {
     return {
       id: '',
       title: '',
@@ -306,6 +323,7 @@ export default {
       ingredients: [],
       directions: [],
       note: 'Add a note...',
+      source: '',
       isUser: false,
       userEmail: '',
       userId: '',
@@ -329,6 +347,9 @@ export default {
       selectedIngredient: {},
       ingNames: [],
       dirToCheckAgainst: '',
+      showAddSourceInput: false,
+      validateURL: httpValidate,
+      timesMade: 0,
     };
   },
   methods: {
@@ -438,6 +459,9 @@ export default {
     editNote: function (): void {
       this.showNoteModal = true;
     },
+    editSource: function (): void {
+      this.showAddSourceInput = true;
+    },
     filterOutTargetRecipe: function (recipes: Array<Recipe>): void {
       const targetId = this.id;
       const target = recipes.filter((rec: Recipe) => {
@@ -449,6 +473,8 @@ export default {
         this.ingredients = sortIngredients(target[0].ingredients) || [];
         this.directions = target[0].directions || [];
         this.note = target[0].note || 'Add a note...';
+        this.source = target[0].source || display.addSourceDefault;
+        this.timesMade = target[0].timesMade || 0;
         this.targetRecipe = this.itemsRef.child(this.id);
       }
       this.getIngredientTitles(this.ingredients);
@@ -465,17 +491,29 @@ export default {
         } catch (error) {
           alert(error);
         }
-      }, 3000);
+      }, display.timerStandard);
     },
     getIngredientTitles: function (ings: Array<Item>): void {
       const names = flattenArr(ings);
       this.ingNames = names;
     },
-    goHome: function () {
+    goHome: function (): void {
       this.$router.push('/');
+    },
+    hideAddSourceInput: function (): void {
+      this.showAddSourceInput = false;
     },
     hideInputs: function (): void {
       this.showShowHideContainer = false;
+    },
+    increaseTimesMade: function (): void {
+      const warning = confirm('Are you sure you want to make this dish?');
+      if (warning) {
+        this.timesMade++;
+        this.targetRecipe.update({
+          timesMade: this.timesMade,
+        });
+      }
     },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
@@ -493,7 +531,7 @@ export default {
     },
     listenForItems: function (itemsRef: Object): void {
       itemsRef.on('value', (snapshot: Array<Object>) => {
-        const newArr = [];
+        const newArr: Recipe[] = [];
         snapshot.forEach((recipe: Object) => {
           newArr.push({
             title: recipe.val().title,
@@ -501,6 +539,8 @@ export default {
             ingredients: recipe.val().ingredients,
             directions: recipe.val().directions,
             note: recipe.val().note,
+            source: recipe.val().source,
+            timesMade: recipe.val().timesMade,
             id: recipe.key,
           });
         });
@@ -542,12 +582,28 @@ export default {
     reorderDirections: function (): void {
       this.directions = sequentialize(this.directions);
     },
+    resetTimesMade: function (): void {
+      const warn = confirm('Reset times made: are you sure?');
+      if (warn) {
+        this.timesMade = 0;
+        this.targetRecipe.update({
+          timesMade: this.timesMade,
+        });
+      }
+    },
     saveNote: function (_note: string): void {
       this.note = _note;
       this.targetRecipe.update({
         note: this.note,
       });
       this.showToast('Note updated.');
+    },
+    saveSource: function (_source: string): void {
+      this.source = _source;
+      this.targetRecipe.update({
+        source: this.source,
+      });
+      this.showToast('Source updated.');
     },
     saveTitle: function (): void {
       const text = document.querySelector('.recipe-view-headline').innerText;
@@ -566,7 +622,7 @@ export default {
       setTimeout(() => {
         this.viewToast = false;
         this.toastMessage = '';
-      }, 3000);
+      }, display.timerStandard);
     },
     toggleDone: function (dir: Direction): void {
       const ind = this.directions.indexOf(dir);
@@ -694,6 +750,11 @@ export default {
 
   .edit-note-button {
     margin-left: 20px;
+  }
+
+  .source-output-link {
+    display: block;
+    margin: 20px auto;
   }
 </style>
 

@@ -33,6 +33,14 @@
           v-model="title"
           class="text-input-field"
         />
+        <input
+          type="text"
+          placeholder="Source"
+          @input="makeErrorFalse"
+          v-model="source"
+          class="text-input-field add-source-input"
+          v-on:blur="verifySource"
+        />
         <div
           class="image-container"
         >
@@ -141,6 +149,22 @@
       >
         {{addRecipeString}}
       </button>
+      <div
+        class="bottom-buttons-container"
+      >
+        <button
+          class="button sort-alpha-button"
+          v-on:click="sortAlpha"
+        >
+          {{sortAlphaString}}
+        </button>
+        <button
+          class="button sort-times-made-button"
+          v-on:click="sortByTimesMade"
+        >
+          {{sortTimesMadeString}}
+        </button>
+      </div>
       <p
         class="recipe-count"
       >
@@ -202,9 +226,13 @@ import buttonStrings from '../helpers/buttonStrings';
 import sequentialize from '../helpers/sequentialize';
 import logOut from '../helpers/logOut';
 import sortItems from '../helpers/sortItems';
+import sortByTimesMadeHelper from '../helpers/sortByTimesMadeHelper';
+import display from '../helpers/displayVars';
+import httpValidate from '../helpers/httpValidate';
 import Recipe from '../models/Recipe';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
+import { RecipesInt } from '../types/interfaces/Recipes';
 
 export default {
   name: 'Recipes',
@@ -216,29 +244,7 @@ export default {
     EachRecipe,
     AppHeader,
   },
-  data(): {
-      isUser: boolean,
-      itemsRef: Object,
-      userEmail?: string,
-      userId: string | null,
-      recipes: Array<Recipe>,
-      title?: string,
-      image: string,
-      ingredients: Array<Item>,
-      directions?: Array<Direction>,
-      note?: string,
-      error: boolean,
-      errorMssg?: string,
-      reader: Object,
-      viewToast: boolean,
-      toastMessage?: string,
-      showModal: boolean,
-      removeImageString: string,
-      addIngredientString: string,
-      addDirectionString: string,
-      addRecipeString: string,
-      howManyDirections: number | null,
-  } {
+  data(): RecipesInt {
     return {
       isUser: false,
       itemsRef: {},
@@ -250,6 +256,7 @@ export default {
       ingredients: [],
       directions: [],
       note: '',
+      source: '',
       error: false,
       errorMssg: '',
       reader: new FileReader(),
@@ -260,6 +267,8 @@ export default {
       addIngredientString: buttonStrings.addIngredient,
       addDirectionString: buttonStrings.addDirection,
       addRecipeString: buttonStrings.addRecipe,
+      sortAlphaString: buttonStrings.sortAlpha,
+      sortTimesMadeString: buttonStrings.sortByTimesMade,
       howManyDirections: null,
     };
   },
@@ -279,13 +288,25 @@ export default {
       this.showToast('Ingredient added.');
     },
     addRecipe: function (): void {
-      const { title, image, ingredients, directions, note } = this;
+      const { title, image, ingredients, directions, note, source } = this;
       if (!title || ingredients.length === 0) {
         alert('Oops, you must enter at least a title and one ingredient. Please try again.');
         return;
       }
+      if (source && !httpValidate(source)) {
+        alert('Oops, your source must be a valid URL. Please try again.');
+        return;
+      }
       this.resetInputFields();
-      const recipe = new Recipe(title, image, ingredients, directions, note);
+      const recipe = new Recipe({
+        title,
+        image,
+        ingredients,
+        directions,
+        note,
+        source,
+        timesMade: 0,
+      });
       this.itemsRef.push(recipe);
       this.showToast(`${recipe.title} successfully added.`);
     },
@@ -328,7 +349,7 @@ export default {
         } catch (error) {
           alert(error);
         }
-      }, 3000);
+      }, display.timerStandard);
     },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: Object) => {
@@ -354,6 +375,8 @@ export default {
             ingredients: recipe.val().ingredients,
             directions: recipe.val().directions,
             note: recipe.val().note,
+            source: recipe.val().source,
+            timesMade: recipe.val().timesMade || 0,
             id: recipe.key,
           });
         });
@@ -397,13 +420,19 @@ export default {
       this.directions = [];
       this.note = '';
     },
+    sortAlpha: function (): void {
+      this.recipes = sortItems(this.recipes);
+    },
+    sortByTimesMade: function (): void {
+      this.recipes = sortByTimesMadeHelper(this.recipes);
+    },
     showToast: function (message: string): void {
       this.toastMessage = message;
       this.viewToast = true;
       setTimeout(() => {
         this.viewToast = false;
         this.toastMessage = '';
-      }, 3000);
+      }, display.timerStandard);
     },
     transferIngredient: function (ing: Item): void {
       const email = cleanUpUserEmail(this.userEmail);
@@ -415,6 +444,16 @@ export default {
     triggerErrorState: function (message: string): void {
       this.error = true;
       this.errorMssg = message;
+    },
+    verifySource: function (): void {
+      if (!this.source) {
+        return;
+      }
+      if (!httpValidate(this.source)) {
+        alert('Oops! Your source must be a valid url.');
+      } else {
+        this.showToast('Cool! URL checks out.');
+      }
     },
   },
   computed: {
@@ -509,6 +548,11 @@ export default {
 
   .clear-notes-button:hover {
     cursor: pointer;
+  }
+
+  .add-source-input {
+    display: block;
+    margin: 0 auto;
   }
 </style>
 

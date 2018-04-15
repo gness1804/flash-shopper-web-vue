@@ -6,6 +6,7 @@ const fakeItemsArray = [
     note: 'No Junior Mints!',
     quantity: '3 boxes',
     inCart: true,
+    dateCompleted: null,
   },
   {
     id: '2',
@@ -14,6 +15,7 @@ const fakeItemsArray = [
     note: '',
     quantity: '1.5 lb',
     inCart: false,
+    dateCompleted: null,
   },
   {
     id: '3',
@@ -22,6 +24,7 @@ const fakeItemsArray = [
     note: 'Get the good kind',
     quantity: '1 lb',
     inCart: false,
+    dateCompleted: 'May 1st 2016',
   },
 ];
 

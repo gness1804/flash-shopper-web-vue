@@ -1,4 +1,3 @@
-// @flow
 import Item from '../models/Item';
 import Recipe from '../models/Recipe';
 

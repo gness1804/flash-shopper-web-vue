@@ -14,7 +14,7 @@
       v-on:addItem="addItem"
       v-on:removeItem="removeItem"
       v-on:deleteAllItems="deleteAllItems"
-      v-on:deleteAllInCart="deleteAllInCart"
+      v-on:completeAllInCart="completeAllInCart"
       v-on:toggleInCart="toggleInCart"
       v-on:addToAPN="addToAPN"
       v-on:addToInstacart="addToInstacart"
@@ -22,6 +22,7 @@
       v-on:addToHEB="addToHEB"
       v-on:sortAlpha="sortAlpha"
       v-on:sortAisle="sortAisle"
+      v-on:transferToDone="transferToDone"
     >
     </authed-main>
 
@@ -41,6 +42,7 @@
 // @flow
 
 import * as firebase from 'firebase';
+import moment from 'moment';
 import firebaseApp from '../firebaseConfig';  // eslint-disable-line
 import PreAuth from './components/PreAuth';
 import AuthedMain from './components/AuthedMain';
@@ -50,7 +52,9 @@ import cleanUpUserEmail from './helpers/cleanUpUserEmail';
 import sortItems from './helpers/sortItems';
 import sortItemsAisle from './helpers/sortItemsAisle';
 import logOut from './helpers/logOut';
+import display from './helpers/displayVars';
 import Item from './models/Item';
+import { AppInt } from './types/interfaces/App';
 
 export default {
   name: 'app',
@@ -60,17 +64,7 @@ export default {
     Toast,
     AppHeader,
   },
-  data(): {
-    isUser: boolean,
-    itemsRef: Object,
-    userEmail?: string,
-    userId: string | null,
-    items: Array<Item>,
-    toastMessage?: string,
-    viewToast: boolean,
-    pantryShortItems: Array<Item>,
-    pantryRef: {},
-  } {
+  data(): AppInt {
     return {
       isUser: false,
       itemsRef: {},
@@ -81,6 +75,7 @@ export default {
       viewToast: false,
       pantryShortItems: [],
       pantryRef: {},
+      sortPref: 'alpha',
     };
   },
   methods: {
@@ -112,12 +107,13 @@ export default {
         '_blank',
       );
     },
-    deleteAllInCart: function (): void {
-      const newItems = this.items.filter((item: Item) => {
-        return !item.inCart;
-      });
-      this.itemsRef.set(newItems);
-      this.showToast('Removed all items in cart.');
+    completeAllInCart: function (): void {
+      for (const item of this.items) {
+        if (item.inCart) {
+          const newItem: Item = { ...item, dateCompleted: moment().format('MMM Do YY') };
+          this.transferToDone(newItem);
+        }
+      }
     },
     deleteAllItems: function (): void {
       this.itemsRef.set([]);
@@ -151,9 +147,9 @@ export default {
         }
       });
     },
-    listenForItems: function (itemsRef: Object): void {
-      itemsRef.on('value', (snapshot: Array<Object>) => {
-        const newArr = [];
+    listenForItems: async function (itemsRef: Object): void {
+      itemsRef.on('value', async (snapshot: Array<Object>) => {
+        const newArr: Item[] = [];
         snapshot.forEach((item: Object) => {
           newArr.push({
             name: item.val().name,
@@ -161,10 +157,17 @@ export default {
             quantity: item.val().quantity,
             note: item.val().note,
             inCart: item.val().inCart || false,
+            dateCompleted: item.val().dateCompleted || null,
             id: item.key,
           });
         });
-        this.items = sortItems(newArr);
+        if (this.sortPref === 'alpha') {
+          this.items = sortItems(newArr);
+        } else if (this.sortPref === 'aisle') {
+          this.items = sortItemsAisle(newArr);
+        } else {
+          this.items = sortItems(newArr);
+        }
       });
     },
     logOut: function (): void {
@@ -185,21 +188,36 @@ export default {
       setTimeout(() => {
         this.viewToast = false;
         this.toastMessage = '';
-      }, 3000);
+      }, display.timerStandard);
     },
     sortAisle: function (): void {
       this.items = sortItemsAisle(this.items);
+      localStorage.setItem('fsSortPref', 'aisle');
     },
     sortAlpha: function (): void {
       this.items = sortItems(this.items);
+      localStorage.setItem('fsSortPref', 'alpha');
     },
     toggleInCart: function (_item: Item): void {
       const newItem = { ..._item, inCart: !_item.inCart };
       this.itemsRef.child(_item.id).remove();
       this.itemsRef.push(newItem);
     },
+    transferToDone: async function (_item: Item): void {
+      const email = cleanUpUserEmail(this.userEmail);
+      this.itemsRef.child(_item.id).remove();
+      /* eslint-disable prefer-template */
+      firebase.database().ref(email + '/completed').push(_item);
+      this.showToast(`${_item.name} completed.`);
+       /* eslint-enable prefer-template */
+    },
   },
   mounted: function (): void {
+    if (localStorage.getItem('fsSortPref')) {
+      this.sortPref = localStorage.getItem('fsSortPref');
+    } else {
+      this.sortPref = 'alpha';
+    }
     this.initializeApp();
   },
 };

@@ -82,6 +82,12 @@
         v-on:click="openEditModal"
         title="Edit Item"
       />
+      <img
+        class="icon transfer-to-done-button"
+        src="../assets/check-square-o.png"
+        v-on:click="transferToDone"
+        title="Mark Item as Done"
+      />
     </div>
     <edit-item-modal
       v-if="showEditModal"
@@ -95,7 +101,10 @@
 </template>
 
 <script>
+import moment from 'moment';
 import EditItemModal from './EditItemModal';
+import Item from '../models/Item';
+import { EachItemContainerInt } from '../types/interfaces/EachItemContainer';
 // @flow
 
 export default {
@@ -113,11 +122,7 @@ export default {
       required: true,
     },
   },
-  data(): {
-    inCartTitle: string,
-     notInCartTitle: string,
-     showEditModal: boolean,
-    } {
+  data(): EachItemContainerInt {
     return {
       inCartTitle: 'Remove Item from Cart',
       notInCartTitle: 'Add Item to Cart',
@@ -151,6 +156,10 @@ export default {
     },
     toggleInCart: function (): void {
       this.$emit('toggleInCart', this.item);
+    },
+    transferToDone: function (): void {
+      const newItem: Item = { ...this.item, dateCompleted: moment().format('MMM Do YY') };
+      this.$emit('transferToDone', newItem);
     },
   },
 };

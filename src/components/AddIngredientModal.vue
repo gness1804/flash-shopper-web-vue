@@ -55,18 +55,12 @@
 
 <script>
 import Item from '../models/Item';
+import { ItemModalInt } from '../types/interfaces/ItemModals';
   // @flow
 
 export default {
   name: 'AddIngredientModal',
-  data(): {
-    name?: string,
-    aisle?: string,
-    note?: string,
-    quantity?: string,
-    error: boolean,
-    errorMssg?: string,
-    } {
+  data(): ItemModalInt {
     return {
       name: '',
       aisle: '',
@@ -84,7 +78,7 @@ export default {
         return;
       }
       this.resetInputFields();
-      const ingredient = new Item(name, aisle, note, quantity);
+      const ingredient = new Item({ name, aisle, note, quantity });
       this.$emit('addIngredient', ingredient);
     },
     closeModal: function (): void {

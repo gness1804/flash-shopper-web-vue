@@ -1,6 +1,7 @@
 import { mount } from 'avoriaz';
 import EditItemModal from '@/components/EditItemModal';
 import item from '../helpers/FakeItem';
+import display from '../../../src/helpers/displayVars';
 
 describe('EditItemModal', () => {
   const propsData = {
@@ -28,7 +29,7 @@ describe('EditItemModal', () => {
     const component = mount(EditItemModal, { propsData });
     setTimeout(() => {
       expect(component.data().targetItem).to.equal('1');
-    }, 3000);
+    }, display.timerStandard);
   });
 
   it('clicking the close modal button should trigger the closeModal method', () => {

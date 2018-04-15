@@ -4,6 +4,7 @@ import directions from '../helpers/FakeDirections';
 import ingredients from '../helpers/FakeIngredientsArray';
 import newIngredient from '../helpers/FakeIngredient';
 import recipe from '../helpers/FakeRecipe';
+import display from '../../../src/helpers/displayVars';
 
 describe('Recipes.vue', () => {
   it('should render correctly', () => {
@@ -34,7 +35,7 @@ describe('Recipes.vue', () => {
     component.setMethods({ initializeApp });
     setTimeout(() => {
       expect(initializeApp.calledOnce).to.equal(true);
-    }, 3000);
+    }, display.timerStandard);
   });
 
   it('should display the correct number of recipes', () => {
