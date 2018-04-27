@@ -2,7 +2,6 @@
   <div class="ingredient">
     <div
       class="container"
-      v-bind:class="{ highlighted: containsKeyText }"
     >
       <p
         class="ingredient-quantity"
@@ -34,7 +33,6 @@
 
 <script>
 // @flow
-import containsDirString from '../helpers/containsDirString';
 import display from '../helpers/displayVars';
 import { IngredientInt } from '../types/interfaces/Ingredient';
 
@@ -44,10 +42,6 @@ export default {
     ingredient: {
       type: Object,
       required: true,
-    },
-    dirToCheckAgainst: {
-      type: String,
-      required: false,
     },
   },
   data(): IngredientInt {
@@ -74,14 +68,6 @@ export default {
     },
     showToast: function (message: string): void {
       this.$emit('showToast', message);
-    },
-  },
-  watch: {
-    dirToCheckAgainst: async function (newVal): void {
-      this.containsKeyText = await containsDirString(newVal, this.ingredient.name);
-      if (this.containsKeyText) {
-        this.showToast('Ingredient(s) marked!');
-      }
     },
   },
 };
