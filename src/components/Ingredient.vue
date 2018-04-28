@@ -2,6 +2,7 @@
   <div class="ingredient">
     <div
       class="container"
+      v-bind:class="{ highlighted: isHighlighted}"
     >
       <p
         class="ingredient-quantity"
@@ -27,6 +28,12 @@
       v-on:click="openEditModal"
       title="Edit Ingredient"
     />
+    <img
+      class="icon highlight-ingredient-icon"
+      src="../assets/eye.png"
+      v-on:click="toggleHighlight"
+      title="Highlight Ingredient"
+    />
     </div>
   </div>
 </template>
@@ -47,6 +54,7 @@ export default {
   data(): IngredientInt {
     return {
       containsKeyText: false,
+      isHighlighted: false,
     };
   },
   methods: {
@@ -68,6 +76,9 @@ export default {
     },
     showToast: function (message: string): void {
       this.$emit('showToast', message);
+    },
+    toggleHighlight: function (): void {
+      this.isHighlighted = !this.isHighlighted;
     },
   },
 };
