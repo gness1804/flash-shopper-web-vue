@@ -192,10 +192,12 @@ export default {
     },
     sortAisle: function (): void {
       this.items = sortItemsAisle(this.items);
+      this.sortPref = 'aisle';
       localStorage.setItem('fsSortPref', 'aisle');
     },
     sortAlpha: function (): void {
       this.items = sortItems(this.items);
+      this.sortPref = 'alpha';
       localStorage.setItem('fsSortPref', 'alpha');
     },
     toggleInCart: function (_item: Item): void {
