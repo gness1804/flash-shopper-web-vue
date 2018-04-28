@@ -192,16 +192,18 @@ export default {
     },
     sortAisle: function (): void {
       this.items = sortItemsAisle(this.items);
+      this.sortPref = 'aisle';
       localStorage.setItem('fsSortPref', 'aisle');
     },
     sortAlpha: function (): void {
       this.items = sortItems(this.items);
+      this.sortPref = 'alpha';
       localStorage.setItem('fsSortPref', 'alpha');
     },
     toggleInCart: function (_item: Item): void {
-      const newItem = { ..._item, inCart: !_item.inCart };
-      this.itemsRef.child(_item.id).remove();
-      this.itemsRef.push(newItem);
+      this.itemsRef.child(_item.id).update({
+        inCart: !_item.inCart,
+      });
     },
     transferToDone: async function (_item: Item): void {
       const email = cleanUpUserEmail(this.userEmail);
