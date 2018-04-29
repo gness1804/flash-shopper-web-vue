@@ -1,13 +1,14 @@
 // @flow
 
+import * as firebase from 'firebase';
 import { AuthInt, CoreFBDataInt } from './CoreFunc';
 import { ToastInt } from './Toast';
-import Item from '../../models/Item';
+import ShortItem from '../../models/ShortItem';
 
 type SortType ='aisle'|'alpha';
 
 export interface AppInt extends AuthInt, CoreFBDataInt, ToastInt {
-  pantryShortItems: Item[],
-  pantryRef: Object,
+  pantryShortItems: ShortItem[],
+  pantryRef: firebase.database.Reference,
   sortPref: SortType,
 }

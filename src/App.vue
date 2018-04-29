@@ -54,6 +54,7 @@ import sortItemsAisle from './helpers/sortItemsAisle';
 import logOut from './helpers/logOut';
 import display from './helpers/displayVars';
 import Item from './models/Item';
+import ShortItem from './models/ShortItem';
 import { AppInt } from './types/interfaces/App';
 
 export default {
@@ -119,10 +120,10 @@ export default {
       this.itemsRef.set([]);
       this.showToast('Deleted all items.');
     },
-    getPantryShortItems: function (pantryRef: Object): void {
-      pantryRef.on('value', (snapshot: Array<Object>) => {
-        const newArr = [];
-        snapshot.forEach((item: Object) => {
+    getPantryShortItems: function (pantryRef: firebase.database.Reference): void {
+      pantryRef.on('value', (snapshot: firebase.database.DataSnapshot) => {
+        const newArr: ShortItem[] = [];
+        snapshot.forEach((item: firebase.database.DataSnapshot) => {
           newArr.push({
             name: item.val().name,
             id: item.key,
@@ -132,7 +133,7 @@ export default {
       });
     },
     initializeApp: function (): void {
-      firebase.auth().onAuthStateChanged((user: Object) => {
+      firebase.auth().onAuthStateChanged((user: firebase.User) => {
         if (user) {
           this.isUser = true;
           const email = cleanUpUserEmail(user.email);
@@ -147,10 +148,10 @@ export default {
         }
       });
     },
-    listenForItems: async function (itemsRef: Object): void {
-      itemsRef.on('value', async (snapshot: Array<Object>) => {
+    listenForItems: async function (itemsRef: firebase.database.Reference): void {
+      itemsRef.on('value', async (snapshot: firebase.database.DataSnapshot) => {
         const newArr: Item[] = [];
-        snapshot.forEach((item: Object) => {
+        snapshot.forEach((item: firebase.database.DataSnapshot) => {
           newArr.push({
             name: item.val().name,
             aisle: item.val().aisle,
