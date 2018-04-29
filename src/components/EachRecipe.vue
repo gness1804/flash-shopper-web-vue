@@ -37,7 +37,7 @@ export default {
     },
   },
   methods: {
-    goToRecipe: function (e: Object): void {
+    goToRecipe: function (e: Event): void {
       e.preventDefault();
       const link = this.recipe.id;
       this.$router.push(`/recipes/${link}`);
