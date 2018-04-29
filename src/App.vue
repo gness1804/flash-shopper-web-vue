@@ -119,7 +119,7 @@ export default {
       this.itemsRef.set([]);
       this.showToast('Deleted all items.');
     },
-    getPantryShortItems: function (pantryRef: Object): void {
+    getPantryShortItems: function (pantryRef: firebase.database.Reference): void {
       pantryRef.on('value', (snapshot: Array<Object>) => {
         const newArr = [];
         snapshot.forEach((item: Object) => {
@@ -132,7 +132,7 @@ export default {
       });
     },
     initializeApp: function (): void {
-      firebase.auth().onAuthStateChanged((user: Object) => {
+      firebase.auth().onAuthStateChanged((user: firebase.User) => {
         if (user) {
           this.isUser = true;
           const email = cleanUpUserEmail(user.email);
