@@ -120,9 +120,9 @@ export default {
       this.showToast('Deleted all items.');
     },
     getPantryShortItems: function (pantryRef: firebase.database.Reference): void {
-      pantryRef.on('value', (snapshot: Array<Object>) => {
-        const newArr = [];
-        snapshot.forEach((item: Object) => {
+      pantryRef.on('value', (snapshot: firebase.database.DataSnapshot) => {
+        const newArr: [{ name: string, id: string }] = [];
+        snapshot.forEach((item: firebase.database.DataSnapshot) => {
           newArr.push({
             name: item.val().name,
             id: item.key,
@@ -147,10 +147,10 @@ export default {
         }
       });
     },
-    listenForItems: async function (itemsRef: Object): void {
-      itemsRef.on('value', async (snapshot: Array<Object>) => {
+    listenForItems: async function (itemsRef: firebase.database.Reference): void {
+      itemsRef.on('value', async (snapshot: firebase.database.DataSnapshot) => {
         const newArr: Item[] = [];
-        snapshot.forEach((item: Object) => {
+        snapshot.forEach((item: firebase.database.DataSnapshot) => {
           newArr.push({
             name: item.val().name,
             aisle: item.val().aisle,
@@ -158,6 +158,7 @@ export default {
             note: item.val().note,
             inCart: item.val().inCart || false,
             dateCompleted: item.val().dateCompleted || null,
+            highlighted: item.val().highlighted || false,
             id: item.key,
           });
         });
