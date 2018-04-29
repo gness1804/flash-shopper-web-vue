@@ -340,7 +340,7 @@ export default {
         });
       }
     },
-    getImage: function (e: Object): void {
+    getImage: function (e: Event): void {
       this.reader.readAsDataURL(e.target.files[0]);
       setTimeout(() => {
         try {
@@ -352,7 +352,7 @@ export default {
       }, display.timerStandard);
     },
     initializeApp: function (): void {
-      firebase.auth().onAuthStateChanged((user: Object) => {
+      firebase.auth().onAuthStateChanged((user: firebase.User) => {
         if (user) {
           this.isUser = true;
           const email = cleanUpUserEmail(user.email);
@@ -365,10 +365,10 @@ export default {
         }
       });
     },
-    listenForItems: function (itemsRef: Object): void {
-      itemsRef.on('value', (snapshot: Array<Object>) => {
-        const newArr = [];
-        snapshot.forEach((recipe: Object) => {
+    listenForItems: function (itemsRef: firebase.database.Reference): void {
+      itemsRef.on('value', (snapshot: firebase.database.DataSnapshot) => {
+        const newArr: Recipe[] = [];
+        snapshot.forEach((recipe: firebase.database.DataSnapshot) => {
           newArr.push({
             title: recipe.val().title,
             image: recipe.val().image,

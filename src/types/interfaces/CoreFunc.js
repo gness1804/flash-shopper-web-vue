@@ -1,4 +1,5 @@
 // @flow
+import * as firebase from 'firebase';
 import Item from '../../models/Item';
 
 export interface AuthInt {
@@ -8,7 +9,7 @@ export interface AuthInt {
 }
 
 export interface CoreFBDataInt {
-  itemsRef: Object,
+  itemsRef: firebase.database.Reference,
   items: Item[],
 }
 
