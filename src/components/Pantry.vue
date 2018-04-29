@@ -122,6 +122,7 @@ import logOut from '../helpers/logOut';
 import sortItems from '../helpers/sortItems';
 import display from '../helpers/displayVars';
 import Item from '../models/Item';
+import ShortItem from '../models/ShortItem';
 import { PantryInt } from '../types/interfaces/Pantry';
 
 export default {
@@ -188,7 +189,7 @@ export default {
     },
     getMainShortItems: function (mainItems: firebase.database.Reference): void {
       mainItems.on('value', (snapshot: firebase.database.DataSnapshot) => {
-        const newArr: [{ name: string, id: string }] = [];
+        const newArr: ShortItem[] = [];
         snapshot.forEach((item: firebase.database.DataSnapshot) => {
           newArr.push({
             name: item.val().name,

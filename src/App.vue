@@ -54,6 +54,7 @@ import sortItemsAisle from './helpers/sortItemsAisle';
 import logOut from './helpers/logOut';
 import display from './helpers/displayVars';
 import Item from './models/Item';
+import ShortItem from './models/ShortItem';
 import { AppInt } from './types/interfaces/App';
 
 export default {
@@ -121,7 +122,7 @@ export default {
     },
     getPantryShortItems: function (pantryRef: firebase.database.Reference): void {
       pantryRef.on('value', (snapshot: firebase.database.DataSnapshot) => {
-        const newArr: [{ name: string, id: string }] = [];
+        const newArr: ShortItem[] = [];
         snapshot.forEach((item: firebase.database.DataSnapshot) => {
           newArr.push({
             name: item.val().name,

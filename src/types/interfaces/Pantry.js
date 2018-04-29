@@ -3,6 +3,7 @@
 import { AuthInt, CoreFBDataInt } from './CoreFunc';
 import { ToastInt } from './Toast';
 import Item from '../../models/Item';
+import ShortItem from '../../models/ShortItem';
 
 export interface PantryInt extends AuthInt, CoreFBDataInt, ToastInt {
   name: string,
@@ -16,5 +17,5 @@ export interface PantryInt extends AuthInt, CoreFBDataInt, ToastInt {
   addItemString: string,
   viewEdit: boolean,
   itemToEdit: Item,
-  mainShortItems: Item[],
+  mainShortItems: ShortItem[],
 }
