@@ -479,7 +479,7 @@ export default {
       }
       this.getIngredientTitles(this.ingredients);
     },
-    getImage: function (e: Object): void {
+    getImage: function (e: Event): void {
       this.reader.readAsDataURL(e.target.files[0]);
       setTimeout(() => {
         try {
