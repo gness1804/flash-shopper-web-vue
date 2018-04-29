@@ -367,8 +367,8 @@ export default {
     },
     listenForItems: function (itemsRef: firebase.database.Reference): void {
       itemsRef.on('value', (snapshot: firebase.database.DataSnapshot) => {
-        const newArr = [];
-        snapshot.forEach((recipe: Object) => {
+        const newArr: Recipe[] = [];
+        snapshot.forEach((recipe: firebase.database.DataSnapshot) => {
           newArr.push({
             title: recipe.val().title,
             image: recipe.val().image,

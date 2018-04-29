@@ -186,10 +186,10 @@ export default {
         this.showToast(`${item.name} removed from pantry.`);
       }
     },
-    getMainShortItems: function (mainItems: Object): void {
-      mainItems.on('value', (snapshot: Array<Object>) => {
-        const newArr = [];
-        snapshot.forEach((item: Object) => {
+    getMainShortItems: function (mainItems: firebase.database.Reference): void {
+      mainItems.on('value', (snapshot: firebase.database.DataSnapshot) => {
+        const newArr: [{ name: string, id: string }] = [];
+        snapshot.forEach((item: firebase.database.DataSnapshot) => {
           newArr.push({
             name: item.val().name,
             id: item.key,
@@ -199,7 +199,7 @@ export default {
       });
     },
     initializeApp: function (): void {
-      firebase.auth().onAuthStateChanged((user: Object) => {
+      firebase.auth().onAuthStateChanged((user: firebase.User) => {
         if (user) {
           this.isUser = true;
           const email = cleanUpUserEmail(user.email);
@@ -215,15 +215,16 @@ export default {
       });
     },
     listenForItems: function (itemsRef: firebase.database.Reference): void {
-      itemsRef.on('value', (snapshot: Array<Object>) => {
-        const newArr = [];
-        snapshot.forEach((item: Object) => {
+      itemsRef.on('value', (snapshot: firebase.database.DataSnapshot) => {
+        const newArr: Item[] = [];
+        snapshot.forEach((item: firebase.database.DataSnapshot) => {
           newArr.push({
             name: item.val().name,
             aisle: item.val().aisle,
             quantity: item.val().quantity,
             note: item.val().note,
             inCart: item.val().inCart || false,
+            highlighted: item.val().highlighted || false,
             id: item.key,
           });
         });
