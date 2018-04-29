@@ -214,7 +214,7 @@ export default {
         }
       });
     },
-    listenForItems: function (itemsRef: Object): void {
+    listenForItems: function (itemsRef: firebase.database.Reference): void {
       itemsRef.on('value', (snapshot: Array<Object>) => {
         const newArr = [];
         snapshot.forEach((item: Object) => {
