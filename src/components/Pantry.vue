@@ -225,7 +225,6 @@ export default {
             quantity: item.val().quantity,
             note: item.val().note,
             inCart: item.val().inCart || false,
-            highlighted: item.val().highlighted || false,
             id: item.key,
           });
         });
