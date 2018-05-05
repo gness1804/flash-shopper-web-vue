@@ -85,7 +85,7 @@ export default {
       }
     },
     initializeApp: function (): void {
-      firebase.auth().onAuthStateChanged((user: Object) => {
+      firebase.auth().onAuthStateChanged((user: firebase.User) => {
         if (user) {
           this.isUser = true;
           const email = cleanUpUserEmail(user.email);
@@ -98,10 +98,10 @@ export default {
         }
       });
     },
-    listenForItems: function (itemsRef: Object): void {
-      itemsRef.on('value', (snapshot: Array<Object>) => {
+    listenForItems: function (itemsRef: firebase.database.Reference): void {
+      itemsRef.on('value', (snapshot: firebase.database.DataSnapshot) => {
         const newArr = [];
-        snapshot.forEach((item: Object) => {
+        snapshot.forEach((item: firebase.database.DataSnapshot) => {
           newArr.push({
             name: item.val().name,
             aisle: item.val().aisle,

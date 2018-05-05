@@ -16,7 +16,7 @@ export interface RecipesInt extends AuthInt, CoreFBDataInt, ToastInt {
   source?: string,
   error: boolean,
   errorMssg?: string,
-  reader: Object,
+  reader: FileReader,
   showModal: boolean,
   removeImageString: string,
   addIngredientString: string,
