@@ -12,6 +12,7 @@ describe('Recipe', () => {
     note: 'Defrost ground beef before starting',
     source: 'https://yummy-recipes.com',
     timesMade: 2,
+    datesMade: [12345],
   });
 
   it('should be a constructor', () => {
@@ -27,5 +28,6 @@ describe('Recipe', () => {
     assert.strictEqual(beefTacos.note, 'Defrost ground beef before starting');
     assert.strictEqual(beefTacos.source, 'https://yummy-recipes.com');
     assert.strictEqual(beefTacos.timesMade, 2);
+    assert.deepEqual(beefTacos.datesMade, [12345]);
   });
 });

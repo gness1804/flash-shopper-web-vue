@@ -8,6 +8,7 @@ interface Options {
   inCart?: boolean,
   dateCompleted?: string | null,
 }
+
 class Item {
   id: string | null;
   name: string;

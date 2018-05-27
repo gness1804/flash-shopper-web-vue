@@ -25,6 +25,7 @@ const fakeRecipe = {
   note: '',
   source: 'https://yummy-recipes.com',
   timesMade: 3,
+  datesMade: [12345],
 };
 
 export default fakeRecipe;
