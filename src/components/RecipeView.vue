@@ -421,8 +421,10 @@ export default {
       const warning = confirm('Are you sure you want to decrease the times made?');
       if (warning) {
         this.timesMade--;
+        this.datesMade.sort().pop();
         this.targetRecipe.update({
           timesMade: this.timesMade,
+          datesMade: this.datesMade,
         });
       }
     },
