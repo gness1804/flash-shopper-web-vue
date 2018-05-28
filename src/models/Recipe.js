@@ -9,7 +9,9 @@ interface Opts {
   note?: string,
   source?: string,
   timesMade?: number,
+  datesMade: number[],
 }
+
 class Recipe {
   id: string | null;
   title: string;
@@ -19,6 +21,7 @@ class Recipe {
   note: string;
   source: string;
   timesMade: number;
+  datesMade: number[];
 
   constructor(opts: Opts) {
     this.id = null;
@@ -29,6 +32,7 @@ class Recipe {
     this.note = opts.note || '';
     this.source = opts.source || '';
     this.timesMade = opts.timesMade || 0;
+    this.datesMade = opts.datesMade || [];
   }
 }
 

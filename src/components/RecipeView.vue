@@ -95,6 +95,12 @@
       Make!
     </button>
     <button
+      class="button unmake-recipe-button"
+      v-on:click="decreaseTimesMade"
+    >
+      Unmake
+    </button>
+    <button
       class="button warn-button reset-recipe-button"
       v-on:click="resetTimesMade"
     >
@@ -350,6 +356,7 @@ export default {
       showAddSourceInput: false,
       validateURL: httpValidate,
       timesMade: 0,
+      datesMade: [],
     };
   },
   methods: {
@@ -405,6 +412,21 @@ export default {
     },
     closeTimerModal: function (): void {
       this.showTimerModal = false;
+    },
+    decreaseTimesMade: function (): void {
+      if (this.timesMade === 0) {
+        alert('Error: cannot decrement Times Made below zero.');
+        return;
+      }
+      const warning = confirm('Are you sure you want to decrease the times made?');
+      if (warning) {
+        this.timesMade--;
+        this.datesMade.sort().pop();
+        this.targetRecipe.update({
+          timesMade: this.timesMade,
+          datesMade: this.datesMade,
+        });
+      }
     },
     deleteDirection: function (dir: Direction): void {
       const warning = confirm('Are you sure you want to delete this direction?');
@@ -475,6 +497,7 @@ export default {
         this.note = target[0].note || 'Add a note...';
         this.source = target[0].source || display.addSourceDefault;
         this.timesMade = target[0].timesMade || 0;
+        this.datesMade = target[0].datesMade || [];
         this.targetRecipe = this.itemsRef.child(this.id);
       }
       this.getIngredientTitles(this.ingredients);
@@ -510,8 +533,10 @@ export default {
       const warning = confirm('Are you sure you want to make this dish?');
       if (warning) {
         this.timesMade++;
+        this.datesMade.push(Date.now());
         this.targetRecipe.update({
           timesMade: this.timesMade,
+          datesMade: this.datesMade,
         });
       }
     },
@@ -541,6 +566,7 @@ export default {
             note: recipe.val().note,
             source: recipe.val().source,
             timesMade: recipe.val().timesMade,
+            datesMade: recipe.val().datesMade,
             id: recipe.key,
           });
         });
