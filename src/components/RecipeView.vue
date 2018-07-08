@@ -88,6 +88,12 @@
     <p>
       Times Made: {{timesMade}}
     </p>
+    <p v-if="lastMade">
+      Last Made: {{lastMadeHumanReadable}}
+    </p>
+    <p v-else>
+      This has not been made yet. Make it now!
+    </p>
     <button
       class="button make-recipe-button"
       v-on:click="increaseTimesMade"
@@ -286,6 +292,7 @@
 // @flow
 
 import * as firebase from 'firebase';
+import moment from 'moment';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import Ingredient from './Ingredient';
 import Toast from './Toast';
@@ -307,6 +314,7 @@ import flattenArr from '../helpers/flattenArr';
 import sortIngredients from '../helpers/sortItems';
 import display from '../helpers/displayVars';
 import httpValidate from '../helpers/httpValidate';
+import findLastMade from '../helpers/findLastMade';
 import { RecipeViewInt } from '../types/interfaces/RecipeView';
 
 export default {
@@ -357,6 +365,7 @@ export default {
       validateURL: httpValidate,
       timesMade: 0,
       datesMade: [],
+      lastMade: 0,
     };
   },
   methods: {
@@ -426,6 +435,7 @@ export default {
           timesMade: this.timesMade,
           datesMade: this.datesMade,
         });
+        this.showLastMade();
       }
     },
     deleteDirection: function (dir: Direction): void {
@@ -538,6 +548,7 @@ export default {
           timesMade: this.timesMade,
           datesMade: this.datesMade,
         });
+        this.showLastMade();
       }
     },
     initializeApp: function (): void {
@@ -612,9 +623,12 @@ export default {
       const warn = confirm('Reset times made: are you sure?');
       if (warn) {
         this.timesMade = 0;
+        this.datesMade = [];
         this.targetRecipe.update({
           timesMade: this.timesMade,
+          datesMade: this.datesMade,
         });
+        this.showLastMade();
       }
     },
     saveNote: function (_note: string): void {
@@ -641,6 +655,11 @@ export default {
     },
     showInputs: function (): void {
       this.showShowHideContainer = true;
+    },
+    showLastMade: function (): void {
+      setTimeout(() => {
+        this.lastMade = findLastMade(this.datesMade);
+      }, display.timerStandard);
     },
     showToast: function (message: string): void {
       this.toastMessage = message;
@@ -685,12 +704,17 @@ export default {
     countDirections: function (): number {
       return this.directions.length;
     },
+    lastMadeHumanReadable: function (): string {
+      const _date = new Date(this.lastMade).toString();
+      return moment(_date).format('MMMM Do YYYY, h:mm a');
+    },
   },
   mounted: function (): void {
     if (this.$route) {
       this.id = this.$route.params.id;
       this.initializeApp();
     }
+    this.showLastMade();
   },
 };
 </script>

@@ -35,6 +35,7 @@ module.exports = {
     'no-plusplus': 'off',
     'max-len': 'off',
     'no-restricted-syntax': 'off',
+    'no-underscore-dangle': 'off',
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       'js': 'never',
