@@ -88,6 +88,12 @@
     <p>
       Times Made: {{timesMade}}
     </p>
+    <p v-if="lastMade">
+      Last Made: {{lastMade}}
+    </p>
+    <p v-else>
+      This has not been made yet. Make it now!
+    </p>
     <button
       class="button make-recipe-button"
       v-on:click="increaseTimesMade"
@@ -307,6 +313,7 @@ import flattenArr from '../helpers/flattenArr';
 import sortIngredients from '../helpers/sortItems';
 import display from '../helpers/displayVars';
 import httpValidate from '../helpers/httpValidate';
+import findLastMade from '../helpers/findLastMade';
 import { RecipeViewInt } from '../types/interfaces/RecipeView';
 
 export default {
@@ -357,6 +364,7 @@ export default {
       validateURL: httpValidate,
       timesMade: 0,
       datesMade: [],
+      lastMade: 0,
     };
   },
   methods: {
@@ -691,6 +699,9 @@ export default {
       this.id = this.$route.params.id;
       this.initializeApp();
     }
+    setTimeout(() => {
+      this.lastMade = findLastMade(this.datesMade);
+    }, display.timerStandard);
   },
 };
 </script>

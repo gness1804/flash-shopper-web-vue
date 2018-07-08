@@ -34,4 +34,5 @@ export interface RecipeViewInt extends AuthInt, CoreFBDataInt, ToastInt {
   validateURL: () => boolean,
   timesMade: number,
   datesMade: number[],
+  lastMade: number | null,
 }
