@@ -292,6 +292,7 @@
 // @flow
 
 import * as firebase from 'firebase';
+import moment from 'moment';
 import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
 import Ingredient from './Ingredient';
 import Toast from './Toast';
@@ -703,7 +704,8 @@ export default {
       return this.directions.length;
     },
     lastMadeHumanReadable: function (): string {
-      return new Date(this.lastMade).toString();
+      const _date = new Date(this.lastMade).toString();
+      return moment(_date).format('MMMM Do YYYY, h:mm a');
     },
   },
   mounted: function (): void {
