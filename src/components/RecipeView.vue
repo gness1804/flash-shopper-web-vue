@@ -89,7 +89,7 @@
       Times Made: {{timesMade}}
     </p>
     <p v-if="lastMade">
-      Last Made: {{lastMade}}
+      Last Made: {{lastMadeHumanReadable}}
     </p>
     <p v-else>
       This has not been made yet. Make it now!
@@ -701,6 +701,9 @@ export default {
   computed: {
     countDirections: function (): number {
       return this.directions.length;
+    },
+    lastMadeHumanReadable: function (): string {
+      return new Date(this.lastMade).toString();
     },
   },
   mounted: function (): void {
