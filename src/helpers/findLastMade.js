@@ -1,7 +1,7 @@
 // @flow
 
 const findLastMade = (dates: number[]): number | null => {
-  if (dates.length < 1) {
+  if (!Array.isArray(dates) || dates.length < 1) {
     return null;
   }
   return Math.max(...dates);
