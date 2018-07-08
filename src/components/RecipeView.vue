@@ -623,10 +623,11 @@ export default {
       const warn = confirm('Reset times made: are you sure?');
       if (warn) {
         this.timesMade = 0;
+        this.datesMade = [];
         this.targetRecipe.update({
           timesMade: this.timesMade,
+          datesMade: this.datesMade,
         });
-        this.datesMade = [];
         this.showLastMade();
       }
     },
