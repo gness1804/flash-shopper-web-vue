@@ -434,6 +434,7 @@ export default {
           timesMade: this.timesMade,
           datesMade: this.datesMade,
         });
+        this.showLastMade();
       }
     },
     deleteDirection: function (dir: Direction): void {
@@ -546,6 +547,7 @@ export default {
           timesMade: this.timesMade,
           datesMade: this.datesMade,
         });
+        this.showLastMade();
       }
     },
     initializeApp: function (): void {
@@ -623,6 +625,8 @@ export default {
         this.targetRecipe.update({
           timesMade: this.timesMade,
         });
+        this.datesMade = [];
+        this.showLastMade();
       }
     },
     saveNote: function (_note: string): void {
@@ -649,6 +653,11 @@ export default {
     },
     showInputs: function (): void {
       this.showShowHideContainer = true;
+    },
+    showLastMade: function (): void {
+      setTimeout(() => {
+        this.lastMade = findLastMade(this.datesMade);
+      }, display.timerStandard);
     },
     showToast: function (message: string): void {
       this.toastMessage = message;
@@ -699,9 +708,7 @@ export default {
       this.id = this.$route.params.id;
       this.initializeApp();
     }
-    setTimeout(() => {
-      this.lastMade = findLastMade(this.datesMade);
-    }, display.timerStandard);
+    this.showLastMade();
   },
 };
 </script>
