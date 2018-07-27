@@ -78,6 +78,7 @@ describe('Pantry', () => {
         inCart: false,
         ingredientId: null,
         dateCompleted: null,
+        link: null,
       };
     const component = mount(Pantry);
     component.setData({ items });

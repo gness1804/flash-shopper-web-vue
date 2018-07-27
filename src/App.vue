@@ -159,6 +159,7 @@ export default {
             note: item.val().note,
             inCart: item.val().inCart || false,
             dateCompleted: item.val().dateCompleted || null,
+            link: item.val().link || null,
             id: item.key,
           });
         });
