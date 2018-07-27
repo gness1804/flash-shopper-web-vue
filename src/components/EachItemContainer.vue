@@ -47,7 +47,7 @@
     </p>
     <a
       v-bind:href="item.link"
-      class="each-item-link"
+      class="link each-item-link"
       v-if="item.link"
       v-bind:class="{ strike: item.inCart }"
       target="_blank"
@@ -199,7 +199,8 @@ export default {
     justify-content: center;
   }
 
-  .strike {
+  .strike,
+  .each-item-link.strike {
     color:#9a8c8c;
     text-decoration: line-through;
   }
