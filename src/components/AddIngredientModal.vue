@@ -43,6 +43,13 @@
         v-model="quantity"
         class="text-input-field"
         />
+        <input
+        type="text"
+        placeholder="Link"
+        @input="makeErrorFalse"
+        v-model="link"
+        class="text-input-field"
+        />
    </div>
    <button
     class="button add-ingredient-modal-button"
@@ -56,6 +63,7 @@
 <script>
 import Item from '../models/Item';
 import { ItemModalInt } from '../types/interfaces/ItemModals';
+import httpValidate from '../helpers/httpValidate';
   // @flow
 
 export default {
@@ -66,24 +74,29 @@ export default {
       aisle: '',
       note: '',
       quantity: '',
+      link: '',
       error: false,
       errorMssg: '',
     };
   },
   methods: {
     addIngredient: function (): void {
-      const { name, aisle, note, quantity } = this;
+      const { name, aisle, note, quantity, link } = this;
       if (!name || !quantity) {
         this.triggerErrorState('Oops! Your ingredient needs at least a name and a quantity to be valid. Please try again.');
         return;
       }
+      if (link && !httpValidate(link)) {
+        this.triggerErrorState('Error: the link must be a valid website link. Please try again.');
+        return;
+      }
       this.resetInputFields();
-      const ingredient = new Item({ name, aisle, note, quantity });
+      const ingredient = new Item({ name, aisle, note, quantity, link });
       this.$emit('addIngredient', ingredient);
     },
     closeModal: function (): void {
-      const { name, aisle, note, quantity } = this;
-      if (name || aisle || note || quantity) {
+      const { name, aisle, note, quantity, link } = this;
+      if (name || aisle || note || quantity || link) {
         const warning = confirm('You have unsaved changes! Are you sure you want to exit?');
         if (warning) {
           this.$emit('closeModal');
@@ -104,6 +117,7 @@ export default {
       this.aisle = '';
       this.note = '';
       this.quantity = '';
+      this.link = '';
     },
     triggerErrorState: function (message: string): void {
       this.error = true;
