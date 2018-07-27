@@ -5,6 +5,7 @@ export interface AuthedMainInt {
   aisle?: string,
   note?: string,
   quantity?: string,
+  link?: string,
   error: boolean,
   errorMssg?: string,
   thereAreItemsInCart: () => boolean,
