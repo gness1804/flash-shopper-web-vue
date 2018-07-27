@@ -45,6 +45,17 @@
       >
       {{item.quantity}}
     </p>
+    <a
+      v-bind:href="item.link"
+      class="each-item-link"
+      v-if="item.link"
+      v-bind:class="{ strike: item.inCart }"
+      target="_blank"
+    >
+      <p>
+        Link
+      </p>
+    </a>
     <div class="buttons-container">
       <img
         class="icon remove-item-button"
