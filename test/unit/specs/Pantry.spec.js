@@ -78,7 +78,7 @@ describe('Pantry', () => {
         inCart: false,
         ingredientId: null,
         dateCompleted: null,
-        link: null,
+        link: 'https://www.heb.com/product-detail/h-e-b-sushiya-san-antonio-roll/1477048',
       };
     const component = mount(Pantry);
     component.setData({ items });
@@ -86,6 +86,7 @@ describe('Pantry', () => {
     component.setData({ aisle: '22' });
     component.setData({ note: 'Do not get store brand' });
     component.setData({ quantity: '2 bags' });
+    component.setData({ link: 'https://www.heb.com/product-detail/h-e-b-sushiya-san-antonio-roll/1477048' });
     component.setData({ itemsRef });
     const triggerErrorState = sinon.stub();
     component.setMethods({ triggerErrorState });

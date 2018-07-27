@@ -52,6 +52,13 @@
         v-model="quantity"
         class="text-input-field"
       />
+      <input
+        type="text"
+        placeholder="Link"
+        @input="makeErrorFalse"
+        v-model="link"
+        class="text-input-field"
+      />
     </div>
     <button
         class="button add-item-to-pantry-button"
@@ -121,6 +128,7 @@ import buttonStrings from '../helpers/buttonStrings';
 import logOut from '../helpers/logOut';
 import sortItems from '../helpers/sortItems';
 import display from '../helpers/displayVars';
+import httpValidate from '../helpers/httpValidate';
 import Item from '../models/Item';
 import ShortItem from '../models/ShortItem';
 import { PantryInt } from '../types/interfaces/Pantry';
@@ -144,6 +152,7 @@ export default {
       aisle: '',
       note: '',
       quantity: '',
+      link: '',
       error: false,
       errorMssg: '',
       toastMessage: '',
@@ -158,18 +167,22 @@ export default {
   },
   methods: {
     addItem: function (): void {
-      const { name, aisle, note, quantity } = this;
+      const { name, aisle, note, quantity, link } = this;
       if (!name) {
         this.triggerErrorState('Oops, you must enter at least a name. Please try again.');
         return;
       }
+      if (!httpValidate(link)) {
+        this.triggerErrorState('Error: the link must be a valid website link. Please try again.');
+        return;
+      }
       this.resetInputFields();
-      const item = new Item({ name, aisle, note, quantity });
+      const item = new Item({ name, aisle, note, quantity, link });
       try {
         this.itemsRef.push(item);
         this.showToast(`${item.name} added to pantry.`);
       } catch (error) {
-        alert('Something went wrong. Please try again.');
+        alert(`Something went wrong. Please try again. Error: ${error}`);
       }
     },
     closeEditModal: function (): void {
@@ -225,6 +238,7 @@ export default {
             quantity: item.val().quantity,
             note: item.val().note,
             inCart: item.val().inCart || false,
+            link: item.val().link || null,
             id: item.key,
           });
         });
@@ -243,6 +257,7 @@ export default {
       this.aisle = '';
       this.note = '';
       this.quantity = '';
+      this.link = '';
     },
     showToast: function (message: string): void {
       this.toastMessage = message;
