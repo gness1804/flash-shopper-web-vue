@@ -219,7 +219,7 @@ export default {
         this.triggerErrorState('Oops! Your item needs at least a name to be valid. Please try again.');
         return;
       }
-      if (!httpValidate(link)) {
+      if (link && !httpValidate(link)) {
         this.triggerErrorState('Error: the link must be a valid website link. Please try again.');
         return;
       }

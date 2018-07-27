@@ -172,7 +172,7 @@ export default {
         this.triggerErrorState('Oops, you must enter at least a name. Please try again.');
         return;
       }
-      if (!httpValidate(link)) {
+      if (link && !httpValidate(link)) {
         this.triggerErrorState('Error: the link must be a valid website link. Please try again.');
         return;
       }

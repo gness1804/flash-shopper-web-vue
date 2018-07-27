@@ -145,7 +145,7 @@ export default {
         this.triggerErrorState('Oops! Your item must have at least a name.');
         return;
       }
-      if (!httpValidate(link)) {
+      if (link && !httpValidate(link)) {
         this.triggerErrorState('Error: the link must be a valid website link. Please try again.');
         return;
       }
