@@ -50,7 +50,7 @@ describe('EditItemModal', () => {
     expect(saveItem.calledOnce).to.equal(true);
   });
 
-  it('clicking the save item button should trigger an error if there is not valid name', () => {
+  it('clicking the save item button should trigger an error if there is not a valid name', () => {
     const component = mount(EditItemModal, { propsData });
     const triggerErrorState = sinon.stub();
     component.setMethods({ triggerErrorState });
@@ -61,7 +61,12 @@ describe('EditItemModal', () => {
   });
 
   it('clicking the save item button should call the update method if there is a valid name', () => {
-    const component = mount(EditItemModal, { propsData });
+    const propsData2 = { ...propsData,
+      item: {
+        ...propsData.item,
+        link: 'https://www.heb.com/product-detail/h-e-b-sushiya-san-antonio-roll/1477048',
+      } };
+    const component = mount(EditItemModal, { propsData: propsData2 });
     const triggerErrorState = sinon.stub();
     const closeModal = sinon.stub();
     component.setMethods({ triggerErrorState });

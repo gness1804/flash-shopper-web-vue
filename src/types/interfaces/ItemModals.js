@@ -6,6 +6,7 @@ export interface ItemModalInt {
   aisle?: string,
   note?: string,
   quantity?: string,
+  link?: string,
   error: boolean,
   errorMssg?: string,
 }
@@ -16,4 +17,5 @@ export interface EditItemModalInt extends ItemModalInt {
   initAisle?: string,
   initNote?: string,
   initQty?: string,
+  initLink?: string,
 }

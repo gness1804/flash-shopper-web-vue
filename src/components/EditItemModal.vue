@@ -43,6 +43,13 @@
         v-model="quantity"
         class="text-input-field"
         />
+        <input
+        type="text"
+        placeholder="Link"
+        @input="makeErrorFalse"
+        v-model="link"
+        class="text-input-field"
+        />
    </div>
    <button
     class="button save-item-button"
@@ -55,6 +62,7 @@
 
 <script>
 import thereAreChanges from '../helpers/thereAreChanges';
+import httpValidate from '../helpers/httpValidate';
 import { EditItemModalInt } from '../types/interfaces/ItemModals';
   // @flow
 
@@ -80,6 +88,7 @@ export default {
       aisle: this.item.aisle || '',
       note: this.item.note || '',
       quantity: this.item.quantity || '',
+      link: this.item.link || '',
       error: false,
       errorMssg: '',
       targetItem: {},
@@ -87,6 +96,7 @@ export default {
       initAisle: this.item.aisle || '',
       initNote: this.item.note || '',
       initQty: this.item.quantity || '',
+      initLink: this.item.link || '',
     };
   },
   methods: {
@@ -95,16 +105,18 @@ export default {
         this.$emit('closeModal');
         return;
       }
-      const { name, aisle, note, quantity, initName, initAisle, initNote, initQty } = this;
+      const { name, aisle, note, quantity, link, initName, initAisle, initNote, initQty, initLink } = this;
       const options = {
         name,
         aisle,
         note,
         quantity,
+        link,
         initName,
         initAisle,
         initNote,
         initQty,
+        initLink,
       };
       if (thereAreChanges(options)) {
         const warning = confirm('Warning: You have unsaved changes! Are you sure you want to exit editing?');
@@ -125,15 +137,20 @@ export default {
       this.aisle = '';
       this.note = '';
       this.quantity = '';
+      this.link = '';
     },
     saveItem: function (): void {
-      const { name, aisle, note, quantity, item } = this;
+      const { name, aisle, note, quantity, link, item } = this;
       if (!name) {
         this.triggerErrorState('Oops! Your item must have at least a name.');
         return;
       }
+      if (!httpValidate(link)) {
+        this.triggerErrorState('Error: the link must be a valid website link. Please try again.');
+        return;
+      }
       if (this.isIngredient) {
-        const newIng = { ...item, name, aisle, note, quantity };
+        const newIng = { ...item, name, aisle, note, quantity, link };
         this.$emit('editIngredient', newIng);
         return;
       }
@@ -142,6 +159,7 @@ export default {
         aisle,
         note,
         quantity,
+        link,
       });
       this.closeModal('saved');
       this.showToast('Item saved.');
