@@ -10,6 +10,7 @@ export interface PantryInt extends AuthInt, CoreFBDataInt, ToastInt {
   aisle?: string,
   note?: string,
   quantity?: string,
+  link?: string,
   error: boolean,
   errorMssg?: string,
   goHomeString: string,

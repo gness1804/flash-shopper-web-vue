@@ -87,6 +87,13 @@
         v-model="quantity"
         class="text-input-field"
       />
+      <input
+        type="text"
+        placeholder="Link"
+        @input="makeErrorFalse"
+        v-model="link"
+        class="text-input-field"
+      />
     </div>
     <div class="buttons-container">
       <button
@@ -161,6 +168,7 @@ import flattenArr from '../helpers/flattenArr';
 import buttonStrings from '../helpers/buttonStrings';
 import browserMatches from '../helpers/browserMatches';
 import display from '../helpers/displayVars';
+import httpValidate from '../helpers/httpValidate';
 import { AuthedMainInt } from '../types/interfaces/AuthedMain';
 
 export default {
@@ -189,6 +197,7 @@ export default {
       aisle: '',
       note: '',
       quantity: '',
+      link: '',
       error: false,
       errorMssg: '',
       thereAreItemsInCart,
@@ -205,13 +214,17 @@ export default {
   },
   methods: {
     addItem: function (): void {
-      const { name, aisle, note, quantity } = this;
+      const { name, aisle, note, quantity, link } = this;
       if (!name) {
         this.triggerErrorState('Oops! Your item needs at least a name to be valid. Please try again.');
         return;
       }
+      if (link && !httpValidate(link)) {
+        this.triggerErrorState('Error: the link must be a valid website link. Please try again.');
+        return;
+      }
       this.resetInputFields();
-      const it = new Item({ name, aisle, note, quantity });
+      const it = new Item({ name, aisle, note, quantity, link });
       this.$emit('addItem', it);
     },
     addToAPN: function (_item: Item): void {
@@ -268,6 +281,7 @@ export default {
       this.aisle = '';
       this.note = '';
       this.quantity = '';
+      this.link = '';
     },
     showToast: function (message: string): void {
       this.$emit('showToast', message);
