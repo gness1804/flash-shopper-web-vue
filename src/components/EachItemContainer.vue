@@ -45,6 +45,17 @@
       >
       {{item.quantity}}
     </p>
+    <a
+      v-bind:href="item.link"
+      class="link each-item-link"
+      v-if="item.link"
+      v-bind:class="{ strike: item.inCart }"
+      target="_blank"
+    >
+      <p>
+        Link
+      </p>
+    </a>
     <div class="buttons-container">
       <img
         class="icon remove-item-button"
@@ -188,7 +199,12 @@ export default {
     justify-content: center;
   }
 
-  .strike {
+  .each-item-link {
+    font-weight: 600;
+  }
+
+  .strike,
+  .each-item-link.strike {
     color:#9a8c8c;
     text-decoration: line-through;
   }

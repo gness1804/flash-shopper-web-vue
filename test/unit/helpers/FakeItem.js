@@ -6,6 +6,7 @@ const fakeItem = {
   quantity: '2 loaves',
   inCart: false,
   dateCompleted: null,
+  link: null,
 };
 
 export default fakeItem;

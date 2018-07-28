@@ -33,6 +33,17 @@
         v-on:click="viewEditModal"
         title="Edit Item"
       />
+      <a
+        v-if="item.link"
+        v-bind:href="item.link"
+        target="_blank"
+      >
+        <img
+          class="large-icon item-link-button"
+          src="../assets/link.png"
+          title="Go to Link"
+        />
+      </a>
   </div>
 </template>
 
