@@ -23,6 +23,13 @@
     >
       Sort by Date
     </button>
+    <button
+      v-if="items.length > 0"
+      class="button sort-alpha-button"
+      v-on:click="sortAlpha"
+    >
+      Sort Alpha
+    </button>
     <div
     class="items"
     v-if="items.length > 0"
@@ -139,6 +146,9 @@ export default {
         this.viewToast = false;
         this.toastMessage = '';
       }, display.timerStandard);
+    },
+    sortAlpha: function (): void {
+      this.items = sortItems(this.items);
     },
     sortByDate: function (): void {
       this.items = sortByDateH(this.items);
