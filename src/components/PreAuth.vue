@@ -23,26 +23,24 @@
         v-model="password"
       />
     </div>
-    <div class="buttons-container">
-      <button
-        class="button auth-button sign-up-button"
-        v-on:click="signUp"
-      >
-        Sign Up
-      </button>
-      <button
-        class="button auth-button log-in-button"
-        v-on:click="logIn"
-      >
-        Log In
-      </button>
-      <button
-        class="button auth-button reset-password-button"
-        v-on:click="resetPassword"
-      >
-        Reset Password
-      </button>
-    </div>
+    <button
+      class="button auth-button green-button log-in-button"
+      v-on:click="logIn"
+    >
+      Log In
+    </button>
+    <button
+      class="button auth-button sign-up-button"
+      v-on:click="signUp"
+    >
+      Sign Up
+    </button>
+    <button
+      class="button auth-button reset-password-button"
+      v-on:click="resetPassword"
+    >
+      Reset Password
+    </button>
   </div>
 </template>
 
@@ -134,18 +132,23 @@ export default {
     justify-content: center;
     margin: 40px auto;
   }
-  .buttons-container {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+
   .auth-button {
     margin-bottom: 20px;
   }
+
+  .log-in-button {
+    border-radius: 5px;
+    display: block;
+    font-size: 16px;
+    margin: 40px auto 120px;
+    padding: 15px;
+  }
+
   .error-message-container {
     color: #F00;
   }
+
 </style>
 
 
