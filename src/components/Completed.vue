@@ -16,6 +16,20 @@
     >
       {{deleteAllString}}
     </button>
+    <button
+      v-if="items.length > 0"
+      class="button sort-items-button"
+      v-on:click="sortByDate"
+    >
+      Sort by Date
+    </button>
+    <button
+      v-if="items.length > 0"
+      class="button sort-alpha-button"
+      v-on:click="sortAlpha"
+    >
+      Sort Alpha
+    </button>
     <div
     class="items"
     v-if="items.length > 0"
@@ -47,6 +61,7 @@ import logOut from '../helpers/logOut';
 import cleanUpUserEmail from '../helpers/cleanUpUserEmail';
 import sortItems from '../helpers/sortItems';
 import display from '../helpers/displayVars';
+import sortByDateH from '../helpers/sortByDateH';
 import buttonStrings from '../helpers/buttonStrings';
 import Item from '../models/Item';
 import { CompletedInt } from '../types/interfaces/Completed';
@@ -131,6 +146,12 @@ export default {
         this.viewToast = false;
         this.toastMessage = '';
       }, display.timerStandard);
+    },
+    sortAlpha: function (): void {
+      this.items = sortItems(this.items);
+    },
+    sortByDate: function (): void {
+      this.items = sortByDateH(this.items);
     },
   },
   mounted: function (): void {
