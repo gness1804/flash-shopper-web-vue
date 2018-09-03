@@ -24,19 +24,19 @@
       />
     </div>
     <button
-      class="button auth-button green-button log-in-button"
+      class="button green-button log-in-button"
       v-on:click="logIn"
     >
       Log In
     </button>
     <button
-      class="button auth-button sign-up-button"
+      class="button sign-up-button"
       v-on:click="signUp"
     >
       Sign Up
     </button>
     <button
-      class="button auth-button reset-password-button"
+      class="button warn-button reset-password-button"
       v-on:click="resetPassword"
     >
       Reset Password
@@ -133,16 +133,16 @@ export default {
     margin: 40px auto;
   }
 
-  .auth-button {
-    margin-bottom: 20px;
-  }
-
   .log-in-button {
     border-radius: 5px;
     display: block;
     font-size: 16px;
     margin: 40px auto 120px;
     padding: 15px;
+  }
+
+  .sign-up-button {
+    margin-right: 20px;
   }
 
   .error-message-container {
