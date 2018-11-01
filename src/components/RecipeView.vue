@@ -122,6 +122,7 @@
         v-bind:key="ingredient.id"
         v-bind:ingredient="ingredient"
         v-bind:dirToCheckAgainst=dirToCheckAgainst
+        v-bind:showAll="showAllIngredients"
         v-on:removeIngredient="removeIngredient"
         v-on:transferIngredient="transferIngredient"
         v-on:openEditModal="openEditModal"
@@ -149,6 +150,12 @@
     >
       {{hideInputsString}}
     </button>
+    <button
+      class="button show-ingrs-button"
+      v-on:click="showIngredients"
+    >
+      Show All Ingredients
+      </button>
     <div
       class="show-hide-container"
       v-if="showShowHideContainer"
@@ -366,6 +373,7 @@ export default {
       timesMade: 0,
       datesMade: [],
       lastMade: 0,
+      showAllIngredients: false,
     };
   },
   methods: {
@@ -646,12 +654,14 @@ export default {
       this.showToast('Source updated.');
     },
     saveTitle: function (): void {
-      const text = document.querySelector('.recipe-view-headline').innerText;
-      this.title = text;
+      this.title = document.querySelector('.recipe-view-headline').innerText;
       this.targetRecipe.update({
         title: this.title,
       });
       this.showToast('Title updated.');
+    },
+    showIngredients: function (): void {
+      this.showAllIngredients = true;
     },
     showInputs: function (): void {
       this.showShowHideContainer = true;
