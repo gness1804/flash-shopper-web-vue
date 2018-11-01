@@ -2,7 +2,7 @@
   <div class="ingredient">
     <div
       class="container"
-      v-bind:class="{ highlighted: containsKeyText }"
+      v-bind:class="{ hidden: isHidden }"
     >
       <p
         class="ingredient-quantity"
@@ -28,6 +28,12 @@
       v-on:click="openEditModal"
       title="Edit Ingredient"
     />
+      <img
+        class="icon hide-ingredient-icon"
+        src="../assets/eye-blocked.png"
+        v-on:click="hideIngredient"
+        title="Hide Ingredient"
+      />
     </div>
   </div>
 </template>
@@ -53,6 +59,7 @@ export default {
   data(): IngredientInt {
     return {
       containsKeyText: false,
+      isHidden: false,
     };
   },
   methods: {
@@ -62,6 +69,9 @@ export default {
       setTimeout(() => {
         this.containsKeyText = false;
       }, display.timerStandard);
+    },
+    hideIngredient: function (): void {
+      this.isHidden = true;
     },
     openEditModal: function (): void {
       this.$emit('openEditModal', this.ingredient);
@@ -98,17 +108,16 @@ export default {
     width: 60vw;
   }
 
+  .hidden {
+    display: none;
+  }
+
   .ingredient-quantity {
     margin-right: 10px;
   }
 
   .ingredient-name {
     margin-right: 10px;
-  }
-
-  .highlighted {
-    border: 2px solid #f00;
-    background-color: #C56415;
   }
 </style>
 
