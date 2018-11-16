@@ -136,6 +136,13 @@
     >
       <p>You do not have any ingredients! Add some now.</p>
     </div>
+    <p
+      v-if="hiddenIngredients > 0"
+      class="link hidden-ingredients-pseudolink"
+      v-on:click="showIngredients"
+    >
+      See all {{hiddenIngredients}} hidden ingredient(s)...
+    </p>
     <button
       class="button show-inputs-button"
       v-if="!showShowHideContainer"
@@ -549,6 +556,7 @@ export default {
     hideIngredient: function (_ingredient): void {
       const { ingredientId } = _ingredient;
       this.ingredients = this.ingredients.filter(i => i.ingredientId !== ingredientId);
+      this.hiddenIngredients++;
     },
     hideInputs: function (): void {
       this.showShowHideContainer = false;
@@ -822,6 +830,14 @@ export default {
   .source-output-link {
     display: block;
     margin: 20px auto;
+  }
+
+  .hidden-ingredients-pseudolink {
+    margin: 10px auto 60px;
+  }
+
+  .hidden-ingredients-pseudolink:hover {
+    cursor: pointer;
   }
 </style>
 
