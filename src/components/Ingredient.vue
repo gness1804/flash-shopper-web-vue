@@ -55,10 +55,6 @@ export default {
       type: String,
       required: false,
     },
-    showAll: {
-      type: Boolean,
-      required: true,
-    },
   },
   data(): IngredientInt {
     return {
