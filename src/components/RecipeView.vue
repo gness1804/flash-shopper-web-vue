@@ -122,10 +122,11 @@
         v-bind:key="ingredient.id"
         v-bind:ingredient="ingredient"
         v-bind:dirToCheckAgainst=dirToCheckAgainst
+        v-on:hideIngredient="hideIngredient"
         v-on:removeIngredient="removeIngredient"
         v-on:transferIngredient="transferIngredient"
         v-on:openEditModal="openEditModal"
-        v-on:showToast=showToast
+        v-on:showToast="showToast"
       >
       </ingredient>
     </div>
@@ -149,12 +150,12 @@
     >
       {{hideInputsString}}
     </button>
-    <!--<button-->
-      <!--class="button show-ingrs-button"-->
-      <!--v-on:click="showIngredients"-->
-    <!--&gt;-->
-      <!--Show All Ingredients-->
-   <!--</button>-->
+    <button
+      class="button show-ingrs-button"
+      v-on:click="showIngredients"
+    >
+      Show All Ingredients
+   </button>
     <div
       class="show-hide-container"
       v-if="showShowHideContainer"
@@ -342,6 +343,7 @@ export default {
       image: '',
       ingredients: [],
       directions: [],
+      storedIngredients: [], // to maintain copy of ingredients state when showing hidden ingredients
       note: 'Add a note...',
       source: '',
       isUser: false,
@@ -372,6 +374,7 @@ export default {
       timesMade: 0,
       datesMade: [],
       lastMade: 0,
+      hiddenIngredients: 0,
     };
   },
   methods: {
@@ -500,7 +503,7 @@ export default {
     editSource: function (): void {
       this.showAddSourceInput = true;
     },
-    filterOutTargetRecipe: function (recipes: Array<Recipe>): void {
+    filterOutTargetRecipe: async function (recipes: Recipe[]): void {
       const targetId = this.id;
       const target = recipes.filter((rec: Recipe) => {
         return rec.id === targetId;
@@ -508,7 +511,8 @@ export default {
       if (target) {
         this.title = target[0].title || '';
         this.image = target[0].image || 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
-        this.ingredients = sortIngredients(target[0].ingredients) || [];
+        this.ingredients = await sortIngredients(target[0].ingredients) || [];
+        this.storedIngredients = this.ingredients;
         this.directions = target[0].directions || [];
         this.note = target[0].note || 'Add a note...';
         this.source = target[0].source || display.addSourceDefault;
@@ -533,14 +537,17 @@ export default {
       }, display.timerStandard);
     },
     getIngredientTitles: function (ings: Array<Item>): void {
-      const names = flattenArr(ings);
-      this.ingNames = names;
+      this.ingNames = flattenArr(ings);
     },
     goHome: function (): void {
       this.$router.push('/');
     },
     hideAddSourceInput: function (): void {
       this.showAddSourceInput = false;
+    },
+    hideIngredient: function (_ingredient): void {
+      const { ingredientId } = _ingredient;
+      this.ingredients = this.ingredients.filter(i => i.ingredientId !== ingredientId);
     },
     hideInputs: function (): void {
       this.showShowHideContainer = false;
@@ -657,6 +664,10 @@ export default {
         title: this.title,
       });
       this.showToast('Title updated.');
+    },
+    showIngredients: function (): void {
+      this.ingredients = this.storedIngredients;
+      this.hiddenIngredients = 0;
     },
     showInputs: function (): void {
       this.showShowHideContainer = true;

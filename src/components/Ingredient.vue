@@ -2,7 +2,6 @@
   <div class="ingredient">
     <div
       class="container"
-      v-bind:class="{ hidden: isHidden }"
     >
       <p
         class="ingredient-quantity"
@@ -59,7 +58,6 @@ export default {
   data(): IngredientInt {
     return {
       containsKeyText: false,
-      isHidden: false,
     };
   },
   methods: {
@@ -71,7 +69,7 @@ export default {
       }, display.timerStandard);
     },
     hideIngredient: function (): void {
-      this.isHidden = true;
+      this.$emit('hideIngredient', this.ingredient);
     },
     openEditModal: function (): void {
       this.$emit('openEditModal', this.ingredient);
@@ -106,10 +104,6 @@ export default {
     justify-content: center;
     margin: 10px auto;
     width: 60vw;
-  }
-
-  .hidden {
-    display: none;
   }
 
   .ingredient-quantity {
