@@ -153,6 +153,7 @@
     <button
       class="button show-ingrs-button"
       v-on:click="showIngredients"
+      :disabled="ingredients.length === storedIngredients.length"
     >
       Show All Ingredients
    </button>
