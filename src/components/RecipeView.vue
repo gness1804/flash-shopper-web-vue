@@ -193,6 +193,21 @@
         v-on:click="unHighlightAll"
         title="Unhighlight All"
       />
+      <p
+        v-if="directionsDone === 0"
+      >
+        No steps completed yet! Time to get cooking!
+      </p>
+      <p
+        v-else-if="directionsDone !== directions.length"
+      >
+        You have completed {{directionsDone}} / {{directions.length}} steps.
+      </p>
+      <p
+        v-else
+      >
+        Congrats! You have completed the recipe.
+      </p>
       <ol class="directions-list">
         <li
           class="direction-li"
