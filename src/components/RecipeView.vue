@@ -366,6 +366,7 @@ export default {
       timesMade: 0,
       datesMade: [],
       lastMade: 0,
+      directionsDone: 0,
     };
   },
   methods: {
@@ -421,6 +422,9 @@ export default {
     },
     closeTimerModal: function (): void {
       this.showTimerModal = false;
+    },
+    computeDirsDone: function (): void {
+      this.directionsDone = this.directions.filter((dir: Direction) => dir.done === true).length;
     },
     decreaseTimesMade: function (): void {
       if (this.timesMade === 0) {
@@ -669,13 +673,12 @@ export default {
         this.toastMessage = '';
       }, display.timerStandard);
     },
-    toggleDone: function (dir: Direction): void {
+    toggleDone: async function (dir: Direction): void {
       const ind = this.directions.indexOf(dir);
       const newDir = { ...dir, done: !dir.done, id: Date.now().toString() };
       this.directions.splice(ind, 0, newDir);
-      this.directions = this.directions.filter((d: Direction) => {
-        return d.id !== dir.id;
-      });
+      this.directions = await this.directions.filter((d: Direction) => d.id !== dir.id);
+      this.computeDirsDone();
       this.targetRecipe.update({
         directions: this.directions,
       });
@@ -709,12 +712,13 @@ export default {
       return moment(_date).format('MMMM Do YYYY, h:mm a');
     },
   },
-  mounted: function (): void {
+  mounted: async function (): void {
     if (this.$route) {
       this.id = this.$route.params.id;
-      this.initializeApp();
+      await this.initializeApp();
     }
     this.showLastMade();
+    this.computeDirsDone();
   },
 };
 </script>
