@@ -533,20 +533,19 @@ export default {
     },
     filterOutTargetRecipe: async function (recipes: Recipe[]): void {
       const targetId = this.id;
-      const target = recipes.filter((rec: Recipe) => {
-        return rec.id === targetId;
-      });
+      const target = recipes.filter((rec: Recipe) => rec.id === targetId);
       if (target) {
         this.title = target[0].title || '';
         this.image = target[0].image || 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
         this.ingredients = await sortIngredients(target[0].ingredients) || [];
         this.storedIngredients = this.ingredients;
-        this.directions = target[0].directions || [];
+        this.directions = await target[0].directions || [];
         this.note = target[0].note || 'Add a note...';
         this.source = target[0].source || display.addSourceDefault;
         this.timesMade = target[0].timesMade || 0;
         this.datesMade = target[0].datesMade || [];
         this.targetRecipe = this.itemsRef.child(this.id);
+        this.computeDirsDone();
       }
       this.getIngredientTitles(this.ingredients);
     },
