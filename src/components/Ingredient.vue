@@ -2,7 +2,6 @@
   <div class="ingredient">
     <div
       class="container"
-      v-bind:class="{ highlighted: containsKeyText }"
     >
       <p
         class="ingredient-quantity"
@@ -28,6 +27,12 @@
       v-on:click="openEditModal"
       title="Edit Ingredient"
     />
+      <img
+        class="icon hide-ingredient-icon"
+        src="../assets/check-square-o.png"
+        v-on:click="hideIngredient"
+        title="Hide Ingredient"
+      />
     </div>
   </div>
 </template>
@@ -62,6 +67,9 @@ export default {
       setTimeout(() => {
         this.containsKeyText = false;
       }, display.timerStandard);
+    },
+    hideIngredient: function (): void {
+      this.$emit('hideIngredient', this.ingredient);
     },
     openEditModal: function (): void {
       this.$emit('openEditModal', this.ingredient);
@@ -104,11 +112,6 @@ export default {
 
   .ingredient-name {
     margin-right: 10px;
-  }
-
-  .highlighted {
-    border: 2px solid #f00;
-    background-color: #C56415;
   }
 </style>
 
