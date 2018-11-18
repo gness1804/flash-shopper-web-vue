@@ -29,7 +29,7 @@
     />
       <img
         class="icon hide-ingredient-icon"
-        src="../assets/eye-blocked.png"
+        src="../assets/check-square-o.png"
         v-on:click="hideIngredient"
         title="Hide Ingredient"
       />
