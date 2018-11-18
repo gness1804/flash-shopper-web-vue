@@ -36,6 +36,4 @@ export interface RecipeViewInt extends AuthInt, CoreFBDataInt, ToastInt {
   timesMade: number,
   datesMade: number[],
   lastMade: number | null,
-  showAllIngredients: boolean,
-  hiddenIngredients: number,
 }
