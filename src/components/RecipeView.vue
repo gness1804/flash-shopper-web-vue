@@ -177,6 +177,7 @@
         <button
           class="button uncheck-all-button"
           v-on:click="uncheckAll"
+          :disabled="directionsDone === 0"
         >
           {{uncheckAllString}}
         </button>
@@ -665,8 +666,7 @@ export default {
       this.showToast('Source updated.');
     },
     saveTitle: function (): void {
-      const text = document.querySelector('.recipe-view-headline').innerText;
-      this.title = text;
+      this.title = document.querySelector('.recipe-view-headline').innerText;
       this.targetRecipe.update({
         title: this.title,
       });
@@ -705,13 +705,12 @@ export default {
       this.showToast(`${ing.name} added to main list.`);
        /* eslint-enable prefer-template */
     },
-    uncheckAll: function (): void {
-      this.directions = this.directions.map((dir: Direction) => {
-        return Object.assign(dir, { done: false });
-      });
+    uncheckAll: async function (): void {
+      this.directions = await this.directions.map((dir: Direction) => Object.assign(dir, { done: false }));
       this.targetRecipe.update({
         directions: this.directions,
       });
+      this.computeDirsDone();
     },
     unHighlightAll: function (): void {
       this.dirToCheckAgainst = '';
