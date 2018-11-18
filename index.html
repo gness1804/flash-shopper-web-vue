@@ -48,10 +48,19 @@
       padding: 5px;
     }
 
+    .button:disabled {
+      background-color: #8787ea;
+      border: 1px solid #8787ea;
+    }
+
     .button:hover {
       background-color: #8787ea;
       border: 1px solid #8787ea;
       cursor: pointer;
+    }
+
+    .button:disabled:hover {
+      cursor: auto;
     }
 
     .warn-button {

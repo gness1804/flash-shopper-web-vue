@@ -121,11 +121,11 @@
         v-for="ingredient of ingredients"
         v-bind:key="ingredient.id"
         v-bind:ingredient="ingredient"
-        v-bind:dirToCheckAgainst=dirToCheckAgainst
+        v-on:hideIngredient="hideIngredient"
         v-on:removeIngredient="removeIngredient"
         v-on:transferIngredient="transferIngredient"
         v-on:openEditModal="openEditModal"
-        v-on:showToast=showToast
+        v-on:showToast="showToast"
       >
       </ingredient>
     </div>
@@ -135,6 +135,13 @@
     >
       <p>You do not have any ingredients! Add some now.</p>
     </div>
+    <p
+      v-if="hiddenIngredients > 0"
+      class="link hidden-ingredients-pseudolink"
+      v-on:click="showIngredients"
+    >
+      See all {{hiddenIngredients}} hidden ingredient(s)...
+    </p>
     <button
       class="button show-inputs-button"
       v-if="!showShowHideContainer"
@@ -149,6 +156,13 @@
     >
       {{hideInputsString}}
     </button>
+    <button
+      class="button show-ingrs-button"
+      v-on:click="showIngredients"
+      :disabled="ingredients.length === storedIngredients.length"
+    >
+      Show All Ingredients
+   </button>
     <div
       class="show-hide-container"
       v-if="showShowHideContainer"
@@ -188,12 +202,6 @@
         v-if="directions && directions.length > 0"
       >
       <h4>Directions:</h4>
-      <img
-        class="icon unhighlight-all-button"
-        src="../assets/eye-blocked.png"
-        v-on:click="unHighlightAll"
-        title="Unhighlight All"
-      />
       <p
         v-if="directionsDone === 0"
       >
@@ -250,12 +258,6 @@
             src="../assets/reorder.png"
             v-on:click="changeOrderForDir(direction)"
             title="Reorder Direction"
-          />
-          <img
-            class="icon check-matches-button"
-            src="../assets/eye.png"
-            v-on:click="checkMatches(direction)"
-            title="Check Matches"
           />
         </li>
       </ol>
@@ -352,6 +354,7 @@ export default {
       image: '',
       ingredients: [],
       directions: [],
+      storedIngredients: [], // to maintain copy of ingredients state when showing hidden ingredients
       note: 'Add a note...',
       source: '',
       isUser: false,
@@ -376,13 +379,13 @@ export default {
       showEditModal: false,
       selectedIngredient: {},
       ingNames: [],
-      dirToCheckAgainst: '',
       showAddSourceInput: false,
       validateURL: httpValidate,
       timesMade: 0,
       datesMade: [],
       lastMade: 0,
       directionsDone: 0,
+      hiddenIngredients: 0,
     };
   },
   methods: {
@@ -422,9 +425,6 @@ export default {
       } else {
         alert('Bad data. The order value must be a positive number greater than zero but no more than the number of existing directions.');
       }
-    },
-    checkMatches: function (dir: Direction): void {
-      this.dirToCheckAgainst = dir.details;
     },
     closeEditModal: function (): void {
       this.showEditModal = false;
@@ -514,21 +514,21 @@ export default {
     editSource: function (): void {
       this.showAddSourceInput = true;
     },
-    filterOutTargetRecipe: function (recipes: Array<Recipe>): void {
+    filterOutTargetRecipe: async function (recipes: Recipe[]): void {
       const targetId = this.id;
-      const target = recipes.filter((rec: Recipe) => {
-        return rec.id === targetId;
-      });
+      const target = recipes.filter((rec: Recipe) => rec.id === targetId);
       if (target) {
         this.title = target[0].title || '';
         this.image = target[0].image || 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
-        this.ingredients = sortIngredients(target[0].ingredients) || [];
-        this.directions = target[0].directions || [];
+        this.ingredients = await sortIngredients(target[0].ingredients) || [];
+        this.storedIngredients = this.ingredients;
+        this.directions = await target[0].directions || [];
         this.note = target[0].note || 'Add a note...';
         this.source = target[0].source || display.addSourceDefault;
         this.timesMade = target[0].timesMade || 0;
         this.datesMade = target[0].datesMade || [];
         this.targetRecipe = this.itemsRef.child(this.id);
+        this.computeDirsDone();
       }
       this.getIngredientTitles(this.ingredients);
     },
@@ -547,14 +547,18 @@ export default {
       }, display.timerStandard);
     },
     getIngredientTitles: function (ings: Array<Item>): void {
-      const names = flattenArr(ings);
-      this.ingNames = names;
+      this.ingNames = flattenArr(ings);
     },
     goHome: function (): void {
       this.$router.push('/');
     },
     hideAddSourceInput: function (): void {
       this.showAddSourceInput = false;
+    },
+    hideIngredient: function (_ingredient): void {
+      const { ingredientId } = _ingredient;
+      this.ingredients = this.ingredients.filter(i => i.ingredientId !== ingredientId);
+      this.hiddenIngredients++;
     },
     hideInputs: function (): void {
       this.showShowHideContainer = false;
@@ -672,6 +676,10 @@ export default {
       });
       this.showToast('Title updated.');
     },
+    showIngredients: function (): void {
+      this.ingredients = this.storedIngredients;
+      this.hiddenIngredients = 0;
+    },
     showInputs: function (): void {
       this.showShowHideContainer = true;
     },
@@ -711,10 +719,6 @@ export default {
         directions: this.directions,
       });
       this.computeDirsDone();
-    },
-    unHighlightAll: function (): void {
-      this.dirToCheckAgainst = '';
-      this.showToast('Cleared highlighted ingredients.');
     },
   },
   computed: {
@@ -823,6 +827,14 @@ export default {
   .source-output-link {
     display: block;
     margin: 20px auto;
+  }
+
+  .hidden-ingredients-pseudolink {
+    margin: 10px auto 60px;
+  }
+
+  .hidden-ingredients-pseudolink:hover {
+    cursor: pointer;
   }
 </style>
 

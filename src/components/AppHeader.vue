@@ -153,7 +153,7 @@ export default {
   margin-right: 15px;
 }
 
-.button.disabledButton {
+.button.disabledButton:disabled {
   background-color: #ffffff;
   border: none;
   color: #3c3ce5;
