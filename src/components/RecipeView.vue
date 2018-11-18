@@ -177,6 +177,7 @@
         <button
           class="button uncheck-all-button"
           v-on:click="uncheckAll"
+          :disabled="directionsDone === 0"
         >
           {{uncheckAllString}}
         </button>
@@ -193,6 +194,21 @@
         v-on:click="unHighlightAll"
         title="Unhighlight All"
       />
+      <p
+        v-if="directionsDone === 0"
+      >
+        No steps completed yet! Time to get cooking!
+      </p>
+      <p
+        v-else-if="directionsDone !== directions.length"
+      >
+        You have completed {{directionsDone}} / {{directions.length}} steps.
+      </p>
+      <p
+        v-else
+      >
+        Congrats! You have completed the recipe.
+      </p>
       <ol class="directions-list">
         <li
           class="direction-li"
@@ -366,6 +382,7 @@ export default {
       timesMade: 0,
       datesMade: [],
       lastMade: 0,
+      directionsDone: 0,
     };
   },
   methods: {
@@ -421,6 +438,9 @@ export default {
     },
     closeTimerModal: function (): void {
       this.showTimerModal = false;
+    },
+    computeDirsDone: function (): void {
+      this.directionsDone = this.directions.filter((dir: Direction) => dir.done === true).length;
     },
     decreaseTimesMade: function (): void {
       if (this.timesMade === 0) {
@@ -646,8 +666,7 @@ export default {
       this.showToast('Source updated.');
     },
     saveTitle: function (): void {
-      const text = document.querySelector('.recipe-view-headline').innerText;
-      this.title = text;
+      this.title = document.querySelector('.recipe-view-headline').innerText;
       this.targetRecipe.update({
         title: this.title,
       });
@@ -669,13 +688,12 @@ export default {
         this.toastMessage = '';
       }, display.timerStandard);
     },
-    toggleDone: function (dir: Direction): void {
+    toggleDone: async function (dir: Direction): void {
       const ind = this.directions.indexOf(dir);
       const newDir = { ...dir, done: !dir.done, id: Date.now().toString() };
       this.directions.splice(ind, 0, newDir);
-      this.directions = this.directions.filter((d: Direction) => {
-        return d.id !== dir.id;
-      });
+      this.directions = await this.directions.filter((d: Direction) => d.id !== dir.id);
+      this.computeDirsDone();
       this.targetRecipe.update({
         directions: this.directions,
       });
@@ -687,13 +705,12 @@ export default {
       this.showToast(`${ing.name} added to main list.`);
        /* eslint-enable prefer-template */
     },
-    uncheckAll: function (): void {
-      this.directions = this.directions.map((dir: Direction) => {
-        return Object.assign(dir, { done: false });
-      });
+    uncheckAll: async function (): void {
+      this.directions = await this.directions.map((dir: Direction) => Object.assign(dir, { done: false }));
       this.targetRecipe.update({
         directions: this.directions,
       });
+      this.computeDirsDone();
     },
     unHighlightAll: function (): void {
       this.dirToCheckAgainst = '';
@@ -709,12 +726,13 @@ export default {
       return moment(_date).format('MMMM Do YYYY, h:mm a');
     },
   },
-  mounted: function (): void {
+  mounted: async function (): void {
     if (this.$route) {
       this.id = this.$route.params.id;
-      this.initializeApp();
+      await this.initializeApp();
     }
     this.showLastMade();
+    this.computeDirsDone();
   },
 };
 </script>
