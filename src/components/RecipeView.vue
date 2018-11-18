@@ -121,7 +121,6 @@
         v-for="ingredient of ingredients"
         v-bind:key="ingredient.id"
         v-bind:ingredient="ingredient"
-        v-bind:dirToCheckAgainst=dirToCheckAgainst
         v-on:hideIngredient="hideIngredient"
         v-on:removeIngredient="removeIngredient"
         v-on:transferIngredient="transferIngredient"
@@ -203,12 +202,6 @@
         v-if="directions && directions.length > 0"
       >
       <h4>Directions:</h4>
-      <img
-        class="icon unhighlight-all-button"
-        src="../assets/eye-blocked.png"
-        v-on:click="unHighlightAll"
-        title="Unhighlight All"
-      />
       <p
         v-if="directionsDone === 0"
       >
@@ -265,12 +258,6 @@
             src="../assets/reorder.png"
             v-on:click="changeOrderForDir(direction)"
             title="Reorder Direction"
-          />
-          <img
-            class="icon check-matches-button"
-            src="../assets/eye.png"
-            v-on:click="checkMatches(direction)"
-            title="Check Matches"
           />
         </li>
       </ol>
@@ -392,7 +379,6 @@ export default {
       showEditModal: false,
       selectedIngredient: {},
       ingNames: [],
-      dirToCheckAgainst: '',
       showAddSourceInput: false,
       validateURL: httpValidate,
       timesMade: 0,
@@ -439,9 +425,6 @@ export default {
       } else {
         alert('Bad data. The order value must be a positive number greater than zero but no more than the number of existing directions.');
       }
-    },
-    checkMatches: function (dir: Direction): void {
-      this.dirToCheckAgainst = dir.details;
     },
     closeEditModal: function (): void {
       this.showEditModal = false;
@@ -736,10 +719,6 @@ export default {
         directions: this.directions,
       });
       this.computeDirsDone();
-    },
-    unHighlightAll: function (): void {
-      this.dirToCheckAgainst = '';
-      this.showToast('Cleared highlighted ingredients.');
     },
   },
   computed: {
