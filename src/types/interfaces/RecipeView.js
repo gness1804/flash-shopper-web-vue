@@ -30,7 +30,6 @@ export interface RecipeViewInt extends AuthInt, CoreFBDataInt, ToastInt {
   showEditModal: boolean,
   selectedIngredient: Item,
   ingNames: Item[],
-  dirToCheckAgainst: string,
   showAddSourceInput: boolean,
   validateURL: () => boolean,
   timesMade: number,
