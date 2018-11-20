@@ -34,38 +34,16 @@
         class="text-input-field"
         list="names"
       />
-      <datalist
-        id="names"
-        v-if="names.length > 0"
-      >
-        <option
-          v-for="name in removeDuplicates(names)"
-          v-bind:key="name.id"
-          v-bind:value="name"
-        >
-          {{name}}
-        </option>
-      </datalist>
-      <select
-        v-if="isSafari && names.length > 0"
-        v-model="name"
-        class="safari-dropdown"
-      >
-        <option
-          disabled
-          value=""
-        >
-          Select a name
-        </option>
-        <option
-          v-for="name in removeDuplicates(names)"
-          v-bind:key="name.id"
-          v-bind:value="name"
-          class="safari-dropdown-item"
-        >
-          {{name}}
-        </option>
-      </select>
+      <NamesSelector
+        :names="names"
+        :remove-duplicates="removeDuplicates(names)"
+      />
+      <NamesSelectorSafari
+        :is-safari="isSafari"
+        :name="name"
+        :names="names"
+        :remove-duplicates="removeDuplicates(names)"
+      />
       <input
         type="text"
         placeholder="Aisle"
@@ -161,6 +139,8 @@
 
 import NoItems from './NoItems';
 import EachItemContainer from './EachItemContainer';
+import NamesSelector from './NamesSelector';
+import NamesSelectorSafari from './NamesSelectorSafari';
 import Item from '../models/Item';
 import thereAreItemsInCart from '../helpers/thereAreItemsInCart';
 import filterOutDuplicates from '../helpers/filterOutDuplicates';
@@ -174,6 +154,8 @@ import { AuthedMainInt } from '../types/interfaces/AuthedMain';
 export default {
   name: 'AuthedMain',
   components: {
+    NamesSelectorSafari,
+    NamesSelector,
     NoItems,
     EachItemContainer,
   },
@@ -348,10 +330,6 @@ export default {
   .upper-icon {
     height: 40px;
     width: 40px;
-  }
-
-  .safari-dropdown {
-    margin-bottom: 30px;
   }
 
   @media (max-width: 500px) {
