@@ -2,8 +2,8 @@
   <label>
     <select
       v-if="isSafari && names.length > 0"
-      v-model="name"
       class="safari-dropdown"
+      @change="onSelectName"
     >
       <option
         disabled
@@ -17,7 +17,7 @@
         v-bind:value="name"
         class="safari-dropdown-item"
       >
-          {{name}}
+        {{name}}
       </option>
     </select>
   </label>
@@ -43,16 +43,17 @@
         required: true,
       },
     },
+    methods: {
+      onSelectName: function (e): void {
+        this.$emit('selectNameSafari', e.target.value);
+      },
+    },
   };
 </script>
 <style scoped>
 
-    .safari-dropdown {
-        margin-bottom: 30px;
-    }
-
-    @media (max-width: 500px) {
-
-    }
+  .safari-dropdown {
+    margin-bottom: 30px;
+  }
 
 </style>
