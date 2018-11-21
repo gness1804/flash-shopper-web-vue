@@ -363,7 +363,7 @@ export default {
   }
 
   .auto-populate-label:hover,
-  .auto-populate-label input:hover{
+  .auto-populate-label input:hover {
     cursor: pointer;
   }
 
