@@ -47,6 +47,7 @@
       />
       <label
         for="populate"
+        class="auto-populate-label"
       >
         Auto Populate Aisle
         <input
@@ -354,6 +355,16 @@ export default {
   .upper-icon {
     height: 40px;
     width: 40px;
+  }
+
+  .auto-populate-label {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .auto-populate-label:hover,
+  .auto-populate-label input:hover{
+    cursor: pointer;
   }
 
   @media (max-width: 500px) {
