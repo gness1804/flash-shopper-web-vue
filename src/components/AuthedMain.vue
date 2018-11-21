@@ -269,9 +269,10 @@ export default {
       const aisle = this.pantryShortItems.filter(i => i.name === name)[0].aisle;
       if (aisle) {
         this.aisle = aisle;
+        this.showToast('Populated aisle number from pantry list.');
       }
     },
-    removeDuplicates: function (arr: Array<string>): Array<string> {
+    removeDuplicates: function (arr: string[]): string[] {
       return filterOutDuplicates(arr);
     },
     removeItem: function (_item: Item): void {
