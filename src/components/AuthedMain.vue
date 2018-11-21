@@ -52,7 +52,7 @@
         <input
           type="checkbox"
           id="populate"
-          v-model="autoPopulateAisle"
+          v-model="isAisleAutoPopulated"
         />
       </label>
       <input
@@ -203,7 +203,7 @@ export default {
       sortAlphaString: buttonStrings.sortAlpha,
       sortAisleString: buttonStrings.sortAisle,
       isSafari: false,
-      autoPopulateAisle: false,
+      isAisleAutoPopulated: false,
     };
   },
   methods: {
@@ -264,6 +264,12 @@ export default {
       this.error = false;
       this.errorMssg = '';
     },
+    populateAisle: function (name): void {
+      const aisle = this.pantryShortItems.filter(i => i.name === name)[0].aisle;
+      if (aisle) {
+        this.aisle = aisle;
+      }
+    },
     removeDuplicates: function (arr: Array<string>): Array<string> {
       return filterOutDuplicates(arr);
     },
@@ -279,11 +285,8 @@ export default {
     },
     selectNameSafari: function (name: string): void {
       this.name = name;
-      if (this.autoPopulateAisle) {
-        const aisle = this.pantryShortItems.filter(i => i.name === name)[0].aisle;
-        if (aisle) {
-          this.aisle = aisle;
-        }
+      if (this.isAisleAutoPopulated) {
+        this.populateAisle(name);
       }
     },
     showToast: function (message: string): void {
