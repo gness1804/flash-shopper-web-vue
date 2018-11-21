@@ -84,13 +84,16 @@ export default {
       this.isInMainList = true;
       this.isButtonDisabled = true;
     },
-    transferItemToMainList: function (): void {
-      this.$emit('transferItemToMainList', this.item);
+    setTempHighlighting: function (): void {
       this.isHighlighted = true;
       this.setDisabledState();
       setTimeout(() => {
         this.isHighlighted = false;
       }, display.timerStandard);
+    },
+    transferItemToMainList: function (): void {
+      this.$emit('transferItemToMainList', this.item);
+      this.setTempHighlighting();
     },
     viewEditModal: function (): void {
       this.$emit('viewEditModal', this.item);
