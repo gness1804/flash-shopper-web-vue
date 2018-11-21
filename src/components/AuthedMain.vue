@@ -218,9 +218,13 @@ export default {
         this.triggerErrorState('Error: the link must be a valid website link. Please try again.');
         return;
       }
+      // success state
       this.resetInputFields();
       const it = new Item({ name, aisle, note, quantity, link });
       this.$emit('addItem', it);
+      if (aisle) {
+        // add object with name and aisle to localStorage list
+      }
     },
     addToAPN: function (_item: Item): void {
       this.$emit('addToAPN', _item);
@@ -291,6 +295,11 @@ export default {
         this.populateAisle(name);
       }
     },
+    setNames: function (): void {
+      setTimeout(() => {
+        this.names = flattenArr(this.pantryShortItems);
+      }, display.timerStandard);
+    },
     showToast: function (message: string): void {
       this.$emit('showToast', message);
     },
@@ -313,9 +322,7 @@ export default {
   },
   mounted: function (): void {
     this.detectBrowser();
-    setTimeout(() => {
-      this.names = flattenArr(this.pantryShortItems);
-    }, display.timerStandard);
+    this.setNames();
   },
 };
 </script>
