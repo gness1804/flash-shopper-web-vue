@@ -268,12 +268,10 @@ export default {
     },
     selectNameSafari: function (name: string): void {
       this.name = name;
-      // if user has selected to use smart aisle matching,
-      // the selected name here should be used to filter the
-      // pantryShortItems array to find the one with matching name.
-      // Then, find the value of the 'aisle' property,
-      // and finally, populate that as 'this.aisle'.
-      // If no aisle, simply return and do not populate anything in this.aisle.
+      const aisle = this.pantryShortItems.filter(i => i.name === name)[0].aisle;
+      if (aisle) {
+        this.aisle = aisle;
+      }
     },
     showToast: function (message: string): void {
       this.$emit('showToast', message);
