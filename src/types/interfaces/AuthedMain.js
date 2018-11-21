@@ -19,4 +19,5 @@ export interface AuthedMainInt {
   sortAisleString: string,
   isSafari: boolean,
   isAisleAutoPopulated: boolean,
+  recentSearches: Object[],
 }

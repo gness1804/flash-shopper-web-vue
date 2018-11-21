@@ -206,10 +206,11 @@ export default {
       sortAisleString: buttonStrings.sortAisle,
       isSafari: false,
       isAisleAutoPopulated: false,
+      recentSearches: [],
     };
   },
   methods: {
-    addItem: function (): void {
+    addItem: async function (): void {
       const { name, aisle, note, quantity, link } = this;
       if (!name) {
         this.triggerErrorState('Oops! Your item needs at least a name to be valid. Please try again.');
@@ -225,6 +226,11 @@ export default {
       this.$emit('addItem', it);
       if (aisle) {
         // add object with name and aisle to localStorage list
+        await this.recentSearches.push({
+          name,
+          aisle,
+        });
+        localStorage.setItem('fsRecentSearches', JSON.stringify(this.recentSearches));
       }
     },
     addToAPN: function (_item: Item): void {
@@ -272,7 +278,11 @@ export default {
       this.$router.push('/recipes');
     },
     initLocalStorage: function (): void {
-      // sets up local storage
+      if (localStorage.getItem('fsRecentSearches')) {
+        this.recentSearches = JSON.parse(localStorage.getItem('fsRecentSearches'));
+      } else {
+        localStorage.setItem('fsRecentSearches', JSON.stringify([]));
+      }
     },
     makeErrorFalse: function (): void {
       this.error = false;
