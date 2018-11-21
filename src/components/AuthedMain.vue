@@ -30,6 +30,7 @@
         type="text"
         placeholder="Name"
         @input="makeErrorFalse"
+        @blur="checkAisle"
         v-model="name"
         class="text-input-field"
         list="names"
@@ -235,6 +236,11 @@ export default {
     addToInstacart: function (_item: Item): void {
       this.$emit('addToInstacart', _item);
     },
+    checkAisle: function (): void {
+      if (this.isAisleAutoPopulated) {
+        this.populateAisle(this.name);
+      }
+    },
     completeAllInCart: function (): void {
       const warning = confirm('Are you sure you want to mark ALL the items in your cart as completed?');
       if (warning) {
@@ -265,16 +271,22 @@ export default {
     goToRecipes: function (): void {
       this.$router.push('/recipes');
     },
+    initLocalStorage: function (): void {
+      // sets up local storage
+    },
     makeErrorFalse: function (): void {
       this.error = false;
       this.errorMssg = '';
     },
     populateAisle: function (name): void {
-      const aisle = this.pantryShortItems.filter(i => i.name === name)[0].aisle;
-      if (aisle) {
+      // first, see if aisle exists with pantry item
+      const item = this.pantryShortItems.filter(i => i.name === name)[0];
+      const aisle = item ? item.aisle : undefined;
+      if (item && aisle) {
         this.aisle = aisle;
         this.showToast('Populated aisle number from pantry list.');
       }
+      // else: try to get matching name and aisle from localStorage
     },
     removeDuplicates: function (arr: string[]): string[] {
       return filterOutDuplicates(arr);
@@ -323,6 +335,7 @@ export default {
   mounted: function (): void {
     this.detectBrowser();
     this.setNames();
+    this.initLocalStorage();
   },
 };
 </script>
