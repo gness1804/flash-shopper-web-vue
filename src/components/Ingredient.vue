@@ -2,6 +2,7 @@
   <div class="ingredient">
     <div
       class="container"
+      v-bind:class="{ highlighted: isHighlighted }"
     >
       <p
         class="ingredient-quantity"
@@ -39,7 +40,8 @@
 
 <script>
 // @flow
-// import { IngredientInt } from '../types/interfaces/Ingredient';
+import { IngredientInt } from '../types/interfaces/Ingredient';
+import display from '../helpers/displayVars';
 
 export default {
   name: 'Ingredient',
@@ -49,9 +51,15 @@ export default {
       required: true,
     },
   },
+  data(): IngredientInt {
+    return {
+      isHighlighted: false,
+    };
+  },
   methods: {
     addIngredient: function (): void {
       this.$emit('transferIngredient', this.ingredient);
+      this.setTempHighlighting();
     },
     hideIngredient: function (): void {
       this.$emit('hideIngredient', this.ingredient);
@@ -64,6 +72,12 @@ export default {
       if (warning) {
         this.$emit('removeIngredient', this.ingredient);
       }
+    },
+    setTempHighlighting: function (): void {
+      this.isHighlighted = true;
+      setTimeout(() => {
+        this.isHighlighted = false;
+      }, display.timerStandard);
     },
     showToast: function (message: string): void {
       this.$emit('showToast', message);
@@ -89,6 +103,11 @@ export default {
 
   .ingredient-name {
     margin-right: 10px;
+  }
+
+  .highlighted {
+    border: 2px solid #f00;
+    background-color: #C56415;
   }
 </style>
 
