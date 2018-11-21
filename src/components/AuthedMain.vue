@@ -45,6 +45,16 @@
         :remove-duplicates="removeDuplicates(names)"
         v-on:selectNameSafari="selectNameSafari"
       />
+      <label
+        for="populate"
+      >
+        Auto Populate Aisle
+        <input
+          type="checkbox"
+          id="populate"
+          v-model="autoPopulateAisle"
+        />
+      </label>
       <input
         type="text"
         placeholder="Aisle"
@@ -193,6 +203,7 @@ export default {
       sortAlphaString: buttonStrings.sortAlpha,
       sortAisleString: buttonStrings.sortAisle,
       isSafari: false,
+      autoPopulateAisle: false,
     };
   },
   methods: {
@@ -268,9 +279,11 @@ export default {
     },
     selectNameSafari: function (name: string): void {
       this.name = name;
-      const aisle = this.pantryShortItems.filter(i => i.name === name)[0].aisle;
-      if (aisle) {
-        this.aisle = aisle;
+      if (this.autoPopulateAisle) {
+        const aisle = this.pantryShortItems.filter(i => i.name === name)[0].aisle;
+        if (aisle) {
+          this.aisle = aisle;
+        }
       }
     },
     showToast: function (message: string): void {
