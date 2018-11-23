@@ -151,13 +151,15 @@
 <script>
 // @flow
 
+import { v4 } from 'uuid';
 import NoItems from './NoItems';
 import EachItemContainer from './EachItemContainer';
 import NamesSelector from './NamesSelector';
 import NamesSelectorSafari from './NamesSelectorSafari';
 import Item from '../models/Item';
+// import ShortItem from '../models/ShortItem';
 import thereAreItemsInCart from '../helpers/thereAreItemsInCart';
-import filterOutDuplicates from '../helpers/filterOutDuplicates';
+import { filterOutDuplicateNames, filteroutDuplicateRecentItems } from '../helpers/filterOutDuplicates';
 import flattenArr from '../helpers/flattenArr';
 import buttonStrings from '../helpers/buttonStrings';
 import browserMatches from '../helpers/browserMatches';
@@ -223,11 +225,20 @@ export default {
       }
       // success state
       this.resetInputFields();
-      const it = new Item({ name, aisle, note, quantity, link });
+      const it = new Item({
+        name,
+        aisle,
+        note,
+        quantity,
+        link,
+      });
       this.$emit('addItem', it);
       if (aisle) {
+        // filter out duplicates from localStorage list
+        this.recentSearches = await filteroutDuplicateRecentItems(name, this.recentSearches);
         // add object with name and aisle to localStorage list
         await this.recentSearches.push({
+          id: v4(),
           name,
           aisle,
         });
@@ -305,7 +316,7 @@ export default {
       }
     },
     removeDuplicates: function (arr: string[]): string[] {
-      return filterOutDuplicates(arr);
+      return filterOutDuplicateNames(arr);
     },
     removeItem: function (_item: Item): void {
       this.$emit('removeItem', _item);

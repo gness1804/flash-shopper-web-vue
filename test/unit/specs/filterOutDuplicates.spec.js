@@ -1,15 +1,20 @@
 import { assert } from 'chai';
-import filterOutDuplicates from '../../../src/helpers/filterOutDuplicates';
+import { filterOutDuplicateNames } from '../../../src/helpers/filterOutDuplicates';
 
 describe('filterOutDuplicates', () => {
   const names = ['andouille sausage', 'jambalaya rice', 'clams', 'butter', 'clams', 'eggs'];
 
   it('should be a function', () => {
-    assert.isFunction(filterOutDuplicates);
+    assert.isFunction(filterOutDuplicateNames);
   });
 
   it('should return the expected value', () => {
     const expectedValue = ['andouille sausage', 'butter', 'clams', 'eggs', 'jambalaya rice'];
-    assert.deepEqual(filterOutDuplicates(names), expectedValue);
+    assert.deepEqual(filterOutDuplicateNames(names), expectedValue);
+  });
+
+  it('should return an empty array if the input has no length.', () => {
+    const expectedValue = [];
+    assert.deepEqual(filterOutDuplicateNames([]), expectedValue);
   });
 });
