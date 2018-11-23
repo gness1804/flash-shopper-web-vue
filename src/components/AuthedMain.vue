@@ -289,20 +289,18 @@ export default {
       this.errorMssg = '';
     },
     populateAisle: function (name): void {
-      // first, see if aisle exists with pantry item
       const pantryItem = this.pantryShortItems.filter(i => i.name === name)[0];
       const pantryAisle = pantryItem ? pantryItem.aisle : undefined;
+      const recentSearchesItem = this.recentSearches.filter(i => i.name === name)[0];
+      const recentSearchesAisle = recentSearchesItem ? recentSearchesItem.aisle : undefined;
       if (pantryItem && pantryAisle) {
         this.aisle = pantryAisle;
         this.showToast('Populated aisle number from pantry list.');
+      } else if (recentSearchesItem && recentSearchesAisle) {
+        this.aisle = recentSearchesAisle;
+        this.showToast('Populated aisle number from recent searches.');
       } else {
-      // else: try to get matching name and aisle from localStorage
-        const recentSearchesItem = this.recentSearches.filter(i => i.name === name)[0];
-        const recentSearchesAisle = recentSearchesItem ? recentSearchesItem.aisle : undefined;
-        if (recentSearchesItem && recentSearchesAisle) {
-          this.aisle = recentSearchesAisle;
-          this.showToast('Populated aisle number from recent searches.');
-        }
+        this.aisle = '';
       }
     },
     removeDuplicates: function (arr: string[]): string[] {
