@@ -55,6 +55,7 @@
           type="checkbox"
           id="populate"
           v-model="isAisleAutoPopulated"
+          checked
         />
       </label>
       <input
@@ -205,7 +206,7 @@ export default {
       sortAlphaString: buttonStrings.sortAlpha,
       sortAisleString: buttonStrings.sortAisle,
       isSafari: false,
-      isAisleAutoPopulated: false,
+      isAisleAutoPopulated: true,
       recentSearches: [],
     };
   },
