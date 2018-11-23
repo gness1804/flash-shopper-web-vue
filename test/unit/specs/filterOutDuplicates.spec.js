@@ -1,5 +1,8 @@
 import { assert } from 'chai';
-import { filterOutDuplicateNames } from '../../../src/helpers/filterOutDuplicates';
+import {
+  filterOutDuplicateNames,
+  filteroutDuplicateRecentItems,
+} from '../../../src/helpers/filterOutDuplicates';
 
 describe('filterOutDuplicates', () => {
   const names = ['andouille sausage', 'jambalaya rice', 'clams', 'butter', 'clams', 'eggs'];
@@ -16,5 +19,45 @@ describe('filterOutDuplicates', () => {
   it('should return an empty array if the input has no length.', () => {
     const expectedValue = [];
     assert.deepEqual(filterOutDuplicateNames([]), expectedValue);
+  });
+});
+
+describe('filteroutDuplicateRecentItems.', () => {
+  const items = [
+    {
+      id: '1',
+      name: 'Hot dogs',
+      aisle: '2',
+    },
+    {
+      id: '2',
+      name: 'Apples',
+      aisle: '0.5',
+    },
+    {
+      id: '3',
+      name: 'Bottled water',
+      aisle: '10',
+    },
+  ];
+
+  it('should be a function.', () => {
+    assert.isFunction(filteroutDuplicateRecentItems);
+  });
+
+  it('should filter out the name of item entered.', () => {
+    const expectedValue = [
+      {
+        id: '1',
+        name: 'Hot dogs',
+        aisle: '2',
+      },
+      {
+        id: '3',
+        name: 'Bottled water',
+        aisle: '10',
+      },
+    ];
+    assert.deepEqual(filteroutDuplicateRecentItems('Apples', items), expectedValue);
   });
 });
