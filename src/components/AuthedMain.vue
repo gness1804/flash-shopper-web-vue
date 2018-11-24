@@ -157,7 +157,7 @@ import EachItemContainer from './EachItemContainer';
 import NamesSelector from './NamesSelector';
 import NamesSelectorSafari from './NamesSelectorSafari';
 import Item from '../models/Item';
-// import ShortItem from '../models/ShortItem';
+import ShortItem from '../models/ShortItem';
 import thereAreItemsInCart from '../helpers/thereAreItemsInCart';
 import { filterOutDuplicateNames, filteroutDuplicateRecentItems } from '../helpers/filterOutDuplicates';
 import flattenArr from '../helpers/flattenArr';
@@ -237,11 +237,8 @@ export default {
         // filter out duplicates from localStorage list
         this.recentSearches = await filteroutDuplicateRecentItems(name, this.recentSearches);
         // add object with name and aisle to localStorage list
-        await this.recentSearches.push({
-          id: v4(),
-          name,
-          aisle,
-        });
+        const _it = new ShortItem(v4(), name, aisle);
+        await this.recentSearches.push(_it);
         localStorage.setItem('fsRecentSearches', JSON.stringify(this.recentSearches));
       }
     },
