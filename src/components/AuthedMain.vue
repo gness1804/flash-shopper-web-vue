@@ -286,9 +286,9 @@ export default {
     goToRecipes: function (): void {
       this.$router.push('/recipes');
     },
-    initLocalStorage: function (): void {
+    initLocalStorage: async function (): void {
       if (localStorage.getItem('fsRecentSearches')) {
-        this.recentSearches = JSON.parse(localStorage.getItem('fsRecentSearches'));
+        this.recentSearches = await JSON.parse(localStorage.getItem('fsRecentSearches'));
       } else {
         localStorage.setItem('fsRecentSearches', JSON.stringify([]));
       }
@@ -356,10 +356,10 @@ export default {
       this.errorMssg = message;
     },
   },
-  mounted: function (): void {
-    this.detectBrowser();
-    this.setNames();
-    this.initLocalStorage();
+  mounted: async function (): void {
+    await this.detectBrowser();
+    await this.setNames();
+    await this.initLocalStorage();
   },
 };
 </script>
