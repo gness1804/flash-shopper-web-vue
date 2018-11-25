@@ -127,6 +127,7 @@ export default {
           newArr.push({
             name: item.val().name,
             id: item.key,
+            aisle: item.val().aisle,
           });
         });
         this.pantryShortItems = newArr;
