@@ -30,42 +30,34 @@
         type="text"
         placeholder="Name"
         @input="makeErrorFalse"
+        @blur="checkAisle"
         v-model="name"
         class="text-input-field"
         list="names"
       />
-      <datalist
-        id="names"
-        v-if="names.length > 0"
+      <NamesSelector
+        :names="names"
+        :remove-duplicates="removeDuplicates(names)"
+      />
+      <NamesSelectorSafari
+        :is-safari="isSafari"
+        :name="name"
+        :names="names"
+        :remove-duplicates="removeDuplicates(names)"
+        v-on:selectNameSafari="selectNameSafari"
+      />
+      <label
+        for="populate"
+        class="auto-populate-label"
       >
-        <option
-          v-for="name in removeDuplicates(names)"
-          v-bind:key="name.id"
-          v-bind:value="name"
-        >
-          {{name}}
-        </option>
-      </datalist>
-      <select
-        v-if="isSafari && names.length > 0"
-        v-model="name"
-        class="safari-dropdown"
-      >
-        <option
-          disabled
-          value=""
-        >
-          Select a name
-        </option>
-        <option
-          v-for="name in removeDuplicates(names)"
-          v-bind:key="name.id"
-          v-bind:value="name"
-          class="safari-dropdown-item"
-        >
-          {{name}}
-        </option>
-      </select>
+        Auto Populate Aisle
+        <input
+          type="checkbox"
+          id="populate"
+          v-model="isAisleAutoPopulated"
+          checked
+        />
+      </label>
       <input
         type="text"
         placeholder="Aisle"
@@ -159,11 +151,15 @@
 <script>
 // @flow
 
+import { v4 } from 'uuid';
 import NoItems from './NoItems';
 import EachItemContainer from './EachItemContainer';
+import NamesSelector from './NamesSelector';
+import NamesSelectorSafari from './NamesSelectorSafari';
 import Item from '../models/Item';
+import ShortItem from '../models/ShortItem';
 import thereAreItemsInCart from '../helpers/thereAreItemsInCart';
-import filterOutDuplicates from '../helpers/filterOutDuplicates';
+import { filterOutDuplicateNames, filteroutDuplicateRecentItems } from '../helpers/filterOutDuplicates';
 import flattenArr from '../helpers/flattenArr';
 import buttonStrings from '../helpers/buttonStrings';
 import browserMatches from '../helpers/browserMatches';
@@ -174,6 +170,8 @@ import { AuthedMainInt } from '../types/interfaces/AuthedMain';
 export default {
   name: 'AuthedMain',
   components: {
+    NamesSelectorSafari,
+    NamesSelector,
     NoItems,
     EachItemContainer,
   },
@@ -210,10 +208,12 @@ export default {
       sortAlphaString: buttonStrings.sortAlpha,
       sortAisleString: buttonStrings.sortAisle,
       isSafari: false,
+      isAisleAutoPopulated: true,
+      recentSearches: [],
     };
   },
   methods: {
-    addItem: function (): void {
+    addItem: async function (): void {
       const { name, aisle, note, quantity, link } = this;
       if (!name) {
         this.triggerErrorState('Oops! Your item needs at least a name to be valid. Please try again.');
@@ -223,9 +223,24 @@ export default {
         this.triggerErrorState('Error: the link must be a valid website link. Please try again.');
         return;
       }
+      // success state
       this.resetInputFields();
-      const it = new Item({ name, aisle, note, quantity, link });
+      const it = new Item({
+        name,
+        aisle,
+        note,
+        quantity,
+        link,
+      });
       this.$emit('addItem', it);
+      if (aisle) {
+        // filter out duplicates from localStorage list
+        this.recentSearches = await filteroutDuplicateRecentItems(name, this.recentSearches);
+        // add object with name and aisle to localStorage list
+        const _it = new ShortItem(v4(), name, aisle);
+        await this.recentSearches.push(_it);
+        localStorage.setItem('fsRecentSearches', JSON.stringify(this.recentSearches));
+      }
     },
     addToAPN: function (_item: Item): void {
       this.$emit('addToAPN', _item);
@@ -235,6 +250,11 @@ export default {
     },
     addToInstacart: function (_item: Item): void {
       this.$emit('addToInstacart', _item);
+    },
+    checkAisle: function (): void {
+      if (this.isAisleAutoPopulated) {
+        this.populateAisle(this.name);
+      }
     },
     completeAllInCart: function (): void {
       const warning = confirm('Are you sure you want to mark ALL the items in your cart as completed?');
@@ -266,12 +286,34 @@ export default {
     goToRecipes: function (): void {
       this.$router.push('/recipes');
     },
+    initLocalStorage: async function (): void {
+      if (localStorage.getItem('fsRecentSearches')) {
+        this.recentSearches = await JSON.parse(localStorage.getItem('fsRecentSearches'));
+      } else {
+        localStorage.setItem('fsRecentSearches', JSON.stringify([]));
+      }
+    },
     makeErrorFalse: function (): void {
       this.error = false;
       this.errorMssg = '';
     },
-    removeDuplicates: function (arr: Array<string>): Array<string> {
-      return filterOutDuplicates(arr);
+    populateAisle: function (name): void {
+      const pantryItem = this.pantryShortItems.filter(i => i.name === name)[0];
+      const pantryAisle = pantryItem ? pantryItem.aisle : undefined;
+      const recentSearchesItem = this.recentSearches.filter(i => i.name === name)[0];
+      const recentSearchesAisle = recentSearchesItem ? recentSearchesItem.aisle : undefined;
+      if (pantryItem && pantryAisle) {
+        this.aisle = pantryAisle;
+        this.showToast('Populated aisle number from pantry list.');
+      } else if (recentSearchesItem && recentSearchesAisle) {
+        this.aisle = recentSearchesAisle;
+        this.showToast('Populated aisle number from recent searches.');
+      } else {
+        this.aisle = '';
+      }
+    },
+    removeDuplicates: function (arr: string[]): string[] {
+      return filterOutDuplicateNames(arr);
     },
     removeItem: function (_item: Item): void {
       this.$emit('removeItem', _item);
@@ -282,6 +324,17 @@ export default {
       this.note = '';
       this.quantity = '';
       this.link = '';
+    },
+    selectNameSafari: function (name: string): void {
+      this.name = name;
+      if (this.isAisleAutoPopulated) {
+        this.populateAisle(name);
+      }
+    },
+    setNames: function (): void {
+      setTimeout(() => {
+        this.names = flattenArr(this.pantryShortItems);
+      }, display.timerStandard);
     },
     showToast: function (message: string): void {
       this.$emit('showToast', message);
@@ -303,11 +356,10 @@ export default {
       this.errorMssg = message;
     },
   },
-  mounted: function (): void {
-    this.detectBrowser();
-    setTimeout(() => {
-      this.names = flattenArr(this.pantryShortItems);
-    }, display.timerStandard);
+  mounted: async function (): void {
+    await this.detectBrowser();
+    await this.setNames();
+    await this.initLocalStorage();
   },
 };
 </script>
@@ -350,8 +402,14 @@ export default {
     width: 40px;
   }
 
-  .safari-dropdown {
-    margin-bottom: 30px;
+  .auto-populate-label {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .auto-populate-label:hover,
+  .auto-populate-label input:hover {
+    cursor: pointer;
   }
 
   @media (max-width: 500px) {
