@@ -54,6 +54,7 @@ export default {
   data(): IngredientInt {
     return {
       isHighlighted: false,
+      isCompleted: false,
     };
   },
   methods: {

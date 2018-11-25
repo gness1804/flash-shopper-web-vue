@@ -556,6 +556,10 @@ export default {
       this.showAddSourceInput = false;
     },
     hideIngredient: function (_ingredient): void {
+      // toggle the isCompleted property of the target ingredient
+      // update the database
+      // on Ingredient.vue, add a CSS class that activates if isCompleted is true
+      // this.hiddenIngredients should be refactored to count the # of isCompleted ingredients
       const { ingredientId } = _ingredient;
       this.ingredients = this.ingredients.filter(i => i.ingredientId !== ingredientId);
       this.hiddenIngredients++;
@@ -632,9 +636,7 @@ export default {
       }
     },
     removeIngredient: function (ingredient: Item): void {
-      this.ingredients = this.ingredients.filter((i: Item) => {
-        return i.ingredientId !== ingredient.ingredientId;
-      });
+      this.ingredients = this.ingredients.filter((i: Item) => i.ingredientId !== ingredient.ingredientId);
       this.targetRecipe.update({
         ingredients: this.ingredients,
       });
