@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import { mount } from 'avoriaz';
+import { assert } from 'chai';
 import AuthedMain from '@/components/AuthedMain';
 import items from '../helpers/FakeItemsArray';
 import pantryItems from '../helpers/FakePantryShortItems';
@@ -76,6 +77,24 @@ describe('AuthedMain.vue', () => {
     const button = component.find('.delete-all-items-button')[0];
     button.trigger('click');
     expect(deleteAllItems.calledOnce).to.equal(true);
+  });
+
+  it('The search HEB name button should trigger the addToHEB method.', () => {
+    const component = mount(AuthedMain, { propsData });
+    const addToHEB = sinon.stub();
+    component.setMethods({ addToHEB });
+    component.setData({ name: 'apples' });
+    const button = component.find('.search-heb-button')[0];
+    button.trigger('click');
+    sinon.assert.calledOnce(addToHEB);
+    addToHEB.resetHistory();
+  });
+
+  it('The search HEB name button should be disabled if there is no name.', () => {
+    const component = mount(AuthedMain, { propsData });
+    component.setData({ name: '' });
+    const button = component.find('.search-heb-button[disabled]')[0];
+    assert.isDefined(button);
   });
 
   it('should trigger the complete all items in cart method if user clicks on the complete all items in cart button', () => {

@@ -95,9 +95,11 @@ export default {
         '_blank',
       );
     },
-    addToHEB: function (_item: Item): void {
+    addToHEB: function (_item: Item | string): void {
+      const searchStr: string = typeof _item === 'object' ? _item.name : _item;
+
       window.open(
-        `https://www.heb.com/search/?q=${_item.name}`,
+        `https://www.heb.com/search/?q=${searchStr}`,
         '_blank',
       );
     },
