@@ -43,6 +43,7 @@
         <img
           class="heb-icon-name-search"
           src="../assets/heb-icon.png"
+          title="Search HEB"
         />
       </button>
       <NamesSelector
@@ -423,11 +424,15 @@ export default {
   }
 
   .search-heb-button {
-
+    margin: 20px auto;
   }
 
   .search-heb-button:disabled {
     opacity: 0.5;
+  }
+
+  .heb-icon-name-search {
+    height: 40px;
   }
 
   @media (max-width: 500px) {
