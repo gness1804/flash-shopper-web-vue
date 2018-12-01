@@ -78,6 +78,17 @@ describe('AuthedMain.vue', () => {
     expect(deleteAllItems.calledOnce).to.equal(true);
   });
 
+  it('The search HEB name button should trigger the addToHEB method.', () => {
+    const component = mount(AuthedMain, { propsData });
+    const addToHEB = sinon.stub();
+    component.setMethods({ addToHEB });
+    component.setData({ name: 'apples' });
+    const button = component.find('.search-heb-button')[0];
+    button.trigger('click');
+    sinon.assert.calledOnce(addToHEB);
+    addToHEB.resetHistory();
+  });
+
   it('should trigger the complete all items in cart method if user clicks on the complete all items in cart button', () => {
     const component = mount(AuthedMain, { propsData });
     const completeAllInCart = sinon.stub();
