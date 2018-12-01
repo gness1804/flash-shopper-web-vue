@@ -35,6 +35,16 @@
         class="text-input-field"
         list="names"
       />
+      <button
+        v-bind:disabled="!name"
+        v-on:click="addToHEB(name)"
+        class="blank-button search-heb-button"
+      >
+        <img
+          class="heb-icon-name-search"
+          src="../assets/heb-icon.png"
+        />
+      </button>
       <NamesSelector
         :names="names"
         :remove-duplicates="removeDuplicates(names)"
@@ -245,7 +255,7 @@ export default {
     addToAPN: function (_item: Item): void {
       this.$emit('addToAPN', _item);
     },
-    addToHEB: function (_item: Item): void {
+    addToHEB: function (_item: Item | string): void {
       this.$emit('addToHEB', _item);
     },
     addToInstacart: function (_item: Item): void {
@@ -410,6 +420,14 @@ export default {
   .auto-populate-label:hover,
   .auto-populate-label input:hover {
     cursor: pointer;
+  }
+
+  .search-heb-button {
+
+  }
+
+  .search-heb-button:disabled {
+    opacity: 0.5;
   }
 
   @media (max-width: 500px) {
