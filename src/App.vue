@@ -179,13 +179,6 @@ export default {
     logOut: function (): void {
       logOut();
     },
-    pingSite: function (): void {
-      if (process.env.NODE_ENV === 'production') {
-        setInterval(() => {
-          http.get('https://flash-shopper-web.herokuapp.com');
-        }, 300000); // every 5 minutes (300000)
-      }
-    },
     removeItem: function (_item: Item): void {
       this.itemsRef.child(_item.id).remove();
       this.showToast(`Removed ${_item.name} from your list.`);
@@ -233,8 +226,6 @@ export default {
     } else {
       this.sortPref = 'alpha';
     }
-    // ping the app every five minutes to keep Heroku dynos awake (prod only)
-    this.pingSite();
     this.initializeApp();
   },
 };
