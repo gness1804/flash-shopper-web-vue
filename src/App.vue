@@ -43,6 +43,7 @@
 
 import * as firebase from 'firebase';
 import moment from 'moment';
+import http from 'http';
 import firebaseApp from '../firebaseConfig';  // eslint-disable-line
 import PreAuth from './components/PreAuth';
 import AuthedMain from './components/AuthedMain';
@@ -95,9 +96,11 @@ export default {
         '_blank',
       );
     },
-    addToHEB: function (_item: Item): void {
+    addToHEB: function (_item: Item | string): void {
+      const searchStr: string = typeof _item === 'object' ? _item.name : _item;
+
       window.open(
-        `https://www.heb.com/search/?q=${_item.name}`,
+        `https://www.heb.com/search/?q=${searchStr}`,
         '_blank',
       );
     },

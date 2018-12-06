@@ -109,7 +109,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
   .each-pantry-item {
     align-items: center;
     display: flex;
@@ -129,11 +129,6 @@ export default {
   .grayedOut {
     color:#8c8383;
     text-decoration: line-through;
-  }
-
-  .blank-button {
-    background-color: transparent;
-    border: none;
   }
 
   .hidden {
