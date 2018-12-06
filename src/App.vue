@@ -43,7 +43,6 @@
 
 import * as firebase from 'firebase';
 import moment from 'moment';
-import http from 'http';
 import firebaseApp from '../firebaseConfig';  // eslint-disable-line
 import PreAuth from './components/PreAuth';
 import AuthedMain from './components/AuthedMain';
