@@ -2,7 +2,7 @@
   <div class="ingredient">
     <div
       class="container"
-      v-bind:class="{ highlighted: isHighlighted }"
+      v-bind:class="[ isHighlighted ? 'highlighted' : '', ingredient.isHidden ? 'hidden' : '']"
     >
       <p
         class="ingredient-quantity"
@@ -109,6 +109,10 @@ export default {
   .highlighted {
     border: 2px solid #f00;
     background-color: #C56415;
+  }
+
+  .hidden {
+    display: none;
   }
 </style>
 
