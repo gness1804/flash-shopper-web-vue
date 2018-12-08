@@ -74,6 +74,7 @@ describe('Pantry', () => {
         name: 'Bagels',
         aisle: '22',
         note: 'Do not get store brand',
+        isHidden: false,
         quantity: '2 bags',
         inCart: false,
         ingredientId: null,

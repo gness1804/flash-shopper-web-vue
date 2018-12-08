@@ -555,14 +555,26 @@ export default {
     hideAddSourceInput: function (): void {
       this.showAddSourceInput = false;
     },
-    hideIngredient: function (_ingredient): void {
+    hideIngredient: async function (_ingredient: Item): void {
       // toggle the isCompleted property of the target ingredient
       // update the database
       // on Ingredient.vue, add a CSS class that activates if isCompleted is true
       // this.hiddenIngredients should be refactored to count the # of isCompleted ingredients
       const { ingredientId } = _ingredient;
-      this.ingredients = this.ingredients.filter(i => i.ingredientId !== ingredientId);
-      this.hiddenIngredients++;
+      // this.ingredients = this.ingredients.filter(i => i.ingredientId !== ingredientId);
+      const newIngredients = await this.ingredients.map((i: Item) => {
+        if (i.ingredientId === ingredientId) {
+          const newIng = Object.assign({}, i, {
+            isHidden: true,
+          });
+          return newIng;
+        }
+        return i;
+      });
+      this.ingredients = newIngredients;
+      this.targetRecipe.update({
+        ingredients: newIngredients,
+      });
     },
     hideInputs: function (): void {
       this.showShowHideContainer = false;

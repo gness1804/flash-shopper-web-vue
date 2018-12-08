@@ -8,6 +8,7 @@ interface Options {
   inCart?: boolean,
   dateCompleted?: string | null,
   link?: string | null,
+  isHidden?: boolean,
 }
 
 class Item {
@@ -20,6 +21,7 @@ class Item {
   ingredientId: number | null;
   dateCompleted: string | null;
   link: string | null;
+  isHidden: boolean;
 
   constructor(opt: Options) {
     this.id = null;
@@ -31,6 +33,7 @@ class Item {
     this.ingredientId = null;
     this.dateCompleted = opt.dateCompleted || null;
     this.link = opt.link || null;
+    this.isHidden = opt.isHidden || false;
   }
 }
 
