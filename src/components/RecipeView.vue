@@ -136,11 +136,11 @@
       <p>You do not have any ingredients! Add some now.</p>
     </div>
     <p
-      v-if="hiddenIngredients > 0"
+      v-if="countHiddenIngredients > 0"
       class="link hidden-ingredients-pseudolink"
       v-on:click="showIngredients"
     >
-      See all {{hiddenIngredients}} hidden ingredient(s)...
+      See all {{countHiddenIngredients}} hidden ingredient(s)...
     </p>
     <button
       class="button show-inputs-button"
@@ -159,7 +159,7 @@
     <button
       class="button show-ingrs-button"
       v-on:click="showIngredients"
-      :disabled="ingredients.length === storedIngredients.length"
+      :disabled="countHiddenIngredients === 0"
     >
       Show All Ingredients
    </button>
@@ -354,7 +354,6 @@ export default {
       image: '',
       ingredients: [],
       directions: [],
-      storedIngredients: [], // to maintain copy of ingredients state when showing hidden ingredients
       note: 'Add a note...',
       source: '',
       isUser: false,
@@ -385,7 +384,6 @@ export default {
       datesMade: [],
       lastMade: 0,
       directionsDone: 0,
-      hiddenIngredients: 0,
     };
   },
   methods: {
@@ -521,7 +519,6 @@ export default {
         this.title = target[0].title || '';
         this.image = target[0].image || 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
         this.ingredients = await sortIngredients(target[0].ingredients) || [];
-        this.storedIngredients = this.ingredients;
         this.directions = await target[0].directions || [];
         this.note = target[0].note || 'Add a note...';
         this.source = target[0].source || display.addSourceDefault;
@@ -555,10 +552,20 @@ export default {
     hideAddSourceInput: function (): void {
       this.showAddSourceInput = false;
     },
-    hideIngredient: function (_ingredient): void {
+    hideIngredient: async function (_ingredient: Item): void {
       const { ingredientId } = _ingredient;
-      this.ingredients = this.ingredients.filter(i => i.ingredientId !== ingredientId);
-      this.hiddenIngredients++;
+      const newIngredients = await this.ingredients.map((i: Item) => {
+        if (i.ingredientId === ingredientId) {
+          return Object.assign({}, i, {
+            isHidden: true,
+          });
+        }
+        return i;
+      });
+      this.ingredients = newIngredients;
+      this.targetRecipe.update({
+        ingredients: newIngredients,
+      });
     },
     hideInputs: function (): void {
       this.showShowHideContainer = false;
@@ -632,9 +639,7 @@ export default {
       }
     },
     removeIngredient: function (ingredient: Item): void {
-      this.ingredients = this.ingredients.filter((i: Item) => {
-        return i.ingredientId !== ingredient.ingredientId;
-      });
+      this.ingredients = this.ingredients.filter((i: Item) => i.ingredientId !== ingredient.ingredientId);
       this.targetRecipe.update({
         ingredients: this.ingredients,
       });
@@ -676,9 +681,16 @@ export default {
       });
       this.showToast('Title updated.');
     },
-    showIngredients: function (): void {
-      this.ingredients = this.storedIngredients;
-      this.hiddenIngredients = 0;
+    showIngredients: async function (): void {
+      const newIngredients = await this.ingredients.map((i: Item) => {
+        return Object.assign({}, i, {
+          isHidden: false,
+        });
+      });
+      this.ingredients = newIngredients;
+      this.targetRecipe.update({
+        ingredients: newIngredients,
+      });
     },
     showInputs: function (): void {
       this.showShowHideContainer = true;
@@ -725,6 +737,9 @@ export default {
     countDirections: function (): number {
       return this.directions.length;
     },
+    countHiddenIngredients: function (): number {
+      return this.ingredients.filter(i => i.isHidden).length;
+    },
     lastMadeHumanReadable: function (): string {
       const _date = new Date(this.lastMade).toString();
       return moment(_date).format('MMMM Do YYYY, h:mm a');
@@ -735,8 +750,8 @@ export default {
       this.id = this.$route.params.id;
       await this.initializeApp();
     }
-    this.showLastMade();
-    this.computeDirsDone();
+    await this.showLastMade();
+    await this.computeDirsDone();
   },
 };
 </script>
