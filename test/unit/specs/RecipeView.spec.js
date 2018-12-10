@@ -70,6 +70,18 @@ describe('RecipeView.vue', () => {
       .to.equal(false);
   });
 
+  it('the show ingredients link should show up if one or more ingredients is hidden.', async () => {
+    const component = mount(RecipeView);
+    component.setData({ isUser: true });
+    component.setData({ ingredients });
+    component.setData({ targetRecipe: {
+      update: sinon.spy(),
+    } });
+    const el = await component.find('.hidden-ingredients-pseudolink')[0];
+    expect(el.text().trim())
+      .to.equal('See all 1 hidden ingredient(s)...');
+  });
+
   it('clicking the show inputs button should show the inputs container', () => {
     const component = mount(RecipeView);
     component.setData({ isUser: true });
