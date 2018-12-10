@@ -2,6 +2,7 @@ import { mount } from 'avoriaz';
 import RecipeView from '@/components/RecipeView';
 import recipe from '../helpers/FakeRecipe';
 import directions from '../helpers/FakeDirections';
+import ingredients from '../helpers/FakeIngredientsArray';
 
 describe('RecipeView.vue', () => {
   it('should render correctly', () => {
@@ -48,6 +49,25 @@ describe('RecipeView.vue', () => {
     expect(outputDirs[0].done).to.equal(false);
     expect(outputDirs[1].done).to.equal(false);
     expect(outputDirs[2].done).to.equal(false);
+  });
+
+  it('Clicking the Show All Ingredients button should mark all ingredients as not hidden.', async () => {
+    const component = mount(RecipeView);
+    component.setData({ isUser: true });
+    component.setData({ ingredients });
+    component.setData({ targetRecipe: {
+      update: sinon.spy(),
+    } });
+    const button = await component.find('.show-ingrs-button')[0];
+    await button.trigger('click');
+    const output = await component.data().ingredients;
+
+    expect(output[0].isHidden)
+      .to.equal(false);
+    expect(output[1].isHidden)
+      .to.equal(false);
+    expect(output[2].isHidden)
+      .to.equal(false);
   });
 
   it('clicking the show inputs button should show the inputs container', () => {

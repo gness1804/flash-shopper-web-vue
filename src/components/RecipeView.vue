@@ -556,10 +556,9 @@ export default {
       const { ingredientId } = _ingredient;
       const newIngredients = await this.ingredients.map((i: Item) => {
         if (i.ingredientId === ingredientId) {
-          const newIng = Object.assign({}, i, {
+          return Object.assign({}, i, {
             isHidden: true,
           });
-          return newIng;
         }
         return i;
       });
