@@ -571,16 +571,13 @@ export default {
       this.showShowHideContainer = false;
     },
     increaseTimesMade: function (): void {
-      const warning = confirm('Are you sure you want to make this dish?');
-      if (warning) {
-        this.timesMade++;
-        this.datesMade.push(Date.now());
-        this.targetRecipe.update({
-          timesMade: this.timesMade,
-          datesMade: this.datesMade,
-        });
-        this.showLastMade();
-      }
+      this.timesMade++;
+      this.datesMade.push(Date.now());
+      this.targetRecipe.update({
+        timesMade: this.timesMade,
+        datesMade: this.datesMade,
+      });
+      this.showLastMade();
     },
     initializeApp: function (): void {
       firebase.auth().onAuthStateChanged((user: firebase.User) => {
@@ -717,6 +714,7 @@ export default {
       this.targetRecipe.update({
         directions: this.directions,
       });
+      this.warnOnAgedLastMade();
     },
     transferIngredient: function (ing: Item): void {
       const email = cleanUpUserEmail(this.userEmail);
@@ -731,6 +729,15 @@ export default {
         directions: this.directions,
       });
       this.computeDirsDone();
+    },
+    warnOnAgedLastMade: function (): void {
+      const hoursSinceLastMade = ((Date.now() - this.lastMade) / 1000) / 3600;
+      if (hoursSinceLastMade > 24) {
+        const warn = confirm('Do you want to check this ingredient as last made today?');
+        if (warn) {
+          this.increaseTimesMade();
+        }
+      }
     },
   },
   computed: {
