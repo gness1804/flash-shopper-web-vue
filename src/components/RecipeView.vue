@@ -384,6 +384,7 @@ export default {
       datesMade: [],
       lastMade: 0,
       directionsDone: 0,
+      askToUpdateTimesMade: true,
     };
   },
   methods: {
@@ -714,6 +715,7 @@ export default {
       this.targetRecipe.update({
         directions: this.directions,
       });
+
       this.warnOnAgedLastMade();
     },
     transferIngredient: function (ing: Item): void {
@@ -731,11 +733,13 @@ export default {
       this.computeDirsDone();
     },
     warnOnAgedLastMade: function (): void {
-      const hoursSinceLastMade = ((Date.now() - this.lastMade) / 1000) / 3600;
-      if (hoursSinceLastMade > 24) {
+      const hoursSinceLastMade: number = ((Date.now() - this.lastMade) / 1000) / 3600;
+      if (hoursSinceLastMade > 24 && this.askToUpdateTimesMade) {
         const warn = confirm('Do you want to check this ingredient as last made today?');
         if (warn) {
           this.increaseTimesMade();
+        } else {
+          this.askToUpdateTimesMade = false;
         }
       }
     },
