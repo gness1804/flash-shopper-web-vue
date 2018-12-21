@@ -136,6 +136,25 @@ describe('RecipeView.vue', () => {
     sinon.assert.calledOnce(component.data().targetRecipe.update);
   });
 
+  it('clicking the toggleDone function should hit warnOnAgedLastMade.', () => {
+    const component = mount(RecipeView);
+    component.setData({ isUser: true });
+    component.setData({ directions });
+    component.setData({
+      targetRecipe: {
+        update: sinon.spy(),
+      },
+    });
+    const toggleDone = sinon.stub();
+    component.setMethods({ toggleDone });
+    const button = component.find('.check-icon')[0];
+    button.trigger('click');
+    sinon.assert.calledOnce(toggleDone);
+    toggleDone.resetHistory();
+    component.data().targetRecipe.update.resetHistory();
+    toggleDone.resetHistory();
+  });
+
   it('clicking the reorder button and entering a new order should reorder the directions correctly (no. 3. -- > no. 2)', () => {
     Object.assign(window, { prompt: () => 2 });
     const component = mount(RecipeView);
