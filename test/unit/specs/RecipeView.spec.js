@@ -2,6 +2,7 @@ import { mount } from 'avoriaz';
 import RecipeView from '@/components/RecipeView';
 import recipe from '../helpers/FakeRecipe';
 import directions from '../helpers/FakeDirections';
+import ingredients from '../helpers/FakeIngredientsArray';
 
 describe('RecipeView.vue', () => {
   it('should render correctly', () => {
@@ -48,6 +49,37 @@ describe('RecipeView.vue', () => {
     expect(outputDirs[0].done).to.equal(false);
     expect(outputDirs[1].done).to.equal(false);
     expect(outputDirs[2].done).to.equal(false);
+  });
+
+  it('Clicking the Show All Ingredients button should mark all ingredients as not hidden.', async () => {
+    const component = mount(RecipeView);
+    component.setData({ isUser: true });
+    component.setData({ ingredients });
+    component.setData({ targetRecipe: {
+      update: sinon.spy(),
+    } });
+    const button = await component.find('.show-ingrs-button')[0];
+    await button.trigger('click');
+    const output = await component.data().ingredients;
+
+    expect(output[0].isHidden)
+      .to.equal(false);
+    expect(output[1].isHidden)
+      .to.equal(false);
+    expect(output[2].isHidden)
+      .to.equal(false);
+  });
+
+  it('the show ingredients link should show up if one or more ingredients is hidden.', async () => {
+    const component = mount(RecipeView);
+    component.setData({ isUser: true });
+    component.setData({ ingredients });
+    component.setData({ targetRecipe: {
+      update: sinon.spy(),
+    } });
+    const el = await component.find('.hidden-ingredients-pseudolink')[0];
+    expect(el.text().trim())
+      .to.equal('See all 1 hidden ingredient(s)...');
   });
 
   it('clicking the show inputs button should show the inputs container', () => {
@@ -102,6 +134,25 @@ describe('RecipeView.vue', () => {
     expect(resultDirs[2].details).to.equal('Add water and taco seasoning');
     expect(resultDirs[2].order).to.equal(3);
     sinon.assert.calledOnce(component.data().targetRecipe.update);
+  });
+
+  it('clicking the toggleDone function should hit warnOnAgedLastMade.', () => {
+    const component = mount(RecipeView);
+    component.setData({ isUser: true });
+    component.setData({ directions });
+    component.setData({
+      targetRecipe: {
+        update: sinon.spy(),
+      },
+    });
+    const toggleDone = sinon.stub();
+    component.setMethods({ toggleDone });
+    const button = component.find('.check-icon')[0];
+    button.trigger('click');
+    sinon.assert.calledOnce(toggleDone);
+    toggleDone.resetHistory();
+    component.data().targetRecipe.update.resetHistory();
+    toggleDone.resetHistory();
   });
 
   it('clicking the reorder button and entering a new order should reorder the directions correctly (no. 3. -- > no. 2)', () => {
@@ -171,5 +222,22 @@ describe('RecipeView.vue', () => {
     expect(resultDirs[2].details).to.equal('Cook the ground beef until browned');
     expect(resultDirs[2].order).to.equal(3);
     sinon.assert.calledTwice(component.data().targetRecipe.update);
+  });
+
+  it('clicking the Make! button triggers the makeRecipe method.', () => {
+    const component = mount(RecipeView);
+    component.setData({ isUser: true });
+    component.setData({ directions });
+    component.setData({
+      targetRecipe: {
+        update: sinon.spy(),
+      },
+    });
+    const makeRecipe = sinon.stub();
+    component.setMethods({ makeRecipe });
+    const button = component.find('.make-recipe-button')[0];
+    button.trigger('click');
+    sinon.assert.calledOnce(makeRecipe);
+    makeRecipe.resetHistory();
   });
 });
