@@ -96,7 +96,7 @@
     </p>
     <button
       class="button make-recipe-button"
-      v-on:click="increaseTimesMade"
+      v-on:click="makeRecipe"
     >
       Make!
     </button>
@@ -615,6 +615,14 @@ export default {
     },
     logOut: function (): void {
       logOut();
+    },
+    makeRecipe: function (): void {
+      // reset all checked directions to unchecked on prompt
+      const warn = confirm('Do you want to reset all directions to unchecked?');
+      if (warn) {
+        this.uncheckAll();
+      }
+      this.increaseTimesMade();
     },
     openEditModal: function (ing: Item): void {
       this.showEditModal = true;
