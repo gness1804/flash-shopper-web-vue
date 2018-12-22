@@ -12,6 +12,7 @@
     "test": "npm run unit",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "flow": "flow",
+    "fix": "eslint -- --fix",
     "pre-deploy": "scripts/pre-deploy.sh",
     "predeploy": "scripts/pre-deploy.sh",
     "deploy": "scripts/deploy.sh",

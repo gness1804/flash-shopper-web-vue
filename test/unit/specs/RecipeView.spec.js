@@ -223,4 +223,21 @@ describe('RecipeView.vue', () => {
     expect(resultDirs[2].order).to.equal(3);
     sinon.assert.calledTwice(component.data().targetRecipe.update);
   });
+
+  it('clicking the Make! button triggers the makeRecipe method.', () => {
+    const component = mount(RecipeView);
+    component.setData({ isUser: true });
+    component.setData({ directions });
+    component.setData({
+      targetRecipe: {
+        update: sinon.spy(),
+      },
+    });
+    const makeRecipe = sinon.stub();
+    component.setMethods({ makeRecipe });
+    const button = component.find('.make-recipe-button')[0];
+    button.trigger('click');
+    sinon.assert.calledOnce(makeRecipe);
+    makeRecipe.resetHistory();
+  });
 });
