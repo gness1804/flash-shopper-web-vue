@@ -8,7 +8,7 @@ const sequentialize = (dirs: Array<Direction>): [] => {
   }
   for (let i = 0; i < dirs.length; i++) {
     const el = dirs[i];
-    const newEl = { ...el, order: (dirs.indexOf(el) + 1) };
+    const newEl = { ...el, order: dirs.indexOf(el) + 1 };
     newDirs.push(newEl);
   }
   return newDirs;

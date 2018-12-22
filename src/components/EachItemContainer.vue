@@ -1,49 +1,28 @@
 <template>
   <div class="each-item-container">
-    <h3
-      class="each-item-name"
-      v-bind:class="{ strike: item.inCart }"
-    >
-    {{item.name}}
+    <h3 class="each-item-name" v-bind:class="{ strike: item.inCart }">
+      {{ item.name }}
     </h3>
     <p
       class="each-item-aisle"
       v-if="item.aisle"
       v-bind:class="{ strike: item.inCart }"
     >
-      <span
-        class="bold"
-      >
-      Aisle:
-      </span
-      >
-      {{item.aisle}}
+      <span class="bold"> Aisle: </span> {{ item.aisle }}
     </p>
     <p
       class="each-item-note"
       v-if="item.note"
       v-bind:class="{ strike: item.inCart }"
     >
-      <span
-        class="bold"
-      >
-      Note:
-      </span
-      >
-      {{item.note}}
+      <span class="bold"> Note: </span> {{ item.note }}
     </p>
     <p
       class="each-item-quantity"
       v-if="item.quantity"
       v-bind:class="{ strike: item.inCart }"
     >
-      <span
-        class="bold"
-      >
-      Quantity:
-      </span
-      >
-      {{item.quantity}}
+      <span class="bold"> Quantity: </span> {{ item.quantity }}
     </p>
     <a
       v-bind:href="item.link"
@@ -52,9 +31,7 @@
       v-bind:class="{ strike: item.inCart }"
       target="_blank"
     >
-      <p>
-        Link
-      </p>
+      <p>Link</p>
     </a>
     <div class="buttons-container">
       <img
@@ -141,35 +118,42 @@ export default {
     };
   },
   methods: {
-    addToAPN: function (): void {
+    addToAPN: function(): void {
       this.$emit('addToAPN', this.item);
     },
-    addToHEB: function (): void {
+    addToHEB: function(): void {
       this.$emit('addToHEB', this.item);
     },
-    addToInstacart: function (): void {
+    addToInstacart: function(): void {
       this.$emit('addToInstacart', this.item);
     },
-    closeEditModal: function (): void {
+    closeEditModal: function(): void {
       this.showEditModal = false;
     },
-    openEditModal: function (): void {
+    openEditModal: function(): void {
       this.showEditModal = true;
     },
-    removeItem: function (): void {
-      const warning = confirm(`Are you sure you want to delete ${this.item.name}? This cannot be undone!`);
+    removeItem: function(): void {
+      const warning = confirm(
+        `Are you sure you want to delete ${
+          this.item.name
+        }? This cannot be undone!`,
+      );
       if (warning) {
         this.$emit('removeItem', this.item);
       }
     },
-    showToast: function (message: string): void {
+    showToast: function(message: string): void {
       this.$emit('showToast', message);
     },
-    toggleInCart: function (): void {
+    toggleInCart: function(): void {
       this.$emit('toggleInCart', this.item);
     },
-    transferToDone: function (): void {
-      const newItem: Item = { ...this.item, dateCompleted: moment().format('MMM Do YY') };
+    transferToDone: function(): void {
+      const newItem: Item = {
+        ...this.item,
+        dateCompleted: moment().format('MMM Do YY'),
+      };
       this.$emit('transferToDone', newItem);
     },
   },
@@ -177,38 +161,35 @@ export default {
 </script>
 
 <style scoped>
-  .each-item-container {
-    background-color: #fff;
-    border: 1px solid #000;
-    border-radius: 5px;
-    margin: 20px auto;
-    overflow: hidden;
-    padding: 10px;
-    width: 40vw;
-  }
+.each-item-container {
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 5px;
+  margin: 20px auto;
+  overflow: hidden;
+  padding: 10px;
+  width: 40vw;
+}
 
-  .each-item-name {
-    cursor: pointer;
-    margin-top: 0;
-  }
+.each-item-name {
+  cursor: pointer;
+  margin-top: 0;
+}
 
-  .buttons-container {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
+.buttons-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 
-  .each-item-link {
-    font-weight: 600;
-  }
+.each-item-link {
+  font-weight: 600;
+}
 
-  .strike,
-  .each-item-link.strike {
-    color:#9a8c8c;
-    text-decoration: line-through;
-  }
-
+.strike,
+.each-item-link.strike {
+  color: #9a8c8c;
+  text-decoration: line-through;
+}
 </style>
-
-

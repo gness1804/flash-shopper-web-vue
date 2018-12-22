@@ -1,7 +1,7 @@
 // @flow
 
 export interface EachPantryItemInt {
-  isHighlighted: boolean,
-  isInMainList: boolean,
-  isButtonDisabled: boolean,
+  isHighlighted: boolean;
+  isInMainList: boolean;
+  isButtonDisabled: boolean;
 }

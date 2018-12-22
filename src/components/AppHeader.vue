@@ -1,25 +1,16 @@
 <template>
-  <div
-    class="app-header"
-  >
+  <div class="app-header">
     <h1>Flash Shopper</h1>
-    <div
-      v-if="isUser"
-      class="logged-in-container"
-    >
-      <p
-        class="user-logged-in-message"
-      >
-      Logged in as <span class="bold">{{userEmail}}</span>
+    <div v-if="isUser" class="logged-in-container">
+      <p class="user-logged-in-message">
+        Logged in as <span class="bold">{{ userEmail }}</span>
       </p>
-      <div
-        class="logged-in-buttons-container"
-      >
+      <div class="logged-in-buttons-container">
         <button
           class="button header-button warn-button log-out-button"
           v-on:click="logOut"
         >
-          {{logOutString}}
+          {{ logOutString }}
         </button>
         <button
           class="button header-button go-home-button"
@@ -27,7 +18,7 @@
           v-bind:disabled="currentRoute === '/'"
           v-bind:class="{ disabledButton: currentRoute === '/' }"
         >
-          {{goHomeString}}
+          {{ goHomeString }}
         </button>
         <button
           class="button header-button go-to-pantry-button"
@@ -35,40 +26,31 @@
           v-bind:disabled="currentRoute === '/pantry'"
           v-bind:class="{ disabledButton: currentRoute === '/pantry' }"
         >
-        {{goToPantryString}}
-      </button>
-      <button
-        class="button header-button go-to-recipes-button"
-        v-on:click="goToRecipes"
-        v-bind:disabled="currentRoute === '/recipes'"
-        v-bind:class="{ disabledButton: currentRoute === '/recipes' }"
-      >
-        {{goToRecipesString}}
-      </button>
-      <button
-      class="button header-button go-to-completed-button"
-      v-on:click="goToCompleted"
-      >
-      {{goToCompletedString}}
-    </button>
+          {{ goToPantryString }}
+        </button>
+        <button
+          class="button header-button go-to-recipes-button"
+          v-on:click="goToRecipes"
+          v-bind:disabled="currentRoute === '/recipes'"
+          v-bind:class="{ disabledButton: currentRoute === '/recipes' }"
+        >
+          {{ goToRecipesString }}
+        </button>
+        <button
+          class="button header-button go-to-completed-button"
+          v-on:click="goToCompleted"
+        >
+          {{ goToCompletedString }}
+        </button>
       </div>
     </div>
-    <div
-      v-else
-      class="logged-out-container"
-    >
-      <p
-
-        class="not-logged-in-message"
-      >
+    <div v-else class="logged-out-container">
+      <p class="not-logged-in-message">
         You are not logged in. Please go home and log in now.
       </p>
-      <button
-          class="button header-button go-home-button"
-          v-on:click="goHome"
-        >
-          {{goHomeString}}
-        </button>
+      <button class="button header-button go-home-button" v-on:click="goHome">
+        {{ goHomeString }}
+      </button>
     </div>
   </div>
 </template>
@@ -101,31 +83,31 @@ export default {
     };
   },
   methods: {
-    goHome: function (): void {
+    goHome: function(): void {
       if (this.$router) {
         this.$router.push('/');
       }
     },
-    goToCompleted: function (): void {
+    goToCompleted: function(): void {
       if (this.$router) {
         this.$router.push('/completed');
       }
     },
-    goToPantry: function (): void {
+    goToPantry: function(): void {
       if (this.$router) {
         this.$router.push('/pantry');
       }
     },
-    goToRecipes: function (): void {
+    goToRecipes: function(): void {
       if (this.$router) {
         this.$router.push('/recipes');
       }
     },
-    logOut: function (): void {
+    logOut: function(): void {
       this.$emit('logOut');
     },
   },
-  mounted: function (): void {
+  mounted: function(): void {
     if (this.$route) {
       this.currentRoute = this.$route.fullPath;
     }
@@ -170,7 +152,7 @@ export default {
   margin-bottom: 20px;
 }
 
-@media (max-width: 500px)  {
+@media (max-width: 500px) {
   .logged-in-buttons-container {
     flex-direction: column;
   }
@@ -185,5 +167,3 @@ export default {
   }
 }
 </style>
-
-

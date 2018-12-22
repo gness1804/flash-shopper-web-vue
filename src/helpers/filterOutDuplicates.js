@@ -15,14 +15,14 @@ const filterOutDuplicateNames = (names: string[]): string[] => {
   return newArr.sort();
 };
 
-const filteroutDuplicateRecentItems = (name: string, items: ShortItem[]): ShortItem[] => {
+const filteroutDuplicateRecentItems = (
+  name: string,
+  items: ShortItem[],
+): ShortItem[] => {
   if (!items || items.length === 0) {
     return [];
   }
   return items.filter(i => i.name.toLowerCase() !== name.toLowerCase());
 };
 
-export {
-  filterOutDuplicateNames,
-  filteroutDuplicateRecentItems,
-};
+export { filterOutDuplicateNames, filteroutDuplicateRecentItems };
