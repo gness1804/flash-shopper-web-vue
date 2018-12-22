@@ -18,10 +18,10 @@ export default {
     },
   },
   methods: {
-    deleteItem: function (): void {
+    deleteItem: function(): void {
       this.$emit('deleteItem', this.item);
     },
-    restoreItemToMain: function (): void {
+    restoreItemToMain: function(): void {
       this.$emit('restoreItemToMain', this.item);
     },
   },
@@ -29,17 +29,14 @@ export default {
 </script>
 
 <style scoped>
-  .each-completed-item {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
+.each-completed-item {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 
-  .restore-to-main-button {
-    margin: 0 20px;
-  }
+.restore-to-main-button {
+  margin: 0 20px;
+}
 </style>
-
-
-

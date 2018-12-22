@@ -1,14 +1,14 @@
 // @flow
 
 interface Options {
-  name: string,
-  aisle?: string,
-  note?: string,
-  quantity?: string,
-  inCart?: boolean,
-  dateCompleted?: string | null,
-  link?: string | null,
-  isHidden?: boolean,
+  name: string;
+  aisle?: string;
+  note?: string;
+  quantity?: string;
+  inCart?: boolean;
+  dateCompleted?: string | null;
+  link?: string | null;
+  isHidden?: boolean;
 }
 
 class Item {

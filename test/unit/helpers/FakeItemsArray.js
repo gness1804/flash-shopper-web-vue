@@ -27,7 +27,8 @@ const fakeItemsArray = [
     quantity: '1 lb',
     inCart: false,
     dateCompleted: 'May 1st 2016',
-    link: 'https://www.heb.com/product-detail/h-e-b-sushiya-san-antonio-roll/1477048',
+    link:
+      'https://www.heb.com/product-detail/h-e-b-sushiya-san-antonio-roll/1477048',
   },
 ];
 

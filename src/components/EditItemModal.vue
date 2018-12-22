@@ -1,62 +1,48 @@
 <template>
   <div class="modal edit-item-modal">
-    <p
-      v-on:click="closeModal"
-      class="close-modal-button"
-      title="Close"
-    >
-      X
-    </p>
-   <h2>Edit Item</h2>
-   <p
-      class="error-container"
-      v-if="error"
-    >
-    {{errorMssg}}
-    </p>
-   <div class="item-input-container">
-    <input
+    <p v-on:click="closeModal" class="close-modal-button" title="Close">X</p>
+    <h2>Edit Item</h2>
+    <p class="error-container" v-if="error">{{ errorMssg }}</p>
+    <div class="item-input-container">
+      <input
         type="text"
         placeholder="Name"
         @input="makeErrorFalse"
         v-model="name"
         class="text-input-field"
       />
-        <input
+      <input
         type="text"
         placeholder="Aisle"
         @input="makeErrorFalse"
         v-model="aisle"
         class="text-input-field"
       />
-        <input
+      <input
         type="text"
         placeholder="Note"
         @input="makeErrorFalse"
         v-model="note"
         class="text-input-field"
-        />
-        <input
+      />
+      <input
         type="text"
         placeholder="Quantity"
         @input="makeErrorFalse"
         v-model="quantity"
         class="text-input-field"
-        />
-        <input
+      />
+      <input
         type="text"
         placeholder="Link"
         @input="makeErrorFalse"
         v-model="link"
         class="text-input-field"
-        />
-   </div>
-   <button
-    class="button save-item-button"
-    v-on:click="saveItem"
-   >
-     Save Item
-   </button>
+      />
+    </div>
+    <button class="button save-item-button" v-on:click="saveItem">
+      Save Item
+    </button>
   </div>
 </template>
 
@@ -64,7 +50,7 @@
 import thereAreChanges from '../helpers/thereAreChanges';
 import httpValidate from '../helpers/httpValidate';
 import { EditItemModalInt } from '../types/interfaces/ItemModals';
-  // @flow
+// @flow
 
 export default {
   name: 'EditItemModal',
@@ -100,12 +86,23 @@ export default {
     };
   },
   methods: {
-    closeModal: function (optionalString?: string): void {
+    closeModal: function(optionalString?: string): void {
       if (optionalString && optionalString === 'saved') {
         this.$emit('closeModal');
         return;
       }
-      const { name, aisle, note, quantity, link, initName, initAisle, initNote, initQty, initLink } = this;
+      const {
+        name,
+        aisle,
+        note,
+        quantity,
+        link,
+        initName,
+        initAisle,
+        initNote,
+        initQty,
+        initLink,
+      } = this;
       const options = {
         name,
         aisle,
@@ -119,7 +116,9 @@ export default {
         initLink,
       };
       if (thereAreChanges(options)) {
-        const warning = confirm('Warning: You have unsaved changes! Are you sure you want to exit editing?');
+        const warning = confirm(
+          'Warning: You have unsaved changes! Are you sure you want to exit editing?',
+        );
         if (warning) {
           this.$emit('closeModal');
           this.showToast('Changes discarded.');
@@ -128,25 +127,27 @@ export default {
       }
       this.$emit('closeModal');
     },
-    makeErrorFalse: function (): void {
+    makeErrorFalse: function(): void {
       this.error = false;
       this.errorMssg = '';
     },
-    resetInputFields: function (): void {
+    resetInputFields: function(): void {
       this.name = '';
       this.aisle = '';
       this.note = '';
       this.quantity = '';
       this.link = '';
     },
-    saveItem: function (): void {
+    saveItem: function(): void {
       const { name, aisle, note, quantity, link, item } = this;
       if (!name) {
         this.triggerErrorState('Oops! Your item must have at least a name.');
         return;
       }
       if (link && !httpValidate(link)) {
-        this.triggerErrorState('Error: the link must be a valid website link. Please try again.');
+        this.triggerErrorState(
+          'Error: the link must be a valid website link. Please try again.',
+        );
         return;
       }
       if (this.isIngredient) {
@@ -164,15 +165,15 @@ export default {
       this.closeModal('saved');
       this.showToast('Item saved.');
     },
-    showToast: function (message: string): void {
+    showToast: function(message: string): void {
       this.$emit('showToast', message);
     },
-    triggerErrorState: function (message: string): void {
+    triggerErrorState: function(message: string): void {
       this.error = true;
       this.errorMssg = message;
     },
   },
-  mounted: function (): void {
+  mounted: function(): void {
     if (this.isIngredient) {
       this.targetItem = this.item;
       return;
@@ -183,13 +184,11 @@ export default {
 </script>
 
 <style scoped>
-  .close-modal-button {
-    color: #f00;
-  }
+.close-modal-button {
+  color: #f00;
+}
 
-  .close-modal-button:hover {
-    cursor: pointer;
-  }
+.close-modal-button:hover {
+  cursor: pointer;
+}
 </style>
-
-

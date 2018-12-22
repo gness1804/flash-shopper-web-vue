@@ -2,14 +2,14 @@
 import Item from './Item';
 
 interface Opts {
-  title: string,
-  image: string,
-  ingredients: Item[],
-  directions?: string[],
-  note?: string,
-  source?: string,
-  timesMade?: number,
-  datesMade: number[],
+  title: string;
+  image: string;
+  ingredients: Item[];
+  directions?: string[];
+  note?: string;
+  source?: string;
+  timesMade?: number;
+  datesMade: number[];
 }
 
 class Recipe {

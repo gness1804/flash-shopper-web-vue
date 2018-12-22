@@ -17,22 +17,29 @@ describe('AuthedMain.vue', () => {
 
   it('should render correct contents', () => {
     const vm = new Constructor({ propsData }).$mount();
-    expect(vm.$el.querySelector('.authed-main .headline').textContent)
-      .to.equal('Enter New Item:');
-    expect(vm.$el.querySelector('.authed-main .items-length').textContent)
-      .to.equal('3');
-    expect(vm.$el.querySelector('.authed-main .items-in-cart-count').textContent)
-      .to.equal('1');
+    expect(vm.$el.querySelector('.authed-main .headline').textContent).to.equal(
+      'Enter New Item:',
+    );
+    expect(
+      vm.$el.querySelector('.authed-main .items-length').textContent,
+    ).to.equal('3');
+    expect(
+      vm.$el.querySelector('.authed-main .items-in-cart-count').textContent,
+    ).to.equal('1');
   });
 
   it('should render the correct content from buttonStrings', () => {
     const component = mount(AuthedMain, { propsData });
     const addItemText = component.find('.add-item-button')[0];
     const deleteAllItemsText = component.find('.delete-all-items-button')[0];
-    const completeAllInCartText = component.find('.complete-all-items-in-cart-button')[0];
+    const completeAllInCartText = component.find(
+      '.complete-all-items-in-cart-button',
+    )[0];
     expect(addItemText.text().trim()).to.equal('Add Item');
     expect(deleteAllItemsText.text().trim()).to.equal('Delete ALL Items');
-    expect(completeAllInCartText.text().trim()).to.equal('Complete ALL in Cart');
+    expect(completeAllInCartText.text().trim()).to.equal(
+      'Complete ALL in Cart',
+    );
   });
 
   it('should fire the detectBrowser method and assign this.names properly on mount', () => {
@@ -42,7 +49,12 @@ describe('AuthedMain.vue', () => {
     component.setData({ pantryShortItems: pantryItems });
     setTimeout(() => {
       expect(detectBrowser.calledOnce).to.equal(true);
-      expect(component.data().names).to.equal(['Bread', 'Sausage', 'Milk', 'Frozen onions']);
+      expect(component.data().names).to.equal([
+        'Bread',
+        'Sausage',
+        'Milk',
+        'Frozen onions',
+      ]);
     }, display.timerStandard);
   });
 

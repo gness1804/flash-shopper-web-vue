@@ -26,10 +26,12 @@ describe('App.vue', () => {
     component.setData({ items });
     component.setData({ isUser: true });
     component.setData({ userEmail });
-    component.setData({ itemsRef: {
-      child: () => {},
-      push: sinon.spy(),
-    } });
+    component.setData({
+      itemsRef: {
+        child: () => {},
+        push: sinon.spy(),
+      },
+    });
     const showToast = sinon.stub();
     component.setMethods({ showToast });
     component.vm.addItem(item);

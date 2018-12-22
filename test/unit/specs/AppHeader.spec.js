@@ -25,7 +25,9 @@ describe('AppHeader', () => {
     };
     const component = mount(AppHeader, { propsData: propsData2 });
     const message = component.find('.not-logged-in-message')[0];
-    expect(message.text().trim()).to.equal('You are not logged in. Please go home and log in now.');
+    expect(message.text().trim()).to.equal(
+      'You are not logged in. Please go home and log in now.',
+    );
   });
 
   it('renders the correct buttonString data', () => {
@@ -112,4 +114,3 @@ describe('AppHeader', () => {
     expect(goToRecipes.calledOnce).to.equal(false);
   });
 });
-

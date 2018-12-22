@@ -6,23 +6,14 @@
       v-model="newSource"
       v-on:click="clearDefault"
     />
-    <button
-      class="button save-source-button"
-      v-on:click="saveSource"
-    >
-      {{saveString}}
+    <button class="button save-source-button" v-on:click="saveSource">
+      {{ saveString }}
     </button>
-    <button
-      class="button cancel-button"
-      v-on:click="cancel"
-    >
-      {{cancelString}}
+    <button class="button cancel-button" v-on:click="cancel">
+      {{ cancelString }}
     </button>
-    <button
-      class="button clear-button"
-      v-on:click="clear"
-    >
-      {{clearString}}
+    <button class="button clear-button" v-on:click="clear">
+      {{ clearString }}
     </button>
   </div>
 </template>
@@ -43,9 +34,11 @@ export default {
     },
   },
   methods: {
-    cancel: function (): void {
+    cancel: function(): void {
       if (this.source !== this.newSource) {
-        const warn = confirm('Are you use you want to leave without saving changes?');
+        const warn = confirm(
+          'Are you use you want to leave without saving changes?',
+        );
         if (warn) {
           this.$emit('hideAddSourceInput');
           return;
@@ -54,15 +47,15 @@ export default {
       }
       this.$emit('hideAddSourceInput');
     },
-    clear: function (): void {
+    clear: function(): void {
       this.newSource = '';
     },
-    clearDefault: function (): void {
+    clearDefault: function(): void {
       if (this.newSource === display.addSourceDefault) {
         this.newSource = '';
       }
     },
-    saveSource: async function (): void {
+    saveSource: async function(): void {
       if (this.newSource) {
         if (!httpValidate(this.newSource)) {
           alert('Oops! Your source must be a valid URL.');
@@ -87,8 +80,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
-
-
+<style scoped></style>

@@ -24,7 +24,8 @@ describe('sortByTimesMadeHelper', () => {
   });
 
   it('should properly sort an array of recipes if one does not have a defined "timesMade" property', () => {
-    const recipes2: Recipe[] = [...recipes,
+    const recipes2: Recipe[] = [
+      ...recipes,
       {
         id: '25',
         title: 'Spaghetti with clam sauce',

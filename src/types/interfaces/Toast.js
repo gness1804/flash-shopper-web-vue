@@ -1,6 +1,6 @@
 // @flow
 
 export interface ToastInt {
-  toastMessage?: string,
-  viewToast: boolean,
+  toastMessage?: string;
+  viewToast: boolean;
 }

@@ -6,15 +6,13 @@
       v-on:logOut="logOut"
     >
     </app-header>
-    <h2>
-      Completed Items
-    </h2>
+    <h2>Completed Items</h2>
     <button
       v-if="items.length > 0"
       class="button warn-button delete-all-items-button"
       v-on:click="deleteAllItems"
     >
-      {{deleteAllString}}
+      {{ deleteAllString }}
     </button>
     <button
       v-if="items.length > 0"
@@ -30,10 +28,7 @@
     >
       Sort Alpha
     </button>
-    <div
-    class="items"
-    v-if="items.length > 0"
-    >
+    <div class="items" v-if="items.length > 0">
       <each-completed-item
         v-for="item of items"
         v-bind:key="item.id"
@@ -43,10 +38,9 @@
       >
       </each-completed-item>
     </div>
-    <p
-      v-else
-    >
-      It looks like you do not have any completed items. When you mark an item as completed, it will show up here.
+    <p v-else>
+      It looks like you do not have any completed items. When you mark an item
+      as completed, it will show up here.
     </p>
   </div>
 </template>
@@ -54,7 +48,7 @@
 <script>
 // @flow
 import * as firebase from 'firebase';
-import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
+import firebaseApp from '../../firebaseConfig'; // eslint-disable-line
 import AppHeader from './AppHeader';
 import EachCompletedItem from './EachCompletedItem';
 import logOut from '../helpers/logOut';
@@ -85,21 +79,21 @@ export default {
     };
   },
   methods: {
-    deleteAllItems: function (): void {
+    deleteAllItems: function(): void {
       const warn = confirm('Are you sure you want to delete all items?');
       if (warn) {
         this.itemsRef.set([]);
         this.showToast('Deleted all items.');
       }
     },
-    deleteItem: function (_item: Item): void {
+    deleteItem: function(_item: Item): void {
       const warn = confirm('Are you sure you want to delete this item?');
       if (warn) {
         this.itemsRef.child(_item.id).remove();
         this.showToast('Item deleted.');
       }
     },
-    initializeApp: function (): void {
+    initializeApp: function(): void {
       firebase.auth().onAuthStateChanged((user: firebase.User) => {
         if (user) {
           this.isUser = true;
@@ -113,7 +107,7 @@ export default {
         }
       });
     },
-    listenForItems: function (itemsRef: firebase.database.Reference): void {
+    listenForItems: function(itemsRef: firebase.database.Reference): void {
       itemsRef.on('value', (snapshot: firebase.database.DataSnapshot) => {
         const newArr = [];
         snapshot.forEach((item: firebase.database.DataSnapshot) => {
@@ -130,16 +124,19 @@ export default {
         this.items = sortItems(newArr);
       });
     },
-    logOut: function (): void {
+    logOut: function(): void {
       logOut();
     },
-    restoreItemToMain: function (_item: Item): void {
+    restoreItemToMain: function(_item: Item): void {
       const email = cleanUpUserEmail(this.userEmail);
       this.itemsRef.child(_item.id).remove();
-      firebase.database().ref(`${email}/main`).push(_item);
+      firebase
+        .database()
+        .ref(`${email}/main`)
+        .push(_item);
       this.showToast(`${_item.name} restored to main list.`);
     },
-    showToast: function (message: string): void {
+    showToast: function(message: string): void {
       this.toastMessage = message;
       this.viewToast = true;
       setTimeout(() => {
@@ -147,24 +144,21 @@ export default {
         this.toastMessage = '';
       }, display.timerStandard);
     },
-    sortAlpha: function (): void {
+    sortAlpha: function(): void {
       this.items = sortItems(this.items);
     },
-    sortByDate: function (): void {
+    sortByDate: function(): void {
       this.items = sortByDateH(this.items);
     },
   },
-  mounted: function (): void {
+  mounted: function(): void {
     this.initializeApp();
   },
 };
 </script>
 
-
 <style scoped>
-  .delete-all-items-button {
-    margin: 20px auto;
-  }
+.delete-all-items-button {
+  margin: 20px auto;
+}
 </style>
-
-

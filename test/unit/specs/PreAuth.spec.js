@@ -9,12 +9,15 @@ describe('PreAuth.vue', () => {
 
   it('should render correct contents', () => {
     const vm = new Constructor().$mount();
-    expect(vm.$el.querySelector('.pre-auth .headline').textContent)
-      .to.equal('Sign Up or Sign In');
-    expect(vm.$el.querySelector('.pre-auth .email-field').placeholder)
-      .to.equal('Enter Your Email Address');
-    expect(vm.$el.querySelector('.pre-auth .password-field').placeholder)
-      .to.equal('Enter Your Password');
+    expect(vm.$el.querySelector('.pre-auth .headline').textContent).to.equal(
+      'Sign Up or Sign In',
+    );
+    expect(vm.$el.querySelector('.pre-auth .email-field').placeholder).to.equal(
+      'Enter Your Email Address',
+    );
+    expect(
+      vm.$el.querySelector('.pre-auth .password-field').placeholder,
+    ).to.equal('Enter Your Password');
   });
 
   it('clicking the sign up button should show an error message if the user has not entered both an email and a password', () => {

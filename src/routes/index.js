@@ -13,9 +13,7 @@ const routes = [
   {
     path: '/',
     component: App,
-    children: [
-      { path: '/404', from: '*', component: Error },
-    ],
+    children: [{ path: '/404', from: '*', component: Error }],
   },
   {
     path: '/pantry',
