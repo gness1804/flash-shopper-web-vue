@@ -9,12 +9,11 @@ module.exports = {
   env: {
     browser: true,
   },
-  extends: ['vue', 'airbnb-base', 'prettier'],
+  extends: ['vue', 'airbnb-base'],
   // required to lint *.vue files
   plugins: [
     'html',
     "flowtype-errors",
-    'prettier',
   ],
   // check if imports actually resolve
   'settings': {
@@ -37,7 +36,6 @@ module.exports = {
     'max-len': 'off',
     'no-restricted-syntax': 'off',
     'no-underscore-dangle': 'off',
-    "prettier/prettier": "error",
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       'js': 'never',
