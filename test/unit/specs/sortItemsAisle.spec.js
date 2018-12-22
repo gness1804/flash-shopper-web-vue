@@ -23,15 +23,18 @@ describe('sortItemsAisle', () => {
   });
 
   it('should return a properly sorted array with valid input including one blank aisle', () => {
-    const items2 = [...items, {
-      id: '35',
-      name: 'Lara bars',
-      aisle: '',
-      note: '',
-      quantity: '2',
-      inCart: false,
-      ingredientId: 37903803,
-    }];
+    const items2 = [
+      ...items,
+      {
+        id: '35',
+        name: 'Lara bars',
+        aisle: '',
+        note: '',
+        quantity: '2',
+        inCart: false,
+        ingredientId: 37903803,
+      },
+    ];
     const result = sort(items2);
     assert.strictEqual(result[0].aisle, 'Meat');
     assert.strictEqual(result[1].aisle, '');

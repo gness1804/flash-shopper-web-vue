@@ -1,6 +1,15 @@
 import { assert } from 'chai';
 import sequentialize from '../../../src/helpers/sequentialize';
-import { input1234, output1234, input124, output124, input234, output234, input134, output134 } from '../helpers/SequentializeArrs';
+import {
+  input1234,
+  output1234,
+  input124,
+  output124,
+  input234,
+  output234,
+  input134,
+  output134,
+} from '../helpers/SequentializeArrs';
 
 describe('sequentialize', () => {
   it('should be a function', () => {

@@ -68,7 +68,8 @@ const fakeRecipes = [
         ingredientId: 387038020,
       },
     ],
-    note: 'This takes a long time to cook. Be sure to prepare ample time for it.',
+    note:
+      'This takes a long time to cook. Be sure to prepare ample time for it.',
     timesMade: 0,
   },
 ];

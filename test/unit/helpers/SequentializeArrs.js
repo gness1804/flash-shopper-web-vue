@@ -178,4 +178,13 @@ const output134 = [
   },
 ];
 
-export { input1234, output1234, input124, output124, input234, output234, input134, output134 };
+export {
+  input1234,
+  output1234,
+  input124,
+  output124,
+  input234,
+  output234,
+  input134,
+  output134,
+};

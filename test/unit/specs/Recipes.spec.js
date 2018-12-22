@@ -102,7 +102,9 @@ describe('Recipes.vue', () => {
   });
 
   it('clicking the add direction button should add a direction', () => {
-    Object.assign(window, { prompt: () => 'Cook until water is absorbed adequately' });
+    Object.assign(window, {
+      prompt: () => 'Cook until water is absorbed adequately',
+    });
     const component = mount(Recipes);
     const showToast = sinon.stub();
     component.setMethods({ showToast });
@@ -112,7 +114,9 @@ describe('Recipes.vue', () => {
     button.trigger('click');
     expect(component.data().directions.length).to.equal(4);
     expect(showToast.calledWith('Direction added.'));
-    expect(component.data().directions[3].details).to.equal('Cook until water is absorbed adequately');
+    expect(component.data().directions[3].details).to.equal(
+      'Cook until water is absorbed adequately',
+    );
   });
 
   it('clicking the add direction button without a valid input should not add a direction', () => {
@@ -175,7 +179,9 @@ describe('Recipes.vue', () => {
   });
 
   it('adding a direction should increase the order number of the new direction', () => {
-    Object.assign(window, { prompt: () => 'Place uncooked ground beef in skillet' });
+    Object.assign(window, {
+      prompt: () => 'Place uncooked ground beef in skillet',
+    });
     const component = mount(Recipes);
     component.setData({ isUser: true });
     const button = component.find('.add-direction-button')[0];
@@ -183,21 +189,25 @@ describe('Recipes.vue', () => {
     expect(component.data().directions[0].order).to.equal(1);
   });
 
-  it('editing a direction should change that direction\'s details', () => {
+  it("editing a direction should change that direction's details", () => {
     Object.assign(window, { prompt: () => 'Slowly heat up the skillet' });
     const component = mount(Recipes);
     component.setData({ isUser: true });
     component.setData({ directions });
     const button = component.find('.edit-direction-button')[0];
     button.trigger('click');
-    expect(component.data().directions[0].details).to.equal('Slowly heat up the skillet');
+    expect(component.data().directions[0].details).to.equal(
+      'Slowly heat up the skillet',
+    );
   });
 
   it('clicking on the clear notes button clears the note', () => {
     Object.assign(window, { confirm: () => true });
     const component = mount(Recipes);
     component.setData({ isUser: true });
-    component.setData({ note: 'Heat the over to 400 degrees before putting salmon in.' });
+    component.setData({
+      note: 'Heat the over to 400 degrees before putting salmon in.',
+    });
     const button = component.find('.clear-notes-button')[0];
     button.trigger('click');
     expect(component.data().note).to.equal('');

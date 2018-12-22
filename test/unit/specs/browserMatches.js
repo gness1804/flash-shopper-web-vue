@@ -19,4 +19,3 @@ describe('browserMatches', () => {
     assert.strictEqual(browserMatches(browsers.macOS.chrome), false);
   });
 });
-

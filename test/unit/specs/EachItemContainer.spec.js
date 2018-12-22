@@ -6,7 +6,7 @@ describe('EachItemContainer.vue', () => {
   const propsData = {
     item,
     itemsRef: {
-      child: () => { },
+      child: () => {},
     },
   };
 
@@ -19,7 +19,9 @@ describe('EachItemContainer.vue', () => {
     const el2 = component.find('.each-item-aisle')[0];
     expect(el2.text().trim()).to.equal('Aisle: \n    \n   10');
     const el3 = component.find('.each-item-note')[0];
-    expect(el3.text().trim()).to.equal('Note:\n    \n    Please do not get stale bread');
+    expect(el3.text().trim()).to.equal(
+      'Note:\n    \n    Please do not get stale bread',
+    );
     const el4 = component.find('.each-item-quantity')[0];
     expect(el4.text().trim()).to.equal('Quantity:\n    \n    2 loaves');
   });
@@ -90,7 +92,7 @@ describe('EachItemContainer.vue', () => {
     const propsData2 = {
       item: otherFakeItem,
       itemsRef: {
-        child: () => { },
+        child: () => {},
       },
     };
     const component = mount(EachItemContainer, { propsData: propsData2 });

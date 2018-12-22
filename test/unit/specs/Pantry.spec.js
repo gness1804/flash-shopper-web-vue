@@ -68,26 +68,29 @@ describe('Pantry', () => {
   });
 
   it('should trigger the add item method if the user clicks on the add item button with valid data', () => {
-    const expectedResult =
-      {
-        id: null,
-        name: 'Bagels',
-        aisle: '22',
-        note: 'Do not get store brand',
-        isHidden: false,
-        quantity: '2 bags',
-        inCart: false,
-        ingredientId: null,
-        dateCompleted: null,
-        link: 'https://www.heb.com/product-detail/h-e-b-sushiya-san-antonio-roll/1477048',
-      };
+    const expectedResult = {
+      id: null,
+      name: 'Bagels',
+      aisle: '22',
+      note: 'Do not get store brand',
+      isHidden: false,
+      quantity: '2 bags',
+      inCart: false,
+      ingredientId: null,
+      dateCompleted: null,
+      link:
+        'https://www.heb.com/product-detail/h-e-b-sushiya-san-antonio-roll/1477048',
+    };
     const component = mount(Pantry);
     component.setData({ items });
     component.setData({ name });
     component.setData({ aisle: '22' });
     component.setData({ note: 'Do not get store brand' });
     component.setData({ quantity: '2 bags' });
-    component.setData({ link: 'https://www.heb.com/product-detail/h-e-b-sushiya-san-antonio-roll/1477048' });
+    component.setData({
+      link:
+        'https://www.heb.com/product-detail/h-e-b-sushiya-san-antonio-roll/1477048',
+    });
     component.setData({ itemsRef });
     const triggerErrorState = sinon.stub();
     component.setMethods({ triggerErrorState });
