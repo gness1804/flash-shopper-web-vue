@@ -39,4 +39,5 @@ export interface RecipeViewInt extends AuthInt, CoreFBDataInt, ToastInt {
   timesTakenToMake: number[];
   timeStartedMaking: number;
   timeStoppedMaking: number;
+  isLoading: boolean;
 }

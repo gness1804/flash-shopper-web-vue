@@ -62,7 +62,10 @@
       >
       </add-source>
       <p>Times Made: {{ timesMade }}</p>
-      <p v-if="lastMade">Last Made: {{ lastMadeHumanReadable }}</p>
+      <p v-if="lastMade">
+        <span v-if="isLoading" class="loading-elem"> Loading... </span>
+        <span v-else> Last Made: {{ lastMadeHumanReadable }} </span>
+      </p>
       <p v-else>This has not been made yet. Make it now!</p>
       <button class="button make-recipe-button" v-on:click="makeRecipe">
         Make!
@@ -325,6 +328,7 @@ export default {
       timesTakenToMake: [],
       timeStartedMaking: 0,
       timeStoppedMaking: 0,
+      isLoading: false,
     };
   },
   methods: {
@@ -670,8 +674,10 @@ export default {
       this.showShowHideContainer = true;
     },
     showLastMade: function(): void {
-      setTimeout(() => {
-        this.lastMade = findLastMade(this.datesMade);
+      this.isLoading = true;
+      setTimeout(async () => {
+        this.lastMade = await findLastMade(this.datesMade);
+        this.isLoading = false;
       }, display.timerStandard);
     },
     showToast: function(message: string): void {
@@ -863,5 +869,9 @@ export default {
 
 .hidden-ingredients-pseudolink:hover {
   cursor: pointer;
+}
+
+.loading-elem {
+  font-weight: 700;
 }
 </style>
