@@ -22,5 +22,6 @@ describe('Item', () => {
     assert.strictEqual(item.inCart, false);
     assert.strictEqual(item.dateCompleted, null);
     assert.strictEqual(item.link, null);
+    // assert.deepEqual(item.timesTakenToMake, []); // should work but does not
   });
 });

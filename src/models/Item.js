@@ -9,6 +9,7 @@ interface Options {
   dateCompleted?: string | null;
   link?: string | null;
   isHidden?: boolean;
+  timesTakenToMake: number[];
 }
 
 class Item {
@@ -22,6 +23,7 @@ class Item {
   dateCompleted: string | null;
   link: string | null;
   isHidden: boolean;
+  timesTakenToMake: number[];
 
   constructor(opt: Options) {
     this.id = null;
@@ -34,6 +36,7 @@ class Item {
     this.dateCompleted = opt.dateCompleted || null;
     this.link = opt.link || null;
     this.isHidden = opt.isHidden || false;
+    this.timesTakenToMake = opt.timesTakenToMake || [];
   }
 }
 

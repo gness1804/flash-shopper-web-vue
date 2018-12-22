@@ -322,6 +322,9 @@ export default {
       lastMade: 0,
       directionsDone: 0,
       askToUpdateTimesMade: true,
+      timesTakenToMake: [],
+      timeStartedMaking: 0,
+      timeStoppedMaking: 0,
     };
   },
   methods: {
@@ -344,6 +347,15 @@ export default {
       });
       this.closeModal();
       this.showToast('Ingredient added.');
+    },
+    addTimeTakenToMake: async function(): void {
+      this.timeStoppedMaking = Date.now();
+      const timeTaken = this.timeStoppedMaking - this.timeStartedMaking;
+      await this.timesTakenToMake.push(timeTaken);
+      this.resetTimesTaken();
+      await this.targetRecipe.update({
+        timesTakenToMake: this.timesTakenToMake,
+      });
     },
     changeOrderForDir: function(targetDir: Direction): void {
       const newOrder = prompt('Enter desired new order for this direction.');
@@ -472,6 +484,7 @@ export default {
         this.source = target[0].source || display.addSourceDefault;
         this.timesMade = target[0].timesMade || 0;
         this.datesMade = target[0].datesMade || [];
+        this.timesTakenToMake = target[0].timesTakenToMake || [];
         this.targetRecipe = this.itemsRef.child(this.id);
         this.computeDirsDone();
       }
@@ -519,6 +532,7 @@ export default {
       this.showShowHideContainer = false;
     },
     increaseTimesMade: function(): void {
+      this.timeStartedMaking = Date.now();
       this.timesMade++;
       this.datesMade.push(Date.now());
       this.targetRecipe.update({
@@ -555,6 +569,7 @@ export default {
             timesMade: recipe.val().timesMade,
             datesMade: recipe.val().datesMade,
             id: recipe.key,
+            timesTakenToMake: recipe.val().timesTakenToMake,
           });
         });
         this.filterOutTargetRecipe(newArr);
@@ -615,6 +630,10 @@ export default {
         this.showLastMade();
       }
     },
+    resetTimesTaken: function(): void {
+      this.timeStartedMaking = 0;
+      this.timeStoppedMaking = 0;
+    },
     saveNote: function(_note: string): void {
       this.note = _note;
       this.targetRecipe.update({
@@ -662,6 +681,12 @@ export default {
         this.viewToast = false;
         this.toastMessage = '';
       }, display.timerStandard);
+    },
+    stopTimeTakenToMake: function(): void {
+      const warn = confirm('Do you want to mark the recipe as done?');
+      if (warn) {
+        this.addTimeTakenToMake();
+      }
     },
     toggleDone: async function(dir: Direction): void {
       const ind = this.directions.indexOf(dir);
@@ -730,6 +755,16 @@ export default {
     }
     await this.showLastMade();
     await this.computeDirsDone();
+  },
+  watch: {
+    directions: function(): void {
+      if (
+        this.directionsDone === this.directions.length &&
+        this.timeStartedMaking > 0
+      ) {
+        this.stopTimeTakenToMake();
+      }
+    },
   },
 };
 </script>

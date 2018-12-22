@@ -26,11 +26,13 @@ const thereAreChanges = (options: OptionsInt): boolean => {
     initQty,
     initLink,
   } = options;
-  return name !== initName ||
+  return (
+    name !== initName ||
     aisle !== initAisle ||
     note !== initNote ||
     quantity !== initQty ||
-    link !== initLink;
+    link !== initLink
+  );
 };
 
 export default thereAreChanges;
