@@ -82,6 +82,14 @@
       >
         Reset
       </button>
+      <div class="times-taken-to-make-container">
+        <button
+          class="complete-recipe-button button green-button"
+          v-on:click="markAsDone"
+        >
+          Done!
+        </button>
+      </div>
       <div
         class="ingredients-container"
         v-if="ingredients && ingredients.length > 0"
@@ -360,6 +368,7 @@ export default {
       await this.targetRecipe.update({
         timesTakenToMake: this.timesTakenToMake,
       });
+      this.showToast(`Congrats! Recipe finished in ${timeTaken}`);
     },
     changeOrderForDir: function(targetDir: Direction): void {
       const newOrder = prompt('Enter desired new order for this direction.');
@@ -589,6 +598,18 @@ export default {
         this.uncheckAll();
       }
       this.increaseTimesMade();
+    },
+    markAsDone: function(): void {
+      if (this.timeStartedMaking === 0) {
+        alert(
+          'Oops! You need to start making the recipe first. Click on Make! above.',
+        );
+        return;
+      }
+      const warn = confirm('Mark recipe as done?');
+      if (warn) {
+        this.addTimeTakenToMake();
+      }
     },
     openEditModal: function(ing: Item): void {
       this.showEditModal = true;
@@ -873,5 +894,17 @@ export default {
 
 .loading-elem {
   font-weight: 700;
+}
+
+.times-taken-to-make-container {
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #000;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 40px auto;
+  padding: 10px;
+  width: 60vw;
 }
 </style>
