@@ -1,5 +1,6 @@
 // @flow
 import Item from './Item';
+import type { RecipeCategory } from '../types/enums/RecipeCategory';
 
 interface Opts {
   title: string;
@@ -10,6 +11,7 @@ interface Opts {
   source?: string;
   timesMade?: number;
   datesMade: number[];
+  categories: RecipeCategory[];
 }
 
 class Recipe {
@@ -22,6 +24,7 @@ class Recipe {
   source: string;
   timesMade: number;
   datesMade: number[];
+  categories: RecipeCategory[];
 
   constructor(opts: Opts) {
     this.id = null;
@@ -33,6 +36,7 @@ class Recipe {
     this.source = opts.source || '';
     this.timesMade = opts.timesMade || 0;
     this.datesMade = opts.datesMade || [];
+    this.categories = opts.categories || [];
   }
 }
 

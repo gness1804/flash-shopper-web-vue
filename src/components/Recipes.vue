@@ -110,7 +110,9 @@
         src="../assets/cancel-circle.png"
         v-on:click="clearNotes"
         title="Clear Notes"
+        alt="Red X signifying clear notes action."
       />
+      <div class="categories-selector-container"></div>
       <button class="button add-recipe-button" v-on:click="addRecipe">
         {{ addRecipeString }}
       </button>
@@ -177,6 +179,7 @@ import Recipe from '../models/Recipe';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
 import { RecipesInt } from '../types/interfaces/Recipes';
+import { recipeCategories } from '../types/enums/RecipeCategory';
 
 export default {
   name: 'Recipes',
@@ -201,6 +204,8 @@ export default {
       directions: [],
       note: '',
       source: '',
+      selectedCategories: [],
+      defaultCategories: Object.keys(recipeCategories),
       error: false,
       errorMssg: '',
       reader: new FileReader(),

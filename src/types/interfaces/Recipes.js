@@ -5,6 +5,7 @@ import { ToastInt } from './Toast';
 import Recipe from '../../models/Recipe';
 import Item from '../../models/Item';
 import Direction from '../../models/Direction';
+import type { RecipeCategory } from '../enums/RecipeCategory';
 
 export interface RecipesInt extends AuthInt, CoreFBDataInt, ToastInt {
   recipes: Recipe[];
@@ -14,6 +15,8 @@ export interface RecipesInt extends AuthInt, CoreFBDataInt, ToastInt {
   directions?: Direction[];
   note?: string;
   source?: string;
+  selectedCategories?: RecipeCategory[];
+  defaultCategories: RecipeCategory[];
   error: boolean;
   errorMssg?: string;
   reader: FileReader;
