@@ -103,16 +103,31 @@
         </ol>
       </div>
       <p v-else>No directions yet. Add one now!</p>
-      <textarea v-model="note" class="note-input" placeholder="Add a note...">
-      </textarea>
-      <img
-        class="clear-notes-button"
-        src="../assets/cancel-circle.png"
-        v-on:click="clearNotes"
-        title="Clear Notes"
-        alt="Red X signifying clear notes action."
-      />
-      <div class="categories-selector-container"></div>
+      <div class="note-container">
+        <textarea v-model="note" class="note-input" placeholder="Add a note...">
+        </textarea>
+        <img
+          class="clear-notes-button"
+          src="../assets/cancel-circle.png"
+          v-on:click="clearNotes"
+          title="Clear Notes"
+          alt="Red X signifying clear notes action."
+        />
+      </div>
+      <div class="categories-selector-container">
+        <p>Categories:</p>
+        <div class="categories">
+          <div
+            class="categories-selector-each-category"
+            v-for="category of defaultCategories"
+          >
+            <label :for="category">
+              <input type="checkbox" :id="category" :value="category" />
+              {{ category }}
+            </label>
+          </div>
+        </div>
+      </div>
       <button class="button add-recipe-button" v-on:click="addRecipe">
         {{ addRecipeString }}
       </button>
@@ -452,6 +467,34 @@ export default {
   padding: 10px;
 }
 
+.categories-selector-container {
+  background-color: #fff;
+  border: 1px solid #000;
+  margin: 0 auto;
+  padding: 10px;
+  width: 60vw;
+}
+
+.categories-selector-container p {
+  font-weight: 700;
+}
+
+.categories-selector-container .categories {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.categories-selector-each-category {
+  margin-right: 20px;
+}
+
+.categories-selector-each-category label:hover,
+.categories-selector-each-category input:hover {
+  cursor: pointer;
+}
+
 .directions-list {
   align-items: center;
   display: flex;
@@ -491,9 +534,15 @@ export default {
   padding-bottom: 30px;
 }
 
+.note-container {
+  border: 1px solid #000;
+  margin: 50px auto;
+  width: 60vw;
+}
+
 .note-input {
   height: 100px;
-  margin: 40px auto;
+  margin: 40px auto 20px;
   width: 60vw;
 }
 
