@@ -116,7 +116,10 @@
           alt="Red X signifying clear notes action."
         />
       </div>
-      <CategorySelector :default-categories="defaultCategories" />
+      <CategorySelector
+        :default-categories="defaultCategories"
+        v-on:changeCategory="changeCategory"
+      />
       <button class="button add-recipe-button" v-on:click="addRecipe">
         {{ addRecipeString }}
       </button>
@@ -185,6 +188,7 @@ import Direction from '../models/Direction';
 import { RecipesInt } from '../types/interfaces/Recipes';
 import { recipeCategories } from '../types/enums/RecipeCategory';
 import CategorySelector from './CategorySelector';
+import type { RecipeCategory } from '../types/enums/RecipeCategory';
 
 export default {
   name: 'Recipes',
@@ -265,6 +269,9 @@ export default {
       });
       this.itemsRef.push(recipe);
       this.showToast(`${recipe.title} successfully added.`);
+    },
+    changeCategory: function(categories: RecipeCategory[]): void {
+      this.selectedCategories = categories;
     },
     clearNotes: function(): void {
       const warning = confirm('Clear notes: are you sure?');

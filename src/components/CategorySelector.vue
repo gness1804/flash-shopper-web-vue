@@ -7,7 +7,13 @@
         v-for="category of defaultCategories"
       >
         <label :for="category">
-          <input type="checkbox" :id="category" :value="category" />
+          <input
+            type="checkbox"
+            :id="category"
+            :value="category"
+            v-model="selectedCategories"
+            v-on:change="changeCategory"
+          />
           {{ category }}
         </label>
       </div>
@@ -15,12 +21,24 @@
   </div>
 </template>
 <script>
+import type { CategoriesSelectorInt } from '../types/interfaces/CategoriesSelectorInt';
+
 export default {
   name: 'CategorySelector',
   props: {
     defaultCategories: {
       type: Array,
       required: true,
+    },
+  },
+  data(): CategoriesSelectorInt {
+    return {
+      selectedCategories: [],
+    };
+  },
+  methods: {
+    changeCategory: function(): void {
+      this.$emit('changeCategory', this.selectedCategories);
     },
   },
 };
