@@ -92,12 +92,14 @@
               src="../assets/cancel-circle.png"
               v-on:click="deleteDirection(direction)"
               title="Delete Direction"
+              alt="Red X signifying delete direction."
             />
             <img
               class="icon edit-direction-button"
               src="../assets/pencil.png"
               v-on:click="editDirection(direction)"
               title="Edit Direction"
+              alt="Pencil signifying edit direction."
             />
           </li>
         </ol>
@@ -114,20 +116,7 @@
           alt="Red X signifying clear notes action."
         />
       </div>
-      <div class="categories-selector-container">
-        <p>Categories:</p>
-        <div class="categories">
-          <div
-            class="categories-selector-each-category"
-            v-for="category of defaultCategories"
-          >
-            <label :for="category">
-              <input type="checkbox" :id="category" :value="category" />
-              {{ category }}
-            </label>
-          </div>
-        </div>
-      </div>
+      <CategorySelector :default-categories="defaultCategories" />
       <button class="button add-recipe-button" v-on:click="addRecipe">
         {{ addRecipeString }}
       </button>
@@ -195,14 +184,15 @@ import Item from '../models/Item';
 import Direction from '../models/Direction';
 import { RecipesInt } from '../types/interfaces/Recipes';
 import { recipeCategories } from '../types/enums/RecipeCategory';
+import CategorySelector from './CategorySelector';
 
 export default {
   name: 'Recipes',
   components: {
+    CategorySelector,
     Toast,
     Ingredient,
     AddIngredientModal,
-    Direction,
     EachRecipe,
     AppHeader,
   },
@@ -467,27 +457,8 @@ export default {
   padding: 10px;
 }
 
-.categories-selector-container {
-  background-color: #fff;
-  border: 1px solid #000;
-  margin: 0 auto;
-  padding: 10px;
-  width: 60vw;
-}
-
 .categories-selector-container p {
   font-weight: 700;
-}
-
-.categories-selector-container .categories {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-}
-
-.categories-selector-each-category {
-  margin-right: 20px;
 }
 
 .categories-selector-each-category label:hover,
