@@ -119,6 +119,7 @@
       <CategorySelector
         :default-categories="defaultCategories"
         v-on:changeCategory="changeCategory"
+        ref="categorySelector"
       />
       <button class="button add-recipe-button" v-on:click="addRecipe">
         {{ addRecipeString }}
@@ -246,7 +247,15 @@ export default {
       this.showToast('Ingredient added.');
     },
     addRecipe: function(): void {
-      const { title, image, ingredients, directions, note, source } = this;
+      const {
+        title,
+        image,
+        ingredients,
+        directions,
+        note,
+        source,
+        selectedCategories,
+      } = this;
       if (!title || ingredients.length === 0) {
         alert(
           'Oops, you must enter at least a title and one ingredient. Please try again.',
@@ -266,6 +275,7 @@ export default {
         note,
         source,
         timesMade: 0,
+        categories: selectedCategories,
       });
       this.itemsRef.push(recipe);
       this.showToast(`${recipe.title} successfully added.`);
@@ -384,6 +394,9 @@ export default {
       this.ingredients = [];
       this.directions = [];
       this.note = '';
+      this.selectedCategories = [];
+      // commands the CategorySelector child component to clear its selectedCategories data
+      this.$refs.categorySelector.resetSelectedCategories();
     },
     sortAlpha: function(): void {
       this.recipes = sortItems(this.recipes);

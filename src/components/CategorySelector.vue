@@ -40,6 +40,9 @@ export default {
     changeCategory: function(): void {
       this.$emit('changeCategory', this.selectedCategories);
     },
+    resetSelectedCategories: function(): void {
+      this.selectedCategories = [];
+    },
   },
 };
 </script>
