@@ -4,6 +4,7 @@ import { AuthInt, CoreFBDataInt } from './CoreFunc';
 import { ToastInt } from './Toast';
 import Recipe from '../../models/Recipe';
 import Item from '../../models/Item';
+import type { RecipeCategory } from '../enums/RecipeCategory';
 
 export interface RecipeViewInt extends AuthInt, CoreFBDataInt, ToastInt {
   id: string;
@@ -15,6 +16,7 @@ export interface RecipeViewInt extends AuthInt, CoreFBDataInt, ToastInt {
   note: string;
   source: string;
   targetRecipe: Recipe;
+  initCategories: RecipeCategory[];
   reader: FileReader;
   showModal: boolean;
   removeImageString: string;

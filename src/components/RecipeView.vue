@@ -300,6 +300,7 @@ export default {
       toastMessage: '',
       viewToast: false,
       targetRecipe: {},
+      initCategories: [],
       reader: new FileReader(),
       showModal: false,
       removeImageString: buttonStrings.removeImage,
@@ -472,6 +473,7 @@ export default {
         this.source = target[0].source || display.addSourceDefault;
         this.timesMade = target[0].timesMade || 0;
         this.datesMade = target[0].datesMade || [];
+        this.initCategories = target[0].categories || [];
         this.targetRecipe = this.itemsRef.child(this.id);
         this.computeDirsDone();
       }
@@ -554,6 +556,7 @@ export default {
             source: recipe.val().source,
             timesMade: recipe.val().timesMade,
             datesMade: recipe.val().datesMade,
+            categories: recipe.val().categories,
             id: recipe.key,
           });
         });
