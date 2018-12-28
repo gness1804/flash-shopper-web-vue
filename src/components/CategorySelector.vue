@@ -1,6 +1,6 @@
 <template>
   <div class="categories-selector-container">
-    <p>Categories:</p>
+    <p>Categories for {{ name || 'New Recipe' }}:</p>
     <p v-if="loading">Loading...</p>
     <div v-else class="categories">
       <div
@@ -36,6 +36,10 @@ export default {
     },
     initCategories: {
       type: Array,
+      required: false,
+    },
+    name: {
+      type: String,
       required: false,
     },
   },

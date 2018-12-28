@@ -30,6 +30,7 @@
         :default-categories="defaultCategories"
         v-on:changeCategory="changeCategory"
         :initCategories="initCategories"
+        :name="title"
       />
       <p class="note-output">{{ note }}</p>
       <img

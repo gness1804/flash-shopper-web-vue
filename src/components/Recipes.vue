@@ -120,6 +120,7 @@
         :default-categories="defaultCategories"
         v-on:changeCategory="changeCategory"
         ref="categorySelector"
+        :name="title"
       />
       <button class="button add-recipe-button" v-on:click="addRecipe">
         {{ addRecipeString }}
