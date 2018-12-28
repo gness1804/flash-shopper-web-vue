@@ -137,6 +137,19 @@
         </button>
       </div>
       <p class="recipe-count">You have {{ recipes.length }} recipe(s).</p>
+      <div class="category-filter-selector">
+        <label>
+          <select class="categories-select" v-model="categoryToFilter">
+            <option
+              v-for="category of defaultCategories"
+              v-bind:key="`${v4}${category}`"
+              v-bind:value="category"
+            >
+              {{ category }}
+            </option>
+          </select>
+        </label>
+      </div>
       <div class="recipe-display-section" v-if="recipes.length > 0">
         <h3>Your Recipes:</h3>
         <each-recipe
@@ -170,6 +183,7 @@
 // @flow
 
 import * as firebase from 'firebase';
+import { v4 } from 'uuid';
 import firebaseApp from '../../firebaseConfig'; // eslint-disable-line
 import Toast from './Toast';
 import Ingredient from './Ingredient';
@@ -230,6 +244,8 @@ export default {
       sortAlphaString: buttonStrings.sortAlpha,
       sortTimesMadeString: buttonStrings.sortByTimesMade,
       howManyDirections: null,
+      categoryToFilter: '',
+      v4: v4(),
     };
   },
   methods: {
