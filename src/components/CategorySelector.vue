@@ -54,6 +54,7 @@ export default {
   mounted: async function(): void {
     await setTimeout(() => {
       if (this.initCategories && this.initCategories.length) {
+        this.$emit('changeCategory', this.initCategories);
         this.initCategories.forEach(cat => {
           const elem = document.querySelector(`#${cat}`);
           elem.checked = true;

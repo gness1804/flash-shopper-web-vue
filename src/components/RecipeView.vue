@@ -28,6 +28,7 @@
       </div>
       <CategorySelector
         :default-categories="defaultCategories"
+        v-on:changeCategory="changeCategory"
         :initCategories="initCategories"
       />
       <p class="note-output">{{ note }}</p>
@@ -280,6 +281,7 @@ import findLastMade from '../helpers/findLastMade';
 import { RecipeViewInt } from '../types/interfaces/RecipeView';
 import CategorySelector from './CategorySelector';
 import { recipeCategories } from '../types/enums/RecipeCategory';
+import type { RecipeCategory } from '../types/enums/RecipeCategory';
 
 export default {
   name: 'recipeView',
@@ -357,6 +359,9 @@ export default {
       });
       this.closeModal();
       this.showToast('Ingredient added.');
+    },
+    changeCategory: function(categories: RecipeCategory[]): void {
+      this.selectedCategories = categories;
     },
     changeOrderForDir: function(targetDir: Direction): void {
       const newOrder = prompt('Enter desired new order for this direction.');
