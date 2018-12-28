@@ -57,6 +57,7 @@ export default {
     },
   },
   mounted: async function(): void {
+    this.loading = true;
     await setTimeout(() => {
       if (this.initCategories && this.initCategories.length) {
         this.changeCategory(this.initCategories, true);
@@ -67,6 +68,7 @@ export default {
         });
       }
     }, displayVars.timerStandard);
+    this.loading = false;
   },
 };
 </script>
