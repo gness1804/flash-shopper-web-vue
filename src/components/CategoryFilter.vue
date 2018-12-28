@@ -1,5 +1,6 @@
 <template>
   <div class="category-filter-selector">
+    <p>Filter Recipes by Category</p>
     <label>
       <select class="categories-select" @change="onSelectCat">
         <option selected disabled> Choose a Category</option>
@@ -36,12 +37,20 @@ export default {
 };
 </script>
 <style scoped>
-.categories-selector-container p {
-  font-weight: 700;
+.category-filter-selector {
+  align-items: center;
+  border: 1px solid #000;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px auto;
+  padding: 10px;
+  width: 40vw;
 }
 
-.categories-selector-each-category label:hover,
-.categories-selector-each-category input:hover {
-  cursor: pointer;
+.category-filter-selector p {
+  font-weight: 700;
+  margin: 0;
 }
 </style>
