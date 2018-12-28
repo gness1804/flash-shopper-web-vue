@@ -1,7 +1,8 @@
 <template>
   <div class="categories-selector-container">
     <p>Categories:</p>
-    <div class="categories">
+    <p v-if="loading">Loading...</p>
+    <div v-else class="categories">
       <div
         class="categories-selector-each-category"
         v-for="category of defaultCategories"
@@ -10,6 +11,7 @@
           <input
             type="checkbox"
             :id="category"
+            class="checkbox"
             :value="category"
             v-model="selectedCategories"
             v-on:change="changeCategory"
@@ -30,10 +32,15 @@ export default {
       type: Array,
       required: true,
     },
+    initCategories: {
+      type: Array,
+      required: false,
+    },
   },
   data(): CategoriesSelectorInt {
     return {
       selectedCategories: [],
+      loading: false,
     };
   },
   methods: {
@@ -43,6 +50,16 @@ export default {
     resetSelectedCategories: function(): void {
       this.selectedCategories = [];
     },
+  },
+  mounted: async function(): void {
+    await setTimeout(() => {
+      if (this.initCategories && this.initCategories.length) {
+        this.initCategories.forEach(cat => {
+          const elem = document.querySelector(`#${cat}`);
+          elem.checked = true;
+        });
+      }
+    }, 5000);
   },
 };
 </script>

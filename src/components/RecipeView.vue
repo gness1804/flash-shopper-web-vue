@@ -10,7 +10,7 @@
       <h2 class="recipe-view-headline" contenteditable v-on:blur="saveTitle">
         {{ title }}
       </h2>
-      <img class="recipe-view-image" v-bind:src="image" />
+      <img class="recipe-view-image" v-bind:src="image" alt="The recipe." />
       <div class="image-container">
         <p>Add/Replace Image</p>
         <input
@@ -26,18 +26,24 @@
           {{ removeImageString }}
         </button>
       </div>
+      <CategorySelector
+        :default-categories="defaultCategories"
+        :initCategories="initCategories"
+      />
       <p class="note-output">{{ note }}</p>
       <img
         class="delete-note-button"
         src="../assets/cancel-circle.png"
         v-on:click="deleteNote"
         title="Delete Note"
+        alt="Red X signifying delete note"
       />
       <img
         class="icon edit-note-button"
         src="../assets/pencil.png"
         v-on:click="editNote"
         title="Edit Note"
+        alt="Pencil signifying edit note."
       />
       <a
         v-if="validateURL(source)"
@@ -53,6 +59,7 @@
         src="../assets/pencil.png"
         v-on:click="editSource"
         title="Edit Source"
+        alt="Pencil signifying edit source."
       />
       <add-source
         v-if="showAddSourceInput"
@@ -271,10 +278,13 @@ import display from '../helpers/displayVars';
 import httpValidate from '../helpers/httpValidate';
 import findLastMade from '../helpers/findLastMade';
 import { RecipeViewInt } from '../types/interfaces/RecipeView';
+import CategorySelector from './CategorySelector';
+import { recipeCategories } from '../types/enums/RecipeCategory';
 
 export default {
   name: 'recipeView',
   components: {
+    CategorySelector,
     Ingredient,
     Toast,
     AddIngredientModal,
@@ -300,7 +310,9 @@ export default {
       toastMessage: '',
       viewToast: false,
       targetRecipe: {},
+      defaultCategories: Object.keys(recipeCategories),
       initCategories: [],
+      selectedCategories: [],
       reader: new FileReader(),
       showModal: false,
       removeImageString: buttonStrings.removeImage,
