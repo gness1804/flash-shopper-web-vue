@@ -45,8 +45,11 @@ export default {
     };
   },
   methods: {
-    changeCategory: function(cat: RecipeCategory): void {
-      this.$emit('changeCategory', cat);
+    changeCategory: function(
+      cat: RecipeCategory,
+      isInit: boolean = false,
+    ): void {
+      this.$emit('changeCategory', cat, isInit);
     },
     resetSelectedCategories: function(): void {
       this.selectedCategories = [];
@@ -55,7 +58,7 @@ export default {
   mounted: async function(): void {
     await setTimeout(() => {
       if (this.initCategories && this.initCategories.length) {
-        this.changeCategory(this.initCategories);
+        this.changeCategory(this.initCategories, true);
         this.initCategories.forEach(cat => {
           const elem = document.querySelector(`#${cat}`);
           elem.checked = true;

@@ -360,8 +360,18 @@ export default {
       this.closeModal();
       this.showToast('Ingredient added.');
     },
-    changeCategory: function(categories: RecipeCategory[]): void {
+    changeCategory: function(
+      categories: RecipeCategory[],
+      isInit: boolean,
+    ): void {
       this.selectedCategories = categories;
+
+      if (!isInit) {
+        this.targetRecipe.update({
+          categories: this.selectedCategories,
+        });
+        this.showToast('Categories updated.');
+      }
     },
     changeOrderForDir: function(targetDir: Direction): void {
       const newOrder = prompt('Enter desired new order for this direction.');
