@@ -58,6 +58,7 @@ export default {
         this.initCategories.forEach(cat => {
           const elem = document.querySelector(`#${cat}`);
           elem.checked = true;
+          this.selectedCategories.push(cat);
         });
       }
     }, 5000);
