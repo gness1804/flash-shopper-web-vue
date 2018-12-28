@@ -53,4 +53,8 @@ export default {
   font-weight: 700;
   margin: 0;
 }
+
+.categories-select {
+  margin: 20px auto;
+}
 </style>

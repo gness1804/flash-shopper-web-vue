@@ -136,7 +136,13 @@
           {{ sortTimesMadeString }}
         </button>
       </div>
-      <p class="recipe-count">You have {{ recipes.length }} recipe(s).</p>
+      <p v-if="!categoryToFilter" class="recipe-count">
+        You have {{ recipes.length }} recipe(s).
+      </p>
+      <p v-else class="recipe-count">
+        {{ recipes.length }} recipe(s) match your category:
+        {{ categoryToFilter }}.
+      </p>
       <CategoryFilter
         :default-categories="defaultCategories"
         :v4="v4"
@@ -152,6 +158,9 @@
         >
         </each-recipe>
       </div>
+      <p v-else-if="categoryToFilter">
+        Select another option in the filter menu above to see recipes.
+      </p>
       <div class="no-recipes-message" v-else>
         <p>It looks like you do not have any recipes yet. Add one now!</p>
       </div>
@@ -415,9 +424,11 @@ export default {
     ): void {
       await this.initializeApp(); // should probably have caching or at least local storage in place of this
       if (selection === 'Show All') {
+        this.categoryToFilter = '';
         return;
       }
       this.recipes = this.recipes.filter(r => r.categories.includes(selection));
+      this.categoryToFilter = selection;
     },
     sortAlpha: function(): void {
       this.recipes = sortItems(this.recipes);
@@ -570,5 +581,11 @@ export default {
 .add-source-input {
   display: block;
   margin: 0 auto;
+}
+
+.recipe-count {
+  font-weight: 700;
+  font-size: 20px;
+  margin: 40px auto;
 }
 </style>
