@@ -363,6 +363,7 @@ export default {
             note: recipe.val().note,
             source: recipe.val().source,
             timesMade: recipe.val().timesMade || 0,
+            categories: recipe.val().categories || [],
             id: recipe.key,
           });
         });
@@ -409,14 +410,14 @@ export default {
       // commands the CategorySelector child component to clear its selectedCategories data
       this.$refs.categorySelector.resetSelectedCategories();
     },
-    selectCategoryFromFilter: function(
+    selectCategoryFromFilter: async function(
       selection: RecipeCategory | 'Show All',
     ): void {
+      await this.initializeApp(); // should probably have caching or at least local storage in place of this
       if (selection === 'Show All') {
-        // show all categories
         return;
       }
-      this.recipes = this.recipes.filter(r => r.categories);
+      this.recipes = this.recipes.filter(r => r.categories.includes(selection));
     },
     sortAlpha: function(): void {
       this.recipes = sortItems(this.recipes);
