@@ -140,6 +140,7 @@
       <div class="category-filter-selector">
         <label>
           <select class="categories-select" v-model="categoryToFilter">
+            <option selected> Choose a Category </option>
             <option
               v-for="category of defaultCategories"
               v-bind:key="`${v4}${category}`"
