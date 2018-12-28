@@ -25,6 +25,7 @@
 <script>
 import type { CategoriesSelectorInt } from '../types/interfaces/CategoriesSelectorInt';
 import type { RecipeCategory } from '../types/enums/RecipeCategory';
+import displayVars from '../helpers/displayVars';
 
 export default {
   name: 'CategorySelector',
@@ -65,7 +66,7 @@ export default {
           this.selectedCategories.push(cat);
         });
       }
-    }, 5000);
+    }, displayVars.timerStandard);
   },
 };
 </script>
