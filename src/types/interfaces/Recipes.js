@@ -29,5 +29,5 @@ export interface RecipesInt extends AuthInt, CoreFBDataInt, ToastInt {
   sortTimesMadeString: string;
   howManyDirections: number | null;
   categoryToFilter: RecipeCategory;
-  v4: () => {};
+  v4: string;
 }

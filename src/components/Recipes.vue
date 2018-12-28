@@ -137,20 +137,11 @@
         </button>
       </div>
       <p class="recipe-count">You have {{ recipes.length }} recipe(s).</p>
-      <div class="category-filter-selector">
-        <label>
-          <select class="categories-select" v-model="categoryToFilter">
-            <option selected> Choose a Category </option>
-            <option
-              v-for="category of defaultCategories"
-              v-bind:key="`${v4}${category}`"
-              v-bind:value="category"
-            >
-              {{ category }}
-            </option>
-          </select>
-        </label>
-      </div>
+      <CategoryFilter
+        :default-categories="defaultCategories"
+        :v4="v4"
+        v-on:selectCategoryFromFilter="selectCategoryFromFilter"
+      />
       <div class="recipe-display-section" v-if="recipes.length > 0">
         <h3>Your Recipes:</h3>
         <each-recipe
@@ -206,10 +197,12 @@ import { RecipesInt } from '../types/interfaces/Recipes';
 import { recipeCategories } from '../types/enums/RecipeCategory';
 import CategorySelector from './CategorySelector';
 import type { RecipeCategory } from '../types/enums/RecipeCategory';
+import CategoryFilter from './CategoryFilter';
 
 export default {
   name: 'Recipes',
   components: {
+    CategoryFilter,
     CategorySelector,
     Toast,
     Ingredient,
@@ -415,6 +408,15 @@ export default {
       this.selectedCategories = [];
       // commands the CategorySelector child component to clear its selectedCategories data
       this.$refs.categorySelector.resetSelectedCategories();
+    },
+    selectCategoryFromFilter: function(
+      selection: RecipeCategory | 'Show All',
+    ): void {
+      if (selection === 'Show All') {
+        // show all categories
+        return;
+      }
+      this.recipes = this.recipes.filter(r => r.categories);
     },
     sortAlpha: function(): void {
       this.recipes = sortItems(this.recipes);
