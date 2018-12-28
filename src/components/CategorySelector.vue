@@ -14,7 +14,7 @@
             class="checkbox"
             :value="category"
             v-model="selectedCategories"
-            v-on:change="changeCategory"
+            v-on:change="changeCategory(selectedCategories)"
           />
           {{ category }}
         </label>
@@ -24,6 +24,7 @@
 </template>
 <script>
 import type { CategoriesSelectorInt } from '../types/interfaces/CategoriesSelectorInt';
+import type { RecipeCategory } from '../types/enums/RecipeCategory';
 
 export default {
   name: 'CategorySelector',
@@ -44,8 +45,8 @@ export default {
     };
   },
   methods: {
-    changeCategory: function(): void {
-      this.$emit('changeCategory', this.selectedCategories);
+    changeCategory: function(cat: RecipeCategory): void {
+      this.$emit('changeCategory', cat);
     },
     resetSelectedCategories: function(): void {
       this.selectedCategories = [];
@@ -54,7 +55,7 @@ export default {
   mounted: async function(): void {
     await setTimeout(() => {
       if (this.initCategories && this.initCategories.length) {
-        this.$emit('changeCategory', this.initCategories);
+        this.changeCategory(this.initCategories);
         this.initCategories.forEach(cat => {
           const elem = document.querySelector(`#${cat}`);
           elem.checked = true;
