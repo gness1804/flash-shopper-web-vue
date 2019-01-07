@@ -1,7 +1,5 @@
 <template>
-  <div
-    id="recipes"
-  >
+  <div id="recipes">
     <app-header
       v-bind:isUser="isUser"
       v-bind:userEmail="userEmail"
@@ -9,23 +7,21 @@
     >
     </app-header>
     <h2 class="recipes-headline">Recipes</h2>
-    <div
-      v-if="isUser"
-      class="recipes-main"
-    >
+    <div v-if="isUser" class="recipes-main">
       <div class="add-recipe-container">
         <h3 class="add-recipe-text">Add Recipe</h3>
         <img
           class="recipe-image-main"
           alt="recipe image"
           v-bind:src="image"
-          v-bind:title="(title && image !== 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png') ? title : 'Recipe Image'"
+          v-bind:title="
+            title &&
+            image !== 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png'
+              ? title
+              : 'Recipe Image'
+          "
         />
-        <p
-          class="recipe-title-text"
-        >
-          Title: {{title}}
-        </p>
+        <p class="recipe-title-text">Title: {{ title }}</p>
         <input
           type="text"
           placeholder="Title"
@@ -41,139 +37,118 @@
           class="text-input-field add-source-input"
           v-on:blur="verifySource"
         />
-        <div
-          class="image-container"
-        >
-          <p
-        >
-          Add/Replace Image
-        </p>
-        <input
-          type="file"
-          @input="makeErrorFalse"
-          class="file-input-field recipe-image-input"
-          accept="image/*"
-          v-on:change="getImage"
-        />
-        <button
-          class="button warn-button remove-image-button"
-          v-on:click="removeImage"
-        >
-        {{removeImageString}}
-      </button>
-        </div>
-        <div class="add-ingredient-container">
+        <div class="image-container">
+          <p>Add/Replace Image</p>
+          <input
+            type="file"
+            @input="makeErrorFalse"
+            class="file-input-field recipe-image-input"
+            accept="image/*"
+            v-on:change="getImage"
+          />
           <button
-            class="button add-ingredient-button"
-            v-on:click="openModal"
+            class="button warn-button remove-image-button"
+            v-on:click="removeImage"
           >
-            {{addIngredientString}}
+            {{ removeImageString }}
           </button>
         </div>
-        <div
-        class="ingredients-container"
-        v-if="ingredients.length > 0"
-      >
-        <h4>Ingredients:</h4>
-        <ingredient
-          v-for="ingredient of ingredients"
-          v-bind:ingredient="ingredient"
-          v-bind:key="ingredient.id"
-          v-on:removeIngredient="removeIngredient"
-          v-on:transferIngredient="transferIngredient"
-        >
-        </ingredient>
-      </div>
-      <p
-        v-else
-        class="no-ingredients-text"
-      >
-        No ingredients yet. Add one now!
-      </p>
-      <div class="directions-input-container">
-        <button
-          class="button add-direction-button"
-          v-on:click="addDirection"
-        >
-          {{addDirectionString}}
-        </button>
+        <div class="add-ingredient-container">
+          <button class="button add-ingredient-button" v-on:click="openModal">
+            {{ addIngredientString }}
+          </button>
+        </div>
+        <div class="ingredients-container" v-if="ingredients.length > 0">
+          <h4>Ingredients:</h4>
+          <ingredient
+            v-for="ingredient of ingredients"
+            v-bind:ingredient="ingredient"
+            v-bind:key="ingredient.id"
+            v-on:removeIngredient="removeIngredient"
+            v-on:transferIngredient="transferIngredient"
+          >
+          </ingredient>
+        </div>
+        <p v-else class="no-ingredients-text">
+          No ingredients yet. Add one now!
+        </p>
+        <div class="directions-input-container">
+          <button class="button add-direction-button" v-on:click="addDirection">
+            {{ addDirectionString }}
+          </button>
         </div>
       </div>
-      <div
-        class="directions-container"
-        v-if="directions.length > 0"
-      >
-      <h4>Directions:</h4>
-      <ol class="directions-list">
-        <li
-          class="direction-li"
-          v-for="direction of directions"
-          v-bind:key="direction.id"
-        >
-          <div>{{direction.details}}</div>
-          <img
-            class="icon delete-direction-button"
-            src="../assets/cancel-circle.png"
-            v-on:click="deleteDirection(direction)"
-            title="Delete Direction"
-          />
-          <img
-            class="icon edit-direction-button"
-            src="../assets/pencil.png"
-            v-on:click="editDirection(direction)"
-            title="Edit Direction"
-          />
-        </li>
-      </ol>
+      <div class="directions-container" v-if="directions.length > 0">
+        <h4>Directions:</h4>
+        <ol class="directions-list">
+          <li
+            class="direction-li"
+            v-for="direction of directions"
+            v-bind:key="direction.id"
+          >
+            <div>{{ direction.details }}</div>
+            <img
+              class="icon delete-direction-button"
+              src="../assets/cancel-circle.png"
+              v-on:click="deleteDirection(direction)"
+              title="Delete Direction"
+              alt="Red X signifying delete direction."
+            />
+            <img
+              class="icon edit-direction-button"
+              src="../assets/pencil.png"
+              v-on:click="editDirection(direction)"
+              title="Edit Direction"
+              alt="Pencil signifying edit direction."
+            />
+          </li>
+        </ol>
       </div>
-      <p
-        v-else
-      >
-        No directions yet. Add one now!
-      </p>
-      <textarea
-        v-model="note"
-        class="note-input"
-        placeholder="Add a note..."
-      >
-      </textarea>
-      <img
-        class="clear-notes-button"
-        src="../assets/cancel-circle.png"
-        v-on:click="clearNotes"
-        title="Clear Notes"
+      <p v-else>No directions yet. Add one now!</p>
+      <div class="note-container">
+        <textarea v-model="note" class="note-input" placeholder="Add a note...">
+        </textarea>
+        <img
+          class="clear-notes-button"
+          src="../assets/cancel-circle.png"
+          v-on:click="clearNotes"
+          title="Clear Notes"
+          alt="Red X signifying clear notes action."
+        />
+      </div>
+      <CategorySelector
+        :default-categories="defaultCategories"
+        v-on:changeCategory="changeCategory"
+        ref="categorySelector"
+        :name="title"
       />
-      <button
-        class="button add-recipe-button"
-        v-on:click="addRecipe"
-      >
-        {{addRecipeString}}
+      <button class="button add-recipe-button" v-on:click="addRecipe">
+        {{ addRecipeString }}
       </button>
-      <div
-        class="bottom-buttons-container"
-      >
-        <button
-          class="button sort-alpha-button"
-          v-on:click="sortAlpha"
-        >
-          {{sortAlphaString}}
+      <div class="bottom-buttons-container">
+        <button class="button sort-alpha-button" v-on:click="sortAlpha">
+          {{ sortAlphaString }}
         </button>
         <button
           class="button sort-times-made-button"
           v-on:click="sortByTimesMade"
         >
-          {{sortTimesMadeString}}
+          {{ sortTimesMadeString }}
         </button>
       </div>
-      <p
-        class="recipe-count"
-      >
-        You have {{recipes.length}} recipe(s).
+      <p v-if="!categoryToFilter" class="recipe-count">
+        You have {{ recipes.length }} recipe(s).
       </p>
-      <div
-        class="recipe-display-section"
-        v-if="recipes.length > 0"
-      >
+      <p v-else class="recipe-count">
+        {{ recipes.length }} recipe(s) match your category:
+        {{ categoryToFilter }}.
+      </p>
+      <CategoryFilter
+        :default-categories="defaultCategories"
+        :v4="v4"
+        v-on:selectCategoryFromFilter="selectCategoryFromFilter"
+      />
+      <div class="recipe-display-section" v-if="recipes.length > 0">
         <h3>Your Recipes:</h3>
         <each-recipe
           v-for="recipe of recipes"
@@ -183,31 +158,25 @@
         >
         </each-recipe>
       </div>
-      <div
-        class="no-recipes-message"
-        v-else
-      >
+      <p v-else-if="categoryToFilter">
+        Select another option in the filter menu above to see recipes.
+      </p>
+      <div class="no-recipes-message" v-else>
         <p>It looks like you do not have any recipes yet. Add one now!</p>
       </div>
     </div>
     <!-- end of logged in section -->
-    <p
-      v-else
-    >
-    Oops, you are not logged in. Please click the Go Home button to log in.
+    <p v-else>
+      Oops, you are not logged in. Please click the Go Home button to log in.
     </p>
-    <toast
-    v-if="viewToast"
-    v-bind:message="toastMessage"
+    <toast v-if="viewToast" v-bind:message="toastMessage"> </toast>
+    <add-ingredient-modal
+      v-if="showModal"
+      v-on:closeModal="closeModal"
+      v-on:addIngredient="addIngredient"
+      v-on:showToast="showToast"
     >
-    </toast>
-  <add-ingredient-modal
-    v-if="showModal"
-    v-on:closeModal="closeModal"
-    v-on:addIngredient="addIngredient"
-    v-on:showToast="showToast"
-  >
-  </add-ingredient-modal>
+    </add-ingredient-modal>
   </div>
 </template>
 
@@ -215,7 +184,8 @@
 // @flow
 
 import * as firebase from 'firebase';
-import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
+import { v4 } from 'uuid';
+import firebaseApp from '../../firebaseConfig'; // eslint-disable-line
 import Toast from './Toast';
 import Ingredient from './Ingredient';
 import EachRecipe from './EachRecipe';
@@ -233,14 +203,18 @@ import Recipe from '../models/Recipe';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
 import { RecipesInt } from '../types/interfaces/Recipes';
+import { recipeCategories } from '../types/enums/RecipeCategory';
+import CategorySelector from './CategorySelector';
+import CategoryFilter from './CategoryFilter';
 
 export default {
   name: 'Recipes',
   components: {
+    CategoryFilter,
+    CategorySelector,
     Toast,
     Ingredient,
     AddIngredientModal,
-    Direction,
     EachRecipe,
     AppHeader,
   },
@@ -257,6 +231,8 @@ export default {
       directions: [],
       note: '',
       source: '',
+      selectedCategories: [],
+      defaultCategories: Object.keys(recipeCategories),
       error: false,
       errorMssg: '',
       reader: new FileReader(),
@@ -270,27 +246,39 @@ export default {
       sortAlphaString: buttonStrings.sortAlpha,
       sortTimesMadeString: buttonStrings.sortByTimesMade,
       howManyDirections: null,
+      categoryToFilter: '',
+      v4: v4(),
     };
   },
   methods: {
-    addDirection: function (): void {
+    addDirection: function(): void {
       const input = prompt('Enter a new direction.');
       if (input) {
-        const dir = new Direction(input, (this.countDirections + 1));
+        const dir = new Direction(input, this.countDirections + 1);
         this.directions = this.directions.concat(dir);
         this.showToast('Direction added.');
       }
     },
-    addIngredient: function (ingredient: Item): void {
+    addIngredient: function(ingredient: Item): void {
       const modifiedIng = { ...ingredient, ingredientId: Date.now() };
       this.ingredients = this.ingredients.concat(modifiedIng);
       this.closeModal();
       this.showToast('Ingredient added.');
     },
-    addRecipe: function (): void {
-      const { title, image, ingredients, directions, note, source } = this;
+    addRecipe: function(): void {
+      const {
+        title,
+        image,
+        ingredients,
+        directions,
+        note,
+        source,
+        selectedCategories,
+      } = this;
       if (!title || ingredients.length === 0) {
-        alert('Oops, you must enter at least a title and one ingredient. Please try again.');
+        alert(
+          'Oops, you must enter at least a title and one ingredient. Please try again.',
+        );
         return;
       }
       if (source && !httpValidate(source)) {
@@ -306,21 +294,27 @@ export default {
         note,
         source,
         timesMade: 0,
+        categories: selectedCategories,
       });
       this.itemsRef.push(recipe);
       this.showToast(`${recipe.title} successfully added.`);
     },
-    clearNotes: function (): void {
+    changeCategory: function(categories: []): void {
+      this.selectedCategories = categories;
+    },
+    clearNotes: function(): void {
       const warning = confirm('Clear notes: are you sure?');
       if (warning) {
         this.note = '';
       }
     },
-    closeModal: function (): void {
+    closeModal: function(): void {
       this.showModal = false;
     },
-    deleteDirection: function (dir: Direction): void {
-      const warning = confirm('Are you sure you want to delete this direction?');
+    deleteDirection: function(dir: Direction): void {
+      const warning = confirm(
+        'Are you sure you want to delete this direction?',
+      );
       if (warning) {
         this.directions = this.directions.filter((d: Direction) => {
           return d.id !== dir.id;
@@ -329,7 +323,7 @@ export default {
         this.showToast('Direction removed.');
       }
     },
-    editDirection: function (dir: Direction): void {
+    editDirection: function(dir: Direction): void {
       const ind = this.directions.indexOf(dir);
       const newText = prompt('Enter the new direction text.', dir.details);
       if (newText) {
@@ -340,7 +334,7 @@ export default {
         });
       }
     },
-    getImage: function (e: Event): void {
+    getImage: function(e: Event): void {
       this.reader.readAsDataURL(e.target.files[0]);
       setTimeout(() => {
         try {
@@ -351,21 +345,21 @@ export default {
         }
       }, display.timerStandard);
     },
-    initializeApp: function (): void {
+    initializeApp: function(): void {
       firebase.auth().onAuthStateChanged((user: firebase.User) => {
         if (user) {
           this.isUser = true;
           const email = cleanUpUserEmail(user.email);
           this.userEmail = user.email;
           this.userId = user.uid;
-          this.itemsRef = firebase.database().ref(email + '/recipes') //eslint-disable-line
+          this.itemsRef = firebase.database().ref(email + '/recipes'); //eslint-disable-line
           this.listenForItems(this.itemsRef);
         } else {
           this.isUser = false;
         }
       });
     },
-    listenForItems: function (itemsRef: firebase.database.Reference): void {
+    listenForItems: function(itemsRef: firebase.database.Reference): void {
       itemsRef.on('value', (snapshot: firebase.database.DataSnapshot) => {
         const newArr: Recipe[] = [];
         snapshot.forEach((recipe: firebase.database.DataSnapshot) => {
@@ -377,56 +371,69 @@ export default {
             note: recipe.val().note,
             source: recipe.val().source,
             timesMade: recipe.val().timesMade || 0,
+            categories: recipe.val().categories || [],
             id: recipe.key,
           });
         });
         this.recipes = sortItems(newArr);
       });
     },
-    logOut: function (): void {
+    logOut: function(): void {
       logOut();
     },
-    makeErrorFalse: function (): void {
+    makeErrorFalse: function(): void {
       this.error = false;
       this.errorMssg = '';
     },
-    openModal: function (): void {
+    openModal: function(): void {
       this.showModal = true;
     },
-    removeImage: function (): void {
+    removeImage: function(): void {
       const warning = confirm('Remove image: are you sure?');
       if (warning) {
         this.image = 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
         this.showToast('Image removed.');
       }
     },
-    removeIngredient: function (ingredient: Item): void {
+    removeIngredient: function(ingredient: Item): void {
       this.ingredients = this.ingredients.filter((i: Item) => {
         return i.ingredientId !== ingredient.ingredientId;
       });
       this.showToast('Ingredient removed.');
     },
-    removeRecipe: function (rec: Recipe): void {
+    removeRecipe: function(rec: Recipe): void {
       this.itemsRef.child(rec.id).remove();
       this.showToast(`${rec.title} deleted.`);
     },
-    reorderDirections: function (): void {
+    reorderDirections: function(): void {
       this.directions = sequentialize(this.directions);
     },
-    resetInputFields: function (): void {
+    resetInputFields: function(): void {
       this.title = '';
       this.image = 'https://d30y9cdsu7xlg0.cloudfront.net/png/82540-200.png';
       this.ingredients = [];
       this.directions = [];
       this.note = '';
+      this.selectedCategories = [];
+      // commands the CategorySelector child component to clear its selectedCategories data
+      this.$refs.categorySelector.resetSelectedCategories();
     },
-    sortAlpha: function (): void {
+    selectCategoryFromFilter: async function(selection: string): void {
+      await this.initializeApp(); // should probably have caching or at least local storage in place of this
+      if (selection === 'Show All') {
+        this.categoryToFilter = '';
+        return;
+      }
+      this.recipes = this.recipes.filter(r => r.categories.includes(selection));
+      this.categoryToFilter = selection;
+    },
+    sortAlpha: function(): void {
       this.recipes = sortItems(this.recipes);
     },
-    sortByTimesMade: function (): void {
+    sortByTimesMade: function(): void {
       this.recipes = sortByTimesMadeHelper(this.recipes);
     },
-    showToast: function (message: string): void {
+    showToast: function(message: string): void {
       this.toastMessage = message;
       this.viewToast = true;
       setTimeout(() => {
@@ -434,18 +441,21 @@ export default {
         this.toastMessage = '';
       }, display.timerStandard);
     },
-    transferIngredient: function (ing: Item): void {
+    transferIngredient: function(ing: Item): void {
       const email = cleanUpUserEmail(this.userEmail);
       /* eslint-disable prefer-template */
-      firebase.database().ref(email + '/main').push(ing);
+      firebase
+        .database()
+        .ref(email + '/main')
+        .push(ing);
       this.showToast(`${ing.name} added to main list.`);
-       /* eslint-enable prefer-template */
+      /* eslint-enable prefer-template */
     },
-    triggerErrorState: function (message: string): void {
+    triggerErrorState: function(message: string): void {
       this.error = true;
       this.errorMssg = message;
     },
-    verifySource: function (): void {
+    verifySource: function(): void {
       if (!this.source) {
         return;
       }
@@ -457,103 +467,122 @@ export default {
     },
   },
   computed: {
-    countDirections: function (): number {
+    countDirections: function(): number {
       return this.directions.length;
     },
   },
-  mounted: function (): void {
+  mounted: function(): void {
     this.initializeApp();
   },
 };
 </script>
 
 <style scoped>
-  .recipes-headline {
-    font-size: 36px;
-  }
+.recipes-headline {
+  font-size: 36px;
+}
 
-  .add-recipe-text {
-    margin-top: 50px;
-  }
+.add-recipe-text {
+  margin-top: 50px;
+}
 
-  .recipe-image-main {
-    background-color: #fff;
-    border-radius: 50%;
-    display: block;
-    margin: 60px auto;
-    width: 20vw;
-  }
+.recipe-image-main {
+  background-color: #fff;
+  border-radius: 50%;
+  display: block;
+  margin: 60px auto;
+  width: 20vw;
+}
 
-  .add-direction-input-field {
-    margin-top: 20px;
-  }
+.add-direction-input-field {
+  margin-top: 20px;
+}
 
-  .add-recipe-button {
-    border-radius: 10px;
-    display: block;
-    font-size: 24px;
-    margin: 60px auto;
-    padding: 10px;
-  }
+.add-recipe-button {
+  border-radius: 10px;
+  display: block;
+  font-size: 24px;
+  margin: 60px auto;
+  padding: 10px;
+}
 
-  .directions-list {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+.categories-selector-container p {
+  font-weight: 700;
+}
 
-  .delete-direction-button {
-    margin-top: 10px;
-  }
+.categories-selector-each-category label:hover,
+.categories-selector-each-category input:hover {
+  cursor: pointer;
+}
 
-  .direction-li {
-    margin-bottom: 20px;
-  }
+.directions-list {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
-  .image-container,
-  .add-ingredient-container,
-  .directions-input-container {
-    background-color: #ffffff;
-    border: 1px solid #000000;
-    margin: 40px auto;
-    padding-bottom: 20px;
-    width: 60vw;
-  }
+.delete-direction-button {
+  margin-top: 10px;
+}
 
-  .add-ingredient-container,
-  .directions-input-container {
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    padding: 30px;
-  }
+.direction-li {
+  margin-bottom: 20px;
+}
 
-  .no-ingredients-text,
-  .ingredients-container,
-  .directions-container {
-    padding-bottom: 30px;
-  }
+.image-container,
+.add-ingredient-container,
+.directions-input-container {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  margin: 40px auto;
+  padding-bottom: 20px;
+  width: 60vw;
+}
 
-  .note-input {
-    height: 100px;
-    margin: 40px auto;
-    width: 60vw;
-  }
+.add-ingredient-container,
+.directions-input-container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
 
-  .clear-notes-button {
-    display: block;
-    margin: 10px auto;
-  }
+.no-ingredients-text,
+.ingredients-container,
+.directions-container {
+  padding-bottom: 30px;
+}
 
-  .clear-notes-button:hover {
-    cursor: pointer;
-  }
+.note-container {
+  border: 1px solid #000;
+  margin: 50px auto;
+  width: 60vw;
+}
 
-  .add-source-input {
-    display: block;
-    margin: 0 auto;
-  }
+.note-input {
+  height: 100px;
+  margin: 40px auto 20px;
+  width: 60vw;
+}
+
+.clear-notes-button {
+  display: block;
+  margin: 10px auto;
+}
+
+.clear-notes-button:hover {
+  cursor: pointer;
+}
+
+.add-source-input {
+  display: block;
+  margin: 0 auto;
+}
+
+.recipe-count {
+  font-weight: 700;
+  font-size: 20px;
+  margin: 40px auto;
+}
 </style>
-
-

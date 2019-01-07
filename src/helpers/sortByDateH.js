@@ -20,4 +20,3 @@ const sortByDateH = (items: Item[]): Item[] => {
 };
 
 export default sortByDateH;
-

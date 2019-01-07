@@ -2,30 +2,17 @@
   <div class="authed-main">
     <div class="upper-icons-container">
       <div class="upper-icon-block">
-      <img
-        class="upper-icon"
-        src="../assets/list.png"
-      />
-      <span class="items-length">{{items.length}}</span>
+        <img class="upper-icon" src="../assets/list.png" />
+        <span class="items-length">{{ items.length }}</span>
       </div>
       <div class="upper-icon-block">
-      <img
-        class="upper-icon"
-        src="../assets/cart-arrow-down.png"
-      />
-      <span class="items-in-cart-count">{{countItemsInCart()}}</span>
+        <img class="upper-icon" src="../assets/cart-arrow-down.png" />
+        <span class="items-in-cart-count">{{ countItemsInCart() }}</span>
       </div>
     </div>
-    <p
-      class="error-container"
-      v-if="error"
-    >
-    {{errorMssg}}
-    </p>
+    <p class="error-container" v-if="error">{{ errorMssg }}</p>
     <h3 class="headline">Enter New Item:</h3>
-    <div
-      class="item-input-container"
-    >
+    <div class="item-input-container">
       <input
         type="text"
         placeholder="Name"
@@ -57,10 +44,7 @@
         :remove-duplicates="removeDuplicates(names)"
         v-on:selectNameSafari="selectNameSafari"
       />
-      <label
-        for="populate"
-        class="auto-populate-label"
-      >
+      <label for="populate" class="auto-populate-label">
         Auto Populate Aisle
         <input
           type="checkbox"
@@ -99,43 +83,37 @@
       />
     </div>
     <div class="buttons-container">
-      <button
-        class="button bottom-button add-item-button"
-        v-on:click="addItem"
-      >
-        {{addItemString}}
+      <button class="button bottom-button add-item-button" v-on:click="addItem">
+        {{ addItemString }}
       </button>
       <button
         class="button bottom-button sort-alpha-button"
         v-on:click="sortAlpha"
       >
-        {{sortAlphaString}}
+        {{ sortAlphaString }}
       </button>
       <button
         class="button bottom-button sort-aisle-button"
         v-on:click="sortAisle"
       >
-        {{sortAisleString}}
+        {{ sortAisleString }}
       </button>
       <button
         class="button warn-button bottom-button delete-all-items-button"
         v-on:click="deleteAllItems"
         v-bind:disabled="items.length === 0"
       >
-        {{deleteAllItemsString}}
+        {{ deleteAllItemsString }}
       </button>
       <button
         class="button warn-button bottom-button complete-all-items-in-cart-button"
         v-on:click="completeAllInCart"
         v-bind:disabled="!thereAreItemsInCart(items)"
       >
-        {{completeAllInCartString}}
+        {{ completeAllInCartString }}
       </button>
     </div>
-    <div
-      class="items-container"
-      v-if="items.length > 0"
-    >
+    <div class="items-container" v-if="items.length > 0">
       <p class="items-headline">Items:</p>
       <each-item-container
         v-for="item of items"
@@ -152,10 +130,7 @@
       >
       </each-item-container>
     </div>
-    <no-items
-      v-else
-    >
-    </no-items>
+    <no-items v-else> </no-items>
   </div>
 </template>
 
@@ -170,7 +145,10 @@ import NamesSelectorSafari from './NamesSelectorSafari';
 import Item from '../models/Item';
 import ShortItem from '../models/ShortItem';
 import thereAreItemsInCart from '../helpers/thereAreItemsInCart';
-import { filterOutDuplicateNames, filteroutDuplicateRecentItems } from '../helpers/filterOutDuplicates';
+import {
+  filterOutDuplicateNames,
+  filteroutDuplicateRecentItems,
+} from '../helpers/filterOutDuplicates';
 import flattenArr from '../helpers/flattenArr';
 import buttonStrings from '../helpers/buttonStrings';
 import browserMatches from '../helpers/browserMatches';
@@ -224,14 +202,18 @@ export default {
     };
   },
   methods: {
-    addItem: async function (): void {
+    addItem: async function(): void {
       const { name, aisle, note, quantity, link } = this;
       if (!name) {
-        this.triggerErrorState('Oops! Your item needs at least a name to be valid. Please try again.');
+        this.triggerErrorState(
+          'Oops! Your item needs at least a name to be valid. Please try again.',
+        );
         return;
       }
       if (link && !httpValidate(link)) {
-        this.triggerErrorState('Error: the link must be a valid website link. Please try again.');
+        this.triggerErrorState(
+          'Error: the link must be a valid website link. Please try again.',
+        );
         return;
       }
       // success state
@@ -246,73 +228,89 @@ export default {
       this.$emit('addItem', it);
       if (aisle) {
         // filter out duplicates from localStorage list
-        this.recentSearches = await filteroutDuplicateRecentItems(name, this.recentSearches);
+        this.recentSearches = await filteroutDuplicateRecentItems(
+          name,
+          this.recentSearches,
+        );
         // add object with name and aisle to localStorage list
         const _it = new ShortItem(v4(), name, aisle);
         await this.recentSearches.push(_it);
-        localStorage.setItem('fsRecentSearches', JSON.stringify(this.recentSearches));
+        localStorage.setItem(
+          'fsRecentSearches',
+          JSON.stringify(this.recentSearches),
+        );
       }
     },
-    addToAPN: function (_item: Item): void {
+    addToAPN: function(_item: Item): void {
       this.$emit('addToAPN', _item);
     },
-    addToHEB: function (_item: Item | string): void {
+    addToHEB: function(_item: Item | string): void {
       this.$emit('addToHEB', _item);
     },
-    addToInstacart: function (_item: Item): void {
+    addToInstacart: function(_item: Item): void {
       this.$emit('addToInstacart', _item);
     },
-    checkAisle: function (): void {
+    checkAisle: function(): void {
       if (this.isAisleAutoPopulated) {
         this.populateAisle(this.name);
       }
     },
-    completeAllInCart: function (): void {
-      const warning = confirm('Are you sure you want to mark ALL the items in your cart as completed?');
+    completeAllInCart: function(): void {
+      const warning = confirm(
+        'Are you sure you want to mark ALL the items in your cart as completed?',
+      );
       if (warning) {
         this.$emit('completeAllInCart');
       }
     },
-    countItemsInCart: function (): number {
+    countItemsInCart: function(): number {
       const newArr = this.items.filter((item: Item) => {
         return item.inCart;
       });
       return newArr.length;
     },
-    deleteAllItems: function (): void {
-      const warning = confirm('Are you sure you want to delete ALL items? This cannot be undone!');
+    deleteAllItems: function(): void {
+      const warning = confirm(
+        'Are you sure you want to delete ALL items? This cannot be undone!',
+      );
       if (warning) {
         this.$emit('deleteAllItems');
       }
     },
-    detectBrowser: function (): void {
+    detectBrowser: function(): void {
       const browser = navigator.userAgent;
       if (browserMatches(browser)) {
         this.isSafari = true;
       }
     },
-    goToPantry: function (): void {
+    goToPantry: function(): void {
       this.$router.push('/pantry');
     },
-    goToRecipes: function (): void {
+    goToRecipes: function(): void {
       this.$router.push('/recipes');
     },
-    initLocalStorage: async function (): void {
+    initLocalStorage: async function(): void {
       if (localStorage.getItem('fsRecentSearches')) {
-        this.recentSearches = await JSON.parse(localStorage.getItem('fsRecentSearches'));
+        this.recentSearches = await JSON.parse(
+          localStorage.getItem('fsRecentSearches'),
+        );
       } else {
         localStorage.setItem('fsRecentSearches', JSON.stringify([]));
       }
     },
-    makeErrorFalse: function (): void {
+    makeErrorFalse: function(): void {
       this.error = false;
       this.errorMssg = '';
     },
-    populateAisle: function (name): void {
+    populateAisle: function(name): void {
       const pantryItem = this.pantryShortItems.filter(i => i.name === name)[0];
       const pantryAisle = pantryItem ? pantryItem.aisle : undefined;
-      const recentSearchesItem = this.recentSearches.filter(i => i.name === name)[0];
-      const recentSearchesAisle = recentSearchesItem ? recentSearchesItem.aisle : undefined;
+      const recentSearchesItem = this.recentSearches.filter(
+        i => i.name === name,
+      )[0];
+      const recentSearchesAisle = recentSearchesItem
+        ? recentSearchesItem.aisle
+        : undefined;
       if (pantryItem && pantryAisle) {
         this.aisle = pantryAisle;
         this.showToast('Populated aisle number from pantry list.');
@@ -323,51 +321,51 @@ export default {
         this.aisle = '';
       }
     },
-    removeDuplicates: function (arr: string[]): string[] {
+    removeDuplicates: function(arr: string[]): string[] {
       return filterOutDuplicateNames(arr);
     },
-    removeItem: function (_item: Item): void {
+    removeItem: function(_item: Item): void {
       this.$emit('removeItem', _item);
     },
-    resetInputFields: function (): void {
+    resetInputFields: function(): void {
       this.name = '';
       this.aisle = '';
       this.note = '';
       this.quantity = '';
       this.link = '';
     },
-    selectNameSafari: function (name: string): void {
+    selectNameSafari: function(name: string): void {
       this.name = name;
       if (this.isAisleAutoPopulated) {
         this.populateAisle(name);
       }
     },
-    setNames: function (): void {
+    setNames: function(): void {
       setTimeout(() => {
         this.names = flattenArr(this.pantryShortItems);
       }, display.timerStandard);
     },
-    showToast: function (message: string): void {
+    showToast: function(message: string): void {
       this.$emit('showToast', message);
     },
-    sortAisle: function (): void {
+    sortAisle: function(): void {
       this.$emit('sortAisle');
     },
-    sortAlpha: function (): void {
+    sortAlpha: function(): void {
       this.$emit('sortAlpha');
     },
-    toggleInCart: function (item: Item): void {
+    toggleInCart: function(item: Item): void {
       this.$emit('toggleInCart', item);
     },
-    transferToDone: function (_item: Item): void {
+    transferToDone: function(_item: Item): void {
       this.$emit('transferToDone', _item);
     },
-    triggerErrorState: function (message: string): void {
+    triggerErrorState: function(message: string): void {
       this.error = true;
       this.errorMssg = message;
     },
   },
-  mounted: async function (): void {
+  mounted: async function(): void {
     await this.detectBrowser();
     await this.setNames();
     await this.initLocalStorage();
@@ -376,80 +374,77 @@ export default {
 </script>
 
 <style scoped>
+.buttons-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.bottom-button {
+  margin-right: 20px;
+}
+
+.go-to-pantry-button {
+  margin-top: 20px;
+}
+
+.items-headline {
+  font-size: 24px;
+  margin: 40px auto;
+}
+
+.upper-icons-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 30px auto;
+}
+
+.upper-icon-block {
+  margin-right: 20px;
+}
+
+.upper-icon {
+  height: 40px;
+  width: 40px;
+}
+
+.auto-populate-label {
+  font-size: 13px;
+  margin-bottom: 20px;
+}
+
+.auto-populate-label:hover,
+.auto-populate-label input:hover {
+  cursor: pointer;
+}
+
+.search-heb-button {
+  margin: 20px auto;
+}
+
+.search-heb-button:disabled {
+  opacity: 0.5;
+}
+
+.heb-icon-name-search {
+  height: 40px;
+}
+
+@media (max-width: 500px) {
   .buttons-container {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
   }
 
-  .bottom-button {
-    margin-right: 20px;
+  .button.bottom-button {
+    border-radius: 10px;
+    font-size: 20px;
+    margin-bottom: 5%;
+    margin-right: 0;
+    padding: 10px;
+    width: 60%;
   }
-
-  .go-to-pantry-button {
-    margin-top: 20px;
-  }
-
-  .items-headline {
-    font-size: 24px;
-    margin: 40px auto;
-  }
-
-  .upper-icons-container {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    margin: 30px auto;
-  }
-
-  .upper-icon-block {
-    margin-right: 20px;
-  }
-
-  .upper-icon {
-    height: 40px;
-    width: 40px;
-  }
-
-  .auto-populate-label {
-    font-size: 13px;
-    margin-bottom: 20px;
-  }
-
-  .auto-populate-label:hover,
-  .auto-populate-label input:hover {
-    cursor: pointer;
-  }
-
-  .search-heb-button {
-    margin: 20px auto;
-  }
-
-  .search-heb-button:disabled {
-    opacity: 0.5;
-  }
-
-  .heb-icon-name-search {
-    height: 40px;
-  }
-
-  @media (max-width: 500px) {
-    .buttons-container {
-      flex-direction: column;
-    }
-
-    .button.bottom-button {
-      border-radius: 10px;
-      font-size: 20px;
-      margin-bottom: 5%;
-      margin-right: 0;
-      padding: 10px;
-      width: 60%;
-    }
-  }
-
+}
 </style>
-
-

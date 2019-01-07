@@ -2,20 +2,20 @@
 import Item from '../../models/Item';
 
 export interface ItemModalInt {
-  name: string,
-  aisle?: string,
-  note?: string,
-  quantity?: string,
-  link?: string,
-  error: boolean,
-  errorMssg?: string,
+  name: string;
+  aisle?: string;
+  note?: string;
+  quantity?: string;
+  link?: string;
+  error: boolean;
+  errorMssg?: string;
 }
 
 export interface EditItemModalInt extends ItemModalInt {
-  targetItem: Item,
-  initName: string,
-  initAisle?: string,
-  initNote?: string,
-  initQty?: string,
-  initLink?: string,
+  targetItem: Item;
+  initName: string;
+  initAisle?: string;
+  initNote?: string;
+  initQty?: string;
+  initLink?: string;
 }

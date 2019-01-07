@@ -50,7 +50,10 @@ describe('TimerModal', () => {
     component.setData({ timeOne: '' });
     const button = component.find('.timer-button')[0];
     button.trigger('click');
-    sinon.assert.calledWith(window.alert, 'Oops! You need to enter at least one valid time.');
+    sinon.assert.calledWith(
+      window.alert,
+      'Oops! You need to enter at least one valid time.',
+    );
   });
 
   it('the startStopwatch method should fail if there is no unit', () => {
@@ -59,7 +62,10 @@ describe('TimerModal', () => {
     component.setData({ unitsOne: '' });
     const button = component.find('.timer-button')[0];
     button.trigger('click');
-    sinon.assert.calledWith(window.alert, 'Oops! You need to enter at least one valid time.');
+    sinon.assert.calledWith(
+      window.alert,
+      'Oops! You need to enter at least one valid time.',
+    );
   });
 
   it('the startStopwatch method should call window.open with the correct url', () => {
@@ -67,7 +73,10 @@ describe('TimerModal', () => {
     const component = mount(TimerModal);
     const button = component.find('.stopwatch-icon')[0];
     button.trigger('click');
-    sinon.assert.calledWith(window.open, 'https://www.google.com/search?q=start+stopwatch');
+    sinon.assert.calledWith(
+      window.open,
+      'https://www.google.com/search?q=start+stopwatch',
+    );
   });
 
   it('the startTimer method should call window.open with the correct url when there are no time inputs other than the default', () => {
@@ -75,7 +84,10 @@ describe('TimerModal', () => {
     const component = mount(TimerModal);
     const button = component.find('.timer-button')[0];
     button.trigger('click');
-    sinon.assert.calledWith(window.open, 'https://www.google.com/search?q=set+timer+for+5+minutes');
+    sinon.assert.calledWith(
+      window.open,
+      'https://www.google.com/search?q=set+timer+for+5+minutes',
+    );
   });
 
   it('the startTimer method should call window.open with the correct url (the default) when the user enters a time but no unit', () => {
@@ -84,7 +96,10 @@ describe('TimerModal', () => {
     component.setData({ timeTwo: '20' });
     const button = component.find('.timer-button')[0];
     button.trigger('click');
-    sinon.assert.calledWith(window.open, 'https://www.google.com/search?q=set+timer+for+5+minutes');
+    sinon.assert.calledWith(
+      window.open,
+      'https://www.google.com/search?q=set+timer+for+5+minutes',
+    );
   });
 
   it('the startTimer method should call window.open with the correct url (the default) when the user enters a unit but no time', () => {
@@ -93,7 +108,10 @@ describe('TimerModal', () => {
     component.setData({ unitsTwo: 'hours' });
     const button = component.find('.timer-button')[0];
     button.trigger('click');
-    sinon.assert.calledWith(window.open, 'https://www.google.com/search?q=set+timer+for+5+minutes');
+    sinon.assert.calledWith(
+      window.open,
+      'https://www.google.com/search?q=set+timer+for+5+minutes',
+    );
   });
 
   it('the startTimer method should call window.open with the correct url (the full one) when the user enters both a unit and a time', () => {
@@ -103,6 +121,9 @@ describe('TimerModal', () => {
     component.setData({ unitsTwo: 'hours' });
     const button = component.find('.timer-button')[0];
     button.trigger('click');
-    sinon.assert.calledWith(window.open, 'https://www.google.com/search?q=set+timer+for+5+minutes+and+20+hours');
+    sinon.assert.calledWith(
+      window.open,
+      'https://www.google.com/search?q=set+timer+for+5+minutes+and+20+hours',
+    );
   });
 });

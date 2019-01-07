@@ -1,13 +1,7 @@
 <template>
-  <div
-    class="each-pantry-item"
-    v-bind:class="{ highlighted: isHighlighted }"
-  >
-    <h3
-      class="pantry-item-name"
-      v-bind:class="{ grayedOut: isInMainList }"
-    >
-      {{item.name}}
+  <div class="each-pantry-item" v-bind:class="{ highlighted: isHighlighted }">
+    <h3 class="pantry-item-name" v-bind:class="{ grayedOut: isInMainList }">
+      {{ item.name }}
     </h3>
     <button
       v-bind:disabled="isButtonDisabled"
@@ -15,35 +9,31 @@
       class="blank-button add-item-to-main-list-button"
     >
       <img
-          class="large-icon"
-          v-bind:class="{ hidden: isButtonDisabled }"
-          src="../assets/plus-icon-small.png"
-          title="Add Item to Main List"
-        />
+        class="large-icon"
+        v-bind:class="{ hidden: isButtonDisabled }"
+        src="../assets/plus-icon-small.png"
+        title="Add Item to Main List"
+      />
     </button>
+    <img
+      class="large-icon delete-item-button"
+      src="../assets/cancel-circle.png"
+      v-on:click="deleteItem"
+      title="Delete Item"
+    />
+    <img
+      class="large-icon edit-item-button"
+      src="../assets/pencil.png"
+      v-on:click="viewEditModal"
+      title="Edit Item"
+    />
+    <a v-if="item.link" v-bind:href="item.link" target="_blank">
       <img
-        class="large-icon delete-item-button"
-        src="../assets/cancel-circle.png"
-        v-on:click="deleteItem"
-        title="Delete Item"
+        class="large-icon item-link-button"
+        src="../assets/link.png"
+        title="Go to Link"
       />
-      <img
-        class="large-icon edit-item-button"
-        src="../assets/pencil.png"
-        v-on:click="viewEditModal"
-        title="Edit Item"
-      />
-      <a
-        v-if="item.link"
-        v-bind:href="item.link"
-        target="_blank"
-      >
-        <img
-          class="large-icon item-link-button"
-          src="../assets/link.png"
-          title="Go to Link"
-        />
-      </a>
+    </a>
   </div>
 </template>
 
@@ -74,32 +64,36 @@ export default {
     };
   },
   methods: {
-    deleteItem: function (): void {
-      const warning = confirm(`Warning: do you want to delete ${this.item.name} from the pantry? This cannot be undone!`);
+    deleteItem: function(): void {
+      const warning = confirm(
+        `Warning: do you want to delete ${
+          this.item.name
+        } from the pantry? This cannot be undone!`,
+      );
       if (warning) {
         this.$emit('deleteItem', this.item);
       }
     },
-    setDisabledState: function (): void {
+    setDisabledState: function(): void {
       this.isInMainList = true;
       this.isButtonDisabled = true;
     },
-    setTempHighlighting: function (): void {
+    setTempHighlighting: function(): void {
       this.isHighlighted = true;
       this.setDisabledState();
       setTimeout(() => {
         this.isHighlighted = false;
       }, display.timerStandard);
     },
-    transferItemToMainList: function (): void {
+    transferItemToMainList: function(): void {
       this.$emit('transferItemToMainList', this.item);
       this.setTempHighlighting();
     },
-    viewEditModal: function (): void {
+    viewEditModal: function(): void {
       this.$emit('viewEditModal', this.item);
     },
   },
-  mounted: function (): void {
+  mounted: function(): void {
     setTimeout(() => {
       if (titleMatchesMainItem(this.item.name, this.mainShortItems)) {
         this.setDisabledState();
@@ -110,30 +104,28 @@ export default {
 </script>
 
 <style>
-  .each-pantry-item {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
+.each-pantry-item {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
 
-  .highlighted {
-    border: 2px solid #f00;
-    background-color: #C56415;
-  }
+.highlighted {
+  border: 2px solid #f00;
+  background-color: #c56415;
+}
 
-  .pantry-item-name {
-    margin-right: 40px;
-  }
+.pantry-item-name {
+  margin-right: 40px;
+}
 
-  .grayedOut {
-    color:#8c8383;
-    text-decoration: line-through;
-  }
+.grayedOut {
+  color: #8c8383;
+  text-decoration: line-through;
+}
 
-  .hidden {
-    display: none;
-  }
+.hidden {
+  display: none;
+}
 </style>
-
-

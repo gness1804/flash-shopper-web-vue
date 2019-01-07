@@ -13,7 +13,7 @@ module.exports = {
   // required to lint *.vue files
   plugins: [
     'html',
-    "flowtype-errors"
+    "flowtype-errors",
   ],
   // check if imports actually resolve
   'settings': {
@@ -36,6 +36,8 @@ module.exports = {
     'max-len': 'off',
     'no-restricted-syntax': 'off',
     'no-underscore-dangle': 'off',
+    'space-before-function-paren': 'off',
+    'arrow-parens': 'off',
     // don't require .vue extension when importing
     'import/extensions': ['error', 'always', {
       'js': 'never',

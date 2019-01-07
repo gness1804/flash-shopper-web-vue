@@ -5,14 +5,27 @@ import {
 } from '../../../src/helpers/filterOutDuplicates';
 
 describe('filterOutDuplicates', () => {
-  const names = ['andouille sausage', 'jambalaya rice', 'clams', 'butter', 'clams', 'eggs'];
+  const names = [
+    'andouille sausage',
+    'jambalaya rice',
+    'clams',
+    'butter',
+    'clams',
+    'eggs',
+  ];
 
   it('should be a function', () => {
     assert.isFunction(filterOutDuplicateNames);
   });
 
   it('should return the expected value', () => {
-    const expectedValue = ['andouille sausage', 'butter', 'clams', 'eggs', 'jambalaya rice'];
+    const expectedValue = [
+      'andouille sausage',
+      'butter',
+      'clams',
+      'eggs',
+      'jambalaya rice',
+    ];
     assert.deepEqual(filterOutDuplicateNames(names), expectedValue);
   });
 
@@ -58,6 +71,9 @@ describe('filteroutDuplicateRecentItems.', () => {
         aisle: '10',
       },
     ];
-    assert.deepEqual(filteroutDuplicateRecentItems('Apples', items), expectedValue);
+    assert.deepEqual(
+      filteroutDuplicateRecentItems('Apples', items),
+      expectedValue,
+    );
   });
 });

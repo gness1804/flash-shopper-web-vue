@@ -1,4 +1,4 @@
 export interface Ingredient {
-  isHighlighted: boolean,
-  isCompleted: boolean,
+  isHighlighted: boolean;
+  isCompleted: boolean;
 }

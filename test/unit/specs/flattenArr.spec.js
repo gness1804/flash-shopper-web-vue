@@ -8,7 +8,12 @@ describe('flattenArr', () => {
   });
 
   it('should return a string of names with proper data inputted', () => {
-    assert.deepEqual(flattenArr(items), ['Bread', 'Sausage', 'Milk', 'Frozen onions']);
+    assert.deepEqual(flattenArr(items), [
+      'Bread',
+      'Sausage',
+      'Milk',
+      'Frozen onions',
+    ]);
   });
 
   it('should return an empty array for bad data (empty array input)', () => {

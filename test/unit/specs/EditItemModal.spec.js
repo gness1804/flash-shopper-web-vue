@@ -57,23 +57,31 @@ describe('EditItemModal', () => {
     component.setData({ name: '' });
     const button = component.find('.save-item-button')[0];
     button.trigger('click');
-    sinon.assert.calledWith(triggerErrorState, 'Oops! Your item must have at least a name.');
+    sinon.assert.calledWith(
+      triggerErrorState,
+      'Oops! Your item must have at least a name.',
+    );
   });
 
   it('clicking the save item button should call the update method if there is a valid name', () => {
-    const propsData2 = { ...propsData,
+    const propsData2 = {
+      ...propsData,
       item: {
         ...propsData.item,
-        link: 'https://www.heb.com/product-detail/h-e-b-sushiya-san-antonio-roll/1477048',
-      } };
+        link:
+          'https://www.heb.com/product-detail/h-e-b-sushiya-san-antonio-roll/1477048',
+      },
+    };
     const component = mount(EditItemModal, { propsData: propsData2 });
     const triggerErrorState = sinon.stub();
     const closeModal = sinon.stub();
     component.setMethods({ triggerErrorState });
     component.setMethods({ closeModal });
-    component.setData({ targetItem: {
-      update: sinon.spy(),
-    } });
+    component.setData({
+      targetItem: {
+        update: sinon.spy(),
+      },
+    });
     const button = component.find('.save-item-button')[0];
     button.trigger('click');
     sinon.assert.notCalled(triggerErrorState);

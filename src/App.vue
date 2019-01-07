@@ -26,15 +26,8 @@
     >
     </authed-main>
 
-    <pre-auth
-      v-else
-    >
-    </pre-auth>
-    <toast
-      v-if="isUser && viewToast"
-      v-bind:message="toastMessage"
-    >
-    </toast>
+    <pre-auth v-else> </pre-auth>
+    <toast v-if="isUser && viewToast" v-bind:message="toastMessage"> </toast>
   </div>
 </template>
 
@@ -43,7 +36,7 @@
 
 import * as firebase from 'firebase';
 import moment from 'moment';
-import firebaseApp from '../firebaseConfig';  // eslint-disable-line
+import firebaseApp from '../firebaseConfig'; // eslint-disable-line
 import PreAuth from './components/PreAuth';
 import AuthedMain from './components/AuthedMain';
 import Toast from './components/Toast';
@@ -80,7 +73,7 @@ export default {
     };
   },
   methods: {
-    addItem: function (_item: Item): void {
+    addItem: function(_item: Item): void {
       try {
         this.itemsRef.push(_item);
         this.showToast(`${_item.name} added to your list.`);
@@ -88,41 +81,43 @@ export default {
         alert('Something went wrong. Please try again.');
       }
     },
-    addToAPN: function (_item: Item): void {
+    addToAPN: function(_item: Item): void {
       this.replaceItem(_item);
       window.open(
         `https://primenow.amazon.com/search?k=${_item.name}`,
         '_blank',
       );
     },
-    addToHEB: function (_item: Item | string): void {
+    addToHEB: function(_item: Item | string): void {
       const searchStr: string = typeof _item === 'object' ? _item.name : _item;
 
-      window.open(
-        `https://www.heb.com/search/?q=${searchStr}`,
-        '_blank',
-      );
+      window.open(`https://www.heb.com/search/?q=${searchStr}`, '_blank');
     },
-    addToInstacart: function (_item: Item): void {
+    addToInstacart: function(_item: Item): void {
       this.replaceItem(_item);
       window.open(
         `https://www.instacart.com/store/h-e-b/search_v3/${_item.name}`,
         '_blank',
       );
     },
-    completeAllInCart: function (): void {
+    completeAllInCart: function(): void {
       for (const item of this.items) {
         if (item.inCart) {
-          const newItem: Item = { ...item, dateCompleted: moment().format('MMM Do YY') };
+          const newItem: Item = {
+            ...item,
+            dateCompleted: moment().format('MMM Do YY'),
+          };
           this.transferToDone(newItem);
         }
       }
     },
-    deleteAllItems: function (): void {
+    deleteAllItems: function(): void {
       this.itemsRef.set([]);
       this.showToast('Deleted all items.');
     },
-    getPantryShortItems: function (pantryRef: firebase.database.Reference): void {
+    getPantryShortItems: function(
+      pantryRef: firebase.database.Reference,
+    ): void {
       pantryRef.on('value', (snapshot: firebase.database.DataSnapshot) => {
         const newArr: ShortItem[] = [];
         snapshot.forEach((item: firebase.database.DataSnapshot) => {
@@ -135,15 +130,15 @@ export default {
         this.pantryShortItems = newArr;
       });
     },
-    initializeApp: function (): void {
+    initializeApp: function(): void {
       firebase.auth().onAuthStateChanged((user: firebase.User) => {
         if (user) {
           this.isUser = true;
           const email = cleanUpUserEmail(user.email);
           this.userEmail = user.email;
           this.userId = user.uid;
-          this.itemsRef = firebase.database().ref(email + '/main') //eslint-disable-line
-          this.pantryRef = firebase.database().ref(email + '/pantry') //eslint-disable-line
+          this.itemsRef = firebase.database().ref(email + '/main'); //eslint-disable-line
+          this.pantryRef = firebase.database().ref(email + '/pantry'); //eslint-disable-line
           this.listenForItems(this.itemsRef);
           this.getPantryShortItems(this.pantryRef);
         } else {
@@ -151,7 +146,9 @@ export default {
         }
       });
     },
-    listenForItems: async function (itemsRef: firebase.database.Reference): void {
+    listenForItems: async function(
+      itemsRef: firebase.database.Reference,
+    ): void {
       itemsRef.on('value', async (snapshot: firebase.database.DataSnapshot) => {
         const newArr: Item[] = [];
         snapshot.forEach((item: firebase.database.DataSnapshot) => {
@@ -175,19 +172,19 @@ export default {
         }
       });
     },
-    logOut: function (): void {
+    logOut: function(): void {
       logOut();
     },
-    removeItem: function (_item: Item): void {
+    removeItem: function(_item: Item): void {
       this.itemsRef.child(_item.id).remove();
       this.showToast(`Removed ${_item.name} from your list.`);
     },
-    replaceItem: function (_item: Item): void {
+    replaceItem: function(_item: Item): void {
       const newItem = { ..._item, inCart: true };
       this.itemsRef.child(_item.id).remove();
       this.itemsRef.push(newItem);
     },
-    showToast: function (message: string): void {
+    showToast: function(message: string): void {
       this.toastMessage = message;
       this.viewToast = true;
       setTimeout(() => {
@@ -195,31 +192,34 @@ export default {
         this.toastMessage = '';
       }, display.timerStandard);
     },
-    sortAisle: function (): void {
+    sortAisle: function(): void {
       this.items = sortItemsAisle(this.items);
       this.sortPref = 'aisle';
       localStorage.setItem('fsSortPref', 'aisle');
     },
-    sortAlpha: function (): void {
+    sortAlpha: function(): void {
       this.items = sortItems(this.items);
       this.sortPref = 'alpha';
       localStorage.setItem('fsSortPref', 'alpha');
     },
-    toggleInCart: function (_item: Item): void {
+    toggleInCart: function(_item: Item): void {
       this.itemsRef.child(_item.id).update({
         inCart: !_item.inCart,
       });
     },
-    transferToDone: async function (_item: Item): void {
+    transferToDone: async function(_item: Item): void {
       const email = cleanUpUserEmail(this.userEmail);
       this.itemsRef.child(_item.id).remove();
       /* eslint-disable prefer-template */
-      firebase.database().ref(email + '/completed').push(_item);
+      firebase
+        .database()
+        .ref(email + '/completed')
+        .push(_item);
       this.showToast(`${_item.name} completed.`);
-       /* eslint-enable prefer-template */
+      /* eslint-enable prefer-template */
     },
   },
-  mounted: function (): void {
+  mounted: function(): void {
     if (localStorage.getItem('fsSortPref')) {
       this.sortPref = localStorage.getItem('fsSortPref');
     } else {

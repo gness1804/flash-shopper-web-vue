@@ -7,23 +7,15 @@
     >
     </app-header>
     <h2>Pantry</h2>
-    <p
-      v-if="isUser && error"
-      class="error-message"
-    >
-      {{errorMssg}}
-    </p>
+    <p v-if="isUser && error" class="error-message">{{ errorMssg }}</p>
     <button
       class="button warn-button delete-all-in-pantry-button"
       v-if="isUser && items.length > 0"
       v-on:click="deleteAllItems"
     >
-      {{deleteAllItemsString}}
+      {{ deleteAllItemsString }}
     </button>
-    <div
-      class="item-input-container"
-      v-if="isUser"
-    >
+    <div class="item-input-container" v-if="isUser">
       <input
         type="text"
         placeholder="Name"
@@ -61,54 +53,42 @@
       />
     </div>
     <button
-        class="button add-item-to-pantry-button"
-        v-on:click="addItem"
-        v-if="isUser"
-      >
-      {{addItemString}}
-      </button>
+      class="button add-item-to-pantry-button"
+      v-on:click="addItem"
+      v-if="isUser"
+    >
+      {{ addItemString }}
+    </button>
     <div
       class="pantry-main-container"
       v-if="isUser"
-      v-bind:class="{ noBorder: items.length === 0}"
+      v-bind:class="{ noBorder: items.length === 0 }"
     >
-      <div
-        class="items"
-        v-if="items.length > 0"
-      >
-      <each-pantry-item
-        v-for="item of items"
-        v-bind:key="item.id"
-        v-bind:item="item"
-        v-bind:mainShortItems="mainShortItems"
-        v-on:transferItemToMainList="transferItemToMainList"
-        v-on:deleteItem="deleteItem"
-        v-on:viewEditModal="viewEditModal"
-      >
-      </each-pantry-item>
+      <div class="items" v-if="items.length > 0">
+        <each-pantry-item
+          v-for="item of items"
+          v-bind:key="item.id"
+          v-bind:item="item"
+          v-bind:mainShortItems="mainShortItems"
+          v-on:transferItemToMainList="transferItemToMainList"
+          v-on:deleteItem="deleteItem"
+          v-on:viewEditModal="viewEditModal"
+        >
+        </each-pantry-item>
+      </div>
+      <p v-else>There are no items in your pantry. Add one now.</p>
     </div>
-    <p
-      v-else
-    >
-      There are no items in your pantry. Add one now.
+    <p v-else>
+      Oops, you are not logged in. Please click the Go Home button above to log
+      in.
     </p>
-    </div>
-    <p
-      v-else
-    >
-    Oops, you are not logged in. Please click the Go Home button above to log in.
-    </p>
-  <toast
-    v-if="viewToast"
-    v-bind:message="toastMessage"
-  >
-  </toast>
-  <edit-item-modal
-    v-if="viewEdit"
-    v-on:closeModal="closeEditModal"
-    v-bind:item="itemToEdit"
-    v-bind:itemsRef="itemsRef"
-    v-on:showToast="showToast"
+    <toast v-if="viewToast" v-bind:message="toastMessage"> </toast>
+    <edit-item-modal
+      v-if="viewEdit"
+      v-on:closeModal="closeEditModal"
+      v-bind:item="itemToEdit"
+      v-bind:itemsRef="itemsRef"
+      v-on:showToast="showToast"
     >
     </edit-item-modal>
   </div>
@@ -118,7 +98,7 @@
 // @flow
 
 import * as firebase from 'firebase';
-import firebaseApp from '../../firebaseConfig';  // eslint-disable-line
+import firebaseApp from '../../firebaseConfig'; // eslint-disable-line
 import EachPantryItem from './EachPantryItem';
 import Toast from './Toast';
 import AppHeader from './AppHeader';
@@ -166,14 +146,18 @@ export default {
     };
   },
   methods: {
-    addItem: function (): void {
+    addItem: function(): void {
       const { name, aisle, note, quantity, link } = this;
       if (!name) {
-        this.triggerErrorState('Oops, you must enter at least a name. Please try again.');
+        this.triggerErrorState(
+          'Oops, you must enter at least a name. Please try again.',
+        );
         return;
       }
       if (link && !httpValidate(link)) {
-        this.triggerErrorState('Error: the link must be a valid website link. Please try again.');
+        this.triggerErrorState(
+          'Error: the link must be a valid website link. Please try again.',
+        );
         return;
       }
       this.resetInputFields();
@@ -185,22 +169,24 @@ export default {
         alert(`Something went wrong. Please try again. Error: ${error}`);
       }
     },
-    closeEditModal: function (): void {
+    closeEditModal: function(): void {
       this.viewEdit = false;
     },
-    deleteAllItems: function (): void {
-      const warning = confirm('Are you sure you want to delete ALL items? This cannot be undone!');
+    deleteAllItems: function(): void {
+      const warning = confirm(
+        'Are you sure you want to delete ALL items? This cannot be undone!',
+      );
       if (warning) {
         this.itemsRef.set([]);
       }
     },
-    deleteItem: function (item: Item): void {
+    deleteItem: function(item: Item): void {
       if (this.itemsRef) {
         this.itemsRef.child(item.id).remove();
         this.showToast(`${item.name} removed from pantry.`);
       }
     },
-    getMainShortItems: function (mainItems: firebase.database.Reference): void {
+    getMainShortItems: function(mainItems: firebase.database.Reference): void {
       mainItems.on('value', (snapshot: firebase.database.DataSnapshot) => {
         const newArr: ShortItem[] = [];
         snapshot.forEach((item: firebase.database.DataSnapshot) => {
@@ -212,7 +198,7 @@ export default {
         this.mainShortItems = newArr;
       });
     },
-    initializeApp: function (): void {
+    initializeApp: function(): void {
       firebase.auth().onAuthStateChanged((user: firebase.User) => {
         if (user) {
           this.isUser = true;
@@ -228,7 +214,7 @@ export default {
         }
       });
     },
-    listenForItems: function (itemsRef: firebase.database.Reference): void {
+    listenForItems: function(itemsRef: firebase.database.Reference): void {
       itemsRef.on('value', (snapshot: firebase.database.DataSnapshot) => {
         const newArr: Item[] = [];
         snapshot.forEach((item: firebase.database.DataSnapshot) => {
@@ -245,21 +231,21 @@ export default {
         this.items = sortItems(newArr);
       });
     },
-    logOut: function (): void {
+    logOut: function(): void {
       logOut();
     },
-    makeErrorFalse: function (): void {
+    makeErrorFalse: function(): void {
       this.error = false;
       this.errorMssg = '';
     },
-    resetInputFields: function (): void {
+    resetInputFields: function(): void {
       this.name = '';
       this.aisle = '';
       this.note = '';
       this.quantity = '';
       this.link = '';
     },
-    showToast: function (message: string): void {
+    showToast: function(message: string): void {
       this.toastMessage = message;
       this.viewToast = true;
       setTimeout(() => {
@@ -267,47 +253,48 @@ export default {
         this.toastMessage = '';
       }, display.timerStandard);
     },
-    transferItemToMainList: function (item: Item): void {
+    transferItemToMainList: function(item: Item): void {
       const email = cleanUpUserEmail(this.userEmail);
       /* eslint-disable prefer-template */
-      firebase.database().ref(email + '/main').push(item);
+      firebase
+        .database()
+        .ref(email + '/main')
+        .push(item);
       this.showToast(`${item.name} added to main list.`);
-       /* eslint-enable prefer-template */
+      /* eslint-enable prefer-template */
     },
-    triggerErrorState: function (message: string): void {
+    triggerErrorState: function(message: string): void {
       this.error = true;
       this.errorMssg = message;
     },
-    viewEditModal: function (it: Item): void {
+    viewEditModal: function(it: Item): void {
       this.viewEdit = true;
       this.itemToEdit = it;
     },
   },
-  mounted: function (): void {
+  mounted: function(): void {
     this.initializeApp();
   },
 };
 </script>
 
 <style scoped>
-  #pantry {
-    position: relative;
-  }
+#pantry {
+  position: relative;
+}
 
-  .pantry-main-container {
-    border: 1px solid #000;
-    border-radius: 5px;
-    margin: 60px auto;
-    width: 80vw;
-  }
+.pantry-main-container {
+  border: 1px solid #000;
+  border-radius: 5px;
+  margin: 60px auto;
+  width: 80vw;
+}
 
-  .noBorder {
-    border: none;
-  }
+.noBorder {
+  border: none;
+}
 
-  .error-message {
-    color: #f00;
-  }
+.error-message {
+  color: #f00;
+}
 </style>
-
-
