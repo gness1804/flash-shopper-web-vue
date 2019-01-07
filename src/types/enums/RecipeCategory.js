@@ -5,6 +5,7 @@ const recipeCategories = {
   side: 'side',
   dessert: 'dessert',
   holiday: 'holiday',
+  remedy: 'remedy',
 };
 
 /* eslint-disable import/prefer-default-export */
