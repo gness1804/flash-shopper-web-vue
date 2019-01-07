@@ -10,7 +10,7 @@
       <h2 class="recipe-view-headline" contenteditable v-on:blur="saveTitle">
         {{ title }}
       </h2>
-      <img class="recipe-view-image" v-bind:src="image" />
+      <img class="recipe-view-image" v-bind:src="image" alt="The recipe." />
       <div class="image-container">
         <p>Add/Replace Image</p>
         <input
@@ -26,18 +26,26 @@
           {{ removeImageString }}
         </button>
       </div>
+      <CategorySelector
+        :default-categories="defaultCategories"
+        v-on:changeCategory="changeCategory"
+        :initCategories="initCategories"
+        :name="title"
+      />
       <p class="note-output">{{ note }}</p>
       <img
         class="delete-note-button"
         src="../assets/cancel-circle.png"
         v-on:click="deleteNote"
         title="Delete Note"
+        alt="Red X signifying delete note"
       />
       <img
         class="icon edit-note-button"
         src="../assets/pencil.png"
         v-on:click="editNote"
         title="Edit Note"
+        alt="Pencil signifying edit note."
       />
       <a
         v-if="validateURL(source)"
@@ -53,6 +61,7 @@
         src="../assets/pencil.png"
         v-on:click="editSource"
         title="Edit Source"
+        alt="Pencil signifying edit source."
       />
       <add-source
         v-if="showAddSourceInput"
@@ -271,10 +280,13 @@ import display from '../helpers/displayVars';
 import httpValidate from '../helpers/httpValidate';
 import findLastMade from '../helpers/findLastMade';
 import { RecipeViewInt } from '../types/interfaces/RecipeView';
+import CategorySelector from './CategorySelector';
+import { recipeCategories } from '../types/enums/RecipeCategory';
 
 export default {
   name: 'recipeView',
   components: {
+    CategorySelector,
     Ingredient,
     Toast,
     AddIngredientModal,
@@ -300,6 +312,9 @@ export default {
       toastMessage: '',
       viewToast: false,
       targetRecipe: {},
+      defaultCategories: Object.keys(recipeCategories),
+      initCategories: [],
+      selectedCategories: [],
       reader: new FileReader(),
       showModal: false,
       removeImageString: buttonStrings.removeImage,
@@ -344,6 +359,16 @@ export default {
       });
       this.closeModal();
       this.showToast('Ingredient added.');
+    },
+    changeCategory: function(categories: [], isInit: boolean): void {
+      this.selectedCategories = categories;
+
+      if (!isInit) {
+        this.targetRecipe.update({
+          categories: this.selectedCategories,
+        });
+        this.showToast('Categories updated.');
+      }
     },
     changeOrderForDir: function(targetDir: Direction): void {
       const newOrder = prompt('Enter desired new order for this direction.');
@@ -472,6 +497,7 @@ export default {
         this.source = target[0].source || display.addSourceDefault;
         this.timesMade = target[0].timesMade || 0;
         this.datesMade = target[0].datesMade || [];
+        this.initCategories = target[0].categories || [];
         this.targetRecipe = this.itemsRef.child(this.id);
         this.computeDirsDone();
       }
@@ -554,6 +580,7 @@ export default {
             source: recipe.val().source,
             timesMade: recipe.val().timesMade,
             datesMade: recipe.val().datesMade,
+            categories: recipe.val().categories,
             id: recipe.key,
           });
         });

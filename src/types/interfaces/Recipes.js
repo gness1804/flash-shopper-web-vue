@@ -1,10 +1,14 @@
 // @flow
+/* global $Keys */
 
 import { AuthInt, CoreFBDataInt } from './CoreFunc';
 import { ToastInt } from './Toast';
 import Recipe from '../../models/Recipe';
 import Item from '../../models/Item';
 import Direction from '../../models/Direction';
+import { recipeCategories } from '../enums/RecipeCategory';
+
+type RecipeCategory = $Keys<typeof recipeCategories>;
 
 export interface RecipesInt extends AuthInt, CoreFBDataInt, ToastInt {
   recipes: Recipe[];
@@ -14,6 +18,8 @@ export interface RecipesInt extends AuthInt, CoreFBDataInt, ToastInt {
   directions?: Direction[];
   note?: string;
   source?: string;
+  selectedCategories?: RecipeCategory[];
+  defaultCategories: RecipeCategory[];
   error: boolean;
   errorMssg?: string;
   reader: FileReader;
@@ -25,4 +31,6 @@ export interface RecipesInt extends AuthInt, CoreFBDataInt, ToastInt {
   sortAlphaString: string;
   sortTimesMadeString: string;
   howManyDirections: number | null;
+  categoryToFilter: RecipeCategory;
+  v4: string;
 }

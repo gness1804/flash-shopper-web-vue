@@ -92,24 +92,35 @@
               src="../assets/cancel-circle.png"
               v-on:click="deleteDirection(direction)"
               title="Delete Direction"
+              alt="Red X signifying delete direction."
             />
             <img
               class="icon edit-direction-button"
               src="../assets/pencil.png"
               v-on:click="editDirection(direction)"
               title="Edit Direction"
+              alt="Pencil signifying edit direction."
             />
           </li>
         </ol>
       </div>
       <p v-else>No directions yet. Add one now!</p>
-      <textarea v-model="note" class="note-input" placeholder="Add a note...">
-      </textarea>
-      <img
-        class="clear-notes-button"
-        src="../assets/cancel-circle.png"
-        v-on:click="clearNotes"
-        title="Clear Notes"
+      <div class="note-container">
+        <textarea v-model="note" class="note-input" placeholder="Add a note...">
+        </textarea>
+        <img
+          class="clear-notes-button"
+          src="../assets/cancel-circle.png"
+          v-on:click="clearNotes"
+          title="Clear Notes"
+          alt="Red X signifying clear notes action."
+        />
+      </div>
+      <CategorySelector
+        :default-categories="defaultCategories"
+        v-on:changeCategory="changeCategory"
+        ref="categorySelector"
+        :name="title"
       />
       <button class="button add-recipe-button" v-on:click="addRecipe">
         {{ addRecipeString }}
@@ -125,7 +136,18 @@
           {{ sortTimesMadeString }}
         </button>
       </div>
-      <p class="recipe-count">You have {{ recipes.length }} recipe(s).</p>
+      <p v-if="!categoryToFilter" class="recipe-count">
+        You have {{ recipes.length }} recipe(s).
+      </p>
+      <p v-else class="recipe-count">
+        {{ recipes.length }} recipe(s) match your category:
+        {{ categoryToFilter }}.
+      </p>
+      <CategoryFilter
+        :default-categories="defaultCategories"
+        :v4="v4"
+        v-on:selectCategoryFromFilter="selectCategoryFromFilter"
+      />
       <div class="recipe-display-section" v-if="recipes.length > 0">
         <h3>Your Recipes:</h3>
         <each-recipe
@@ -136,6 +158,9 @@
         >
         </each-recipe>
       </div>
+      <p v-else-if="categoryToFilter">
+        Select another option in the filter menu above to see recipes.
+      </p>
       <div class="no-recipes-message" v-else>
         <p>It looks like you do not have any recipes yet. Add one now!</p>
       </div>
@@ -159,6 +184,7 @@
 // @flow
 
 import * as firebase from 'firebase';
+import { v4 } from 'uuid';
 import firebaseApp from '../../firebaseConfig'; // eslint-disable-line
 import Toast from './Toast';
 import Ingredient from './Ingredient';
@@ -177,14 +203,18 @@ import Recipe from '../models/Recipe';
 import Item from '../models/Item';
 import Direction from '../models/Direction';
 import { RecipesInt } from '../types/interfaces/Recipes';
+import { recipeCategories } from '../types/enums/RecipeCategory';
+import CategorySelector from './CategorySelector';
+import CategoryFilter from './CategoryFilter';
 
 export default {
   name: 'Recipes',
   components: {
+    CategoryFilter,
+    CategorySelector,
     Toast,
     Ingredient,
     AddIngredientModal,
-    Direction,
     EachRecipe,
     AppHeader,
   },
@@ -201,6 +231,8 @@ export default {
       directions: [],
       note: '',
       source: '',
+      selectedCategories: [],
+      defaultCategories: Object.keys(recipeCategories),
       error: false,
       errorMssg: '',
       reader: new FileReader(),
@@ -214,6 +246,8 @@ export default {
       sortAlphaString: buttonStrings.sortAlpha,
       sortTimesMadeString: buttonStrings.sortByTimesMade,
       howManyDirections: null,
+      categoryToFilter: '',
+      v4: v4(),
     };
   },
   methods: {
@@ -232,7 +266,15 @@ export default {
       this.showToast('Ingredient added.');
     },
     addRecipe: function(): void {
-      const { title, image, ingredients, directions, note, source } = this;
+      const {
+        title,
+        image,
+        ingredients,
+        directions,
+        note,
+        source,
+        selectedCategories,
+      } = this;
       if (!title || ingredients.length === 0) {
         alert(
           'Oops, you must enter at least a title and one ingredient. Please try again.',
@@ -252,9 +294,13 @@ export default {
         note,
         source,
         timesMade: 0,
+        categories: selectedCategories,
       });
       this.itemsRef.push(recipe);
       this.showToast(`${recipe.title} successfully added.`);
+    },
+    changeCategory: function(categories: []): void {
+      this.selectedCategories = categories;
     },
     clearNotes: function(): void {
       const warning = confirm('Clear notes: are you sure?');
@@ -325,6 +371,7 @@ export default {
             note: recipe.val().note,
             source: recipe.val().source,
             timesMade: recipe.val().timesMade || 0,
+            categories: recipe.val().categories || [],
             id: recipe.key,
           });
         });
@@ -367,6 +414,18 @@ export default {
       this.ingredients = [];
       this.directions = [];
       this.note = '';
+      this.selectedCategories = [];
+      // commands the CategorySelector child component to clear its selectedCategories data
+      this.$refs.categorySelector.resetSelectedCategories();
+    },
+    selectCategoryFromFilter: async function(selection: string): void {
+      await this.initializeApp(); // should probably have caching or at least local storage in place of this
+      if (selection === 'Show All') {
+        this.categoryToFilter = '';
+        return;
+      }
+      this.recipes = this.recipes.filter(r => r.categories.includes(selection));
+      this.categoryToFilter = selection;
     },
     sortAlpha: function(): void {
       this.recipes = sortItems(this.recipes);
@@ -447,6 +506,15 @@ export default {
   padding: 10px;
 }
 
+.categories-selector-container p {
+  font-weight: 700;
+}
+
+.categories-selector-each-category label:hover,
+.categories-selector-each-category input:hover {
+  cursor: pointer;
+}
+
 .directions-list {
   align-items: center;
   display: flex;
@@ -486,9 +554,15 @@ export default {
   padding-bottom: 30px;
 }
 
+.note-container {
+  border: 1px solid #000;
+  margin: 50px auto;
+  width: 60vw;
+}
+
 .note-input {
   height: 100px;
-  margin: 40px auto;
+  margin: 40px auto 20px;
   width: 60vw;
 }
 
@@ -504,5 +578,11 @@ export default {
 .add-source-input {
   display: block;
   margin: 0 auto;
+}
+
+.recipe-count {
+  font-weight: 700;
+  font-size: 20px;
+  margin: 40px auto;
 }
 </style>
