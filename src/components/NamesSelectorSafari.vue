@@ -5,7 +5,7 @@
       class="safari-dropdown"
       @change="onSelectName"
     >
-      <option disabled value=""> Select a name </option>
+      <option selected disabled>Select an Item</option>
       <option
         v-for="name in removeDuplicates"
         v-bind:key="name.id"
