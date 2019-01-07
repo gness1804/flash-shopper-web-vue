@@ -407,7 +407,10 @@ export default {
         (dir: Direction) => dir.done === true,
       ).length;
     },
-    decreaseTimesMade: function(): void {
+    computeTimesMade: function(): number {
+      return this.datesMade.length;
+    },
+    decreaseTimesMade: async function(): void {
       if (this.timesMade === 0) {
         alert('Error: cannot decrement Times Made below zero.');
         return;
@@ -416,8 +419,8 @@ export default {
         'Are you sure you want to decrease the times made?',
       );
       if (warning) {
-        this.timesMade--;
-        this.datesMade.sort().pop();
+        await this.datesMade.sort().pop();
+        this.timesMade = await this.computeTimesMade();
         this.targetRecipe.update({
           timesMade: this.timesMade,
           datesMade: this.datesMade,
@@ -495,7 +498,8 @@ export default {
         this.directions = (await target[0].directions) || [];
         this.note = target[0].note || 'Add a note...';
         this.source = target[0].source || display.addSourceDefault;
-        this.timesMade = target[0].timesMade || 0;
+        this.timesMade =
+          target[0].timesMade || (await this.computeTimesMade()) || 0;
         this.datesMade = target[0].datesMade || [];
         this.initCategories = target[0].categories || [];
         this.targetRecipe = this.itemsRef.child(this.id);
@@ -544,9 +548,9 @@ export default {
     hideInputs: function(): void {
       this.showShowHideContainer = false;
     },
-    increaseTimesMade: function(): void {
-      this.timesMade++;
-      this.datesMade.push(Date.now());
+    increaseTimesMade: async function(): void {
+      await this.datesMade.push(Date.now());
+      this.timesMade = await this.computeTimesMade();
       this.targetRecipe.update({
         timesMade: this.timesMade,
         datesMade: this.datesMade,
@@ -591,10 +595,12 @@ export default {
       logOut();
     },
     makeRecipe: function(): void {
-      // reset all checked directions to unchecked on prompt
-      const warn = confirm('Do you want to reset all directions to unchecked?');
+      const warn = confirm(
+        'Do you want to show all ingredients and directions?',
+      );
       if (warn) {
         this.uncheckAll();
+        this.showIngredients();
       }
       this.increaseTimesMade();
     },
