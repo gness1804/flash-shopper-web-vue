@@ -1,6 +1,10 @@
 // @flow
+/* global $Keys */
+
 import Item from './Item';
-import type { RecipeCategory } from '../types/enums/RecipeCategory';
+import { recipeCategories } from '../types/enums/RecipeCategory';
+
+type RecipeCategory = $Keys<typeof recipeCategories>;
 
 interface Opts {
   title: string;

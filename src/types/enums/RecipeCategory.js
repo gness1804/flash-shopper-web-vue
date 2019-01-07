@@ -1,5 +1,4 @@
 // @flow
-/* global $Keys */
 
 const recipeCategories = {
   main: 'main',
@@ -8,6 +7,6 @@ const recipeCategories = {
   holiday: 'holiday',
 };
 
-type RecipeCategory = $Keys<typeof recipeCategories>;
-
-export { recipeCategories, RecipeCategory };
+/* eslint-disable import/prefer-default-export */
+export { recipeCategories };
+/* eslint-enable import/prefer-default-export */

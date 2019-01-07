@@ -205,7 +205,6 @@ import Direction from '../models/Direction';
 import { RecipesInt } from '../types/interfaces/Recipes';
 import { recipeCategories } from '../types/enums/RecipeCategory';
 import CategorySelector from './CategorySelector';
-import type { RecipeCategory } from '../types/enums/RecipeCategory';
 import CategoryFilter from './CategoryFilter';
 
 export default {
@@ -300,7 +299,7 @@ export default {
       this.itemsRef.push(recipe);
       this.showToast(`${recipe.title} successfully added.`);
     },
-    changeCategory: function(categories: RecipeCategory[]): void {
+    changeCategory: function(categories: []): void {
       this.selectedCategories = categories;
     },
     clearNotes: function(): void {
@@ -419,9 +418,7 @@ export default {
       // commands the CategorySelector child component to clear its selectedCategories data
       this.$refs.categorySelector.resetSelectedCategories();
     },
-    selectCategoryFromFilter: async function(
-      selection: RecipeCategory | 'Show All',
-    ): void {
+    selectCategoryFromFilter: async function(selection: string): void {
       await this.initializeApp(); // should probably have caching or at least local storage in place of this
       if (selection === 'Show All') {
         this.categoryToFilter = '';

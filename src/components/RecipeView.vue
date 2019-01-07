@@ -282,7 +282,6 @@ import findLastMade from '../helpers/findLastMade';
 import { RecipeViewInt } from '../types/interfaces/RecipeView';
 import CategorySelector from './CategorySelector';
 import { recipeCategories } from '../types/enums/RecipeCategory';
-import type { RecipeCategory } from '../types/enums/RecipeCategory';
 
 export default {
   name: 'recipeView',
@@ -361,10 +360,7 @@ export default {
       this.closeModal();
       this.showToast('Ingredient added.');
     },
-    changeCategory: function(
-      categories: RecipeCategory[],
-      isInit: boolean,
-    ): void {
+    changeCategory: function(categories: [], isInit: boolean): void {
       this.selectedCategories = categories;
 
       if (!isInit) {

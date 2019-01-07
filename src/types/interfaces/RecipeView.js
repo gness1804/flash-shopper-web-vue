@@ -1,10 +1,13 @@
 // @flow
+/* global $Keys */
 
 import { AuthInt, CoreFBDataInt } from './CoreFunc';
 import { ToastInt } from './Toast';
 import Recipe from '../../models/Recipe';
 import Item from '../../models/Item';
-import type { RecipeCategory } from '../enums/RecipeCategory';
+import { recipeCategories } from '../enums/RecipeCategory';
+
+type RecipeCategory = $Keys<typeof recipeCategories>;
 
 export interface RecipeViewInt extends AuthInt, CoreFBDataInt, ToastInt {
   id: string;
