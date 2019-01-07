@@ -591,10 +591,12 @@ export default {
       logOut();
     },
     makeRecipe: function(): void {
-      // reset all checked directions to unchecked on prompt
-      const warn = confirm('Do you want to reset all directions to unchecked?');
+      const warn = confirm(
+        'Do you want to show all ingredients and directions?',
+      );
       if (warn) {
         this.uncheckAll();
+        this.showIngredients();
       }
       this.increaseTimesMade();
     },
