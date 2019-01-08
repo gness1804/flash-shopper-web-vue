@@ -2,11 +2,19 @@
   <div class="authed-main">
     <div class="upper-icons-container">
       <div class="upper-icon-block">
-        <img class="upper-icon" src="../assets/list.png" />
+        <img
+          class="upper-icon"
+          src="../assets/list.png"
+          alt="List icon representing total items."
+        />
         <span class="items-length">{{ items.length }}</span>
       </div>
       <div class="upper-icon-block">
-        <img class="upper-icon" src="../assets/cart-arrow-down.png" />
+        <img
+          class="upper-icon"
+          src="../assets/cart-arrow-down.png"
+          alt="Cart icon representing total items in cart."
+        />
         <span class="items-in-cart-count">{{ countItemsInCart() }}</span>
       </div>
     </div>
@@ -174,6 +182,10 @@ export default {
       required: true,
     },
     pantryShortItems: {
+      type: Array,
+      required: false,
+    },
+    completedItems: {
       type: Array,
       required: false,
     },

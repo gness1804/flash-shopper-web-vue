@@ -11,6 +11,7 @@
       v-bind:items="items"
       v-bind:itemsRef="itemsRef"
       v-bind:pantryShortItems="pantryShortItems"
+      v-bind:completedItems="completedItems"
       v-on:addItem="addItem"
       v-on:removeItem="removeItem"
       v-on:deleteAllItems="deleteAllItems"
@@ -67,8 +68,10 @@ export default {
       items: [],
       toastMessage: '',
       viewToast: false,
-      pantryShortItems: [],
       pantryRef: {},
+      completedRef: {},
+      pantryShortItems: [],
+      completedItems: [],
       sortPref: 'alpha',
     };
   },
@@ -115,6 +118,24 @@ export default {
       this.itemsRef.set([]);
       this.showToast('Deleted all items.');
     },
+    getCompletedItems: function(ref: firebase.database.Reference): void {
+      ref.on('value', (snapshot: firebase.database.DataSnapshot) => {
+        const newArr: Item[] = [];
+        snapshot.forEach((item: firebase.database.DataSnapshot) => {
+          newArr.push({
+            name: item.val().name,
+            aisle: item.val().aisle,
+            quantity: item.val().quantity,
+            note: item.val().note,
+            inCart: item.val().inCart || false,
+            dateCompleted: item.val().dateCompleted || null,
+            link: item.val().link || null,
+            id: item.key,
+          });
+        });
+        this.completedItems = newArr;
+      });
+    },
     getPantryShortItems: function(
       pantryRef: firebase.database.Reference,
     ): void {
@@ -137,10 +158,12 @@ export default {
           const email = cleanUpUserEmail(user.email);
           this.userEmail = user.email;
           this.userId = user.uid;
-          this.itemsRef = firebase.database().ref(email + '/main'); //eslint-disable-line
-          this.pantryRef = firebase.database().ref(email + '/pantry'); //eslint-disable-line
+          this.itemsRef = firebase.database().ref(`${email}/main`);
+          this.pantryRef = firebase.database().ref(`${email}/pantry`);
+          this.completedRef = firebase.database().ref(`${email}/completed`);
           this.listenForItems(this.itemsRef);
           this.getPantryShortItems(this.pantryRef);
+          this.getCompletedItems(this.completedRef);
         } else {
           this.isUser = false;
         }
