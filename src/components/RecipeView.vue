@@ -595,14 +595,8 @@ export default {
       logOut();
     },
     makeRecipe: function(): void {
-      const warn = confirm(
-        'Do you want to show all ingredients and directions?',
-      );
-      if (warn) {
-        this.uncheckAll();
-        this.showIngredients();
-      }
       this.increaseTimesMade();
+      this.showToast('Marked recipe as made.');
     },
     openEditModal: function(ing: Item): void {
       this.showEditModal = true;
@@ -707,8 +701,6 @@ export default {
       this.targetRecipe.update({
         directions: this.directions,
       });
-
-      this.warnOnAgedLastMade();
     },
     transferIngredient: function(ing: Item): void {
       const email = cleanUpUserEmail(this.userEmail);
@@ -728,20 +720,6 @@ export default {
         directions: this.directions,
       });
       this.computeDirsDone();
-    },
-    warnOnAgedLastMade: function(): void {
-      const hoursSinceLastMade: number =
-        (Date.now() - this.lastMade) / 1000 / 3600;
-      if (hoursSinceLastMade > 24 && this.askToUpdateTimesMade) {
-        const warn = confirm(
-          'Do you want to check this ingredient as last made today?',
-        );
-        if (warn) {
-          this.increaseTimesMade();
-        } else {
-          this.askToUpdateTimesMade = false;
-        }
-      }
     },
   },
   computed: {
