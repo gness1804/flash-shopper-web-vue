@@ -113,7 +113,7 @@ export default {
 
 <style scoped>
 .close-modal-button {
-  color: #f00;
+  color: #ff0000;
 }
 
 .close-modal-button:hover {
@@ -142,6 +142,8 @@ export default {
 }
 
 @media (max-width: 500px) {
+  /*prettier-ignore*/
+
   .stopwatch-container,
   .timer-container {
     flex-direction: column;

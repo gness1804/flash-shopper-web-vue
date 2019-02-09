@@ -21,7 +21,7 @@ export default {
 <style scoped>
 .toast {
   background-color: #939191;
-  border: 1px solid #000;
+  border: 1px solid #000000;
   border-radius: 10px;
   left: 0;
   margin-left: auto;

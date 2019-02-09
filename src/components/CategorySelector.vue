@@ -78,8 +78,8 @@ export default {
 </script>
 <style scoped>
 .categories-selector-container {
-  background-color: #fff;
-  border: 1px solid #000;
+  background-color: #ffffff;
+  border: 1px solid #000000;
   margin: 0 auto;
   padding: 10px;
   width: 60vw;

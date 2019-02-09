@@ -751,7 +751,7 @@ export default {
 }
 
 .recipe-view-image {
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 50%;
   display: block;
   margin: 60px auto;

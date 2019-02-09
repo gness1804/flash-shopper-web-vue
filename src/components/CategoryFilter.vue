@@ -39,7 +39,7 @@ export default {
 <style scoped>
 .category-filter-selector {
   align-items: center;
-  border: 1px solid #000;
+  border: 1px solid #000000;
   border-radius: 5px;
   display: flex;
   flex-direction: column;
