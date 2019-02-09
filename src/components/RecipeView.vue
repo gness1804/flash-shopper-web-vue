@@ -751,7 +751,7 @@ export default {
 }
 
 .recipe-view-image {
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 50%;
   display: block;
   margin: 60px auto;
@@ -801,7 +801,7 @@ export default {
 }
 
 .direction-li {
-  border: 1px solid black;
+  border: 1px solid #000000;
   margin: 30px auto;
   padding: 10px;
   width: 60vw;

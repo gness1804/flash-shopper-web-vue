@@ -89,7 +89,7 @@ export default {
 <style scoped>
 .container {
   align-items: center;
-  border: 1px solid #000;
+  border: 1px solid #000000;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -106,7 +106,7 @@ export default {
 }
 
 .highlighted {
-  border: 2px solid #f00;
+  border: 2px solid #ff0000;
   background-color: #c56415;
 }
 

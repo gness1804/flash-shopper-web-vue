@@ -153,6 +153,8 @@ export default {
 }
 
 @media (max-width: 500px) {
+  /*prettier-ignore*/
+
   .logged-in-buttons-container {
     flex-direction: column;
   }

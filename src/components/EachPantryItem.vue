@@ -112,7 +112,7 @@ export default {
 }
 
 .highlighted {
-  border: 2px solid #f00;
+  border: 2px solid #ff0000;
   background-color: #c56415;
 }
 

@@ -487,7 +487,7 @@ export default {
 }
 
 .recipe-image-main {
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 50%;
   display: block;
   margin: 60px auto;
@@ -555,7 +555,7 @@ export default {
 }
 
 .note-container {
-  border: 1px solid #000;
+  border: 1px solid #000000;
   margin: 50px auto;
   width: 60vw;
 }
