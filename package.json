@@ -20,7 +20,7 @@
     "predeploy": "scripts/pre-deploy.sh",
     "deploy": "scripts/deploy.sh",
     "clean": "npm cache verify && echo 'Cache Cleaned.'",
-    "stylelint": "stylelint \"src/**/*.vue\""
+    "stylelint": "stylelint \"src/**/*.vue\" \"index.html\""
   },
   "dependencies": {
     "babel-eslint": "^7.2.3",
