@@ -801,7 +801,7 @@ export default {
 }
 
 .direction-li {
-  border: 1px solid black;
+  border: 1px solid #000000;
   margin: 30px auto;
   padding: 10px;
   width: 60vw;
