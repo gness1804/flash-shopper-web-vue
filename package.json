@@ -16,12 +16,12 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "flow": "flow",
     "lint:fix": "eslint -- --fix && echo 'Fixed all linting errors.'",
-    "pre-deploy": "scripts/pre-deploy.sh",
-    "predeploy": "scripts/pre-deploy.sh",
-    "deploy": "scripts/deploy.sh",
+    "deploy": "now",
+    "deploy:debug": "now -d",
     "clean": "npm cache verify && echo 'Cache Cleaned.'",
     "stylelint": "stylelint \"src/**/*.vue\" \"index.html\"",
-    "stylelint:fix": "npm run stylelint --fix"
+    "stylelint:fix": "npm run stylelint --fix",
+    "now-build": "node build/build.js"
   },
   "dependencies": {
     "babel-eslint": "^7.2.3",
