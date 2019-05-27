@@ -434,6 +434,8 @@ export default {
 }
 
 @media (max-width: 500px) {
+  /*prettier-ignore*/
+
   .buttons-container {
     flex-direction: column;
   }

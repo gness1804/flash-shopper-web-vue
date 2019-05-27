@@ -52,7 +52,7 @@ export default {
 <style scoped>
 .each-recipe-container {
   align-items: center;
-  border: 1px solid #000;
+  border: 1px solid #000000;
   border-radius: 5px;
   display: flex;
   flex-direction: row;
@@ -63,7 +63,7 @@ export default {
 }
 
 .recipe-thumbnail {
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 50%;
   height: 50px;
   margin-right: 20px;

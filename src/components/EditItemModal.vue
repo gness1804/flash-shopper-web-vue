@@ -185,7 +185,7 @@ export default {
 
 <style scoped>
 .close-modal-button {
-  color: #f00;
+  color: #ff0000;
 }
 
 .close-modal-button:hover {

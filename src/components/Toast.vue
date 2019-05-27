@@ -1,6 +1,9 @@
 <template>
   <div class="toast">
     <p class="toast-message">{{ message }}</p>
+    <p v-if="undoMessage" v-on:click="onUndo" class="undo-message">
+      {{ undoMessage }}
+    </p>
   </div>
 </template>
 
@@ -14,6 +17,15 @@ export default {
       type: String,
       required: true,
     },
+    undoMessage: {
+      type: String,
+      required: false,
+    },
+  },
+  methods: {
+    onUndo: function(): void {
+      this.$emit('undoTransferToDone');
+    },
   },
 };
 </script>
@@ -21,7 +33,7 @@ export default {
 <style scoped>
 .toast {
   background-color: #939191;
-  border: 1px solid #000;
+  border: 1px solid #000000;
   border-radius: 10px;
   left: 0;
   margin-left: auto;
@@ -31,5 +43,13 @@ export default {
   top: 20px;
   width: 20vw;
   z-index: 999;
+}
+
+.undo-message {
+  text-decoration: underline;
+}
+
+.undo-message:hover {
+  cursor: pointer;
 }
 </style>

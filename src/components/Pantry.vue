@@ -284,7 +284,7 @@ export default {
 }
 
 .pantry-main-container {
-  border: 1px solid #000;
+  border: 1px solid #000000;
   border-radius: 5px;
   margin: 60px auto;
   width: 80vw;
@@ -295,6 +295,6 @@ export default {
 }
 
 .error-message {
-  color: #f00;
+  color: #ff0000;
 }
 </style>

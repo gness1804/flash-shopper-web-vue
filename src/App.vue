@@ -27,7 +27,13 @@
     </authed-main>
 
     <pre-auth v-else> </pre-auth>
-    <toast v-if="isUser && viewToast" v-bind:message="toastMessage"> </toast>
+    <toast
+      v-if="isUser && viewToast"
+      v-bind:message="toastMessage"
+      v-bind:undoMessage="undoMessage"
+      v-on:undoTransferToDone="undoTransferToDone"
+    >
+    </toast>
   </div>
 </template>
 
@@ -70,6 +76,8 @@ export default {
       pantryShortItems: [],
       pantryRef: {},
       sortPref: 'alpha',
+      lastTransferredItem: {},
+      undoMessage: '',
     };
   },
   methods: {
@@ -184,12 +192,14 @@ export default {
       this.itemsRef.child(_item.id).remove();
       this.itemsRef.push(newItem);
     },
-    showToast: function(message: string): void {
+    showToast: function(message: string, undoMessage?: string): void {
       this.toastMessage = message;
+      this.undoMessage = undoMessage;
       this.viewToast = true;
       setTimeout(() => {
         this.viewToast = false;
         this.toastMessage = '';
+        this.undoMessage = '';
       }, display.timerStandard);
     },
     sortAisle: function(): void {
@@ -210,13 +220,19 @@ export default {
     transferToDone: async function(_item: Item): void {
       const email = cleanUpUserEmail(this.userEmail);
       this.itemsRef.child(_item.id).remove();
-      /* eslint-disable prefer-template */
       firebase
         .database()
-        .ref(email + '/completed')
+        .ref(`${email}/completed`)
         .push(_item);
-      this.showToast(`${_item.name} completed.`);
-      /* eslint-enable prefer-template */
+      this.lastTransferredItem = _item;
+      this.showToast(`${_item.name} completed.`, 'Undo');
+    },
+    undoTransferToDone: async function (): void {
+      if (this.lastTransferredItem && Object.keys(this.lastTransferredItem).length) {
+        const item = this.lastTransferredItem;
+        this.itemsRef.push(item);
+        this.lastTransferredItem = {};
+      }
     },
   },
   mounted: function(): void {

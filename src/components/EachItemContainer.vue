@@ -162,8 +162,8 @@ export default {
 
 <style scoped>
 .each-item-container {
-  background-color: #fff;
-  border: 1px solid #000;
+  background-color: #ffffff;
+  border: 1px solid #000000;
   border-radius: 5px;
   margin: 20px auto;
   overflow: hidden;
