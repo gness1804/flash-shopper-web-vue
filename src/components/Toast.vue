@@ -1,13 +1,9 @@
 <template>
   <div class="toast">
     <p class="toast-message">{{ message }}</p>
-    <p
-      v-if="undoMessage"
-      v-on:click="onUndo"
-      class="undo-message"
-    >
+    <p v-if="undoMessage" v-on:click="onUndo" class="undo-message">
       {{ undoMessage }}
-   </p>
+    </p>
   </div>
 </template>
 
@@ -27,7 +23,7 @@ export default {
     },
   },
   methods: {
-    onUndo: function (): void {
+    onUndo: function(): void {
       this.$emit('undoTransferToDone');
     },
   },
