@@ -98,7 +98,7 @@
     "shelljs": "^0.7.6",
     "sinon": "^4.0.0",
     "sinon-chai": "^2.8.0",
-    "stylelint": "^9.10.1",
+    "stylelint": "^10.0.1 ",
     "url-loader": "^1.1.1",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
