@@ -46,12 +46,6 @@
         v-on:click="toggleInCart"
         v-bind:title="item.inCart ? inCartTitle : notInCartTitle"
       />
-      <!-- <img
-        class="icon add-to-apn-button"
-        src="../assets/amazon-prime-now.png"
-        v-on:click="addToAPN"
-        title="Add Item to Amazon Prime Now"
-      /> -->
       <img
         class="icon add-to-instacart-button"
         src="../assets/instacart.png"
@@ -91,7 +85,6 @@
 <script>
 import moment from 'moment';
 import EditItemModal from './EditItemModal';
-import Item from '../models/Item';
 import { EachItemContainerInt } from '../types/interfaces/EachItemContainer';
 // @flow
 
@@ -150,11 +143,16 @@ export default {
       this.$emit('toggleInCart', this.item);
     },
     transferToDone: function(): void {
-      const newItem: Item = {
-        ...this.item,
-        dateCompleted: moment().format('MMM Do YY'),
-      };
-      this.$emit('transferToDone', newItem);
+      const warning = confirm(
+        'Are you sure you want to mark this item as completed?',
+      );
+      if (warning) {
+        const newItem = {
+          ...this.item,
+          dateCompleted: moment().format('MMM Do YY'),
+        };
+        this.$emit('transferToDone', newItem);
+      }
     },
   },
 };
