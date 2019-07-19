@@ -135,9 +135,7 @@ export default {
     },
     removeItem: function(): void {
       const warning = confirm(
-        `Are you sure you want to delete ${
-          this.item.name
-        }? This cannot be undone!`,
+        `Are you sure you want to delete ${this.item.name}? This cannot be undone!`,
       );
       if (warning) {
         this.$emit('removeItem', this.item);

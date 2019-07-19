@@ -66,9 +66,7 @@ export default {
   methods: {
     deleteItem: function(): void {
       const warning = confirm(
-        `Warning: do you want to delete ${
-          this.item.name
-        } from the pantry? This cannot be undone!`,
+        `Warning: do you want to delete ${this.item.name} from the pantry? This cannot be undone!`,
       );
       if (warning) {
         this.$emit('deleteItem', this.item);
