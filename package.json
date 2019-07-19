@@ -1,6 +1,6 @@
 {
   "name": "flash-shopper-web-vue",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Vue.js project",
   "author": "gness1804 <graham.nessler@gmail.com>",
   "private": true,
@@ -21,13 +21,18 @@
     "clean": "npm cache verify && echo 'Cache Cleaned.'",
     "stylelint": "stylelint \"src/**/*.vue\" \"index.html\"",
     "stylelint:fix": "npm run stylelint --fix",
-    "now-build": "node build/build.js"
+    "now-build": "node build/build.js",
+    "version": "node scripts/version.js",
+    "version:minor": "node scripts/version.js --minor",
+    "version:major": "node scripts/version.js --major"
   },
   "dependencies": {
     "babel-eslint": "^7.2.3",
     "babel-plugin-syntax-flow": "^6.18.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "commander": "^2.20.0",
+    "dotenv": "^8.0.0",
     "eslint-config-vue": "^2.0.2",
     "eslint-plugin-flowtype-errors": "^3.6.0",
     "eslint-plugin-html": "^3.2.2",
