@@ -34,6 +34,7 @@
         title="Go to Link"
       />
     </a>
+    <p v-if="item.aisle">A: {{ item.aisle }}</p>
   </div>
 </template>
 

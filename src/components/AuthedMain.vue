@@ -106,6 +106,13 @@
         {{ deleteAllItemsString }}
       </button>
       <button
+        class="button warn-button bottom-button delete-all-aisles-button"
+        v-on:click="deleteAllAisles"
+        v-bind:disabled="items.length === 0"
+      >
+        Delete All Aisles
+      </button>
+      <button
         class="button warn-button bottom-button complete-all-items-in-cart-button"
         v-on:click="completeAllInCart"
         v-bind:disabled="!thereAreItemsInCart(items)"
@@ -268,6 +275,14 @@ export default {
         return item.inCart;
       });
       return newArr.length;
+    },
+    deleteAllAisles: function() {
+      const warning = confirm(
+        'Are you sure you want to delete ALL aisles for all items? This cannot be undone!',
+      );
+      if (warning) {
+        this.$emit('deleteAllAisles');
+      }
     },
     deleteAllItems: function(): void {
       const warning = confirm(

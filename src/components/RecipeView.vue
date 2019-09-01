@@ -88,6 +88,12 @@
       >
         Reset
       </button>
+      <button
+        class="button warn-button delete-all-aisles-button"
+        v-on:click="deleteAllAisles"
+      >
+        Delete All Aisles
+      </button>
       <div
         class="ingredients-container"
         v-if="ingredients && ingredients.length > 0"
@@ -426,6 +432,20 @@ export default {
           datesMade: this.datesMade,
         });
         this.showLastMade();
+      }
+    },
+    deleteAllAisles: function () {
+      const warning = confirm(
+        'Are you sure you want to delete ALL aisles for all items? This cannot be undone!',
+      );
+      if (warning) {
+        this.ingredients = this.ingredients.map(ingredient =>
+          Object.assign({}, ingredient, { aisle: '' }),
+          );
+        this.targetRecipe.update({
+          ingredients: this.ingredients,
+        });
+        this.showToast('All aisles removed from ingredients.');
       }
     },
     deleteDirection: function(dir: Direction): void {

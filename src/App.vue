@@ -23,6 +23,7 @@
       v-on:sortAlpha="sortAlpha"
       v-on:sortAisle="sortAisle"
       v-on:transferToDone="transferToDone"
+      v-on:deleteAllAisles="deleteAllAisles"
     >
     </authed-main>
 
@@ -108,16 +109,25 @@ export default {
         '_blank',
       );
     },
-    completeAllInCart: function(): void {
+    completeAllInCart: function() {
       for (const item of this.items) {
         if (item.inCart) {
-          const newItem: Item = {
+          const newItem = {
             ...item,
             dateCompleted: moment().format('MMM Do YY'),
           };
           this.transferToDone(newItem);
         }
       }
+    },
+    deleteAllAisles: function () {
+      const { items } = this;
+      const itemsNoAisles = items.map(item =>
+        Object.assign({}, item, { aisle: '' }),
+      );
+      this.items = itemsNoAisles;
+      this.itemsRef.set(itemsNoAisles);
+      this.showToast('All aisles removed from items.');
     },
     deleteAllItems: function(): void {
       this.itemsRef.set([]);
