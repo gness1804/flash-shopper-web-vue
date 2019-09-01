@@ -95,8 +95,6 @@
 </template>
 
 <script>
-// @flow
-
 import * as firebase from 'firebase';
 import firebaseApp from '../../firebaseConfig'; // eslint-disable-line
 import EachPantryItem from './EachPantryItem';
@@ -110,8 +108,6 @@ import sortItems from '../helpers/sortItems';
 import display from '../helpers/displayVars';
 import httpValidate from '../helpers/httpValidate';
 import Item from '../models/Item';
-import ShortItem from '../models/ShortItem';
-import { PantryInt } from '../types/interfaces/Pantry';
 
 export default {
   name: 'Pantry',
@@ -121,7 +117,7 @@ export default {
     AppHeader,
     EditItemModal,
   },
-  data(): PantryInt {
+  data() {
     return {
       isUser: false,
       itemsRef: {},
@@ -146,7 +142,7 @@ export default {
     };
   },
   methods: {
-    addItem: function(): void {
+    addItem: function() {
       const { name, aisle, note, quantity, link } = this;
       if (!name) {
         this.triggerErrorState(
@@ -169,10 +165,10 @@ export default {
         alert(`Something went wrong. Please try again. Error: ${error}`);
       }
     },
-    closeEditModal: function(): void {
+    closeEditModal: function() {
       this.viewEdit = false;
     },
-    deleteAllItems: function(): void {
+    deleteAllItems: function() {
       const warning = confirm(
         'Are you sure you want to delete ALL items? This cannot be undone!',
       );
@@ -180,16 +176,16 @@ export default {
         this.itemsRef.set([]);
       }
     },
-    deleteItem: function(item: Item): void {
+    deleteItem: function(item) {
       if (this.itemsRef) {
         this.itemsRef.child(item.id).remove();
         this.showToast(`${item.name} removed from pantry.`);
       }
     },
-    getMainShortItems: function(mainItems: firebase.database.Reference): void {
-      mainItems.on('value', (snapshot: firebase.database.DataSnapshot) => {
-        const newArr: ShortItem[] = [];
-        snapshot.forEach((item: firebase.database.DataSnapshot) => {
+    getMainShortItems: function(mainItems) {
+      mainItems.on('value', (snapshot) => {
+        const newArr = [];
+        snapshot.forEach((item) => {
           newArr.push({
             name: item.val().name,
             id: item.key,
@@ -198,8 +194,8 @@ export default {
         this.mainShortItems = newArr;
       });
     },
-    initializeApp: function(): void {
-      firebase.auth().onAuthStateChanged((user: firebase.User) => {
+    initializeApp: function() {
+      firebase.auth().onAuthStateChanged((user) => {
         if (user) {
           this.isUser = true;
           const email = cleanUpUserEmail(user.email);
@@ -214,10 +210,10 @@ export default {
         }
       });
     },
-    listenForItems: function(itemsRef: firebase.database.Reference): void {
-      itemsRef.on('value', (snapshot: firebase.database.DataSnapshot) => {
-        const newArr: Item[] = [];
-        snapshot.forEach((item: firebase.database.DataSnapshot) => {
+    listenForItems: function(itemsRef) {
+      itemsRef.on('value', (snapshot) => {
+        const newArr = [];
+        snapshot.forEach((item) => {
           newArr.push({
             name: item.val().name,
             aisle: item.val().aisle,
@@ -231,21 +227,21 @@ export default {
         this.items = sortItems(newArr);
       });
     },
-    logOut: function(): void {
+    logOut: function() {
       logOut();
     },
-    makeErrorFalse: function(): void {
+    makeErrorFalse: function() {
       this.error = false;
       this.errorMssg = '';
     },
-    resetInputFields: function(): void {
+    resetInputFields: function() {
       this.name = '';
       this.aisle = '';
       this.note = '';
       this.quantity = '';
       this.link = '';
     },
-    showToast: function(message: string): void {
+    showToast: function(message) {
       this.toastMessage = message;
       this.viewToast = true;
       setTimeout(() => {
@@ -253,7 +249,7 @@ export default {
         this.toastMessage = '';
       }, display.timerStandard);
     },
-    transferItemToMainList: function(item: Item): void {
+    transferItemToMainList: function(item) {
       const email = cleanUpUserEmail(this.userEmail);
       /* eslint-disable prefer-template */
       firebase
@@ -263,16 +259,16 @@ export default {
       this.showToast(`${item.name} added to main list.`);
       /* eslint-enable prefer-template */
     },
-    triggerErrorState: function(message: string): void {
+    triggerErrorState: function(message) {
       this.error = true;
       this.errorMssg = message;
     },
-    viewEditModal: function(it: Item): void {
+    viewEditModal: function(it) {
       this.viewEdit = true;
       this.itemToEdit = it;
     },
   },
-  mounted: function(): void {
+  mounted: function() {
     this.initializeApp();
   },
 };
