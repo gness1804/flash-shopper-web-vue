@@ -15,6 +15,13 @@
     >
       {{ deleteAllItemsString }}
     </button>
+    <button
+      class="button warn-button delete-all-aisles-button"
+      v-if="isUser && items.length > 0"
+      v-on:click="deleteAllAisles"
+    >
+      Delete All Aisles
+    </button>
     <div class="item-input-container" v-if="isUser">
       <input
         type="text"
@@ -168,6 +175,20 @@ export default {
     closeEditModal: function() {
       this.viewEdit = false;
     },
+    deleteAllAisles: function() {
+      const warning = confirm(
+        'Are you sure you want to delete ALL aisles for all items? This cannot be undone!',
+      );
+      if (warning) {
+        const { items } = this;
+        const itemsNoAisles = items.map(item =>
+          Object.assign({}, item, { aisle: '' }),
+        );
+        this.items = itemsNoAisles;
+        this.itemsRef.set(itemsNoAisles);
+        this.showToast('All aisles removed from items.');
+      }
+    },
     deleteAllItems: function() {
       const warning = confirm(
         'Are you sure you want to delete ALL items? This cannot be undone!',
@@ -183,9 +204,9 @@ export default {
       }
     },
     getMainShortItems: function(mainItems) {
-      mainItems.on('value', (snapshot) => {
+      mainItems.on('value', snapshot => {
         const newArr = [];
-        snapshot.forEach((item) => {
+        snapshot.forEach(item => {
           newArr.push({
             name: item.val().name,
             id: item.key,
@@ -195,7 +216,7 @@ export default {
       });
     },
     initializeApp: function() {
-      firebase.auth().onAuthStateChanged((user) => {
+      firebase.auth().onAuthStateChanged(user => {
         if (user) {
           this.isUser = true;
           const email = cleanUpUserEmail(user.email);
@@ -211,9 +232,9 @@ export default {
       });
     },
     listenForItems: function(itemsRef) {
-      itemsRef.on('value', (snapshot) => {
+      itemsRef.on('value', snapshot => {
         const newArr = [];
-        snapshot.forEach((item) => {
+        snapshot.forEach(item => {
           newArr.push({
             name: item.val().name,
             aisle: item.val().aisle,
