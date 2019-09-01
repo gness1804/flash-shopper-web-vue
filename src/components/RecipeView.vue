@@ -434,14 +434,14 @@ export default {
         this.showLastMade();
       }
     },
-    deleteAllAisles: function () {
+    deleteAllAisles: function() {
       const warning = confirm(
         'Are you sure you want to delete ALL aisles for all items? This cannot be undone!',
       );
       if (warning) {
         this.ingredients = this.ingredients.map(ingredient =>
           Object.assign({}, ingredient, { aisle: '' }),
-          );
+        );
         this.targetRecipe.update({
           ingredients: this.ingredients,
         });
