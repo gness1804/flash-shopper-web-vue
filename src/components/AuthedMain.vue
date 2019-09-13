@@ -142,8 +142,6 @@
 </template>
 
 <script>
-// @flow
-
 import { v4 } from 'uuid';
 import NoItems from './NoItems';
 import EachItemContainer from './EachItemContainer';
