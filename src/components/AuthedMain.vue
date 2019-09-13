@@ -262,7 +262,7 @@ export default {
         this.populateAisle(this.name);
       }
     },
-    clearLocalStorageSearches: function () {
+    clearLocalStorageSearches: function() {
       localStorage.setItem('fsRecentSearches', JSON.stringify([]));
     },
     completeAllInCart: function(): void {
