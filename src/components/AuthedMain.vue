@@ -262,6 +262,9 @@ export default {
         this.populateAisle(this.name);
       }
     },
+    clearLocalStorageSearches: function () {
+      localStorage.setItem('fsRecentSearches', JSON.stringify([]));
+    },
     completeAllInCart: function(): void {
       const warning = confirm(
         'Are you sure you want to mark ALL the items in your cart as completed?',
@@ -282,7 +285,7 @@ export default {
       );
       if (warning) {
         this.$emit('deleteAllAisles');
-        localStorage.setItem('fsRecentSearches', JSON.stringify([]));
+        this.clearLocalStorageSearches();
       }
     },
     deleteAllItems: function(): void {
@@ -311,7 +314,7 @@ export default {
           localStorage.getItem('fsRecentSearches'),
         );
       } else {
-        localStorage.setItem('fsRecentSearches', JSON.stringify([]));
+        this.clearLocalStorageSearches();
       }
     },
     makeErrorFalse: function(): void {
