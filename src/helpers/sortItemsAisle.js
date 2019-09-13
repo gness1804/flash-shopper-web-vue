@@ -1,6 +1,4 @@
 //
-import Item from '../models/Item';
-
 const sortItemsAisle = items => {
   if (!items || items.length === 0) {
     return [];

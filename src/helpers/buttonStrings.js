@@ -1,7 +1,5 @@
 //
 
-import { ButtonStringsInt } from '../types/interfaces/ButtonStrings';
-
 const buttonStrings = {
   logOut: 'Log Out',
   goToPantry: 'Go to Pantry',

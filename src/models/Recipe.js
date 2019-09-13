@@ -1,8 +1,4 @@
 //
-/* global $Keys */
-
-import Item from './Item';
-import { recipeCategories } from '../types/enums/RecipeCategory';
 
 class Recipe {
   constructor(opts) {
