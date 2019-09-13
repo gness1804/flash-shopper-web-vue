@@ -282,6 +282,7 @@ export default {
       );
       if (warning) {
         this.$emit('deleteAllAisles');
+        localStorage.setItem('fsRecentSearches', JSON.stringify([]));
       }
     },
     deleteAllItems: function(): void {
