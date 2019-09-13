@@ -142,6 +142,13 @@
       >
         Show All Ingredients
       </button>
+      <button
+        class="button uncheck-all-button"
+        v-on:click="uncheckAll"
+        :disabled="directionsDone === 0"
+      >
+        {{ uncheckAllString }}
+      </button>
       <div class="show-hide-container" v-if="showShowHideContainer">
         <div class="add-ingredient-container">
           <button class="button add-ingredient-button" v-on:click="openModal">
@@ -151,15 +158,6 @@
         <div class="directions-input-container">
           <button class="button add-direction-button" v-on:click="addDirection">
             {{ addDirectionString }}
-          </button>
-        </div>
-        <div class="uncheck-all-container">
-          <button
-            class="button uncheck-all-button"
-            v-on:click="uncheckAll"
-            :disabled="directionsDone === 0"
-          >
-            {{ uncheckAllString }}
           </button>
         </div>
       </div>
@@ -834,10 +832,6 @@ export default {
 .strike {
   color: #9a8c8c;
   text-decoration: line-through;
-}
-
-.uncheck-all-button {
-  display: block;
 }
 
 .delete-note-button:hover {
