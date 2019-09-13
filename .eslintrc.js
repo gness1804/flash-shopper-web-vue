@@ -13,7 +13,6 @@ module.exports = {
   // required to lint *.vue files
   plugins: [
     'html',
-    "flowtype-errors",
   ],
   // check if imports actually resolve
   'settings': {
@@ -31,7 +30,6 @@ module.exports = {
     'no-alert': 'off',
     'arrow-body-style': 'off',
     'global-require': 'off',
-    'flowtype-errors/show-errors': 'off',
     'no-plusplus': 'off',
     'max-len': 'off',
     'no-restricted-syntax': 'off',
