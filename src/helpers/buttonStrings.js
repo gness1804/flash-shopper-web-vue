@@ -1,8 +1,8 @@
-// @flow
+//
 
 import { ButtonStringsInt } from '../types/interfaces/ButtonStrings';
 
-const buttonStrings: ButtonStringsInt = {
+const buttonStrings = {
   logOut: 'Log Out',
   goToPantry: 'Go to Pantry',
   goToRecipes: 'Go to Recipes',

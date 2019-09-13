@@ -1,7 +1,7 @@
-// @flow
+//
 
-const cleanUpUserEmail = (email: string): string => {
-  const result = email.split('').filter((char: string) => {
+const cleanUpUserEmail = email => {
+  const result = email.split('').filter(char => {
     return (
       char !== '.' &&
       char !== '$' &&

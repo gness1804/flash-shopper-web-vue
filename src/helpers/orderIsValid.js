@@ -1,7 +1,7 @@
-// @flow
+//
 import Direction from '../models/Direction';
 
-const orderIsValid = (order: number, dirs: Array<Direction>): boolean => {
+const orderIsValid = (order, dirs) => {
   if (
     typeof order === 'number' &&
     order > 0 &&

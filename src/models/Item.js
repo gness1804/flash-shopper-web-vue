@@ -1,29 +1,7 @@
-// @flow
-
-interface Options {
-  name: string;
-  aisle?: string;
-  note?: string;
-  quantity?: string;
-  inCart?: boolean;
-  dateCompleted?: string | null;
-  link?: string | null;
-  isHidden?: boolean;
-}
+//
 
 class Item {
-  id: string | null;
-  name: string;
-  aisle: string;
-  note: string;
-  quantity: string;
-  inCart: boolean;
-  ingredientId: number | null;
-  dateCompleted: string | null;
-  link: string | null;
-  isHidden: boolean;
-
-  constructor(opt: Options) {
+  constructor(opt) {
     this.id = null;
     this.name = opt.name;
     this.aisle = opt.aisle || '';

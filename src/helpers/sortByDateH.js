@@ -1,12 +1,12 @@
-// @flow
+//
 import moment from 'moment';
 import Item from '../models/Item';
 
-const sortByDateH = (items: Item[]): Item[] => {
+const sortByDateH = items => {
   if (!items || items.length === 0) {
     return [];
   }
-  return items.sort((a: Item, b: Item) => {
+  return items.sort((a, b) => {
     let parsedA = moment(a.dateCompleted, 'MMM Do YY').unix();
     let parsedB = moment(b.dateCompleted, 'MMM Do YY').unix();
     if (isNaN(parsedA)) {

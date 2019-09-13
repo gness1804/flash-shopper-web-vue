@@ -1,16 +1,13 @@
-// @flow
+//
 import ShortItem from '../models/ShortItem';
 
-const titleMatchesMainItem = (
-  name: string,
-  stuffFromMain: ShortItem[],
-): boolean => {
+const titleMatchesMainItem = (name, stuffFromMain) => {
   let result = false;
   if (!stuffFromMain || stuffFromMain.length === 0) {
     result = false;
     return result;
   }
-  stuffFromMain.forEach((thing: ShortItem) => {
+  stuffFromMain.forEach(thing => {
     if (
       typeof thing.name !== 'undefined' &&
       thing.name.toLowerCase() === name.toLowerCase()

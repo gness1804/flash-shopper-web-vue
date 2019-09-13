@@ -1,6 +1,6 @@
-// @flow
+//
 
-const browserMatches = (browser: string): boolean => {
+const browserMatches = browser => {
   const regex1 = /chrome/i;
   const regex2 = /chromium/i;
   const regex3 = /safari/i;

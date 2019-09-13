@@ -1,12 +1,7 @@
-// @flow
+//
 
 class Direction {
-  id: string;
-  details: string;
-  done: boolean;
-  order: number;
-
-  constructor(details: string, order: number) {
+  constructor(details, order) {
     this.id = Date.now().toString();
     this.details = details;
     this.done = false;

@@ -1,8 +1,8 @@
-// @flow
+//
 
 import ShortItem from '../models/ShortItem';
 
-const filterOutDuplicateNames = (names: string[]): string[] => {
+const filterOutDuplicateNames = names => {
   if (!names || !names.length === 0) {
     return [];
   }
@@ -15,10 +15,7 @@ const filterOutDuplicateNames = (names: string[]): string[] => {
   return newArr.sort();
 };
 
-const filteroutDuplicateRecentItems = (
-  name: string,
-  items: ShortItem[],
-): ShortItem[] => {
+const filteroutDuplicateRecentItems = (name, items) => {
   if (!items || items.length === 0) {
     return [];
   }

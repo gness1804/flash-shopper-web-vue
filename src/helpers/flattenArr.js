@@ -1,7 +1,7 @@
-// @flow
+//
 
-const flattenArr = (arr: Object[]): string[] => {
-  const newArr: string[] = [];
+const flattenArr = arr => {
+  const newArr = [];
   for (const item of arr) {
     if (typeof item === 'object') {
       const keys = Object.keys(item);

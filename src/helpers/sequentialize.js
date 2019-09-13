@@ -1,7 +1,7 @@
-// @flow
+//
 import Direction from '../models/Direction';
 
-const sequentialize = (dirs: Array<Direction>): [] => {
+const sequentialize = dirs => {
   const newDirs = [];
   if (dirs.length === 0) {
     return [];

@@ -1,36 +1,11 @@
-// @flow
+//
 /* global $Keys */
 
 import Item from './Item';
 import { recipeCategories } from '../types/enums/RecipeCategory';
 
-type RecipeCategory = $Keys<typeof recipeCategories>;
-
-interface Opts {
-  title: string;
-  image: string;
-  ingredients: Item[];
-  directions?: string[];
-  note?: string;
-  source?: string;
-  timesMade?: number;
-  datesMade: number[];
-  categories: RecipeCategory[];
-}
-
 class Recipe {
-  id: string | null;
-  title: string;
-  image: string;
-  ingredients: Array<Item>;
-  directions: Array<string> | null;
-  note: string;
-  source: string;
-  timesMade: number;
-  datesMade: number[];
-  categories: RecipeCategory[];
-
-  constructor(opts: Opts) {
+  constructor(opts) {
     this.id = null;
     this.title = opts.title;
     this.image = opts.image;
