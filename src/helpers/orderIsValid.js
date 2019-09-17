@@ -1,5 +1,4 @@
 //
-import Direction from '../models/Direction';
 
 const orderIsValid = (order, dirs) => {
   if (

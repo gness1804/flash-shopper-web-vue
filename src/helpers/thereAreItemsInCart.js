@@ -1,7 +1,5 @@
 //
 
-import Item from '../models/Item';
-
 const thereAreItemsInCart = items => {
   if (items.length === 0) {
     return false;

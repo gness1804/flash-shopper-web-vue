@@ -1,7 +1,5 @@
 //
 
-import ShortItem from '../models/ShortItem';
-
 const filterOutDuplicateNames = names => {
   if (!names || !names.length === 0) {
     return [];

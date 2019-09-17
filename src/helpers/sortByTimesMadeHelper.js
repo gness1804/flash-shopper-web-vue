@@ -1,5 +1,4 @@
 //
-import Recipe from '../models/Recipe';
 
 const sortByTimesMadeHelper = recipes => {
   if (!recipes || recipes.length === 0) {

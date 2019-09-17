@@ -1,5 +1,4 @@
 //
-import Direction from '../models/Direction';
 
 const sequentialize = dirs => {
   const newDirs = [];

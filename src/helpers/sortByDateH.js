@@ -1,6 +1,5 @@
 //
 import moment from 'moment';
-import Item from '../models/Item';
 
 const sortByDateH = items => {
   if (!items || items.length === 0) {

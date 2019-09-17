@@ -1,5 +1,4 @@
 //
-import ShortItem from '../models/ShortItem';
 
 const titleMatchesMainItem = (name, stuffFromMain) => {
   let result = false;
