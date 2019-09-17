@@ -9,6 +9,7 @@
     >
       <p class="ingredient-quantity">{{ ingredient.quantity }}</p>
       <p class="ingredient-name">{{ ingredient.name }}</p>
+      <p v-if="ingredient.note">- {{ shortenNote }}</p>
       <img
         class="icon delete-ingredient-icon"
         src="../assets/cancel-circle.png"
@@ -81,6 +82,14 @@ export default {
     },
     showToast: function(message: string): void {
       this.$emit('showToast', message);
+    },
+  },
+  computed: {
+    shortenNote: function() {
+      if (this.ingredient.note.length < 20) {
+        return this.ingredient.note;
+      }
+      return `${this.ingredient.note.substring(0, 17)}...`;
     },
   },
 };
