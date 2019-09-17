@@ -135,6 +135,12 @@
         >
           {{ sortTimesMadeString }}
         </button>
+        <button
+          class="button warn-button delete-all-aisles-button"
+          v-on:click="deleteAllAisles"
+        >
+          Delete All Aisles
+        </button>
       </div>
       <p v-if="!categoryToFilter" class="recipe-count">
         You have {{ recipes.length }} recipe(s).
@@ -310,6 +316,20 @@ export default {
     },
     closeModal: function(): void {
       this.showModal = false;
+    },
+    deleteAllAisles: function() {
+      // const warning = confirm(
+      //   'Are you sure you want to delete all aisles from all recipes?',
+      // );
+      // if (warning) {
+      //   const { recipes } = this;
+      //   console.log('recipes:', recipes);
+      //   const recipesNoAisles = recipes.forEach(recipe => recipe.ingredients.map(ing => ing));
+      //   console.log('recipesNoAisles:', recipesNoAisles);
+      //   // this.recipes = recipesNoAisles;
+      //   // this.itemsRef.set(itemsNoAisles);
+      //   // this.showToast('All aisles removed from items.');
+      // }
     },
     deleteDirection: function(dir: Direction): void {
       const warning = confirm(
